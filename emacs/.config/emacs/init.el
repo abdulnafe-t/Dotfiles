@@ -7,8 +7,6 @@
 
 (setopt font-lock-maximum-decoration t)
 
-(use-package agent-shell)
-
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
@@ -613,11 +611,11 @@ The DWIM behaviour of this command is as follows:
      "/home/scion/Projects/learn_cpp/chapter_5_quiz"
      "/home/scion/Projects/learn_cpp/chapter_5_7"))
  '(package-selected-packages
-   '(agent-shell auctex consult elfeed elfeed-tube expand-region fireplace fzf hydra
-                 json-mode lin magit marginalia multiple-cursors nerd-icons-completion
-                 nerd-icons-dired no-littering olivetti opam orderless org-appear
-                 org-bullets org-modern pdf-tools pulsar quickrun restart-emacs tuareg
-                 vertico vundo ws-butler yasnippet)))
+   '(auctex consult elfeed elfeed-tube expand-region fireplace fzf hydra json-mode lin magit
+            marginalia multiple-cursors nerd-icons-completion nerd-icons-dired
+            no-littering olivetti opam orderless org-appear org-bullets org-modern
+            pdf-tools pulsar quickrun restart-emacs tuareg vertico vundo ws-butler
+            yasnippet)))
 
 ;; ## added by opam user-setup for emacs / base ## 56ab50dc8996d2bb95e7856a6eddb17b ## you can edit, but keep this line
 ;;(require 'opam-user-setup "~/.config/emacs/opam-user-setup.el")
