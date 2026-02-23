@@ -1,0 +1,12 @@
+#!/usr/bin/bash
+
+hyprctl keyword exec "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
+
+MUTE_STATUS=$(wpctl get-volume @DEFAULT_AUDIO_SINK@)
+VOLUME=$(wpctl get-volume @DEFAULT_AUDIO_SINK@ | grep -oE '[0-9]+([.][0-9]+)?' | awk '{print $1 * 100}')
+
+if [[ "$MUTE_STATUS" == *"MUTED"* ]];then    
+    dunstify -a "changeVolume" -u low -i audio-volume-high -h string:x-dunst-stack-tag:vol -h int:value:"$VOLUME" "Volume: ${VOLUME}%"
+else
+    dunstify -a "changeVolume" -u low -i audio-volume-muted -h string:x-dunst-stack-tag:vol "Volume OFF"
+fi

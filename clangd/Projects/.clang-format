@@ -1,0 +1,49 @@
+Language: Cpp
+IndentWidth: 6
+ContinuationIndentWidth: 0
+AlignAfterOpenBracket: true
+ConstructorInitializerIndentWidth: 2
+AccessModifierOffset: -2
+UseTab: Never
+ColumnLimit: 90
+AllowShortIfStatementsOnASingleLine: WithoutElse
+AlwaysBreakTemplateDeclarations: true
+PointerAlignment: Left
+ReferenceAlignment: Left
+SpaceBeforeCpp11BracedList: true
+AllowShortFunctionsOnASingleLine: Empty
+NamespaceIndentation: All
+RemoveEmptyLinesInUnwrappedLines: true
+AllowShortBlocksOnASingleLine: Empty
+SpaceAfterTemplateKeyword: false
+WrapNamespaceBodyWithEmptyLines: Never
+BreakBeforeBraces: Custom
+BraceWrapping:
+ BeforeElse: true
+ AfterNamespace: false
+ AfterStruct: false
+ AfterClass: false
+ AfterFunction: false
+ SplitEmptyFunction: false
+ SplitEmptyRecord: false
+ SplitEmptyNamespace: false
+AlignConsecutiveAssignments:
+  Enabled: true
+  PadOperators: true
+AlignConsecutiveDeclarations: Consecutive
+AlignOperands: Align
+AllowShortEnumsOnASingleLine: true
+FixNamespaceComments: false
+CompactNamespaces: false
+IndentCaseLabels: true
+AllowShortCaseLabelsOnASingleLine: true     # case N: XXX
+AllowShortCaseExpressionOnASingleLine: true  # case N -> XXX
+AlignConsecutiveShortCaseStatements:
+  Enabled: true
+  AlignCaseColons: false
+EmptyLineAfterAccessModifier: Never
+EmptyLineBeforeAccessModifier: Always
+BreakConstructorInitializers: BeforeComma
+PackConstructorInitializers: Never
+AllowShortLambdasOnASingleLine: Inline
+LambdaBodyIndentation: Signature

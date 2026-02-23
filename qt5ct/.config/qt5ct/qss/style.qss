@@ -1,0 +1,44 @@
+/* --- Generic translucent base for Qt Widgets apps --- */
+
+/* Top-level windows */
+QMainWindow, QDialog, QWidget {
+  background: transparent; /* allow background-color with alpha to show */
+  background-color: rgba(10, 10, 10, 0.82);
+  color: rgba(240,240,240,1);
+  border: none;
+}
+
+/* Central widgets and common frames */
+QWidget#centralWidget, QFrame, QStackedWidget, QGroupBox, QScrollArea, QTabWidget {
+  background-color: rgba(10, 10, 10, 0.82);
+}
+
+/* Make scroll area viewport inherit transparency */
+QScrollArea > QWidget, QScrollArea QWidget {
+  background-color: rgba(10, 10, 10, 0.82);
+}
+
+/* Inputs / text areas (slightly more solid so text stays legible) */
+QLineEdit, QTextEdit, QPlainTextEdit, QComboBox, QTextBrowser {
+  background-color: rgba(6,6,6,0.92);
+  color: rgba(240,240,240,1);
+}
+
+/* Tabs / panes */
+QTabWidget::pane {
+  background-color: rgba(10,10,10,0.82);
+  border: none;
+}
+
+/* Buttons and other controls */
+QPushButton, QToolButton {
+  background-color: rgba(18,18,18,0.9);
+  color: rgba(240,240,240,1);
+}
+
+/* Keep menus/dialogs readable */
+QMenu, QMenuBar, QToolTip {
+  background-color: rgba(24,24,24,0.95);
+  color: rgba(240,240,240,1);
+  border: 1px solid rgba(255,255,255,0.04);
+}

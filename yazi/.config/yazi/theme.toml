@@ -1,0 +1,35 @@
+[flavor]
+dark = "modus-vivendi-modified"
+
+[icon]
+
+dirs = [
+     	{ name = "desktop",	text = "" },
+	{ name = "documents", 	text = "󱔗" },
+	{ name = "downloads", 	text = "" },
+	{ name = "etc", 	text = "󰝮" },
+	{ name = "music", 	text = "󰝚" },
+	{ name = "pictures", 	text = "" },
+	{ name = "projects", 	text = "" },
+	{ name = "videos", 	text = "" },
+	{ name = "public", 	text = "󱡵" },	
+	{ name = "home", 	text = "" },
+	{ name = ".config",	text = "" },
+	{ name = "dev",		text = "󰾰" },
+	{ name = "scion",	text = "" },
+	{ name = ".steam",	text = "" },
+	{ name = "tmp",		text = "󰪺" },
+	{ name = "Dotfiles",	text = "" },
+	
+
+]
+
+prepend_conds = [
+	     { if = "dir", text = "", fg = "#b6a0ff" }
+]
+
+[indicator]
+
+parent	= { bg = "#b6a0ff", fg = "black" }
+current = { bg = "#b6a0ff", fg = "black" }
+preview = { bg = "#b6a0ff", fg = "black", underline = false }

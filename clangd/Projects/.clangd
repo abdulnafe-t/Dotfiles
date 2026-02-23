@@ -1,0 +1,7 @@
+CompileFlags:
+  Add:
+    - -Wno-braced-scalar-init
+    - -std=c++23
+
+Completion:
+  ArgumentLists: Delimiters

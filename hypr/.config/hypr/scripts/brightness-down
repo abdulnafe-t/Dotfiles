@@ -1,0 +1,12 @@
+#!/usr/bin/bash
+
+brightnessctl -e4 -n2 set 5%-
+
+BRIGHTNESS=$(brightnessctl g)
+MAX_BRIGHTNESS=$(brightnessctl m)
+
+BRIGHTNESS_PERC=$(( $((100 * BRIGHTNESS)) / $((MAX_BRIGHTNESS))))
+
+# notify-send -u low "Brightness $BRIGHTNESS_PERC"
+
+dunstify -a "changeBrightness" -u low -i xfpm-brightness-lcd -h int:value:"$BRIGHTNESS_PERC" "Brightness: ${BRIGHTNESS_PERC}%" -h string:x-dunst-stack-tag:bright

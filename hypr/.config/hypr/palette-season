@@ -1,0 +1,16 @@
+# For winter: blue and white
+winter-bright = rgb(ffffff)
+winter-dim = rgb(779ecb)
+
+# For spring: purple bright
+spring-bright = rgb(b6a0ff)
+spring-dim = rgb(b57281)
+
+# Yellow and red are summer's nights
+summer-bright = rgb(ffff31)
+summer-dim = rgb(ffcba4)
+
+# Fall brings calming woodland sights
+fall-bright = rgb(009150)
+fall-dim = rgb(9c7c38)
+

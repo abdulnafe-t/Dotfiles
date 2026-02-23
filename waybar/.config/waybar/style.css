@@ -1,0 +1,169 @@
+@import "season-waybar-colors.css";
+
+* {
+    /* `otf-font-awesome` is required to be installed for icons */
+    font-family: GeistNerdFontPropo; 
+    font-size: 16px;
+    border-radius: 10px;
+}
+
+*:hover {
+    background: inherit;
+    box-shadow: inset 0 -2px @season-bright;
+    font-weight: bold;
+    background: rgba(70, 70, 70, 0.2);
+}
+
+window#waybar {
+    background-color: rgba(0, 0, 0, 0.8);
+    color: #ffffff;
+    border-bottom: 1px solid @season-dim;
+    border-radius: 0;
+}
+
+window#waybar.hidden {
+    opacity: 0.2;
+}
+
+menu{
+    padding: 5px 2px;
+}
+menuitem {
+    padding: 3px 0;
+}
+
+menuitem:hover{
+    background: inherit;
+    box-shadow: inset 0 0 0 1px @season-bright;
+    font-weight: bold;
+}
+
+#workspaces:hover{
+    box-shadow: none;
+}
+
+#workspaces button {
+    background-color: transparent;
+    color: #ffffff;
+    padding: 0 15px;
+}
+
+#workspaces button:hover {
+    background: rgba(70, 70, 70, 0.2);
+}
+
+#workspaces button.active {
+    background-color: rgba(100, 100, 100, 0.2);
+    box-shadow: inset 0 -3px @season-bright;
+    font-weight: bolder;
+    font-size: 100;
+}
+
+#workspaces button.urgent {
+    background-color: #eb4d4b;
+}
+
+#battery {
+    color: #ffffff;
+    padding: 0 15px;
+}
+
+#battery.charging, #battery.plugged {
+    color: #26A65B;
+}
+
+@keyframes blink {
+    to {
+        background-color: @season-bright;
+        color: #000000;
+    }
+}
+
+/* Using steps() instead of linear as a timing function to limit cpu usage */
+#battery.critical:not(.charging) {
+    color: #f53c3c;
+    animation-name: blink;
+    animation-duration: 0.5s;
+    animation-timing-function: steps(12);
+    animation-iteration-count: 8;
+    animation-direction: alternate;
+}
+
+#power-profiles-daemon {
+    padding:  0 15px;
+}
+
+#power-profiles-daemon.performance {
+    color: #f53c3c;
+}
+
+#power-profiles-daemon.balanced {
+    color: #2980b9;
+}
+
+#power-profiles-daemon.power-saver {
+    color: #2ecc71;
+}
+
+label:focus {
+    background-color: #000000;
+}
+
+#wireplumber {
+    padding: 0 15px;
+}
+
+#network {
+    padding: 0 15px;
+}
+
+#bluetooth {
+    padding: 0 15px;
+}
+
+#clock {
+    padding: 0 15px;
+}
+
+#wireplumber.muted {
+    color: #f53c3c;
+}
+
+#wireplumber.sound-off {
+  color: #f53c3c;   
+}
+
+#mpris {
+    padding: 0 15px;
+}
+
+#mpris.spotify {
+    color: #66cc99;
+}
+
+#mpris.vlc {
+    color: #ffa000;
+}
+
+#tray > .passive {
+    -gtk-icon-effect: dim;
+}
+
+#tray > .needs-attention {
+    -gtk-icon-effect: highlight;
+    background-color: #eb4d4b;
+}
+
+#tray:hover{
+    box-shadow: none;
+}
+
+#tray > * > * {                 /*Hack to specify tray icon spacing& padding*/
+    padding: 0 15px;
+}
+
+
+
+#custom-power {
+    padding: 0 15px;
+}

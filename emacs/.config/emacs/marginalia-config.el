@@ -1,0 +1,62 @@
+(defun scion/marginalia-annotate-function (cand)
+  "Annotate function CAND with its documentation string. Display
+documentation string before other info."
+  (when-let* ((sym (intern-soft cand)))
+    (marginalia--fields
+     (:left (marginalia-annotate-binding cand))
+     ((marginalia--function-doc sym)
+      :truncate 1.0 :face 'marginalia-documentation)
+     ((marginalia--function-args sym) :face 'marginalia-value
+      :truncate 0.5)
+     ((marginalia--symbol-class sym) :face 'marginalia-type))))
+
+(defun scion/marginalia-annotate-variable (cand)
+  "Annotate variable CAND with its documentation string. Display
+documentation string before other info."
+  (when-let* ((sym (intern-soft cand)))
+    (marginalia--fields
+     ((or (documentation-property sym 'variable-documentation)
+          (marginalia--definition-prefix sym))
+      :truncate 1.0 :face 'marginalia-documentation)
+     ((marginalia--variable-value sym) :truncate 0.5)
+     ((marginalia--symbol-class sym) :face 'marginalia-type))))
+
+(defun scion/marginalia-annotate-package (cand)
+  "Annotate package CAND with its description summary. Display
+documentation string before other info."
+  (when-let* ((pkg-alist (bound-and-true-p package-alist))
+	      ;; See `package-get-version'.
+	      (name (replace-regexp-in-string
+                     "-[0-9]\\(?:[0-9.]\\|pre\\|beta\\|alpha\\|snapshot\\)+\\'" "" cand))
+	      (pkg (intern-soft name))
+	      (desc (or (unless (equal name cand)
+                          (cl-loop with version = (substring cand (1+ (length name)))
+                                   for d in (alist-get pkg pkg-alist)
+                                   if (equal (package-version-join
+                                              (package-desc-version d))
+                                             version)
+                                   return d))
+                        ;; taken from `describe-package-1'
+                        (car (alist-get pkg pkg-alist))
+                        (if-let* ((built-in (assq pkg package--builtins)))
+                            (package--from-builtin built-in)
+                          (car (alist-get pkg package-archive-contents))))))
+    (marginalia--fields
+     ((package-desc-summary desc) :truncate 1.0 :face 'marginalia-documentation)
+     ((cond
+       ((package-desc-archive desc)
+	(propertize (package-desc-archive desc) 'face 'marginalia-archive))
+       (t (propertize
+	   (or (package-desc-status desc) "orphan")
+	   'face 'marginalia-installed)))
+      :truncate 12)
+     ((package-version-join
+       (package-desc-version desc))
+      :truncate 16 :face 'marginalia-version))))
+
+(add-to-list 'marginalia-annotators
+               '(function scion/marginalia-annotate-function builtin none))
+(add-to-list 'marginalia-annotators
+	       '(variable scion/marginalia-annotate-variable builtin non))
+(add-to-list 'marginalia-annotators
+	       '(package scion/marginalia-annotate-package builtin non))
