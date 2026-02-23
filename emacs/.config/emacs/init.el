@@ -247,13 +247,16 @@ The DWIM behaviour of this command is as follows:
 ;; languages" according to treesitter.el documentation.
 (with-eval-after-load "c-ts-mode"
   (keymap-set c-ts-base-mode-map "C-c C-r C-r" #'quickrun)
-  (keymap-set c-ts-base-mode-map "C-c C-r C-s" #'quickrun-shell))
+  (keymap-set c-ts-base-mode-map "C-c C-r C-s" #'quickrun-shell)
+  (keymap-set c-ts-base-mode-map "RET" #'electric-indent-just-newline))
 
 (add-hook 'c++-ts-mode-hook
           (lambda ()
-            (c-ts-mode-set-global-style 'k&r)
             (setopt c-ts-mode-indent-offset 6)
             (setopt indent-tabs-mode nil)))
+
+(with-eval-after-load 'eglot
+  (add-to-list 'eglot-ignored-server-capabilities :documentOnTypeFormattingProvider))
 
 (use-package json-mode)
 (add-to-list 'auto-mode-alist '("\\.jsonc\\'" . json-mode))

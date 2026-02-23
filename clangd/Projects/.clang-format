@@ -3,7 +3,7 @@ IndentWidth: 6
 ContinuationIndentWidth: 0
 AlignAfterOpenBracket: true
 ConstructorInitializerIndentWidth: 2
-AccessModifierOffset: -2
+AccessModifierOffset: -6
 UseTab: Never
 ColumnLimit: 90
 AllowShortIfStatementsOnASingleLine: WithoutElse
@@ -35,7 +35,7 @@ AlignOperands: Align
 AllowShortEnumsOnASingleLine: true
 FixNamespaceComments: false
 CompactNamespaces: false
-IndentCaseLabels: true
+IndentCaseLabels: false
 AllowShortCaseLabelsOnASingleLine: true     # case N: XXX
 AllowShortCaseExpressionOnASingleLine: true  # case N -> XXX
 AlignConsecutiveShortCaseStatements:
