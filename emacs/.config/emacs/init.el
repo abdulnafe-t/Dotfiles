@@ -419,7 +419,7 @@ The DWIM behaviour of this command is as follows:
           (minibuffer-completing-file-name t))
       (consult--read #'read-file-name-internal :state (consult--file-preview)
                      :prompt prompt
-                     :initial initial
+                     :initial (abbreviate-file-name default-directory)
                      :require-match mustmatch
                      :predicate pred)))
 
@@ -466,6 +466,7 @@ The DWIM behaviour of this command is as follows:
   (cons
    (mapcar (lambda (r) (consult--convert-regexp r type)) input)
    (lambda (str) (orderless--highlight input t str))))
+
 (setq consult--regexp-compiler #'consult--orderless-regexp-compiler)
 
 (use-package nerd-icons)
@@ -567,7 +568,10 @@ The DWIM behaviour of this command is as follows:
  '(custom-safe-themes
    '("fff0dc54ff5a194ba6593d1cce0fbb4fe8cf9da59fcef47f9e06dec6ef11b1fa" default))
  '(ede-project-directories
-   '("/home/scion/Projects/learn_cpp/chapter_21_y"
+   '("/home/scion/Projects/learn_cpp/chapter_22_x"
+     "/home/scion/Projects/learn_cpp/chapter_22_7"
+     "/home/scion/Projects/learn_cpp/chapter_22_5"
+     "/home/scion/Projects/learn_cpp/chapter_21_y"
      "/home/scion/Projects/learn_cpp/chapter_21_9"
      "/home/scion/Projects/learn_cpp/chapter_21_7"
      "/home/scion/Projects/learn_cpp/chapter_21_6"
