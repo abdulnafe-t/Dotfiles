@@ -440,7 +440,7 @@ The DWIM behaviour of this command is as follows:
    consult-source-recent-file consult-source-project-recent-file
    ;; :preview-key "M-."
    :preview-key '(:debounce 0.2 any)
-   scion/consult-fd-home :state (consult--file-preview))
+   scion/consult-fd-dotfiles :state (consult--file-preview))
 
   ;; From the consult wiki:
   ;; https://github.com/minad/consult/wiki#previewing-files-in-find-file
@@ -448,15 +448,14 @@ The DWIM behaviour of this command is as follows:
 
   (setopt consult-fd-args
           `(,(if (executable-find "fdfind" 'remote) "fdfind" "fd")
-            "--full-path" "--color=never" "--hidden" "--follow"
-            "--full-path" "--absolute-path"))
+            "--full-path" "--color=never" "--hidden" "--follow"))
   )
 
 (use-package orderless
   :custom
-  (completion-styles '(flex orderless substring basic))
-  (completion-category-defaults nil)
-  (completion-pcm-leading-wildcard t))
+  (orderless-matching-styles '(orderless-flex orderless-prefixes orderless-literal orderless-regexp))
+  (completion-styles '(flex orderless partial-completion substring basic))
+  (completion-category-defaults nil))
 
 ;; From the consult wiki:
 ;; https://github.com/minad/consult/wiki#use-orderless-as-pattern-compiler-for-consult-grepripgrepfind
@@ -467,8 +466,6 @@ The DWIM behaviour of this command is as follows:
   (cons
    (mapcar (lambda (r) (consult--convert-regexp r type)) input)
    (lambda (str) (orderless--highlight input t str))))
-
-;; OPTION 1: Activate globally for all consult-grep/ripgrep/find/...
 (setq consult--regexp-compiler #'consult--orderless-regexp-compiler)
 
 (use-package nerd-icons)
