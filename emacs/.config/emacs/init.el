@@ -365,6 +365,9 @@ The DWIM behaviour of this command is as follows:
          ("C-c m" . consult-man)
          ("C-c i" . consult-info)
          ([remap Info-search] . consult-info)
+         ;; Custom bindings
+         ("C-M-:" . consult-fd)
+         ("C-:" . scion/consult-fd-dotfiles)
          ;; C-x bindings in `ctl-x-map'
          ("C-x 4 b" . consult-buffer-other-window)
          ("C-x 5 b" . consult-buffer-other-frame)
@@ -401,9 +404,26 @@ The DWIM behaviour of this command is as follows:
   (setopt xref-show-xrefs-function #'consult-xref
           xref-show-definitions-function #'consult-xref)
 
+  (defun scion/consult-fd-dotfiles()
+    "Call consult-fd at the home directory"
+    (interactive)
+    (consult-fd (concat (getenv "HOME") "/Dotfiles")))
+
   ;; Configure other variables and modes in the :config section,
   ;; after lazily loading the package.
   :config
+
+  (defun consult-find-file-with-preview (prompt &optional dir default mustmatch initial pred)
+    (interactive)
+    (let ((default-directory (or dir default-directory))
+          (minibuffer-completing-file-name t))
+      (consult--read #'read-file-name-internal :state (consult--file-preview)
+                     :prompt prompt
+                     :initial initial
+                     :require-match mustmatch
+                     :predicate pred)))
+
+  (setq read-file-name-function #'consult-find-file-with-preview)
 
   ;; Optionally configure preview. The default value
   ;; is 'any, such that any key triggers the preview.
@@ -419,7 +439,17 @@ The DWIM behaviour of this command is as follows:
    consult-source-bookmark consult-source-file-register
    consult-source-recent-file consult-source-project-recent-file
    ;; :preview-key "M-."
-   :preview-key '(:debounce 0.4 any))
+   :preview-key '(:debounce 0.2 any)
+   scion/consult-fd-home :state (consult--file-preview))
+
+  ;; From the consult wiki:
+  ;; https://github.com/minad/consult/wiki#previewing-files-in-find-file
+  ;; Enable consult-style previewing in find-file
+
+  (setopt consult-fd-args
+          `(,(if (executable-find "fdfind" 'remote) "fdfind" "fd")
+            "--full-path" "--color=never" "--hidden" "--follow"
+            "--full-path" "--absolute-path"))
   )
 
 (use-package orderless
@@ -427,6 +457,19 @@ The DWIM behaviour of this command is as follows:
   (completion-styles '(flex orderless substring basic))
   (completion-category-defaults nil)
   (completion-pcm-leading-wildcard t))
+
+;; From the consult wiki:
+;; https://github.com/minad/consult/wiki#use-orderless-as-pattern-compiler-for-consult-grepripgrepfind
+;; Use orderless style pattern matching for consult-find/fd/grep/ripgrep/...
+
+(defun consult--orderless-regexp-compiler (input type &rest _config)
+  (setq input (cdr (orderless-compile input)))
+  (cons
+   (mapcar (lambda (r) (consult--convert-regexp r type)) input)
+   (lambda (str) (orderless--highlight input t str))))
+
+;; OPTION 1: Activate globally for all consult-grep/ripgrep/find/...
+(setq consult--regexp-compiler #'consult--orderless-regexp-compiler)
 
 (use-package nerd-icons)
 (use-package nerd-icons-dired
@@ -483,24 +526,6 @@ The DWIM behaviour of this command is as follows:
       ("q" nil "Quit" :color blue :column "Other")
       ("1" flymake-show-buffer-diagnostics "Diagnostics window" :color blue :column "Clean up")))
   )
-
-;;;; Extensions: fzf
-(use-package fzf
-  :bind
-  (("C-!" . (lambda ()
-              (interactive)
-              (fzf-find-file-in-dir "/")))
-   ("C-:" . (lambda ()
-              (interactive)
-              (fzf-find-file-in-dir (getenv "HOME"))))
-   ("C-M-:" . fzf))  ; in current directory
-  :config
-  (setopt fzf/args "-x --color dark --print-query --margin=1,0 --no-hscroll"
-          fzf/executable "fzf"
-          fzf/git-grep-args "-i --line-number %s"
-          fzf/grep-command "grep -nrH"
-          fzf/position-bottom t
-          fzf/window-height 50))
 
 ;;;; Extensions: Vundo
 (use-package vundo
