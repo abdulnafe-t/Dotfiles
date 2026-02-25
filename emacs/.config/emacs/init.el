@@ -367,7 +367,7 @@ The DWIM behaviour of this command is as follows:
          ([remap Info-search] . consult-info)
          ;; Custom bindings
          ("C-M-:" . consult-fd)
-         ("C-:" . scion/consult-fd-dotfiles)
+         ("C-:" . scion/consult-fd-home)
          ;; C-x bindings in `ctl-x-map'
          ("C-x 4 b" . consult-buffer-other-window)
          ("C-x 5 b" . consult-buffer-other-frame)
@@ -386,87 +386,76 @@ The DWIM behaviour of this command is as follows:
          ("M-g I" . consult-imenu-multi)
          ;; M-s bindings in `search-map'
          ("M-s g" . consult-grep)
-         ("M-s G" . consult-git-grep)
          ("M-s r" . consult-ripgrep)
          ("M-s l" . consult-line)
          ("M-s L" . consult-line-multi)
          ;; Isearch integration
          :map isearch-mode-map
-         ("M-e" . consult-isearch-history)    ;; orig. isearch-edit-string
-         ("M-s e" . consult-isearch-history)  ;; orig. isearch-edit-string
-         ("M-s l" . consult-line)             ;; needed by consult-line to detect isearch
-         ("M-s L" . consult-line-multi)       ;; needed by consult-line to detect isearch
+         ("M-e" . consult-isearch-history)
+         ("M-s e" . consult-isearch-history)
+         ("M-s l" . consult-line)
+         ("M-s L" . consult-line-multi)
 	 )
-  ;; The :init configuration is always executed (Not lazy)
+
   :init
 
   ;; Use Consult to select xref locations with preview
   (setopt xref-show-xrefs-function #'consult-xref
           xref-show-definitions-function #'consult-xref)
 
-  (defun scion/consult-fd-dotfiles()
-    "Call consult-fd at the home directory"
-    (interactive)
-    (consult-fd (concat (getenv "HOME") "/Dotfiles")))
+  (setopt consult-fd-args
+          `(,(if (executable-find "fdfind" 'remote) "fdfind" "fd")
+            "--color=never" "--hidden" "--follow" "--type file"))
 
-  ;; Configure other variables and modes in the :config section,
-  ;; after lazily loading the package.
+  ;; This wrapper is defined under :init because it is bound to C-: under :bind
+  ;; Emacs must know about it in advance before consult is loaded
+  (defun scion/consult-fd-home()
+    "Call consult-fd at ~"
+    (interactive)
+    (consult-fd (getenv "HOME")))
+
   :config
 
   (defun consult-find-file-with-preview (prompt &optional dir default mustmatch initial pred)
+    "Enable consult previewing in find-file, dired, etc."
     (interactive)
     (let ((default-directory (or dir default-directory))
           (minibuffer-completing-file-name t))
-      (consult--read #'read-file-name-internal :state (consult--file-preview)
+      (consult--read #'read-file-name-internal
+                     :state (consult--file-preview)
                      :prompt prompt
                      :initial (abbreviate-file-name default-directory)
                      :require-match mustmatch
                      :predicate pred)))
 
+  ;; Enable consult previewing in find-file, dired, etc.
   (setq read-file-name-function #'consult-find-file-with-preview)
 
-  ;; Optionally configure preview. The default value
-  ;; is 'any, such that any key triggers the preview.
-  ;; (setq consult-preview-key 'any)
-  ;; (setq consult-preview-key "M-.")
-  ;; (setq consult-preview-key '("S-<down>" "S-<up>"))
-  ;; For some commands and buffer sources it is useful to configure the
-  ;; :preview-key on a per-command basis using the `consult-customize' macro.
   (consult-customize
-   consult-theme :preview-key '(:debounce 0.2 any)
-   consult-ripgrep consult-git-grep consult-grep consult-man
-   consult-bookmark consult-recent-file consult-xref
-   consult-source-bookmark consult-source-file-register
-   consult-source-recent-file consult-source-project-recent-file
-   ;; :preview-key "M-."
+   consult-theme consult-ripgrep consult-git-grep consult-grep consult-man
+   consult-bookmark consult-recent-file consult-xref consult-source-bookmark
+   consult-source-file-register consult-source-recent-file
+   consult-source-project-recent-file
    :preview-key '(:debounce 0.2 any)
-   scion/consult-fd-dotfiles :state (consult--file-preview))
 
-  ;; From the consult wiki:
-  ;; https://github.com/minad/consult/wiki#previewing-files-in-find-file
-  ;; Enable consult-style previewing in find-file
-
-  (setopt consult-fd-args
-          `(,(if (executable-find "fdfind" 'remote) "fdfind" "fd")
-            "--full-path" "--color=never" "--hidden" "--follow"))
+   ;; Enable file previewing in consult-fd wrapper
+   scion/consult-fd-home :state (consult--file-preview))
   )
 
 (use-package orderless
   :custom
-  (orderless-matching-styles '(orderless-flex orderless-prefixes orderless-literal orderless-regexp))
+  (orderless-matching-styles '(orderless-flex orderless-regexp))
   (completion-styles '(flex orderless partial-completion substring basic))
   (completion-category-defaults nil))
 
 ;; From the consult wiki:
 ;; https://github.com/minad/consult/wiki#use-orderless-as-pattern-compiler-for-consult-grepripgrepfind
 ;; Use orderless style pattern matching for consult-find/fd/grep/ripgrep/...
-
 (defun consult--orderless-regexp-compiler (input type &rest _config)
   (setq input (cdr (orderless-compile input)))
   (cons
    (mapcar (lambda (r) (consult--convert-regexp r type)) input)
    (lambda (str) (orderless--highlight input t str))))
-
 (setq consult--regexp-compiler #'consult--orderless-regexp-compiler)
 
 (use-package nerd-icons)
@@ -568,7 +557,9 @@ The DWIM behaviour of this command is as follows:
  '(custom-safe-themes
    '("fff0dc54ff5a194ba6593d1cce0fbb4fe8cf9da59fcef47f9e06dec6ef11b1fa" default))
  '(ede-project-directories
-   '("/home/scion/Projects/learn_cpp/chapter_22_x"
+   '("/home/scion/Projects/learn_cpp/chapter_23_6"
+     "/home/scion/Projects/learn_cpp/chapter_23_3"
+     "/home/scion/Projects/learn_cpp/chapter_22_x"
      "/home/scion/Projects/learn_cpp/chapter_22_7"
      "/home/scion/Projects/learn_cpp/chapter_22_5"
      "/home/scion/Projects/learn_cpp/chapter_21_y"

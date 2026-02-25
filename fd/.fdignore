@@ -3,3 +3,6 @@
 */forge*/*
 .cache/*
 */.git/*
+.librewolf/*
+.mozilla/*
+.git/*
