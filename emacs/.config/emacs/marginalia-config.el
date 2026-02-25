@@ -57,6 +57,6 @@ documentation string before other info."
 (add-to-list 'marginalia-annotators
                '(function scion/marginalia-annotate-function builtin none))
 (add-to-list 'marginalia-annotators
-	       '(variable scion/marginalia-annotate-variable builtin non))
+	       '(variable scion/marginalia-annotate-variable builtin none))
 (add-to-list 'marginalia-annotators
-	       '(package scion/marginalia-annotate-package builtin non))
+	       '(package scion/marginalia-annotate-package builtin none))

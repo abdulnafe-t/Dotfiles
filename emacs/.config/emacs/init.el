@@ -438,8 +438,8 @@ The DWIM behaviour of this command is as follows:
    consult-source-project-recent-file
    :preview-key '(:debounce 0.2 any)
 
-   ;; Enable file previewing in consult-fd wrapper
-   scion/consult-fd-home :state (consult--file-preview))
+   ;; Enable file previewing in consult-fd wrapper, and sort its output
+   scion/consult-fd-home :state (consult--file-preview) :sort t)
   )
 
 (use-package orderless
@@ -447,16 +447,6 @@ The DWIM behaviour of this command is as follows:
   (orderless-matching-styles '(orderless-flex orderless-regexp))
   (completion-styles '(flex orderless partial-completion substring basic))
   (completion-category-defaults nil))
-
-;; From the consult wiki:
-;; https://github.com/minad/consult/wiki#use-orderless-as-pattern-compiler-for-consult-grepripgrepfind
-;; Use orderless style pattern matching for consult-find/fd/grep/ripgrep/...
-(defun consult--orderless-regexp-compiler (input type &rest _config)
-  (setq input (cdr (orderless-compile input)))
-  (cons
-   (mapcar (lambda (r) (consult--convert-regexp r type)) input)
-   (lambda (str) (orderless--highlight input t str))))
-(setq consult--regexp-compiler #'consult--orderless-regexp-compiler)
 
 (use-package nerd-icons)
 (use-package nerd-icons-dired
