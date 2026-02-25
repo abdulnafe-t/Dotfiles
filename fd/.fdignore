@@ -2,8 +2,7 @@
 .local/share/Steam/*
 */forge*/*
 .cache/*
-*/.git/*
+**/.git/
 .librewolf/*
 .mozilla/*
-.git/*
 \#*\#

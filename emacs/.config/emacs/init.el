@@ -375,6 +375,7 @@ The DWIM behaviour of this command is as follows:
          ;; Other custom bindings
          ("M-y" . consult-yank-pop)
          ;; M-g bindings in `goto-map'
+         ("M-g f" . consult-flymake)
          ("M-g e" . consult-compile-error)
          ("M-g r" . consult-grep-match)
          ("M-g g" . consult-goto-line)
@@ -447,6 +448,50 @@ The DWIM behaviour of this command is as follows:
   (orderless-matching-styles '(orderless-flex orderless-regexp))
   (completion-styles '(flex orderless partial-completion substring basic))
   (completion-category-defaults nil))
+
+(defun consult--orderless-regexp-compiler (input type &rest _config)
+  (setq input (cdr (orderless-compile input)))
+  (cons
+   (mapcar (lambda (r) (consult--convert-regexp r type)) input)
+   (lambda (str) (orderless--highlight input t (car (last (string-split str "/")))))))
+
+(defun consult--orderless-regexp-compiler (input type &rest _config)
+  "Compile ORDERLESS INPUT into Consult regexps and a highlight function.
+The returned highlight function will only highlight the filename part
+(file-name-nondirectory) of a full path candidate string."
+  (setq input (cdr (orderless-compile input)))
+  (cons
+   ;; convert each orderless regexp to the type Consult expects
+   (mapcar (lambda (r) (consult--convert-regexp r type)) input)
+   ;; highlight function: must propertize the *full* candidate string
+   (lambda (str)
+     (let* ((fname (file-name-nondirectory str))
+            (fname-len (length fname))
+            ;; compute start of fname at end of str; safer than first match
+            (start (max 0 (- (length str) fname-len)))
+            ;; produce a propertized copy of the filename with orderless faces
+            (hl (and fname (orderless--highlight input t (copy-sequence fname)))))
+       (if (and fname hl)
+           ;; copy face properties from hl -> str for the filename region
+           (let ((pos 0))
+             (while (< pos (length hl))
+               (let* ((next (or (next-property-change pos hl) (length hl)))
+                      (face (get-text-property pos 'face hl)))
+                 (when face
+                   (add-text-properties (+ start pos) (+ start next) `(face ,face) str))
+                 (setq pos next)))
+             str)
+         ;; fallback: highlight whole string if filename-location failed
+         (orderless--highlight input t str)
+         str)))))
+
+(defun consult--with-orderless (&rest args)
+  (minibuffer-with-setup-hook
+      (lambda ()
+        (setq-local consult--regexp-compiler #'consult--orderless-regexp-compiler))
+    (apply args)))
+
+(advice-add #'consult-fd :around #'consult--with-orderless)
 
 (use-package nerd-icons)
 (use-package nerd-icons-dired
@@ -526,11 +571,6 @@ The DWIM behaviour of this command is as follows:
 ;;;; Extensions: elfeed
 (load "~/.config/emacs/elfeed-config")
 
-;;;; Extensions: restart-emacs
-(use-package restart-emacs
-  :init
-  (setopt restart-emacs-restore-frames t))
-
 ;;; Server/Client architecture
 
 (use-package server)
@@ -547,7 +587,10 @@ The DWIM behaviour of this command is as follows:
  '(custom-safe-themes
    '("fff0dc54ff5a194ba6593d1cce0fbb4fe8cf9da59fcef47f9e06dec6ef11b1fa" default))
  '(ede-project-directories
-   '("/home/scion/Projects/learn_cpp/chapter_23_6"
+   '("/home/scion/Projects/learn_cpp/chapter_24_x_proj"
+     "/home/scion/Projects/learn_cpp/chapter_24_x"
+     "/home/scion/Projects/learn_cpp/chapter_24_4"
+     "/home/scion/Projects/learn_cpp/chapter_23_6"
      "/home/scion/Projects/learn_cpp/chapter_23_3"
      "/home/scion/Projects/learn_cpp/chapter_22_x"
      "/home/scion/Projects/learn_cpp/chapter_22_7"
@@ -624,8 +667,7 @@ The DWIM behaviour of this command is as follows:
    '(auctex consult elfeed elfeed-tube expand-region fireplace fzf hydra json-mode lin magit
             marginalia multiple-cursors nerd-icons-completion nerd-icons-dired
             no-littering olivetti opam orderless org-appear org-bullets org-modern
-            pdf-tools pulsar quickrun restart-emacs tuareg vertico vundo ws-butler
-            yasnippet)))
+            pdf-tools pulsar quickrun tuareg vertico vundo ws-butler yasnippet)))
 
 ;; ## added by opam user-setup for emacs / base ## 56ab50dc8996d2bb95e7856a6eddb17b ## you can edit, but keep this line
 ;;(require 'opam-user-setup "~/.config/emacs/opam-user-setup.el")
