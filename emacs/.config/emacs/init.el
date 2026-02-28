@@ -1,4 +1,4 @@
-;; -*- lexical-binding: t; -*-
+;;; -*- lexical-binding: t -*-
 
 ;;; General emacs settings
 (setopt inhibit-splash-screen t
@@ -143,7 +143,7 @@ The DWIM behaviour of this command is as follows:
 ;;(set-face-foreground 'font-lock-comment-face "#cacaca")
 
 ;; [WIP] Make background transparent, unless in fullscreen
-(push '(alpha-background . 50) default-frame-alist)
+(push '(alpha-background . 100) default-frame-alist)
 
 ;; (defun scion/change-alpha-background-on-fullscreen (frame)
 ;;   (let ((fullscreen  (frame-parameter frame 'fullscreen)))
@@ -444,45 +444,40 @@ The DWIM behaviour of this command is as follows:
   )
 
 (use-package orderless
+  ;; Use orderless+initialism matching for commands, variables, and symbols. Use
+  ;; orderless-flex for everything else (namely files and buffers).
+  :config
+  (orderless-define-completion-style orderless+initialism
+    (orderless-matching-styles '(orderless-initialism
+                                 orderless-literal
+                                 orderless-regexp)))
   :custom
-  (orderless-matching-styles '(orderless-flex orderless-regexp))
-  (completion-styles '(flex orderless partial-completion substring basic))
+  (completion-styles '(orderless partial-completion substring basic))
+  (orderless-matching-styles '(orderless-flex orderless-initialism orderless-regexp))
+  (completion-category-overrides '((command (styles orderless+initialism))
+                                   (symbol (styles orderless+initialism))
+                                   (variable (styles orderless+initialism))))
   (completion-category-defaults nil))
-
-(defun consult--orderless-regexp-compiler (input type &rest _config)
-  (setq input (cdr (orderless-compile input)))
-  (cons
-   (mapcar (lambda (r) (consult--convert-regexp r type)) input)
-   (lambda (str) (orderless--highlight input t (car (last (string-split str "/")))))))
 
 (defun consult--orderless-regexp-compiler (input type &rest _config)
   "Compile ORDERLESS INPUT into Consult regexps and a highlight function.
 The returned highlight function will only highlight the filename part
-(file-name-nondirectory) of a full path candidate string."
+(file-name-nondirectory) of a full path string.
+Intended for use with consult-fd, or other file-finding functions."
   (setq input (cdr (orderless-compile input)))
   (cons
-   ;; convert each orderless regexp to the type Consult expects
    (mapcar (lambda (r) (consult--convert-regexp r type)) input)
-   ;; highlight function: must propertize the *full* candidate string
    (lambda (str)
      (let* ((fname (file-name-nondirectory str))
-            (fname-len (length fname))
-            ;; compute start of fname at end of str; safer than first match
-            (start (max 0 (- (length str) fname-len)))
-            ;; produce a propertized copy of the filename with orderless faces
-            (hl (and fname (orderless--highlight input t (copy-sequence fname)))))
-       (if (and fname hl)
-           ;; copy face properties from hl -> str for the filename region
-           (let ((pos 0))
-             (while (< pos (length hl))
-               (let* ((next (or (next-property-change pos hl) (length hl)))
-                      (face (get-text-property pos 'face hl)))
-                 (when face
-                   (add-text-properties (+ start pos) (+ start next) `(face ,face) str))
-                 (setq pos next)))
-             str)
-         ;; fallback: highlight whole string if filename-location failed
-         (orderless--highlight input t str)
+            (start (max 0 (- (length str) (length fname))))
+            (hl (orderless--highlight input t (copy-sequence fname))))
+       (let ((pos 0))
+         (while (< pos (length hl))
+           (let* ((next (or (next-property-change pos hl) (length hl)))
+                  (face (get-text-property pos 'face hl)))
+             (when face
+               (add-text-properties (+ start pos) (+ start next) `(face ,face) str))
+             (setq pos next)))
          str)))))
 
 (defun consult--with-orderless (&rest args)
@@ -587,82 +582,8 @@ The returned highlight function will only highlight the filename part
  '(custom-safe-themes
    '("fff0dc54ff5a194ba6593d1cce0fbb4fe8cf9da59fcef47f9e06dec6ef11b1fa" default))
  '(ede-project-directories
-   '("/home/scion/Projects/learn_cpp/chapter_24_x_proj"
-     "/home/scion/Projects/learn_cpp/chapter_24_x"
-     "/home/scion/Projects/learn_cpp/chapter_24_4"
-     "/home/scion/Projects/learn_cpp/chapter_23_6"
-     "/home/scion/Projects/learn_cpp/chapter_23_3"
-     "/home/scion/Projects/learn_cpp/chapter_22_x"
-     "/home/scion/Projects/learn_cpp/chapter_22_7"
-     "/home/scion/Projects/learn_cpp/chapter_22_5"
-     "/home/scion/Projects/learn_cpp/chapter_21_y"
-     "/home/scion/Projects/learn_cpp/chapter_21_9"
-     "/home/scion/Projects/learn_cpp/chapter_21_7"
-     "/home/scion/Projects/learn_cpp/chapter_21_6"
-     "/home/scion/Projects/learn_cpp/chapter_21_2"
-     "/home/scion/Projects/learn_cpp/chapter_20_x"
-     "/home/scion/Projects/learn_cpp/chapter_20_7"
-     "/home/scion/Projects/learn_cpp/chapter_20_6"
-     "/home/scion/Projects/learn_cpp/chapter_20_3"
-     "/home/scion/Projects/learn_cpp/chapter_20_1"
-     "/home/scion/Projects/learn_cpp/chapter_19_2"
-     "/home/scion/Projects/learn_cpp/chapter_18_1"
-     "/home/scion/Projects/learn_cpp/chapter_17_x/q3"
-     "/home/scion/Projects/learn_cpp/chapter_17_x"
-     "/home/scion/Projects/learn_cpp/chapter_17_10"
-     "/home/scion/Projects/learn_cpp/chapter_17_7"
-     "/home/scion/Projects/learn_cpp/chapter_17_6"
-     "/home/scion/Projects/learn_cpp/chapter_17_4"
-     "/home/scion/Projects/learn_cpp/chapter_17_3"
-     "/home/scion/Projects/learn_cpp/chapter_17_2"
-     "/home/scion/Projects/learn_cpp/chapter_17_1"
-     "/home/scion/Projects/learn_cpp/chapter_16_x/q5"
-     "/home/scion/Projects/learn_cpp/chapter_16_x"
-     "/home/scion/Projects/learn_cpp/chapter_16_11"
-     "/home/scion/Projects/learn_cpp/chapter_16_9"
-     "/home/scion/Projects/learn_cpp/chapter_16_8"
-     "/home/scion/Projects/learn_cpp/chapter_16_6"
-     "/home/scion/Projects/learn_cpp/chapter_16_5"
-     "/home/scion/Projects/learn_cpp/chapter_16_4"
-     "/home/scion/Projects/learn_cpp/chapter_16_3"
-     "/home/scion/Projects/learn_cpp/chapter_16_2"
-     "/home/scion/Projects/learn_cpp/chapter_15_x"
-     "/home/scion/Projects/learn_cpp/chapter_15_9"
-     "/home/scion/Projects/learn_cpp/chapter_15_7"
-     "/home/scion/Projects/learn_cpp/chapter_15_5" "/home/scion/Projects/pong"
-     "/home/scion/Projects/learn_cpp/chapter_14_x"
-     "/home/scion/Projects/learn_cpp/chapter_14_12"
-     "/home/scion/Projects/learn_cpp/chapter_14_10"
-     "/home/scion/Projects/learn_cpp/practice/lab05-classes"
-     "/home/scion/Projects/learn_cpp/chapter_14_5"
-     "/home/scion/Projects/learn_cpp/chapter_14_3"
-     "/home/scion/Projects/learn_cpp/chapter_13_y"
-     "/home/scion/Projects/learn_cpp/chapter_13_x"
-     "/home/scion/Projects/learn_cpp/chapter_13_10"
-     "/home/scion/Projects/learn_cpp/chapter_13_8"
-     "/home/scion/Projects/learn_cpp/chapter_13_6" "/home/scion/testing"
-     "/home/scion/.config/emacs/testing" "/home/scion/Projects/learn_cpp/chapter_13_5"
-     "/home/scion/Projects/learn_cpp/chapter_13_2"
-     "/home/scion/Projects/learn_cpp/chapter_12_x"
-     "/home/scion/Projects/learn_cpp/chapter_12_7" "/home/scion/Projects/learn_cpp/test"
-     "/home/scion/Projects/learn_cpp/practice"
-     "/home/scion/Projects/learn_cpp/chapter_12_6"
-     "/home/scion/Projects/learn_cpp/chapter_12_4"
-     "/home/scion/Projects/learn_cpp/chapter_11_x"
-     "/home/scion/Projects/learn_cpp/chapter_11_9"
-     "/home/scion/Projects/learn_cpp/chapter_10_x" "/home/scion/Projects/learn_cpp"
-     "/home/scion/Projects/learn_cpp/chapter_9_x"
-     "/home/scion/Projects/learn_cpp/chapter_8_x"
-     "/home/scion/Projects/learn_cpp/chapter_8_10"
-     "/home/scion/Projects/learn_cpp/chapter_8_8"
-     "/home/scion/Projects/learn_cpp/chapter_8_6"
-     "/home/scion/Projects/learn_cpp/chapter_7_quiz"
-     "/home/scion/Projects/learn_cpp/chapter_7_6"
-     "/home/scion/Projects/learn_cpp/chapter_7_3"
-     "/home/scion/Projects/learn_cpp/chapter_6_quiz"
-     "/home/scion/Projects/learn_cpp/chapter_6"
-     "/home/scion/Projects/learn_cpp/chapter_5_quiz"
-     "/home/scion/Projects/learn_cpp/chapter_5_7"))
+   '("/home/scion/Projects/learn_cpp/chapter_27_x" "/home/scion/Projects/learn_cpp/demo"
+     "/home/scion/Projects/Notepad--"))
  '(package-selected-packages
    '(auctex consult elfeed elfeed-tube expand-region fireplace fzf hydra json-mode lin magit
             marginalia multiple-cursors nerd-icons-completion nerd-icons-dired
