@@ -416,7 +416,7 @@ The DWIM behaviour of this command is as follows:
     (consult-fd (getenv "HOME")))
 
   :config
-
+  (setopt consult-async-min-input 2)
   (defun consult-find-file-with-preview (prompt &optional dir default mustmatch initial pred)
     "Enable consult previewing in find-file, dired, etc."
     (interactive)
@@ -432,6 +432,15 @@ The DWIM behaviour of this command is as follows:
   ;; Enable consult previewing in find-file, dired, etc.
   (setq read-file-name-function #'consult-find-file-with-preview)
 
+
+  (setq consult-async-split-styles-alist
+      (append
+       (list
+        (cons 'perl-dollar
+              (list :initial ?$ :function #'consult--split-perl)))
+       consult-async-split-styles-alist))
+  (setq consult-async-split-style 'perl-dollar)
+
   (consult-customize
    consult-theme consult-ripgrep consult-git-grep consult-grep consult-man
    consult-bookmark consult-recent-file consult-xref consult-source-bookmark
@@ -444,49 +453,47 @@ The DWIM behaviour of this command is as follows:
   )
 
 (use-package orderless
-  ;; Use orderless+initialism matching for commands, variables, and symbols. Use
-  ;; orderless-flex for everything else (namely files and buffers).
   :config
-  (orderless-define-completion-style orderless+initialism
-    (orderless-matching-styles '(orderless-initialism
-                                 orderless-literal
-                                 orderless-regexp)))
-  :custom
-  (completion-styles '(orderless partial-completion substring basic))
-  (orderless-matching-styles '(orderless-flex orderless-initialism orderless-regexp))
-  (completion-category-overrides '((command (styles orderless+initialism))
-                                   (symbol (styles orderless+initialism))
-                                   (variable (styles orderless+initialism))))
-  (completion-category-defaults nil))
 
-(defun consult--orderless-regexp-compiler (input type &rest _config)
-  "Compile ORDERLESS INPUT into Consult regexps and a highlight function.
-The returned highlight function will only highlight the filename part
-(file-name-nondirectory) of a full path string.
-Intended for use with consult-fd, or other file-finding functions."
-  (setq input (cdr (orderless-compile input)))
-  (cons
-   (mapcar (lambda (r) (consult--convert-regexp r type)) input)
-   (lambda (str)
-     (let* ((fname (file-name-nondirectory str))
-            (start (max 0 (- (length str) (length fname))))
-            (hl (orderless--highlight input t (copy-sequence fname))))
-       (let ((pos 0))
-         (while (< pos (length hl))
-           (let* ((next (or (next-property-change pos hl) (length hl)))
-                  (face (get-text-property pos 'face hl)))
-             (when face
-               (add-text-properties (+ start pos) (+ start next) `(face ,face) str))
-             (setq pos next)))
-         str)))))
+  (orderless-define-completion-style orderless+flex
+    (orderless-matching-styles '(orderless-flex)))
 
-(defun consult--with-orderless (&rest args)
+  (setq completion-category-defaults nil)
+  (setopt completion-styles '(orderless partial-completion substring basic)
+          orderless-matching-styles '(orderless-initialism orderless-literal)
+          completion-category-overrides '((file (styles orderless+flex)))))
+
+(defun consult--orderless-regexp-compiler (input type ignore-case)
+  "Compile INPUT into Consult regexps and a highlight function. Uses
+orderless-flex for file completion."
+  (let* ((styles (if minibuffer-completing-file-name
+                     '(orderless-flex)
+                   orderless-matching-styles))
+         (compiled (orderless-compile input styles)))
+    (setq input (cdr compiled))
+    (cons
+     (mapcar (lambda (r) (consult--convert-regexp r type)) input)
+     (lambda (str)
+       (let* ((fname (file-name-nondirectory str))
+              (start (max 0 (- (length str) (length fname))))
+              (hl (orderless--highlight input t (copy-sequence fname))))
+         (let ((pos 0))
+           (while (< pos (length hl))
+             (let* ((next (or (next-property-change pos hl) (length hl)))
+                    (face (get-text-property pos 'face hl)))
+               (when face
+                 (add-text-properties (+ start pos) (+ start next) `(face ,face) str))
+               (setq pos next)))
+           str))))))
+
+(defun consult-fd--with-orderless (&rest args)
   (minibuffer-with-setup-hook
       (lambda ()
-        (setq-local consult--regexp-compiler #'consult--orderless-regexp-compiler))
+        (setq-local consult--regexp-compiler #'consult--orderless-regexp-compiler
+                    minibuffer-completing-file-name t))
     (apply args)))
 
-(advice-add #'consult-fd :around #'consult--with-orderless)
+(advice-add #'consult-fd :around #'consult-fd--with-orderless)
 
 (use-package nerd-icons)
 (use-package nerd-icons-dired
