@@ -347,19 +347,19 @@
     # Otherwise the "#" and following would be interpreted as a comment.
     background = "#363636"
     foreground = "#888888"
-    frame_color = "#779ecb"
+    frame_color = "#b57281"
     timeout = 10
-    highlight = "#779ecb"
+    highlight = "#b57281"
 
 [urgency_normal]
     background = "#0D0E1C"
     foreground = "#ffffff"
-    frame_color = "#ffffff"
+    frame_color = "#b6a0ff"
     timeout = 10
     override_pause_level = 30
     # Icon for notifications with normal urgency
     default_icon = dialog-information
-    highlight = "#ffffff"
+    highlight = "#b6a0ff"
 
 [urgency_critical]
     background = "#000000"
