@@ -1,22 +1,38 @@
 Language: Cpp
+
 IndentWidth: 6
 ContinuationIndentWidth: 0
-AlignAfterOpenBracket: true
 ConstructorInitializerIndentWidth: 2
 AccessModifierOffset: -6
-UseTab: Never
 ColumnLimit: 90
-AllowShortIfStatementsOnASingleLine: WithoutElse
+UseTab: Never
+
+AlignAfterOpenBracket: true
 AlwaysBreakTemplateDeclarations: true
+
+AllowShortIfStatementsOnASingleLine: WithoutElse
+AllowShortFunctionsOnASingleLine: Empty
+AllowShortBlocksOnASingleLine: Empty
+AllowShortEnumsOnASingleLine: true
+AllowShortCaseLabelsOnASingleLine: true     # case N: XXX
+AllowShortCaseExpressionOnASingleLine: true  # case N -> XXX
+AllowShortLambdasOnASingleLine: Inline
+
 PointerAlignment: Left
 ReferenceAlignment: Left
+
 SpaceBeforeCpp11BracedList: true
-AllowShortFunctionsOnASingleLine: Empty
-NamespaceIndentation: All
-RemoveEmptyLinesInUnwrappedLines: true
-AllowShortBlocksOnASingleLine: Empty
 SpaceAfterTemplateKeyword: false
+RemoveEmptyLinesInUnwrappedLines: true
+
+NamespaceIndentation: All
+IndentCaseLabels: false
+LambdaBodyIndentation: Signature
+
 WrapNamespaceBodyWithEmptyLines: Never
+FixNamespaceComments: false
+CompactNamespaces: false
+
 BreakBeforeBraces: Custom
 BraceWrapping:
  BeforeElse: true
@@ -27,23 +43,26 @@ BraceWrapping:
  SplitEmptyFunction: false
  SplitEmptyRecord: false
  SplitEmptyNamespace: false
+
 AlignConsecutiveAssignments:
   Enabled: true
   PadOperators: true
 AlignConsecutiveDeclarations: Consecutive
 AlignOperands: Align
-AllowShortEnumsOnASingleLine: true
-FixNamespaceComments: false
-CompactNamespaces: false
-IndentCaseLabels: false
-AllowShortCaseLabelsOnASingleLine: true     # case N: XXX
-AllowShortCaseExpressionOnASingleLine: true  # case N -> XXX
 AlignConsecutiveShortCaseStatements:
   Enabled: true
   AlignCaseColons: false
+
 EmptyLineAfterAccessModifier: Never
 EmptyLineBeforeAccessModifier: Always
+
 BreakConstructorInitializers: BeforeComma
 PackConstructorInitializers: Never
-AllowShortLambdasOnASingleLine: Inline
-LambdaBodyIndentation: Signature
+
+SortIncludes: true
+IncludeBlocks: Regroup
+IncludeCategories:
+  - Regex: '^<.*>'
+    Priority: 1
+  - Regex: '^".*"'
+    Priority: 2
