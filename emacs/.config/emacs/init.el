@@ -28,6 +28,11 @@
   (keymap-set completion-preview-active-mode-map
               "M-<up>" #'completion-preview-prev-candidate))
 
+(global-set-key (kbd "C-+") 'text-scale-increase)
+(global-set-key (kbd "C--") 'text-scale-decrease)
+(global-set-key (kbd "<C-wheel-down>") 'text-scale-decrease)
+(global-set-key (kbd "<C-wheel-up>") 'text-scale-increase)
+
 (electric-pair-mode 1)
 (delete-selection-mode 1)
 (setopt fill-column 90)
@@ -261,6 +266,8 @@ The DWIM behaviour of this command is as follows:
 (use-package json-mode)
 (add-to-list 'auto-mode-alist '("\\.jsonc\\'" . json-mode))
 
+(use-package markdown-mode)
+
 ;; Enable auctex to support common latex packages
 (use-package auctex
   :hook tex-mode-hook
@@ -460,10 +467,11 @@ The DWIM behaviour of this command is as follows:
 
   (setq completion-category-defaults nil)
   (setopt completion-styles '(orderless partial-completion substring basic)
-          orderless-matching-styles '(orderless-initialism orderless-literal)
-          completion-category-overrides '((file (styles orderless+flex)))))
+          orderless-matching-styles '(orderless-initialism orderless-regexp orderless-literal)
+          completion-category-overrides '((file (styles orderless+flex))
+                                          (buffer (styles orderless+flex)))))
 
-(defun consult--orderless-regexp-compiler (input type ignore-case)
+(defun consult--orderless-flex-regexp-compiler (input type ignore-case)
   "Compile INPUT into Consult regexps and a highlight function. Uses
 orderless-flex for file completion."
   (let* ((styles (if minibuffer-completing-file-name
@@ -487,13 +495,31 @@ orderless-flex for file completion."
            str))))))
 
 (defun consult-fd--with-orderless (&rest args)
+  "Enable orderless style matching for consult-fd & consult-find."
   (minibuffer-with-setup-hook
       (lambda ()
-        (setq-local consult--regexp-compiler #'consult--orderless-regexp-compiler
+        (setq-local consult--regexp-compiler #'consult--orderless-flex-regexp-compiler
                     minibuffer-completing-file-name t))
     (apply args)))
 
 (advice-add #'consult-fd :around #'consult-fd--with-orderless)
+(advice-add #'consult-find :around #'consult-fd--with-orderless)
+
+(defun consult--orderless-regexp-compiler (input type &rest _config)
+  (setq input (cdr (orderless-compile input)))
+  (cons
+   (mapcar (lambda (r) (consult--convert-regexp r type)) input)
+   (lambda (str) (orderless--highlight input t str))))
+
+(defun consult--with-orderless (&rest args)
+  "Enable orderless style matching for consult-fd & consult-find."
+  (minibuffer-with-setup-hook
+      (lambda ()
+        (setq-local consult--regexp-compiler #'consult--orderless-flex-regexp-compiler))
+    (apply args)))
+
+(advice-add #'consult-grep :around #'consult--with-orderless)
+(advice-add #'consult-ripgrep :around #'consult--with-orderless)
 
 (use-package nerd-icons)
 (use-package nerd-icons-dired
@@ -573,6 +599,47 @@ orderless-flex for file completion."
 ;;;; Extensions: elfeed
 (load "~/.config/emacs/elfeed-config")
 
+;;;; Extensions: agent-shell
+(use-package agent-shell)
+
+;;;; Extensions: page-break-line
+(use-package page-break-lines
+  :config
+  (global-page-break-lines-mode))
+
+;;;; Extensions: highlight-doxygen
+(use-package highlight-doxygen
+  :custom-face
+  (highlight-doxygen-comment ((t (:background unspecified))))
+  :config
+  (highlight-doxygen-global-mode 1))
+
+;;;; Extensions: eldoc-box
+(use-package eldoc-box
+  :custom-face
+  (eldoc-box-border ((t (:background "#ffffff" :weight bold))))
+  (eldoc-box-body ((t (:background "#0d0e1c"))))
+
+  :bind
+  (:map global-map  ("C-*" . eldoc-box-toggle)
+        ("M-<up>" . eldoc-box-scroll-down)
+        ("M-<down>" . eldoc-box-scroll-up))
+
+  :config
+
+  (defun eldoc-box-toggle ()
+    "Toggle eldoc-box visibility."
+    (interactive)
+    (if (eldoc-box--frame-visible-p)
+        (eldoc-box-quit-frame)
+      (eldoc-box-help-at-point)))
+
+  :custom
+  (eldoc-box-clear-with-C-g t)
+  (eldoc-box-max-pixel-width 700)
+  (eldoc-box-max-pixel-height 200)
+  )
+
 ;;; Server/Client architecture
 
 (use-package server)
@@ -592,10 +659,12 @@ orderless-flex for file completion."
    '("/home/scion/Projects/learn_cpp/chapter_27_x" "/home/scion/Projects/learn_cpp/demo"
      "/home/scion/Projects/Notepad--"))
  '(package-selected-packages
-   '(auctex consult elfeed elfeed-tube expand-region fireplace fzf hydra json-mode lin magit
-            marginalia multiple-cursors nerd-icons-completion nerd-icons-dired
-            no-littering olivetti opam orderless org-appear org-bullets org-modern
-            pdf-tools pulsar quickrun tuareg vertico vundo ws-butler yasnippet)))
+   '(agent-shell auctex consult eldoc-box elfeed elfeed-tube expand-region fireplace fzf
+                 highlight-doxygen hydra json-mode lin magit marginalia markdown-mode
+                 multiple-cursors nerd-icons-completion nerd-icons-dired no-littering
+                 olivetti opam orderless org-appear org-bullets org-modern
+                 page-break-lines pdf-tools pulsar quickrun tuareg vertico vundo ws-butler
+                 yasnippet)))
 
 ;; ## added by opam user-setup for emacs / base ## 56ab50dc8996d2bb95e7856a6eddb17b ## you can edit, but keep this line
 ;;(require 'opam-user-setup "~/.config/emacs/opam-user-setup.el")
