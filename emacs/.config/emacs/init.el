@@ -5,8 +5,6 @@
         visible-bell nil
         initial-scratch-message nil)
 
-(setopt font-lock-maximum-decoration t)
-
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
@@ -71,9 +69,9 @@
         lazy-count-suffix-format nil
         search-whitespace-regexp ".*?")
 
-;; From sachachua: https://sachachua.com/dotemacs/index.html
-;; Replace yes/no with y/n for convenience
-(fset 'yes-or-no-p 'y-or-n-p)
+(setopt confirm-kill-processes nil
+        use-short-answers t
+        view-read-only t)
 
 ;; Augment default C-g behavior
 (defun prot/keyboard-quit-dwim ()
@@ -128,24 +126,26 @@ The DWIM behaviour of this command is as follows:
           (lambda ()
             (setq-local cursor-type 'bar)))
 
-;; Variables for the modus theme. must be set before the theme is loaded.  Requires emacs
-;; version >= 30
-(require-theme 'modus-themes)
+(use-package ef-themes
+  :init
+  (ef-themes-take-over-modus-themes-mode 1)
+  :config
+  (setopt modus-themes-mixed-fonts t)
+  (setopt modus-themes-bold-constructs t
+          modus-themes-italic-constructs t
+          modus-themes-prompts '(ultrabold))
 
-(setopt modus-themes-bold-constructs t
-        modus-themes-italic-constructs t
-        modus-themes-prompts '(ultrabold))
-
-(setopt modus-themes-common-palette-overrides
-        '((cursor fg-main)
-          (string red-faint)
-          (comment fg-dim)
-          (bg-hover fg-active)
-          (fg-prompt cyan)))
-
-(modus-themes-load-theme 'modus-vivendi)
-
-;;(set-face-foreground 'font-lock-comment-face "#cacaca")
+  (setopt modus-themes-common-palette-overrides
+          '((fg-main "#d0d0d0")
+            (cursor fg-main)
+            (string red-faint)
+            (comment fg-dim)
+            (bg-hover fg-active)
+            (fg-prompt "#00d3d0")
+            (fg-mode-line-active fg-main)
+            (bg-mode-line-active "#2f2c2f")
+            (bg-mode-line-inactive "#151315")))
+  (modus-themes-load-theme 'ef-dark))
 
 ;; [WIP] Make background transparent, unless in fullscreen
 (push '(alpha-background . 100) default-frame-alist)
@@ -158,10 +158,10 @@ The DWIM behaviour of this command is as follows:
 ;; Pulsar: flash current line on certain window changes
 (use-package pulsar
   :config
-  (setopt pulsar-face 'pulsar-cyan
-          pulsar-region-face 'pulsar-cyan
-          pulsar-region-change-face 'pulsar-cyan
-          pulsar-highlight-face 'pulsar-cyan))
+  (setopt pulsar-face 'pulsar-magenta
+          pulsar-region-face 'pulsar-magenta
+          pulsar-region-change-face 'pulsar-magenta
+          pulsar-highlight-face 'pulsar-magenta))
 (pulsar-global-mode 1)
 
 (defface custom-hl-line-face
@@ -200,13 +200,22 @@ The DWIM behaviour of this command is as follows:
 
 ;;; Programming
 
-(setopt compilation-scroll-output t)
+(setopt compilation-scroll-output t
+        font-lock-maximum-decoration t)
 
-(use-package autoinsert ; Builtin
+(use-package autoinsert
+  ; Builtin, used to automatically insert header guards & includes in C++ files
   :init
   (auto-insert-mode t)
   :config
   (setopt auto-insert-query nil))
+
+(use-package flymake
+  ;; Builtin, used for syntax checking. Disable its
+  ;; modeline lighter "Flymake", but keep the error
+  ;; counters
+  :config
+  (setopt flymake-mode-line-lighter ""))
 
 ;; Trim extraneous whitespaces in code files
 (use-package ws-butler
@@ -306,6 +315,7 @@ The DWIM behaviour of this command is as follows:
 (setq-default dired-listing-switches "-alh --group-directories-first")
 
 (use-package dired
+  :demand t
   :init
   (require 'dired-x)
   :bind
@@ -313,14 +323,14 @@ The DWIM behaviour of this command is as follows:
         ("M-o" . dired-omit-mode))
   :hook
   (dired-mode-hook . dired-omit-mode)
-  (dired-mode-hook . (lambda ()
-                       (set-face-foreground 'dired-directory
-                                            (face-foreground
-                                             'font-lock-keyword-face))))
+  (dired-mode-hook . (lambda()
+                       (set-face-attribute 'dired-directory nil
+                                           :foreground (face-foreground 'font-lock-keyword-face))))
   :config
   (setopt dired-auto-revert-buffer t)
   (setopt dired-omit-files
-          (concat (default-value 'dired-omit-files) "\\|^\\..+$")))
+          (concat (default-value 'dired-omit-files) "\\|^\\..+$"))
+  )
 
 ;; Enable mouse navigation between visited help-mode topics
 (add-hook 'help-mode-hook
@@ -376,6 +386,7 @@ The DWIM behaviour of this command is as follows:
          ("C-M-:" . consult-fd)
          ("C-:" . scion/consult-fd-home)
          ;; C-x bindings in `ctl-x-map'
+         ("C-x b" . consult-buffer)
          ("C-x 4 b" . consult-buffer-other-window)
          ("C-x 5 b" . consult-buffer-other-frame)
          ("C-x p b" . consult-project-buffer)
@@ -424,6 +435,7 @@ The DWIM behaviour of this command is as follows:
 
   :config
   (setopt consult-async-min-input 2)
+
   (defun consult-find-file-with-preview (prompt &optional dir default mustmatch initial pred)
     "Enable consult previewing in find-file, dired, etc."
     (interactive)
@@ -439,13 +451,12 @@ The DWIM behaviour of this command is as follows:
   ;; Enable consult previewing in find-file, dired, etc.
   (setq read-file-name-function #'consult-find-file-with-preview)
 
-
   (setq consult-async-split-styles-alist
-      (append
-       (list
-        (cons 'perl-dollar
-              (list :initial ?$ :function #'consult--split-perl)))
-       consult-async-split-styles-alist))
+        (append
+         (list
+          (cons 'perl-dollar
+                (list :initial ?$ :function #'consult--split-perl)))
+         consult-async-split-styles-alist))
   (setq consult-async-split-style 'perl-dollar)
 
   (consult-customize
@@ -521,13 +532,35 @@ orderless-flex for file completion."
 (advice-add #'consult-grep :around #'consult--with-orderless)
 (advice-add #'consult-ripgrep :around #'consult--with-orderless)
 
-(use-package nerd-icons)
+
+;;;; Extensions: nerd-icons
+(use-package nerd-icons
+  :demand t)
+
 (use-package nerd-icons-dired
   :hook
   (dired-mode-hook . nerd-icons-dired-mode))
+
 (use-package nerd-icons-completion
+  :demand t
+  :init
+  (nerd-icons-completion-mode)
   :config
-  (nerd-icons-completion-mode))
+  (set-face-attribute 'nerd-icons-completion-dir-face nil
+                      :foreground (face-foreground 'font-lock-keyword-face)))
+
+(defun my/set-dir-icon-face ()
+  "Set nerd-icons-completion-dir-face. Used specifically in server/client mode."
+  (set-face-attribute 'nerd-icons-completion-dir-face nil
+                      :foreground (face-foreground 'font-lock-keyword-face)))
+(if (daemonp)
+    (add-hook 'after-make-frame-functions
+	      (defun my/icon-init-daemon (frame)
+		(with-selected-frame frame
+		  (my/set-dir-icon-face))
+		(remove-hook 'after-make-frame-functions
+			     #'my/icon-init-daemon)
+		(fmakunbound 'my/icon-init-daemon))))
 
 ;;;; Extensions: hydra
 (use-package hydra
@@ -587,7 +620,9 @@ orderless-flex for file completion."
           vundo-popup-time 4.0))
 
 ;;;; Extensions: Magit
-(use-package magit)
+(use-package magit
+  :init
+  (setopt vc-follow-symlinks t))
 
 ;;;; Extensions: expand-region
 (use-package expand-region)
@@ -640,11 +675,14 @@ orderless-flex for file completion."
   (eldoc-box-max-pixel-height 200)
   )
 
-;;; Server/Client architecture
-
-(use-package server)
-(unless (server-running-p)
-  (server-start))
+;;;; Extensions: minions (cleaner menu than the builtin option)
+(use-package minions
+  :init
+  (minions-mode)
+  :custom
+  (minions-mode-line-delimiters nil)
+  :config
+  (add-to-list 'minions-prominent-modes 'flymake-mode))
 
 ;;; Automated
 
@@ -659,12 +697,12 @@ orderless-flex for file completion."
    '("/home/scion/Projects/learn_cpp/chapter_27_x" "/home/scion/Projects/learn_cpp/demo"
      "/home/scion/Projects/Notepad--"))
  '(package-selected-packages
-   '(agent-shell auctex consult eldoc-box elfeed elfeed-tube expand-region fireplace fzf
-                 highlight-doxygen hydra json-mode lin magit marginalia markdown-mode
-                 multiple-cursors nerd-icons-completion nerd-icons-dired no-littering
-                 olivetti opam orderless org-appear org-bullets org-modern
-                 page-break-lines pdf-tools pulsar quickrun tuareg vertico vundo ws-butler
-                 yasnippet)))
+   '(agent-shell auctex consult ef-themes eldoc-box elfeed elfeed-tube expand-region
+                 fireplace fzf highlight-doxygen hydra json-mode lin magit marginalia
+                 markdown-mode minions multiple-cursors nerd-icons-completion
+                 nerd-icons-dired no-littering olivetti opam orderless org-appear
+                 org-bullets org-modern page-break-lines pdf-tools pulsar quickrun
+                 smart-mode-line tuareg vertico vundo ws-butler yasnippet)))
 
 ;; ## added by opam user-setup for emacs / base ## 56ab50dc8996d2bb95e7856a6eddb17b ## you can edit, but keep this line
 ;;(require 'opam-user-setup "~/.config/emacs/opam-user-setup.el")
@@ -694,3 +732,9 @@ orderless-flex for file completion."
  '(org-tag ((t (:inherit (shadow fixed-pitch) :weight bold :height 0.8))))
  '(org-verbatim ((t (:inherit (shadow fixed-pitch)))))
  '(variable-pitch ((t (:family "Geist")))))
+
+;;; Server/Client architecture
+
+(use-package server)
+(unless (server-running-p)
+  (server-start))
