@@ -116,13 +116,14 @@ The DWIM behaviour of this command is as follows:
 
 ;;; Theme & style
 
-;; Make cursor blink forever
-(setq-default cursor-type 'box
-              blink-cursor-blinks -1)
+(setq-default cursor-type 'box)
 
 (add-hook 'text-mode-hook
           (lambda ()
             (setq-local cursor-type 'bar)))
+
+;; Customize modeline
+(load "~/.config/emacs/mode-line-config.el")
 
 (use-package ef-themes
   :init
@@ -139,10 +140,10 @@ The DWIM behaviour of this command is as follows:
             (string red-faint)
             (comment fg-dim)
             (bg-hover fg-active)
-            (fg-prompt "#00d3d0")
+            (fg-prompt cyan)
             (fg-mode-line-active fg-main)
-            (bg-mode-line-active "#2f2c2f")
-            (bg-mode-line-inactive "#151315")))
+            (bg-mode-line-active "#2f2c39")
+            (bg-mode-line-inactive "#15131f")))
   (modus-themes-load-theme 'ef-dark))
 
 ;; [WIP] Make background transparent, unless in fullscreen
@@ -682,15 +683,6 @@ orderless-flex for file completion."
   (eldoc-box-max-pixel-width 700)
   (eldoc-box-max-pixel-height 200)
   )
-
-;;;; Extensions: minions (cleaner menu than the builtin option)
-(use-package minions
-  :init
-  (minions-mode)
-  :custom
-  (minions-mode-line-delimiters nil)
-  :config
-  (add-to-list 'minions-prominent-modes 'flymake-mode))
 
 ;;; Automated
 
