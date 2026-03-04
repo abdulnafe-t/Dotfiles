@@ -32,6 +32,7 @@
  'user
  '(variable-pitch ((t (:family "Geist"))))
  '(fixed-pitch ((t ( :family "Geist Mono"))))
+ '(monospace ((t (:family "GeistMonoNerdFontMono"))))
  '(org-level-1 ((t (:inherit outline-1 :height 1.7))))
  '(org-level-2 ((t (:inherit outline-2 :height 1.6))))
  '(org-level-3 ((t (:inherit outline-3 :height 1.5))))

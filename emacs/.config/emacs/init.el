@@ -116,8 +116,6 @@ The DWIM behaviour of this command is as follows:
 
 ;;; Theme & style
 
-(push '(font . "GeistMonoNerdFontMono-15") default-frame-alist)
-
 ;; Make cursor blink forever
 (setq-default cursor-type 'box
               blink-cursor-blinks -1)
@@ -165,11 +163,11 @@ The DWIM behaviour of this command is as follows:
 (pulsar-global-mode 1)
 
 (defface custom-hl-line-face
-  '((t (:inherit mode-line
-                 :box nil)))
+  '((t (:box nil
+        :inherit 'default)))
   "Face for hl-line, as well as minibuffer augmentations (vertico et al.).")
 
-(set-face-background 'custom-hl-line-face (face-background 'mode-line t t))
+(set-face-background 'custom-hl-line-face (face-background 'mode-line))
 
 (use-package hl-line
   :custom-face
@@ -549,18 +547,28 @@ orderless-flex for file completion."
   (set-face-attribute 'nerd-icons-completion-dir-face nil
                       :foreground (face-foreground 'font-lock-keyword-face)))
 
-(defun my/set-dir-icon-face ()
+(defun scion/set-default-faces ()
   "Set nerd-icons-completion-dir-face. Used specifically in server/client mode."
   (set-face-attribute 'nerd-icons-completion-dir-face nil
-                      :foreground (face-foreground 'font-lock-keyword-face)))
+                      :foreground (face-foreground 'font-lock-keyword-face))
+  (set-face-attribute 'mode-line nil :inherit 'variable-pitch)
+  (set-face-attribute 'mode-line-active nil :inherit 'variable-pitch)
+  (set-face-attribute 'mode-line-inactive nil :inherit 'variable-pitch)
+
+  (set-face-attribute 'vc-state-base nil :inherit 'variable-pitch)
+  (set-face-attribute 'vc-edited-state nil :inherit 'variable-pitch :slant 'italic)
+  (set-face-attribute 'vc-locked-state nil :inherit 'variable-pitch)
+)
+
 (if (daemonp)
     (add-hook 'after-make-frame-functions
 	      (defun my/icon-init-daemon (frame)
 		(with-selected-frame frame
-		  (my/set-dir-icon-face))
+		  (scion/set-default-faces))
 		(remove-hook 'after-make-frame-functions
 			     #'my/icon-init-daemon)
-		(fmakunbound 'my/icon-init-daemon))))
+		(fmakunbound 'my/icon-init-daemon)))
+  (scion/set-default-faces))
 
 ;;;; Extensions: hydra
 (use-package hydra
@@ -713,7 +721,9 @@ orderless-flex for file completion."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(fixed-pitch ((t (:family "Geist Mono"))))
+ '(default ((t (:font "GeistMonoNerdFontMono-15"))))
+ '(fixed-pitch ((t (:font "GeistMonoNerdFontMono-15"))))
+ '(monospace ((t (:font "GeistMonoNerdFontMono-15"))))
  '(org-block ((t (:inherit fixed-pitch))))
  '(org-code ((t (:inherit (shadow fixed-pitch)))))
  '(org-document-info ((t (:foreground "dark orange"))))
