@@ -1,6 +1,5 @@
 ;;; -*- lexical-binding: t -*-
 
-
 ;;; Server/Client architecture
 
 (use-package server)
@@ -461,6 +460,21 @@ The DWIM behaviour of this command is as follows:
    scion/consult-fd-home :state (consult--file-preview) :sort t)
   )
 
+(defun consult-find-file-with-preview (prompt &optional dir default mustmatch initial pred)
+  "Enable consult previewing in find-file, dired, etc."
+  (interactive)
+  (let ((default-directory (or dir default-directory))
+        (minibuffer-completing-file-name t))
+    (consult--read #'read-file-name-internal
+                   :state (consult--file-preview)
+                   :prompt prompt
+                   :initial (abbreviate-file-name default-directory)
+                   :require-match mustmatch
+                   :predicate pred)))
+
+;; Enable consult previewing in find-file, dired, etc.
+(setq read-file-name-function #'consult-find-file-with-preview)
+
 (use-package orderless
   :config
 
@@ -522,7 +536,6 @@ orderless-flex for file completion."
 
 (advice-add #'consult-grep :around #'consult--with-orderless)
 (advice-add #'consult-ripgrep :around #'consult--with-orderless)
-
 
 ;;;; Extensions: nerd-icons
 (use-package nerd-icons
@@ -674,6 +687,15 @@ orderless-flex for file completion."
   (eldoc-box-clear-with-C-g t)
   (eldoc-box-max-pixel-width 700)
   (eldoc-box-max-pixel-height 200)
+  )
+
+;;; Extensions: minions mode
+(use-package minions
+  :init
+  (minions-mode t)
+  :config
+  (setopt minions-mode-line-delimiters nil
+          minions-mode-line-lighter "  ")
   )
 
 ;;; Automated
