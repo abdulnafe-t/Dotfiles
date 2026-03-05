@@ -47,7 +47,7 @@
   "Return empty space using FACE and leaving RESERVE space on the right."
   (unless reserve
     (setq reserve 20))
-  (when (and window-system (eq 'right (get-scroll-bar-mode)))
+  (when (and (display-graphic-p) (eq 'right (get-scroll-bar-mode)))
     (setq reserve (- reserve 3)))
   (propertize " "
               'display `((space :align-to (- (+ right right-fringe right-margin) ,reserve)))
@@ -57,14 +57,14 @@
   "Return empty space using FACE to the center of remaining space leaving RESERVE space on the right."
   (unless reserve
     (setq reserve 20))
-  (when (and window-system (eq 'right (get-scroll-bar-mode)))
+  (when (and (display-graphic-p) (eq 'right (get-scroll-bar-mode)))
     (setq reserve (- reserve 3)))
   (propertize " "
               'display `((space :align-to (- (+ center (.5 . right-margin)) ,reserve
                                              (.46 . left-margin))))
               'face face))
 
-(defconst RIGHT_PADDING -1)
+(defconst RIGHT_PADDING 1)
 
 (defun reserve-left/middle ()
   (/ (length (format-mode-line mode-line-align-middle)) 2))
@@ -94,14 +94,13 @@
 (setq mode-line-align-middle
       '(""
         (project-mode-line project-mode-line-format)
-        (:eval (concat (format-mode-line vc-mode vc-mode) "    "))
+        (:eval (concat (format-mode-line vc-mode vc-mode) "  "))
         (:eval (scion/buffer-name-with-project))
         ))
 
 (setq mode-line-align-right
       '(""
         flymake-mode-line-format
-
         (:eval (when (eglot--managed-mode) "  Eglot  "))
         (:eval  (format-mode-line mode-name))
         ))
@@ -112,7 +111,8 @@
                '(:eval (mode-line-fill-center (if (mode-line-window-selected-p) 'mode-line-active 'mode-line-inactive)
                                               (reserve-left/middle)))
                mode-line-align-middle
-               '(:eval (mode-line-fill-right (if (mode-line-window-selected-p) 'mode-line-active 'mode-line-inactive)
-                                             (reserve-middle/right)))
-               mode-line-align-right
+               ;; '(:eval (mode-line-fill-right (if (mode-line-window-selected-p) 'mode-line-active 'mode-line-inactive)
+               ;;                               (reserve-middle/right)))
+               'mode-line-format-right-align
+               mode-line-align-right "    "
                ))

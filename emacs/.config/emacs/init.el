@@ -544,9 +544,9 @@ orderless-flex for file completion."
   "Set nerd-icons-completion-dir-face. Used specifically in server/client mode."
   (set-face-attribute 'nerd-icons-completion-dir-face nil
                       :foreground (face-foreground 'font-lock-keyword-face))
-  (set-face-attribute 'mode-line nil :inherit 'variable-pitch)
-  (set-face-attribute 'mode-line-active nil :inherit 'variable-pitch)
-  (set-face-attribute 'mode-line-inactive nil :inherit 'variable-pitch)
+  (set-face-attribute 'mode-line nil :inherit 'variable-pitch :box 'nil)
+  (set-face-attribute 'mode-line-active nil :inherit 'variable-pitch :box 'nil)
+  (set-face-attribute 'mode-line-inactive nil :inherit 'variable-pitch :box 'nil)
 
   (set-face-attribute 'vc-state-base nil :inherit 'variable-pitch)
   (set-face-attribute 'vc-edited-state nil :inherit 'variable-pitch :slant 'italic)
