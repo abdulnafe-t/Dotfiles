@@ -17,9 +17,11 @@
                    ('locked 'vc-locked-state)
                    (_ 'vc-state-base)))
            (gitlogo (concat (propertize "  " 'display '(raise 0.1)
-                                         'face face)
-                           (replace-regexp-in-string "^ Git[:|-]" "  " vc-mode))))
-    (setq vc-mode gitlogo))))
+                                        'face face)
+                            (replace-regexp-in-string "^ Git[:|-]" "  " vc-mode))))
+
+      (setq vc-mode gitlogo))))
+
 (advice-add 'vc-mode-line :after #'scion/format-git-string-advice)
 
 (setopt mode-line-position-column-line-format '("%l:%c"))
@@ -96,17 +98,34 @@
                            (buffer-local-value 'major-mode (current-buffer)))
                           'display '(raise 0.1))
                          " "
-                          (scion/buffer-name-with-project)))
+                         (scion/buffer-name-with-project)))
                )
         " "
         ))
 
+(setq scion/eglot-mode-line-format
+      '((""
+         eglot-mode-line-menu " "eglot-mode-line-error
+         eglot-mode-line-pending-requests eglot-mode-line-progress
+         eglot-mode-line-action-suggestion)))
+
+(setq scion/mode-line-eglot
+      '(:eval
+         (cl-loop for e in scion/eglot-mode-line-format for render = (format-mode-line e) unless
+                  (eq render #1="") collect (cons render (eq e 'eglot-mode-line-menu)) into
+                  rendered finally
+                  (return
+                   (cl-loop for (rspec . rest) on rendered for (r . titlep) = rspec concat r
+                            when rest concat (if titlep ":" "/"))))))
+
 (setq mode-line-align-right
       '(""
-        (:eval (concat (format-mode-line vc-mode vc-mode) "  "))
-        (:eval (concat (format-mode-line flymake-mode-line-format) " "))
-        (:eval (when (eglot--managed-mode) " Eglot "))
-        (:eval (format-mode-line mode-name))
+        (:eval (when (bound-and-true-p eglot--managed-mode) scion/mode-line-eglot))
+        vc-mode
+        "  "
+        (:eval (when (bound-and-true-p flymake-mode)
+                 (concat (format-mode-line flymake-mode-line-format) "   ")))
+        (:eval (when (bound-and-true-p minions-mode) minions-mode-line-modes))
         ))
 
 (setq-default mode-line-format
