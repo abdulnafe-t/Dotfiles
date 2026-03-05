@@ -143,7 +143,7 @@ The DWIM behaviour of this command is as follows:
             (fg-prompt cyan)
             (fg-mode-line-active fg-main)
             (bg-mode-line-active "#2f2c39")
-            (bg-mode-line-inactive "#15131f")))
+            (bg-mode-line-inactive "#2f2c39")))
   (modus-themes-load-theme 'ef-dark))
 
 ;; [WIP] Make background transparent, unless in fullscreen
