@@ -1,5 +1,12 @@
 ;;; -*- lexical-binding: t -*-
 
+
+;;; Server/Client architecture
+
+(use-package server)
+(unless (server-running-p)
+  (server-start))
+
 ;;; General emacs settings
 (setopt inhibit-splash-screen t
         visible-bell nil
@@ -435,21 +442,6 @@ The DWIM behaviour of this command is as follows:
   :config
   (setopt consult-async-min-input 2)
 
-  (defun consult-find-file-with-preview (prompt &optional dir default mustmatch initial pred)
-    "Enable consult previewing in find-file, dired, etc."
-    (interactive)
-    (let ((default-directory (or dir default-directory))
-          (minibuffer-completing-file-name t))
-      (consult--read #'read-file-name-internal
-                     :state (consult--file-preview)
-                     :prompt prompt
-                     :initial (abbreviate-file-name default-directory)
-                     :require-match mustmatch
-                     :predicate pred)))
-
-  ;; Enable consult previewing in find-file, dired, etc.
-  (setq read-file-name-function #'consult-find-file-with-preview)
-
   (setq consult-async-split-styles-alist
         (append
          (list
@@ -697,7 +689,7 @@ orderless-flex for file completion."
    '("/home/scion/Projects/learn_cpp/chapter_27_x" "/home/scion/Projects/learn_cpp/demo"
      "/home/scion/Projects/Notepad--"))
  '(package-selected-packages
-   '(agent-shell auctex consult ef-themes eldoc-box elfeed elfeed-tube expand-region
+   '(agent-shell auctex consult ef-themes eglot eldoc-box elfeed elfeed-tube expand-region
                  fireplace fzf highlight-doxygen hydra json-mode lin magit marginalia
                  markdown-mode minions multiple-cursors nerd-icons-completion
                  nerd-icons-dired no-littering olivetti opam orderless org-appear
@@ -714,8 +706,8 @@ orderless-flex for file completion."
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(default ((t (:font "GeistMonoNerdFontMono-15"))))
- '(fixed-pitch ((t (:font "GeistMonoNerdFontMono-15"))))
- '(monospace ((t (:font "GeistMonoNerdFontMono-15"))))
+ '(fixed-pitch ((t (:family "Geist Mono"))))
+ '(monospace ((t (:family "GeistMonoNerdFontMono"))))
  '(org-block ((t (:inherit fixed-pitch))))
  '(org-code ((t (:inherit (shadow fixed-pitch)))))
  '(org-document-info ((t (:foreground "dark orange"))))
@@ -734,9 +726,3 @@ orderless-flex for file completion."
  '(org-tag ((t (:inherit (shadow fixed-pitch) :weight bold :height 0.8))))
  '(org-verbatim ((t (:inherit (shadow fixed-pitch)))))
  '(variable-pitch ((t (:family "Geist")))))
-
-;;; Server/Client architecture
-
-(use-package server)
-(unless (server-running-p)
-  (server-start))

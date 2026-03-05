@@ -18,7 +18,7 @@
                    (_ 'vc-state-base)))
            (gitlogo (concat (propertize "  " 'display '(raise 0.1)
                                          'face face)
-                           (replace-regexp-in-string "^ Git:" "  " vc-mode))))
+                           (replace-regexp-in-string "^ Git[:|-]" "  " vc-mode))))
     (setq vc-mode gitlogo))))
 (advice-add 'vc-mode-line :after #'scion/format-git-string-advice)
 
