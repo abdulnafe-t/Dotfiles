@@ -1,23 +1,19 @@
 ;; -*- lexical-binding: t; -*-
 ;; Based in large part on https://emacs.stackexchange.com/a/16658
 
-(defadvice vc-mode-line (after strip-backend () activate)
+(defun strip-backend-advice (file &optional backend)
   (when (stringp vc-mode)
-    (let ((gitlogo (replace-regexp-in-string "^ Git." " " vc-mode)))
+    (let ((gitlogo (replace-regexp-in-string "^ Git." "  " vc-mode)))
       (setq vc-mode gitlogo))))
 
+(advice-add 'vc-mode-line :after #'strip-backend-advice)
+
 (setopt mode-line-position-column-line-format '("%l:%c"))
-
-
-;; ((eglot--managed-mode (" [" eglot--mode-line-format "] "))
-;;  (which-function-mode
-;;   (which-func-mode (which-func--use-mode-line (#1="" which-func-format " "))))
-;;  (global-mode-string (#1# global-mode-string)))
 
 (defun mode-line-fill-right (face reserve)
   "Return empty space using FACE and leaving RESERVE space on the right."
   (unless reserve
-    (setq reserve 15))
+    (setq reserve 20))
   (when (and window-system (eq 'right (get-scroll-bar-mode)))
     (setq reserve (- reserve 3)))
   (propertize " "
