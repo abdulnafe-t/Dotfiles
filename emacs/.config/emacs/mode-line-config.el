@@ -38,7 +38,7 @@
                             (directory-file-name project-root))))
            (file-name (file-name-nondirectory buffer-file-name)))
       (if project-name
-          (concat project-name ": " (propertize file-name 'face '(bold mode-line-buffer-id)))
+          (concat project-name " | " (propertize file-name 'face '(bold mode-line-buffer-id)))
         (propertize file-name 'face '(bold mode-line-buffer-id)))))
    (t
     (propertize (buffer-name) 'face '(bold mode-line-buffer-id)))))
@@ -70,6 +70,7 @@
 (setq mode-line-align-left
       '(""
         "%e"
+        " "
         mode-line-front-space
         (:propertize ("" mode-line-mule-info mode-line-client
                       mode-line-modified mode-line-remote
@@ -93,9 +94,12 @@
                  (concat (propertize
                           (nerd-icons-icon-for-mode
                            (buffer-local-value 'major-mode (current-buffer)))
-                          'display '(raise 0.1)) "  "
+                          'display '(raise 0.1))
+                         " "
                           (scion/buffer-name-with-project)))
-        )))
+               )
+        " "
+        ))
 
 (setq mode-line-align-right
       '(""

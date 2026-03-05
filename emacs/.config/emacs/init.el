@@ -706,7 +706,7 @@ orderless-flex for file completion."
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(default ((t (:font "GeistMonoNerdFontMono-15"))))
- '(fixed-pitch ((t (:family "Geist Mono"))))
+ '(fixed-pitch ((t (:family "GeistMonoNerdFontMono"))))
  '(monospace ((t (:family "GeistMonoNerdFontMono"))))
  '(org-block ((t (:inherit fixed-pitch))))
  '(org-code ((t (:inherit (shadow fixed-pitch)))))
