@@ -275,7 +275,8 @@ The DWIM behaviour of this command is as follows:
             (setopt indent-tabs-mode nil)))
 
 (with-eval-after-load 'eglot
-  (add-to-list 'eglot-ignored-server-capabilities :documentOnTypeFormattingProvider))
+  (add-to-list 'eglot-ignored-server-capabilities :documentOnTypeFormattingProvider)
+  (set-face-attribute 'eglot-mode-line nil :foreground (face-foreground 'default) :weight 'regular))
 
 (use-package json-mode)
 (add-to-list 'auto-mode-alist '("\\.jsonc\\'" . json-mode))
@@ -747,4 +748,4 @@ orderless-flex for file completion."
  '(org-table ((t (:inherit fixed-pitch :foreground "#83a598"))))
  '(org-tag ((t (:inherit (shadow fixed-pitch) :weight bold :height 0.8))))
  '(org-verbatim ((t (:inherit (shadow fixed-pitch)))))
- '(variable-pitch ((t (:family "Geist")))))
+ '(variable-pitch ((t (:family "GeistNerdFontPropo")))))

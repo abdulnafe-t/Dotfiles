@@ -105,6 +105,7 @@
 
 (setq scion/eglot-mode-line-format
       '((""
+         "󱉟 "
          eglot-mode-line-menu " "eglot-mode-line-error
          eglot-mode-line-pending-requests eglot-mode-line-progress
          eglot-mode-line-action-suggestion)))
