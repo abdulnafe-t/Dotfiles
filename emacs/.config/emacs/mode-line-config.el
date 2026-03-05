@@ -64,13 +64,8 @@
                                              (.46 . left-margin))))
               'face face))
 
-(defconst RIGHT_PADDING 1)
-
 (defun reserve-left/middle ()
   (/ (length (format-mode-line mode-line-align-middle)) 2))
-
-(defun reserve-middle/right ()
-  (+ RIGHT_PADDING (length (format-mode-line mode-line-align-right))))
 
 (setq mode-line-align-left
       '(""
@@ -84,7 +79,7 @@
         mode-line-frame-identification
         (:eval
          (when (mode-line-window-selected-p)
-           (concat "    " (format-mode-line mode-line-position) (propertize (format "(%d:%d)" (count-lines (point-min) (point-max)) fill-column) 'face 'shadow) "  ")))
+           (concat "       " (format-mode-line mode-line-position) "   " (propertize (format "(%d:%d)" (count-lines (point-min) (point-max)) fill-column) 'face 'shadow) "  ")))
 
         (:eval (when (and which-function-mode which-func-format (mode-line-window-selected-p))
                  (concat "     " (format-mode-line which-func-format) "     ")))
@@ -94,15 +89,20 @@
 (setq mode-line-align-middle
       '(""
         (project-mode-line project-mode-line-format)
-        (:eval (concat (format-mode-line vc-mode vc-mode) "  "))
-        (:eval (scion/buffer-name-with-project))
-        ))
+        (:eval (with-current-buffer (current-buffer)
+                 (concat (propertize
+                          (nerd-icons-icon-for-mode
+                           (buffer-local-value 'major-mode (current-buffer)))
+                          'display '(raise 0.1)) "  "
+                          (scion/buffer-name-with-project)))
+        )))
 
 (setq mode-line-align-right
       '(""
-        flymake-mode-line-format
-        (:eval (when (eglot--managed-mode) "  Eglot  "))
-        (:eval  (format-mode-line mode-name))
+        (:eval (concat (format-mode-line vc-mode vc-mode) "  "))
+        (:eval (concat (format-mode-line flymake-mode-line-format) " "))
+        (:eval (when (eglot--managed-mode) " Eglot "))
+        (:eval (format-mode-line mode-name))
         ))
 
 (setq-default mode-line-format
@@ -111,8 +111,6 @@
                '(:eval (mode-line-fill-center (if (mode-line-window-selected-p) 'mode-line-active 'mode-line-inactive)
                                               (reserve-left/middle)))
                mode-line-align-middle
-               ;; '(:eval (mode-line-fill-right (if (mode-line-window-selected-p) 'mode-line-active 'mode-line-inactive)
-               ;;                               (reserve-middle/right)))
                'mode-line-format-right-align
                mode-line-align-right "    "
                ))
