@@ -6,3 +6,5 @@
   (setq native-comp-eln-load-path (list (expand-file-name "eln-cache/" user-emacs-directory))))
 
 (push '(fullscreen . maximized) default-frame-alist)
+
+(push '(background-color . "black") default-frame-alist)

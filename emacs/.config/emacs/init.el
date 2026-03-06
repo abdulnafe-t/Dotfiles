@@ -141,15 +141,15 @@ The DWIM behaviour of this command is as follows:
           modus-themes-prompts '(ultrabold))
 
   (setopt modus-themes-common-palette-overrides
-          '((fg-main "#d0d0d0")
-            (cursor fg-main)
+          '((cursor fg-main)
             (string red-faint)
             (comment fg-dim)
             (bg-hover fg-active)
             (fg-prompt cyan)
             (fg-mode-line-active fg-main)
             (bg-mode-line-active "#2f2c39")
-            (bg-mode-line-inactive "#17161c")))
+            (bg-mode-line-inactive "#17161c")
+            ))
   (modus-themes-load-theme 'ef-dark))
 
 ;; [WIP] Make background transparent, unless in fullscreen
