@@ -206,7 +206,7 @@ The DWIM behaviour of this command is as follows:
 ;;; Programming
 
 (setopt compilation-scroll-output t
-        font-lock-maximum-decoration t)
+        treesit-font-lock-level 4)
 
 (use-package autoinsert
   ; Builtin, used to automatically insert header guards & includes in C++ files
@@ -247,6 +247,8 @@ The DWIM behaviour of this command is as follows:
   (yas-global-mode 1))
 
 (use-package eglot
+  :custom-face
+  (eglot-mode-line ((t (:weight regular :foreground ,(face-foreground 'default)))))
   :bind
   (:map eglot-mode-map
         ("M-q" . eglot-format))
@@ -258,7 +260,13 @@ The DWIM behaviour of this command is as follows:
                                             "--enable-config"
                                             "--log=verbose"
                                             "--pretty"
-                                            "--completion-style=detailed"))))
+                                            "--completion-style=detailed")))
+  (add-to-list 'auto-mode-alist '("\\.h$" . c++-mode))
+  (setopt eglot-autoshutdown t
+          eglot-extend-to-xref t
+          eglot-code-action-indications '(margin)
+          eglot-events-buffer-config '(:size 0))
+  )
 
 ;; Use quickrun, which enables programming language interpretation on the fly.
 ;; quickrun-shell is useful for programs requiring user input (via std::cin for example),
@@ -276,12 +284,17 @@ The DWIM behaviour of this command is as follows:
 
 (with-eval-after-load 'eglot
   (add-to-list 'eglot-ignored-server-capabilities :documentOnTypeFormattingProvider)
-  (set-face-attribute 'eglot-mode-line nil :foreground (face-foreground 'default) :weight 'regular))
+  (add-to-list 'eglot-ignored-server-capabilities :documentHighlightProvider)
+  (add-hook 'eglot-managed-mode-hook (lambda()
+                                       (eglot-semantic-tokens-mode -1))))
 
 (use-package json-mode)
 (add-to-list 'auto-mode-alist '("\\.jsonc\\'" . json-mode))
 
-(use-package markdown-mode)
+(use-package markdown-mode
+  :custom-face
+
+  )
 
 ;; Enable auctex to support common latex packages
 (use-package auctex
@@ -565,6 +578,9 @@ orderless-flex for file completion."
   (set-face-attribute 'vc-state-base nil :inherit 'variable-pitch)
   (set-face-attribute 'vc-edited-state nil :inherit 'variable-pitch :slant 'italic)
   (set-face-attribute 'vc-locked-state nil :inherit 'variable-pitch)
+  (add-hook 'eglot-managed-mode-hook (lambda ()
+				       (set-face-attribute 'markdown-header-face-3 nil :foreground (face-foreground 'font-lock-keyword-face))
+				       (set-face-attribute 'markdown-inline-code-face nil :foreground (face-foreground 'font-lock-variable-name-face) :weight 'regular)))
 )
 
 (if (daemonp)
@@ -686,8 +702,9 @@ orderless-flex for file completion."
 
   :custom
   (eldoc-box-clear-with-C-g t)
-  (eldoc-box-max-pixel-width 700)
-  (eldoc-box-max-pixel-height 200)
+  (eldoc-box-max-pixel-width 750)
+  (eldoc-box-max-pixel-height 350)
+  (eldoc-documentation-strategy 'eldoc-documentation-compose-eagerly)
   )
 
 ;;; Extensions: minions mode
