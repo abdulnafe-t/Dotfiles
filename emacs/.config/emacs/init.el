@@ -482,6 +482,7 @@ The DWIM behaviour of this command is as follows:
   (setopt consult-fd-args
           `(,(if (executable-find "fdfind" 'remote) "fdfind" "fd")
             "--color=never" "--hidden" "--follow" "--type file")
+
           consult-ripgrep-args
           '("rg --null --line-buffered --color=never --max-columns=1000 --path-separator / --smart-case --no-heading --with-filename --line-number --hidden"))
 
@@ -509,15 +510,14 @@ The DWIM behaviour of this command is as follows:
    consult-bookmark consult-recent-file consult-xref consult-source-bookmark
    consult-source-file-register consult-source-recent-file
    consult-source-project-recent-file
-   :preview-key '("M-*" :debounce 0.6 any)
+   :preview-key "M-*"
 
    ;; Enable file previewing in consult-fd wrapper, and sort its output
-   scion/consult-fd-home :state (consult--file-preview) :sort t :preview-key '("M-*" :debounce 0.6 any)
+   scion/consult-fd-home :state (consult--file-preview) :sort t :preview-key "M-*"
   ))
 
 (defun consult-find-file-with-preview (prompt &optional dir default mustmatch initial pred)
   "Enable consult previewing in find-file, dired, etc."
-  (interactive)
   (let ((default-directory (or dir default-directory))
         (minibuffer-completing-file-name t))
     (consult--read #'read-file-name-internal
@@ -525,20 +525,30 @@ The DWIM behaviour of this command is as follows:
                    :prompt prompt
                    :initial (abbreviate-file-name default-directory)
                    :require-match mustmatch
-                   :predicate pred)))
+                   :predicate pred
+                   :preview-key "M-*")))
 (setq read-file-name-function #'consult-find-file-with-preview)
 
 (use-package orderless
   :config
 
+  ;; Define orderless style with initialism by default
+  (orderless-define-completion-style +orderless-with-initialism
+    (orderless-matching-styles '(orderless-initialism orderless-literal orderless-regexp)))
+
   (orderless-define-completion-style orderless+flex
     (orderless-matching-styles '(orderless-flex)))
 
-  (setq completion-category-defaults nil)
-  (setopt completion-styles '(orderless partial-completion substring basic)
-          orderless-matching-styles '(orderless-initialism orderless-regexp orderless-literal)
-          completion-category-overrides '((file (styles orderless+flex))
-                                          (buffer (styles orderless+flex)))))
+  (setq completion-styles '(orderless basic)
+        completion-category-defaults nil
+        completion-category-overrides  '((file (styles orderless+flex))
+                                         (buffer (styles orderless+flex))
+                                         (command (styles +orderless-with-initialism))
+                                         (variable (styles +orderless-with-initialism))
+                                         (symbol (styles +orderless-with-initialism)))
+
+        orderless-style-dispatchers (list #'orderless-kwd-dispatch
+                                          #'orderless-affix-dispatch)))
 
 (defun consult--orderless-flex-regexp-compiler (input type ignore-case)
   "Compile INPUT into Consult regexps and a highlight function. Uses
@@ -572,7 +582,20 @@ orderless-flex for file completion."
     (apply args)))
 
 (advice-add #'consult-fd :around #'consult-fd--with-orderless)
-(advice-add #'consult-find :around #'consult-fd--with-orderless)
+
+(defun consult--orderless-regexp-compiler (input type &rest _config)
+  (setq input (cdr (orderless-compile input)))
+  (cons
+   (mapcar (lambda (r) (consult--convert-regexp r type)) input)
+   (lambda (str) (orderless--highlight input t str))))
+
+(defun consult--with-orderless (&rest args)
+  (minibuffer-with-setup-hook
+      (lambda ()
+        (setq-local consult--regexp-compiler #'consult--orderless-regexp-compiler))
+    (apply args)))
+
+(advice-add #'consult-ripgrep :around #'consult--with-orderless)
 
 ;;;; Extensions: nerd-icons
 (use-package nerd-icons
@@ -601,11 +624,7 @@ orderless-flex for file completion."
   (set-face-attribute 'vc-edited-state nil :inherit 'variable-pitch :slant 'italic)
   (set-face-attribute 'vc-locked-state nil :inherit 'variable-pitch)
 
-  (set-face-attribute 'consult-highlight-match nil :background 'nil :foreground "#8a2be2" :weight 'bold)
-
-  (add-hook 'eglot-managed-mode-hook (lambda ()
-				       (set-face-attribute 'markdown-header-face-3 nil :foreground (face-foreground 'font-lock-keyword-face))
-				       (set-face-attribute 'markdown-inline-code-face nil :foreground (face-foreground 'font-lock-variable-name-face) :weight 'regular)))
+  (set-face-attribute 'consult-highlight-match nil :background "#850085" :weight 'bold)
   )
 
 (if (daemonp)
