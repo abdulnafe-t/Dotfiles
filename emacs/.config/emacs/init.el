@@ -441,8 +441,7 @@ The DWIM behaviour of this command is as follows:
          ("C-c i" . consult-info)
          ([remap Info-search] . consult-info)
          ;; Custom bindings
-         ("C-M-:" . consult-fd)
-         ("C-:" . scion/consult-fd-home)
+         ("C-:" . consult-fd)
          ;; C-x bindings in `ctl-x-map'
          ("C-x b" . consult-buffer)
          ("C-x 4 b" . consult-buffer-other-window)
@@ -484,14 +483,8 @@ The DWIM behaviour of this command is as follows:
             "--color=never" "--hidden" "--follow" "--type file")
 
           consult-ripgrep-args
-          '("rg --null --line-buffered --color=never --max-columns=1000 --path-separator / --smart-case --no-heading --with-filename --line-number --hidden"))
-
-  ;; This wrapper is defined under :init because it is bound to C-: under :bind
-  ;; Emacs must know about it in advance before consult is loaded
-  (defun scion/consult-fd-home()
-    "Call consult-fd at ~"
-    (interactive)
-    (consult-fd (getenv "HOME")))
+          '("rg --null --line-buffered --color=never --max-columns=1000 --path-separator /"
+            "--smart-case --no-heading --with-filename --line-number --hidden"))
 
   :config
   (setopt consult-async-min-input 2)
@@ -506,15 +499,14 @@ The DWIM behaviour of this command is as follows:
   (setq consult-async-split-style 'perl-dollar)
 
   (consult-customize
-   consult-theme consult-ripgrep consult-git-grep consult-grep consult-man
+   consult-theme consult-git-grep consult-grep consult-man
    consult-bookmark consult-recent-file consult-xref consult-source-bookmark
    consult-source-file-register consult-source-recent-file
    consult-source-project-recent-file
    :preview-key "M-*"
 
-   ;; Enable file previewing in consult-fd wrapper, and sort its output
-   consult-fd :state (consult--file-preview) :sort t :preview-key "M-*"
-  ))
+   consult-ripgrep consult-fd :sort t :preview-key "M-*"
+   ))
 
 (defun consult-find-file-with-preview (prompt &optional dir default mustmatch initial pred)
   "Enable consult previewing in find-file, dired, etc."
@@ -585,7 +577,6 @@ orderless-flex for file completion."
     (apply args)))
 
 (advice-add #'consult-ripgrep :around #'consult--with-orderless)
-
 
 ;;;; Extensions: nerd-icons
 (use-package nerd-icons
