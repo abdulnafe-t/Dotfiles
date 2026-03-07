@@ -567,10 +567,9 @@ orderless-flex for file completion."
   (set-face-attribute 'nerd-icons-completion-dir-face nil
                       :foreground (face-foreground 'font-lock-keyword-face)))
 
-(defun scion/set-default-faces ()
-  "Set nerd-icons-completion-dir-face. Used specifically in server/client mode."
+(defun scion/set-custom-faces ()
   (set-face-attribute 'nerd-icons-completion-dir-face nil
-                      :foreground (face-foreground 'font-lock-keyword-face))
+                       :foreground (face-foreground 'font-lock-keyword-face))
   (set-face-attribute 'mode-line nil :inherit 'variable-pitch :box 'nil)
   (set-face-attribute 'mode-line-active nil :inherit 'variable-pitch :box 'nil)
   (set-face-attribute 'mode-line-inactive nil :inherit 'variable-pitch :box 'nil)
@@ -578,16 +577,18 @@ orderless-flex for file completion."
   (set-face-attribute 'vc-state-base nil :inherit 'variable-pitch)
   (set-face-attribute 'vc-edited-state nil :inherit 'variable-pitch :slant 'italic)
   (set-face-attribute 'vc-locked-state nil :inherit 'variable-pitch)
+  (set-face-attribute 'consult-highlight-match nil :background 'nil :foreground "#8a2be2" :weight 'bold)
+  (set-face-attribute 'consult-preview-match nil :background (face-background 'default) :foreground "#8a2be2" :weight 'bold)
   (add-hook 'eglot-managed-mode-hook (lambda ()
 				       (set-face-attribute 'markdown-header-face-3 nil :foreground (face-foreground 'font-lock-keyword-face))
 				       (set-face-attribute 'markdown-inline-code-face nil :foreground (face-foreground 'font-lock-variable-name-face) :weight 'regular)))
-)
+  )
 
 (if (daemonp)
     (add-hook 'after-make-frame-functions
 	      (defun my/icon-init-daemon (frame)
 		(with-selected-frame frame
-		  (scion/set-default-faces))
+		  (scion/set-custom-faces))
 		(remove-hook 'after-make-frame-functions
 			     #'my/icon-init-daemon)
 		(fmakunbound 'my/icon-init-daemon)))
