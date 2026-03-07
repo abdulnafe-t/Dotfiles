@@ -117,6 +117,9 @@ The DWIM behaviour of this command is as follows:
 ;; Enable certain "advanced" functions
 (put 'downcase-region 'disabled nil)
 (put 'upcase-region 'disabled nil)
+(put 'scroll-left 'disabled nil)
+(put 'scroll-right 'disabled nil)
+
 
 (setopt use-package-hook-name-suffix nil)
 
@@ -508,7 +511,7 @@ The DWIM behaviour of this command is as follows:
    :preview-key '(:debounce 0.2 any)
 
    ;; Enable file previewing in consult-fd wrapper, and sort its output
-   scion/consult-fd-home :state (consult--file-preview) :sort t)
+   scion/consult-fd-home :state (consult--file-preview) :sort t :preview-key '(:debounce 0.2 any))
   )
 
 (defun consult-find-file-with-preview (prompt &optional dir default mustmatch initial pred)
