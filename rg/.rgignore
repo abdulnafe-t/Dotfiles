@@ -1,0 +1,8 @@
+.steam/*
+.local/share/Steam/*
+*/forge*/*
+.cache/*
+**/.git/
+.librewolf/*
+.mozilla/*
+\#*\#
