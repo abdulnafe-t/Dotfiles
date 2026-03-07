@@ -383,6 +383,42 @@ The DWIM behaviour of this command is as follows:
   :config
   (set-face-attribute 'vertico-current nil :inherit 'custom-hl-line-face))
 
+
+(use-package embark
+  :bind
+  (("C-ù" . embark-act)         ;; pick some comfortable binding
+   ("M-ù" . embark-dwim)        ;; good alternative: M-.
+   ("C-h B" . embark-bindings)) ;; alternative for `describe-bindings'
+
+  :init
+
+  ;; Optionally replace the key help with a completing-read interface
+  (setq prefix-help-command #'embark-prefix-help-command)
+
+  ;; Show the Embark target at point via Eldoc. You may adjust the
+  ;; Eldoc strategy, if you want to see the documentation from
+  ;; multiple providers. Beware that using this can be a little
+  ;; jarring since the message shown in the minibuffer can be more
+  ;; than one line, causing the modeline to move up and down:
+
+  ;; (add-hook 'eldoc-documentation-functions #'embark-eldoc-first-target)
+  ;; (setq eldoc-documentation-strategy #'eldoc-documentation-compose-eagerly)
+
+  ;; Add Embark to the mouse context menu. Also enable `context-menu-mode'.
+  ;; (context-menu-mode 1)
+  ;; (add-hook 'context-menu-functions #'embark-context-menu 100)
+
+  :config
+
+  ;; Hide the mode line of the Embark live/completions buffers
+  (add-to-list 'display-buffer-alist
+               '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
+                 nil
+                 (window-parameters (mode-line-format . none)))))
+
+;; Consult users will also want the embark-consult package.
+(use-package embark-consult) ; only need to install it, embark loads it after consult if found
+
 (use-package marginalia
   :custom
   (marginalia-align 'left)
@@ -423,7 +459,6 @@ The DWIM behaviour of this command is as follows:
          ("M-g i" . consult-imenu)
          ("M-g I" . consult-imenu-multi)
          ;; M-s bindings in `search-map'
-         ("M-s g" . consult-grep)
          ("M-s r" . consult-ripgrep)
          ("M-s l" . consult-line)
          ("M-s L" . consult-line-multi)
@@ -443,7 +478,9 @@ The DWIM behaviour of this command is as follows:
 
   (setopt consult-fd-args
           `(,(if (executable-find "fdfind" 'remote) "fdfind" "fd")
-            "--color=never" "--hidden" "--follow" "--type file"))
+            "--color=never" "--hidden" "--follow" "--type file")
+          consult-ripgrep-args
+          '("rg --null --line-buffered --color=never --max-columns=1000 --path-separator / --smart-case --no-heading --with-filename --line-number --hidden"))
 
   ;; This wrapper is defined under :init because it is bound to C-: under :bind
   ;; Emacs must know about it in advance before consult is loaded
@@ -485,8 +522,6 @@ The DWIM behaviour of this command is as follows:
                    :initial (abbreviate-file-name default-directory)
                    :require-match mustmatch
                    :predicate pred)))
-
-;; Enable consult previewing in find-file, dired, etc.
 (setq read-file-name-function #'consult-find-file-with-preview)
 
 (use-package orderless
@@ -534,22 +569,6 @@ orderless-flex for file completion."
 
 (advice-add #'consult-fd :around #'consult-fd--with-orderless)
 (advice-add #'consult-find :around #'consult-fd--with-orderless)
-
-(defun consult--orderless-regexp-compiler (input type &rest _config)
-  (setq input (cdr (orderless-compile input)))
-  (cons
-   (mapcar (lambda (r) (consult--convert-regexp r type)) input)
-   (lambda (str) (orderless--highlight input t str))))
-
-(defun consult--with-orderless (&rest args)
-  "Enable orderless style matching for consult-fd & consult-find."
-  (minibuffer-with-setup-hook
-      (lambda ()
-        (setq-local consult--regexp-compiler #'consult--orderless-flex-regexp-compiler))
-    (apply args)))
-
-(advice-add #'consult-grep :around #'consult--with-orderless)
-(advice-add #'consult-ripgrep :around #'consult--with-orderless)
 
 ;;;; Extensions: nerd-icons
 (use-package nerd-icons
@@ -730,12 +749,12 @@ orderless-flex for file completion."
    '("/home/scion/Projects/learn_cpp/chapter_27_x" "/home/scion/Projects/learn_cpp/demo"
      "/home/scion/Projects/Notepad--"))
  '(package-selected-packages
-   '(agent-shell auctex consult ef-themes eglot eldoc-box elfeed elfeed-tube expand-region
-                 fireplace fzf highlight-doxygen hydra json-mode lin magit marginalia
-                 markdown-mode minions multiple-cursors nerd-icons-completion
-                 nerd-icons-dired no-littering olivetti opam orderless org-appear
-                 org-bullets org-modern page-break-lines pdf-tools pulsar quickrun
-                 smart-mode-line tuareg vertico vundo ws-butler yasnippet)))
+   '(agent-shell auctex consult ef-themes eglot eldoc-box elfeed elfeed-tube embark
+                 embark-consult expand-region fireplace fzf highlight-doxygen hydra
+                 json-mode lin magit marginalia markdown-mode minions multiple-cursors
+                 nerd-icons-completion nerd-icons-dired no-littering olivetti opam
+                 orderless org-appear org-bullets org-modern page-break-lines pdf-tools
+                 pulsar quickrun smart-mode-line tuareg vertico vundo ws-butler yasnippet)))
 
 ;; ## added by opam user-setup for emacs / base ## 56ab50dc8996d2bb95e7856a6eddb17b ## you can edit, but keep this line
 ;;(require 'opam-user-setup "~/.config/emacs/opam-user-setup.el")
