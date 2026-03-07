@@ -513,7 +513,7 @@ The DWIM behaviour of this command is as follows:
    :preview-key "M-*"
 
    ;; Enable file previewing in consult-fd wrapper, and sort its output
-   scion/consult-fd-home :state (consult--file-preview) :sort t :preview-key "M-*"
+   consult-fd :state (consult--file-preview) :sort t :preview-key "M-*"
   ))
 
 (defun consult-find-file-with-preview (prompt &optional dir default mustmatch initial pred)
@@ -545,17 +545,12 @@ The DWIM behaviour of this command is as follows:
                                          (buffer (styles orderless+flex))
                                          (command (styles +orderless-with-initialism))
                                          (variable (styles +orderless-with-initialism))
-                                         (symbol (styles +orderless-with-initialism)))
-
-        orderless-style-dispatchers (list #'orderless-kwd-dispatch
-                                          #'orderless-affix-dispatch)))
+                                         (symbol (styles +orderless-with-initialism)))))
 
 (defun consult--orderless-flex-regexp-compiler (input type ignore-case)
   "Compile INPUT into Consult regexps and a highlight function. Uses
 orderless-flex for file completion."
-  (let* ((styles (if minibuffer-completing-file-name
-                     '(orderless-flex)
-                   orderless-matching-styles))
+  (let* ((styles '(orderless-flex))
          (compiled (orderless-compile input styles)))
     (setq input (cdr compiled))
     (cons
@@ -574,11 +569,7 @@ orderless-flex for file completion."
            str))))))
 
 (defun consult-fd--with-orderless (&rest args)
-  "Enable orderless style matching for consult-fd & consult-find."
-  (minibuffer-with-setup-hook
-      (lambda ()
-        (setq-local consult--regexp-compiler #'consult--orderless-flex-regexp-compiler
-                    minibuffer-completing-file-name t))
+  (let ((consult--regexp-compiler #'consult--orderless-flex-regexp-compiler))
     (apply args)))
 
 (advice-add #'consult-fd :around #'consult-fd--with-orderless)
@@ -590,12 +581,11 @@ orderless-flex for file completion."
    (lambda (str) (orderless--highlight input t str))))
 
 (defun consult--with-orderless (&rest args)
-  (minibuffer-with-setup-hook
-      (lambda ()
-        (setq-local consult--regexp-compiler #'consult--orderless-regexp-compiler))
+  (let ((consult--regexp-compiler #'consult--orderless-regexp-compiler))
     (apply args)))
 
 (advice-add #'consult-ripgrep :around #'consult--with-orderless)
+
 
 ;;;; Extensions: nerd-icons
 (use-package nerd-icons
