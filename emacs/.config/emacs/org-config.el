@@ -30,8 +30,8 @@
 
 (custom-theme-set-faces
  'user
- '(variable-pitch ((t (:family "Geist"))))
- '(fixed-pitch ((t ( :family "Geist Mono"))))
+ '(variable-pitch ((t (:family "GeistNerdFontPropo"))))
+ '(fixed-pitch ((t ( :family "GeistMonoNerdFontMono"))))
  '(monospace ((t (:family "GeistMonoNerdFontMono"))))
  '(org-level-1 ((t (:inherit outline-1 :height 1.7))))
  '(org-level-2 ((t (:inherit outline-2 :height 1.6))))
