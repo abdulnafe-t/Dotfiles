@@ -383,9 +383,9 @@ The DWIM behaviour of this command is as follows:
   (vertico-resize nil)
   :init
   (vertico-mode)
+  (vertico-mouse-mode)
   :config
   (set-face-attribute 'vertico-current nil :inherit 'custom-hl-line-face))
-
 
 (use-package embark
   :bind
@@ -494,6 +494,7 @@ The DWIM behaviour of this command is as follows:
 
   :config
   (setopt consult-async-min-input 2)
+  (setq completion-in-region-function #'consult-completion-in-region)
 
   (setq consult-async-split-styles-alist
         (append
@@ -508,11 +509,11 @@ The DWIM behaviour of this command is as follows:
    consult-bookmark consult-recent-file consult-xref consult-source-bookmark
    consult-source-file-register consult-source-recent-file
    consult-source-project-recent-file
-   :preview-key '(:debounce 0.2 any)
+   :preview-key '("M-*" :debounce 0.6 any)
 
    ;; Enable file previewing in consult-fd wrapper, and sort its output
-   scion/consult-fd-home :state (consult--file-preview) :sort t :preview-key '(:debounce 0.2 any))
-  )
+   scion/consult-fd-home :state (consult--file-preview) :sort t :preview-key '("M-*" :debounce 0.6 any)
+  ))
 
 (defun consult-find-file-with-preview (prompt &optional dir default mustmatch initial pred)
   "Enable consult previewing in find-file, dired, etc."
@@ -599,8 +600,9 @@ orderless-flex for file completion."
   (set-face-attribute 'vc-state-base nil :inherit 'variable-pitch)
   (set-face-attribute 'vc-edited-state nil :inherit 'variable-pitch :slant 'italic)
   (set-face-attribute 'vc-locked-state nil :inherit 'variable-pitch)
+
   (set-face-attribute 'consult-highlight-match nil :background 'nil :foreground "#8a2be2" :weight 'bold)
-  (set-face-attribute 'consult-preview-match nil :background (face-background 'default) :foreground "#8a2be2" :weight 'bold)
+
   (add-hook 'eglot-managed-mode-hook (lambda ()
 				       (set-face-attribute 'markdown-header-face-3 nil :foreground (face-foreground 'font-lock-keyword-face))
 				       (set-face-attribute 'markdown-inline-code-face nil :foreground (face-foreground 'font-lock-variable-name-face) :weight 'regular)))
