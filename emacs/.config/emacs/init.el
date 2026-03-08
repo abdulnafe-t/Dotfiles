@@ -420,7 +420,7 @@ The DWIM behaviour of this command is as follows:
                  (window-parameters (mode-line-format . none)))))
 
 ;; Consult users will also want the embark-consult package.
-(use-package embark-consult) ; only need to install it, embark loads it after consult if found
+(use-package embark-consult)
 
 (use-package marginalia
   :custom
@@ -437,16 +437,9 @@ The DWIM behaviour of this command is as follows:
 (use-package consult
   :bind (;; C-c bindings in `mode-specific-map'
          ("C-c k" . consult-kmacro)
-         ("C-c m" . consult-man)
-         ("C-c i" . consult-info)
          ([remap Info-search] . consult-info)
          ;; Custom bindings
          ("C-:" . consult-fd)
-         ;; C-x bindings in `ctl-x-map'
-         ("C-x b" . consult-buffer)
-         ("C-x 4 b" . consult-buffer-other-window)
-         ("C-x 5 b" . consult-buffer-other-frame)
-         ("C-x p b" . consult-project-buffer)
          ;; Other custom bindings
          ("M-y" . consult-yank-pop)
          ;; M-g bindings in `goto-map'
@@ -467,7 +460,6 @@ The DWIM behaviour of this command is as follows:
          ;; Isearch integration
          :map isearch-mode-map
          ("M-e" . consult-isearch-history)
-         ("M-s e" . consult-isearch-history)
          ("M-s l" . consult-line)
          ("M-s L" . consult-line-multi)
 	 )
@@ -488,15 +480,10 @@ The DWIM behaviour of this command is as follows:
 
   :config
   (setopt consult-async-min-input 2)
-  (setq completion-in-region-function #'consult-completion-in-region)
 
-  (setq consult-async-split-styles-alist
-        (append
-         (list
-          (cons 'perl-dollar
-                (list :initial ?$ :function #'consult--split-perl)))
-         consult-async-split-styles-alist))
-  (setq consult-async-split-style 'perl-dollar)
+  (let ((entry (assoc 'perl consult-async-split-styles-alist)))
+    (when entry
+      (setf (cadr (memq :initial entry)) ?$)))
 
   (consult-customize
    consult-theme consult-git-grep consult-grep consult-man
@@ -524,27 +511,21 @@ The DWIM behaviour of this command is as follows:
 (use-package orderless
   :config
 
-  ;; Define orderless style with initialism by default
-  (orderless-define-completion-style +orderless-with-initialism
-    (orderless-matching-styles '(orderless-initialism orderless-literal orderless-regexp)))
-
   (orderless-define-completion-style orderless+flex
-    (orderless-matching-styles '(orderless-flex)))
+    (orderless-matching-styles '(orderless-flex orderless-literal orderless-regexp)))
 
-  (setq completion-styles '(orderless basic)
-        completion-category-defaults nil
-        completion-category-overrides  '((file (styles orderless+flex))
-                                         (buffer (styles orderless+flex))
-                                         (command (styles +orderless-with-initialism))
-                                         (variable (styles +orderless-with-initialism))
-                                         (symbol (styles +orderless-with-initialism)))))
+  (setopt completion-styles '(orderless basic)
+          completion-category-defaults nil
+          completion-category-overrides  '((file     (styles orderless+flex))
+                                           (buffer   (styles orderless+flex))
+                                           (variable (styles orderless+flex))
+                                           (function (styles orderless+flex))
+                                           (command  (styles orderless+flex))
+                                           )))
 
 (defun consult--orderless-flex-regexp-compiler (input type ignore-case)
-  "Compile INPUT into Consult regexps and a highlight function. Uses
-orderless-flex for file completion."
-  (let* ((styles '(orderless-flex))
-         (compiled (orderless-compile input styles)))
-    (setq input (cdr compiled))
+  (let* ((compiled (orderless-compile input '(orderless-flex)))
+         (input (cdr compiled)))
     (cons
      (mapcar (lambda (r) (consult--convert-regexp r type)) input)
      (lambda (str)
@@ -560,11 +541,11 @@ orderless-flex for file completion."
                (setq pos next)))
            str))))))
 
-(defun consult-fd--with-orderless (&rest args)
+(defun consult--fd-with-orderless (&rest args)
   (let ((consult--regexp-compiler #'consult--orderless-flex-regexp-compiler))
     (apply args)))
 
-(advice-add #'consult-fd :around #'consult-fd--with-orderless)
+(advice-add #'consult-fd :around #'consult--fd-with-orderless)
 
 (defun consult--orderless-regexp-compiler (input type &rest _config)
   (setq input (cdr (orderless-compile input)))
@@ -572,11 +553,11 @@ orderless-flex for file completion."
    (mapcar (lambda (r) (consult--convert-regexp r type)) input)
    (lambda (str) (orderless--highlight input t str))))
 
-(defun consult--with-orderless (&rest args)
+(defun consult--rg-with-orderless (&rest args)
   (let ((consult--regexp-compiler #'consult--orderless-regexp-compiler))
     (apply args)))
 
-(advice-add #'consult-ripgrep :around #'consult--with-orderless)
+(advice-add #'consult-ripgrep :around #'consult--rg-with-orderless)
 
 ;;;; Extensions: nerd-icons
 (use-package nerd-icons
@@ -610,7 +591,7 @@ orderless-flex for file completion."
 
 (if (daemonp)
     (add-hook 'after-make-frame-functions
-	      (defun my/icon-init-daemon (frame)
+	      (defun scion/faces-init-daemon (frame)
 		(with-selected-frame frame
 		  (scion/set-custom-faces))
 		(remove-hook 'after-make-frame-functions
@@ -642,7 +623,7 @@ orderless-flex for file completion."
     ("k" kill-current-buffer "Kill current buffer" :column "Buffer")
     ("C-f" find-file "Find file" :color blue :column "Buffer")
     ("C-s" save-buffer "Save" :color blue :column "Buffer")
-    ("b" consult-buffer "Switch buffer" :color blue :column "Buffer")
+    ("b" switch-to-buffer "Switch to buffer" :color blue :column "Buffer")
     ("d" dired "Dired" :color blue :column "Buffer")
     ("0" delete-window "Delete current window" :color blue :column "Windows")
     ("1" delete-other-windows "Delete other windows" :color blue :column "Windows")
