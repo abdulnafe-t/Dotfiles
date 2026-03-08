@@ -494,16 +494,18 @@ The DWIM behaviour of this command is as follows:
    ))
 
 (defun consult-find-file-with-preview (prompt &optional dir default mustmatch initial pred)
-  "Enable consult previewing in find-file, dired, etc."
+  (interactive)
   (let ((default-directory (or dir default-directory))
         (minibuffer-completing-file-name t))
-    (consult--read #'read-file-name-internal
-                   :state (consult--file-preview)
-                   :prompt prompt
-                   :initial (abbreviate-file-name default-directory)
-                   :require-match mustmatch
-                   :predicate pred
-                   :preview-key "M-*")))
+    (substitute-in-file-name
+     (consult--read #'read-file-name-internal
+                    :state (consult--file-preview)
+                    :prompt prompt
+                    :initial (abbreviate-file-name default-directory)
+                    :require-match mustmatch
+                    :predicate pred
+                    :preview-key "M-*"))))
+
 (setq read-file-name-function #'consult-find-file-with-preview)
 
 (use-package orderless
