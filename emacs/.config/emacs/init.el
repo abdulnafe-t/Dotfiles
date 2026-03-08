@@ -50,8 +50,8 @@
 (global-auto-revert-mode 1)
 
 (column-number-mode 1)
-(setopt column-number-indicator-zero-based nil)
-(setopt mode-line-percent-position nil)
+(setopt column-number-indicator-zero-based nil
+        mode-line-percent-position nil)
 
 ;; Spellchecking
 (add-hook 'text-mode-hook #'flyspell-mode)
@@ -62,10 +62,9 @@
 (setopt scroll-margin 1
         scroll-step 1
         scroll-conservatively 101
-        scroll-preserve-screen-position 1)
-;; scroll one line at a time (less "jumpy" than defaults)
-(setopt mouse-wheel-scroll-amount '(1 ((shift) . 1)) ; one line at a time
-        mouse-wheel-progressive-speed nil)           ; don't accelerate scrolling
+        scroll-preserve-screen-position 1
+        mouse-wheel-scroll-amount '(1 ((shift) . 1))
+        mouse-wheel-progressive-speed nil)
 (setq-default smooth-scroll-margin 0)
 
 ;; Display a counter in I-search, showing total number of matches, as well as the current
@@ -119,7 +118,6 @@ The DWIM behaviour of this command is as follows:
 (put 'upcase-region 'disabled nil)
 (put 'scroll-left 'disabled nil)
 (put 'scroll-right 'disabled nil)
-
 
 (setopt use-package-hook-name-suffix nil)
 
@@ -713,7 +711,7 @@ The DWIM behaviour of this command is as follows:
   (eldoc-documentation-strategy 'eldoc-documentation-compose-eagerly)
   )
 
-;;; Extensions: minions mode
+;;;; Extensions: minions
 (use-package minions
   :init
   (minions-mode t)
