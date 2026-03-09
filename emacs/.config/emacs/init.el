@@ -426,6 +426,10 @@ The DWIM behaviour of this command is as follows:
   :init
   (marginalia-mode)
 
+  (defun scion/consult-fd-home ()
+      (interactive)
+    (consult-fd (getenv "HOME")))
+
   :config
   ;; Reorder marginalia annotations to place docstrings first.  This
   ;; is done by modifying the marginalia.el annotation functions.
@@ -437,7 +441,8 @@ The DWIM behaviour of this command is as follows:
          ("C-c k" . consult-kmacro)
          ([remap Info-search] . consult-info)
          ;; Custom bindings
-         ("C-:" . consult-fd)
+         ("C-M-:" . consult-fd)
+         ("C-:" . scion/consult-fd-home)
          ;; Other custom bindings
          ("M-y" . consult-yank-pop)
          ;; M-g bindings in `goto-map'
@@ -488,10 +493,13 @@ The DWIM behaviour of this command is as follows:
    consult-bookmark consult-recent-file consult-xref consult-source-bookmark
    consult-source-file-register consult-source-recent-file
    consult-source-project-recent-file
-   :preview-key "M-*"
+   consult-ripgrep
+   :preview-key "M-*")
 
-   consult-ripgrep consult-fd :sort t :preview-key "M-*"
-   ))
+  (consult-customize
+   scion/consult-fd-home consult-fd :state (consult--file-preview) :sort t :preview-key "M-*")
+   )
+
 
 (defun consult-find-file-with-preview (prompt &optional dir default mustmatch initial pred)
   (interactive)
