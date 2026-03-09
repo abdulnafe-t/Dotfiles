@@ -206,7 +206,7 @@ The DWIM behaviour of this command is as follows:
 ;;; Programming
 
 (setopt compilation-scroll-output t
-        treesit-font-lock-level 4)
+        treesit-font-lock-level 3)
 
 (use-package autoinsert
   ; Builtin, used to automatically insert header guards & includes in C++ files
@@ -247,8 +247,6 @@ The DWIM behaviour of this command is as follows:
   (yas-global-mode 1))
 
 (use-package eglot
-  :custom-face
-  (eglot-mode-line ((t (:weight regular :foreground ,(face-foreground 'default)))))
   :bind
   (:map eglot-mode-map
         ("M-q" . eglot-format))
@@ -292,10 +290,7 @@ The DWIM behaviour of this command is as follows:
 (use-package json-mode)
 (add-to-list 'auto-mode-alist '("\\.jsonc\\'" . json-mode))
 
-(use-package markdown-mode
-  :custom-face
-
-  )
+(use-package markdown-mode)
 
 ;; Enable auctex to support common latex packages
 (use-package auctex
@@ -376,14 +371,15 @@ The DWIM behaviour of this command is as follows:
   (vertico-group-title ((t (:inherit bold-italic))))
   :custom
   (vertico-scroll-margin 1)
-  (vertico-count 10)
+  (vertico-count 12)
   (vertico-cycle t)
   (vertico-resize nil)
   :init
   (vertico-mode)
   (vertico-mouse-mode)
   :config
-  (set-face-attribute 'vertico-current nil :inherit 'custom-hl-line-face))
+  (set-face-attribute 'vertico-current nil :inherit 'custom-hl-line-face)
+  )
 
 (use-package embark
   :bind
@@ -426,10 +422,6 @@ The DWIM behaviour of this command is as follows:
   :init
   (marginalia-mode)
 
-  (defun scion/consult-fd-home ()
-      (interactive)
-    (consult-fd (getenv "HOME")))
-
   :config
   ;; Reorder marginalia annotations to place docstrings first.  This
   ;; is done by modifying the marginalia.el annotation functions.
@@ -437,6 +429,7 @@ The DWIM behaviour of this command is as follows:
   )
 
 (use-package consult
+
   :bind (;; C-c bindings in `mode-specific-map'
          ("C-c k" . consult-kmacro)
          ([remap Info-search] . consult-info)
@@ -473,6 +466,10 @@ The DWIM behaviour of this command is as follows:
   (setopt xref-show-xrefs-function #'consult-xref
           xref-show-definitions-function #'consult-xref)
 
+  (defun scion/consult-fd-home ()
+    (interactive)
+    (consult-fd (getenv "HOME")))
+
   (setopt consult-fd-args
           `(,(if (executable-find "fdfind" 'remote) "fdfind" "fd")
             "--color=never" "--hidden" "--follow" "--type file")
@@ -488,33 +485,32 @@ The DWIM behaviour of this command is as follows:
     (when entry
       (setf (cadr (memq :initial entry)) ?$)))
 
+  (defun consult-find-file-with-preview (prompt &optional dir default mustmatch initial pred)
+    (interactive)
+    (let ((default-directory (or dir default-directory))
+          (minibuffer-completing-file-name t))
+      (substitute-in-file-name
+       (consult--read #'read-file-name-internal
+                      :state (consult--file-preview)
+                      :prompt prompt
+                      :initial (abbreviate-file-name default-directory)
+                      :require-match mustmatch
+                      :predicate pred
+                      :sort t
+                      :preview-key "M-*"))))
+
+  (setopt read-file-name-function #'consult-find-file-with-preview)
+
   (consult-customize
    consult-theme consult-git-grep consult-grep consult-man
    consult-bookmark consult-recent-file consult-xref consult-source-bookmark
    consult-source-file-register consult-source-recent-file
    consult-source-project-recent-file
    consult-ripgrep
-   :preview-key "M-*")
+   :preview-key "M-*"
 
-  (consult-customize
    scion/consult-fd-home consult-fd :state (consult--file-preview) :sort t :preview-key "M-*")
-   )
-
-
-(defun consult-find-file-with-preview (prompt &optional dir default mustmatch initial pred)
-  (interactive)
-  (let ((default-directory (or dir default-directory))
-        (minibuffer-completing-file-name t))
-    (substitute-in-file-name
-     (consult--read #'read-file-name-internal
-                    :state (consult--file-preview)
-                    :prompt prompt
-                    :initial (abbreviate-file-name default-directory)
-                    :require-match mustmatch
-                    :predicate pred
-                    :preview-key "M-*"))))
-
-(setq read-file-name-function #'consult-find-file-with-preview)
+  )
 
 (use-package orderless
   :config
@@ -526,9 +522,6 @@ The DWIM behaviour of this command is as follows:
           completion-category-defaults nil
           completion-category-overrides  '((file     (styles orderless+flex))
                                            (buffer   (styles orderless+flex))
-                                           (variable (styles orderless+flex))
-                                           (function (styles orderless+flex))
-                                           (command  (styles orderless+flex))
                                            )))
 
 (defun consult--orderless-flex-regexp-compiler (input type ignore-case)
@@ -582,61 +575,6 @@ The DWIM behaviour of this command is as follows:
   :config
   (set-face-attribute 'nerd-icons-completion-dir-face nil
                       :foreground (face-foreground 'font-lock-keyword-face)))
-
-(defface scion-font-lock-auto '((t (:inherit font-lock-type-face :slant italic :weight normal))) "Custom face for the C++ 'auto' keyword.")
-(defface scion-font-lock-this '((t (:foreground "#00609b" :slant normal :weight bold))) "Custom face for the C++ `this' pointer.")
-
-(add-hook 'c++-ts-mode-hook
-          (lambda()
-            (setq treesit-font-lock-settings
-                        (append treesit-font-lock-settings
-                                (treesit-font-lock-rules
-                                 :language 'cpp
-                                 :feature 'keyword
-                                 :override t
-                                 '((auto) @scion-font-lock-auto
-                                   (this) @scion-font-lock-this)
-                                 )))
-            )
-          (treesit-font-lock-recompute-features))
-
-(defun scion/set-custom-faces ()
-  (set-face-attribute 'nerd-icons-completion-dir-face nil
-                      :foreground (face-foreground 'font-lock-keyword-face))
-  (set-face-attribute 'mode-line nil :inherit 'variable-pitch :box 'nil)
-  (set-face-attribute 'mode-line-active nil :inherit 'variable-pitch :box 'nil)
-  (set-face-attribute 'mode-line-inactive nil :inherit 'variable-pitch :box 'nil)
-
-  (set-face-attribute 'vc-state-base nil :inherit 'variable-pitch :slant 'normal)
-  (set-face-attribute 'vc-edited-state nil :inherit 'variable-pitch :slant 'italic)
-  (set-face-attribute 'vc-locked-state nil :inherit 'variable-pitch :slant 'normal)
-
-  (set-face-attribute 'consult-highlight-match nil :background "#850085" :weight 'bold)
-
-  (set-face-attribute 'font-lock-variable-use-face nil :foreground (face-foreground 'default))
-  (set-face-attribute 'font-lock-property-name-face nil :foreground "#8aa0df")
-  (set-face-attribute 'font-lock-property-name-face nil :foreground "#8aa0df")
-
-  (with-eval-after-load 'eglot
-    (set-face-attribute 'eglot-semantic-macro nil :weight 'bold :foreground "#89afef")
-    (set-face-attribute 'eglot-semantic-property nil :weight 'normal :slant 'normal :foreground "#8aa0df")
-    (set-face-attribute 'eglot-semantic-parameter nil :inherit 'font-lock-variable-name-face)
-    (set-face-attribute 'eglot-semantic-enumMember nil :foreground (face-foreground 'default))
-    (set-face-attribute 'eglot-semantic-static nil :slant 'italic :weight 'normal :foreground 'unspecified :inherit 'nil))
-
-
-    )
-  )
-
-(if (daemonp)
-    (add-hook 'after-make-frame-functions
-	      (defun scion/faces-init-daemon (frame)
-		(with-selected-frame frame
-		  (scion/set-custom-faces))
-		(remove-hook 'after-make-frame-functions
-			     #'my/icon-init-daemon)
-		(fmakunbound 'my/icon-init-daemon)))
-  (scion/set-default-faces))
 
 ;;;; Extensions: hydra
 (use-package hydra
@@ -755,6 +693,69 @@ The DWIM behaviour of this command is as follows:
           minions-mode-line-lighter "  ")
   )
 
+;;;; Extensions: beginend
+(use-package beginend
+  :init
+  (beginend-global-mode))
+
+
+;;; Custom faces
+
+(defface scion-font-lock-auto '((t (:inherit font-lock-type-face :slant italic :weight normal))) "Custom face for the C++ 'auto' keyword.")
+(defface scion-font-lock-this '((t (:foreground "#00609b" :slant normal :weight bold))) "Custom face for the C++ `this' pointer.")
+
+(add-hook 'c++-ts-mode-hook
+          (lambda()
+            (setq treesit-font-lock-settings
+                        (append treesit-font-lock-settings
+                                (treesit-font-lock-rules
+                                 :language 'cpp
+                                 :feature 'keyword
+                                 :override t
+                                 '((auto) @scion-font-lock-auto
+                                   (this) @scion-font-lock-this)
+                                 )))
+            )
+          (treesit-font-lock-recompute-features))
+
+(defun scion/set-custom-faces ()
+  (set-face-attribute 'nerd-icons-completion-dir-face nil
+                      :foreground (face-foreground 'font-lock-keyword-face))
+  (set-face-attribute 'mode-line nil :inherit 'variable-pitch :box 'nil)
+  (set-face-attribute 'mode-line-active nil :inherit 'variable-pitch :box 'nil)
+  (set-face-attribute 'mode-line-inactive nil :inherit 'variable-pitch :box 'nil)
+
+  (set-face-attribute 'vc-state-base nil :inherit 'variable-pitch :slant 'normal)
+  (set-face-attribute 'vc-edited-state nil :inherit 'variable-pitch :slant 'italic)
+  (set-face-attribute 'vc-locked-state nil :inherit 'variable-pitch :slant 'normal)
+
+  (set-face-attribute 'consult-highlight-match nil :background "#850085" :weight 'bold)
+
+  (set-face-attribute 'font-lock-variable-use-face nil :foreground (face-foreground 'default))
+  (set-face-attribute 'font-lock-property-name-face nil :foreground "#8aa0df")
+  (set-face-attribute 'font-lock-property-name-face nil :foreground "#8aa0df")
+
+  (set-face-attribute 'consult-file nil :foreground (face-foreground 'shadow))
+
+  (with-eval-after-load 'eglot
+    (set-face-attribute 'eglot-mode-line nil :weight 'regular :foreground (face-foreground 'default))
+    (set-face-attribute 'eglot-semantic-macro nil :weight 'bold :foreground "#89afef")
+    (set-face-attribute 'eglot-semantic-property nil :weight 'normal :slant 'normal :foreground "#8aa0df")
+    (set-face-attribute 'eglot-semantic-parameter nil :inherit 'font-lock-variable-name-face)
+    (set-face-attribute 'eglot-semantic-enumMember nil :foreground (face-foreground 'default))
+    (set-face-attribute 'eglot-semantic-static nil :slant 'italic :weight 'normal :foreground 'unspecified :inherit 'nil))
+  )
+
+(if (daemonp)
+    (add-hook 'after-make-frame-functions
+	      (defun scion/faces-init-daemon (frame)
+		(with-selected-frame frame
+		  (scion/set-custom-faces))
+		(remove-hook 'after-make-frame-functions
+			     #'my/icon-init-daemon)
+		(fmakunbound 'my/icon-init-daemon)))
+  (scion/set-default-faces))
+
 ;;; Automated
 
 (custom-set-variables
@@ -768,12 +769,12 @@ The DWIM behaviour of this command is as follows:
    '("/home/scion/Projects/learn_cpp/chapter_27_x" "/home/scion/Projects/learn_cpp/demo"
      "/home/scion/Projects/Notepad--"))
  '(package-selected-packages
-   '(agent-shell auctex consult ef-themes eglot eldoc-box elfeed elfeed-tube embark
+   '(agent-shell auctex beginend consult ef-themes eglot eldoc-box elfeed elfeed-tube embark
                  embark-consult expand-region fireplace fzf highlight-doxygen hydra
                  json-mode lin magit marginalia markdown-mode minions multiple-cursors
                  nerd-icons-completion nerd-icons-dired no-littering olivetti opam
                  orderless org-appear org-bullets org-modern page-break-lines pdf-tools
-                 pulsar quickrun smart-mode-line tuareg vertico vundo ws-butler yasnippet)))
+                 pulsar quickrun tuareg vertico vundo ws-butler yasnippet)))
 
 ;; ## added by opam user-setup for emacs / base ## 56ab50dc8996d2bb95e7856a6eddb17b ## you can edit, but keep this line
 ;;(require 'opam-user-setup "~/.config/emacs/opam-user-setup.el")
