@@ -1,7 +1,6 @@
 ;;; -*- lexical-binding: t -*-
 
 ;;; Server/Client architecture
-
 (use-package server)
 (unless (server-running-p)
   (server-start))
@@ -286,8 +285,9 @@ The DWIM behaviour of this command is as follows:
 (with-eval-after-load 'eglot
   (add-to-list 'eglot-ignored-server-capabilities :documentOnTypeFormattingProvider)
   (add-to-list 'eglot-ignored-server-capabilities :documentHighlightProvider)
-  (add-hook 'eglot-managed-mode-hook (lambda()
-                                       (eglot-semantic-tokens-mode -1))))
+  (setq-default eglot-semantic-token-types '("macro" "property" "parameter" "enumMember"))
+  (setq-default eglot-semantic-token-modifiers '("static"))
+  )
 
 (use-package json-mode)
 (add-to-list 'auto-mode-alist '("\\.jsonc\\'" . json-mode))
@@ -575,18 +575,49 @@ The DWIM behaviour of this command is as follows:
   (set-face-attribute 'nerd-icons-completion-dir-face nil
                       :foreground (face-foreground 'font-lock-keyword-face)))
 
+(defface scion-font-lock-auto '((t (:inherit font-lock-type-face :slant italic :weight normal))) "Custom face for the C++ 'auto' keyword.")
+(defface scion-font-lock-this '((t (:foreground "#00609b" :slant normal :weight bold))) "Custom face for the C++ `this' pointer.")
+
+(add-hook 'c++-ts-mode-hook
+          (lambda()
+            (setq treesit-font-lock-settings
+                        (append treesit-font-lock-settings
+                                (treesit-font-lock-rules
+                                 :language 'cpp
+                                 :feature 'keyword
+                                 :override t
+                                 '((auto) @scion-font-lock-auto
+                                   (this) @scion-font-lock-this)
+                                 )))
+            )
+          (treesit-font-lock-recompute-features))
+
 (defun scion/set-custom-faces ()
   (set-face-attribute 'nerd-icons-completion-dir-face nil
-                       :foreground (face-foreground 'font-lock-keyword-face))
+                      :foreground (face-foreground 'font-lock-keyword-face))
   (set-face-attribute 'mode-line nil :inherit 'variable-pitch :box 'nil)
   (set-face-attribute 'mode-line-active nil :inherit 'variable-pitch :box 'nil)
   (set-face-attribute 'mode-line-inactive nil :inherit 'variable-pitch :box 'nil)
 
-  (set-face-attribute 'vc-state-base nil :inherit 'variable-pitch)
+  (set-face-attribute 'vc-state-base nil :inherit 'variable-pitch :slant 'normal)
   (set-face-attribute 'vc-edited-state nil :inherit 'variable-pitch :slant 'italic)
-  (set-face-attribute 'vc-locked-state nil :inherit 'variable-pitch)
+  (set-face-attribute 'vc-locked-state nil :inherit 'variable-pitch :slant 'normal)
 
   (set-face-attribute 'consult-highlight-match nil :background "#850085" :weight 'bold)
+
+  (set-face-attribute 'font-lock-variable-use-face nil :foreground (face-foreground 'default))
+  (set-face-attribute 'font-lock-property-name-face nil :foreground "#8aa0df")
+  (set-face-attribute 'font-lock-property-name-face nil :foreground "#8aa0df")
+
+  (with-eval-after-load 'eglot
+    (set-face-attribute 'eglot-semantic-macro nil :weight 'bold :foreground "#89afef")
+    (set-face-attribute 'eglot-semantic-property nil :weight 'normal :slant 'normal :foreground "#8aa0df")
+    (set-face-attribute 'eglot-semantic-parameter nil :inherit 'font-lock-variable-name-face)
+    (set-face-attribute 'eglot-semantic-enumMember nil :foreground (face-foreground 'default))
+    (set-face-attribute 'eglot-semantic-static nil :slant 'italic :weight 'normal :foreground 'unspecified :inherit 'nil))
+
+
+    )
   )
 
 (if (daemonp)
