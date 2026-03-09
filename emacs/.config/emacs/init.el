@@ -732,18 +732,12 @@ The DWIM behaviour of this command is as follows:
   (eldoc-box-body ((t (:background "#0d0e1c"))))
 
   :bind
-  (:map global-map  ("C-*" . eldoc-box-toggle)
+  (:map global-map
+        ("C-*" . eldoc-box-help-at-point)
         ("M-<up>" . eldoc-box-scroll-down)
         ("M-<down>" . eldoc-box-scroll-up))
 
   :config
-
-  (defun eldoc-box-toggle ()
-    "Toggle eldoc-box visibility."
-    (interactive)
-    (if (eldoc-box--frame-visible-p)
-        (eldoc-box-quit-frame)
-      (eldoc-box-help-at-point)))
 
   :custom
   (eldoc-box-clear-with-C-g t)
