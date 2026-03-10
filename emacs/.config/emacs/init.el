@@ -702,16 +702,20 @@ The DWIM behaviour of this command is as follows:
 (add-hook 'c++-ts-mode-hook
           (lambda()
             (setq treesit-font-lock-settings
-                        (append treesit-font-lock-settings
-                                (treesit-font-lock-rules
-                                 :language 'cpp
-                                 :feature 'keyword
-                                 :override t
-                                 '((auto) @scion-font-lock-auto
-                                   (this) @scion-font-lock-this)
-                                 )))
-            )
-          (treesit-font-lock-recompute-features))
+                  (append treesit-font-lock-settings
+                          (treesit-font-lock-rules
+                           :language 'cpp
+                           :feature 'keyword
+                           :override t
+                           '((auto) @scion-font-lock-auto
+                             (this) @scion-font-lock-this)
+                           )))
+            (setq-local treesit-font-lock-feature-list
+                  (cl-loop for level in treesit-font-lock-feature-list
+                           collect (remove 'function-call level)))
+            (push 'function (nth 2 treesit-font-lock-feature-list))
+
+          (treesit-font-lock-recompute-features)))
 
 (defun scion/set-custom-faces ()
   (set-face-attribute 'nerd-icons-completion-dir-face nil
@@ -739,12 +743,12 @@ The DWIM behaviour of this command is as follows:
     (set-face-attribute 'consult-file nil :foreground (face-foreground 'shadow)))
 
   (with-eval-after-load 'eglot
-    (set-face-attribute 'eglot-mode-line nil :weight 'regular :foreground (face-foreground 'default))
-    (set-face-attribute 'eglot-semantic-macro nil :weight 'bold :foreground "#89afef")
-    (set-face-attribute 'eglot-semantic-property nil :weight 'normal :slant 'normal :foreground "#8aa0df")
-    (set-face-attribute 'eglot-semantic-parameter nil :inherit 'font-lock-variable-name-face)
+    (set-face-attribute 'eglot-mode-line           nil :weight 'regular :foreground (face-foreground 'default))
+    (set-face-attribute 'eglot-semantic-macro      nil :weight 'bold :foreground "#89afef")
+    (set-face-attribute 'eglot-semantic-property   nil :weight 'normal :slant 'normal :foreground "#8aa0df")
+    (set-face-attribute 'eglot-semantic-parameter  nil :inherit 'font-lock-variable-name-face)
     (set-face-attribute 'eglot-semantic-enumMember nil :foreground (face-foreground 'default))
-    (set-face-attribute 'eglot-semantic-static nil :slant 'italic :weight 'normal :foreground 'unspecified :inherit 'nil))
+    (set-face-attribute 'eglot-semantic-static     nil :slant 'italic :weight 'normal :foreground 'unspecified :inherit 'nil))
 
   (with-eval-after-load 'org
     (set-face-attribute 'org-block                 nil :inherit 'fixed-pitch)
@@ -799,3 +803,9 @@ The DWIM behaviour of this command is as follows:
 ;; ## added by opam user-setup for emacs / base ## 56ab50dc8996d2bb95e7856a6eddb17b ## you can edit, but keep this line
 ;;(require 'opam-user-setup "~/.config/emacs/opam-user-setup.el")
 ;; ## end of opam user-setup addition for emacs / base ## keep this line
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
