@@ -1,6 +1,7 @@
 ;; -*- lexical-binding: t; -*-
 
 (use-package elfeed
+  :ensure t
   :bind
   ("C-c y" . elfeed)
   :hook
@@ -26,6 +27,7 @@
 
 (use-package elfeed-tube ;; improves youtube feeds
   :after elfeed
+  :ensure t
   :demand t
   :config
   (elfeed-tube-setup)

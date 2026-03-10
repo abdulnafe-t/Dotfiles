@@ -162,6 +162,7 @@ The DWIM behaviour of this command is as follows:
 
 ;; Pulsar: flash current line on certain window changes
 (use-package pulsar
+  :ensure t
   :config
   (setopt pulsar-face 'pulsar-magenta
           pulsar-region-face 'pulsar-magenta
@@ -170,8 +171,7 @@ The DWIM behaviour of this command is as follows:
 (pulsar-global-mode 1)
 
 (defface custom-hl-line-face
-  '((t (:box nil
-        :inherit 'default)))
+  '((t (:box nil :inherit 'default :weight bold)))
   "Face for hl-line, as well as minibuffer augmentations (vertico et al.).")
 
 (set-face-background 'custom-hl-line-face (face-background 'mode-line))
@@ -224,6 +224,7 @@ The DWIM behaviour of this command is as follows:
 
 ;; Trim extraneous whitespaces in code files
 (use-package ws-butler
+  :ensure t
   :hook (prog-mode-hook . ws-butler-mode))
 
 ;; Use treesitter for bash, C, & C++ in order to ensure accurate syntax highlighting
@@ -243,6 +244,7 @@ The DWIM behaviour of this command is as follows:
 ;; Required to get proper auto-completion (e.g. for () after function names) with eglot &
 ;; clangd
 (use-package yasnippet
+  :ensure t
   :config
   (yas-global-mode 1))
 
@@ -287,13 +289,17 @@ The DWIM behaviour of this command is as follows:
   (setq-default eglot-semantic-token-modifiers '("static"))
   )
 
-(use-package json-mode)
-(add-to-list 'auto-mode-alist '("\\.jsonc\\'" . json-mode))
+(use-package json-mode
+  :ensure t
+  :config
+  (add-to-list 'auto-mode-alist '("\\.jsonc\\'" . json-mode)))
 
-(use-package markdown-mode)
+(use-package markdown-mode
+  :ensure t)
 
 ;; Enable auctex to support common latex packages
 (use-package auctex
+  :ensure t
   :hook tex-mode-hook
   :config
   (setopt tex-auto-save t
@@ -302,6 +308,7 @@ The DWIM behaviour of this command is as follows:
 
 ;; Use pdf-tools as an emacs-native pdf viewer
 (use-package pdf-tools
+  :ensure t
   :mode ("\\.pdf\\'" . pdf-view-mode)
   :hook (pdf-view-mode-hook . pdf-misc-minor-mode)
   :config
@@ -357,6 +364,7 @@ The DWIM behaviour of this command is as follows:
 
 ;;;; Extensions: multiple-cursor
 (use-package multiple-cursors
+  :ensure t
   :bind
   (("C-$ l" . mc/edit-lines)
    ("C-$ a" . mc/mark-all-like-this)
@@ -367,11 +375,12 @@ The DWIM behaviour of this command is as follows:
 
 ;;;; Extensions: VEMCO Stack
 (use-package vertico
+  :ensure t
   :custom-face
   (vertico-group-title ((t (:inherit bold-italic))))
   :custom
   (vertico-scroll-margin 1)
-  (vertico-count 12)
+  (vertico-count 10)
   (vertico-cycle t)
   (vertico-resize nil)
   :init
@@ -381,42 +390,8 @@ The DWIM behaviour of this command is as follows:
   (set-face-attribute 'vertico-current nil :inherit 'custom-hl-line-face)
   )
 
-(use-package embark
-  :bind
-  (("C-ù" . embark-act)         ;; pick some comfortable binding
-   ("M-ù" . embark-dwim)        ;; good alternative: M-.
-   ("C-h B" . embark-bindings)) ;; alternative for `describe-bindings'
-
-  :init
-
-  ;; Optionally replace the key help with a completing-read interface
-  (setq prefix-help-command #'embark-prefix-help-command)
-
-  ;; Show the Embark target at point via Eldoc. You may adjust the
-  ;; Eldoc strategy, if you want to see the documentation from
-  ;; multiple providers. Beware that using this can be a little
-  ;; jarring since the message shown in the minibuffer can be more
-  ;; than one line, causing the modeline to move up and down:
-
-  ;; (add-hook 'eldoc-documentation-functions #'embark-eldoc-first-target)
-  ;; (setq eldoc-documentation-strategy #'eldoc-documentation-compose-eagerly)
-
-  ;; Add Embark to the mouse context menu. Also enable `context-menu-mode'.
-  ;; (context-menu-mode 1)
-  ;; (add-hook 'context-menu-functions #'embark-context-menu 100)
-
-  :config
-
-  ;; Hide the mode line of the Embark live/completions buffers
-  (add-to-list 'display-buffer-alist
-               '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
-                 nil
-                 (window-parameters (mode-line-format . none)))))
-
-;; Consult users will also want the embark-consult package.
-(use-package embark-consult)
-
 (use-package marginalia
+  :ensure t
   :custom
   (marginalia-align 'left)
   :init
@@ -429,7 +404,7 @@ The DWIM behaviour of this command is as follows:
   )
 
 (use-package consult
-
+  :ensure t
   :bind (;; C-c bindings in `mode-specific-map'
          ("C-c k" . consult-kmacro)
          ([remap Info-search] . consult-info)
@@ -513,6 +488,7 @@ The DWIM behaviour of this command is as follows:
   )
 
 (use-package orderless
+  :ensure t
   :config
 
   (orderless-define-completion-style orderless+flex
@@ -562,22 +538,26 @@ The DWIM behaviour of this command is as follows:
 
 ;;;; Extensions: nerd-icons
 (use-package nerd-icons
+  :ensure t
   :demand t)
 
 (use-package nerd-icons-dired
+  :ensure t
   :hook
   (dired-mode-hook . nerd-icons-dired-mode))
 
 (use-package nerd-icons-completion
+  :ensure t
   :demand t
   :init
-  (nerd-icons-completion-mode)
-  :config
-  (set-face-attribute 'nerd-icons-completion-dir-face nil
-                      :foreground (face-foreground 'font-lock-keyword-face)))
+  (nerd-icons-completion-mode))
+  ;; :config
+  ;; (set-face-attribute 'nerd-icons-completion-dir-face nil
+  ;;                     :foreground (face-foreground 'font-lock-keyword-face)))
 
 ;;;; Extensions: hydra
 (use-package hydra
+  :ensure t
   :config
   (defhydra hydra-mc-word (global-map "C-$ w")
     "Multiple-cursors word"
@@ -626,6 +606,7 @@ The DWIM behaviour of this command is as follows:
 
 ;;;; Extensions: Vundo
 (use-package vundo
+  :ensure t
   :hook
   (prog-mode-hook . vundo-popup-mode)
   (text-mode-hook . vundo-popup-mode)
@@ -635,29 +616,35 @@ The DWIM behaviour of this command is as follows:
 
 ;;;; Extensions: Magit
 (use-package magit
+  :ensure t
   :init
   (setopt vc-follow-symlinks t))
 
 ;;;; Extensions: expand-region
-(use-package expand-region)
+(use-package expand-region
+  :ensure t)
 (keymap-global-set "C-=" 'er/expand-region)
 
 ;;;; Extensions: no-littering
-(use-package no-littering)
+(use-package no-littering
+  :ensure t)
 
 ;;;; Extensions: elfeed
 (load "~/.config/emacs/elfeed-config")
 
 ;;;; Extensions: agent-shell
-(use-package agent-shell)
+(use-package agent-shell
+  :ensure t)
 
 ;;;; Extensions: page-break-line
 (use-package page-break-lines
+  :ensure t
   :config
   (global-page-break-lines-mode))
 
 ;;;; Extensions: highlight-doxygen
 (use-package highlight-doxygen
+  :ensure t
   :custom-face
   (highlight-doxygen-comment ((t (:background unspecified))))
   :config
@@ -665,18 +652,14 @@ The DWIM behaviour of this command is as follows:
 
 ;;;; Extensions: eldoc-box
 (use-package eldoc-box
+  :ensure t
   :custom-face
   (eldoc-box-border ((t (:background "#ffffff" :weight bold))))
   (eldoc-box-body ((t (:background "#0d0e1c"))))
-
   :bind
   (:map global-map
-        ("C-*" . eldoc-box-help-at-point)
-        ("M-<up>" . eldoc-box-scroll-down)
-        ("M-<down>" . eldoc-box-scroll-up))
-
+        ("C-*" . eldoc-box-help-at-point))
   :config
-
   :custom
   (eldoc-box-clear-with-C-g t)
   (eldoc-box-max-pixel-width 750)
@@ -686,6 +669,7 @@ The DWIM behaviour of this command is as follows:
 
 ;;;; Extensions: minions
 (use-package minions
+  :ensure t
   :init
   (minions-mode t)
   :config
@@ -695,14 +679,25 @@ The DWIM behaviour of this command is as follows:
 
 ;;;; Extensions: beginend
 (use-package beginend
+  :ensure t
   :init
   (beginend-global-mode))
 
+;;;; Extensions: lorem-ipsum
+(use-package lorem-ipsum
+  :ensure t)
+
+;;;; Extensions: move-text
+(use-package move-text
+  :ensure t
+  :config
+  (move-text-default-bindings))
 
 ;;; Custom faces
-
-(defface scion-font-lock-auto '((t (:inherit font-lock-type-face :slant italic :weight normal))) "Custom face for the C++ 'auto' keyword.")
-(defface scion-font-lock-this '((t (:foreground "#00609b" :slant normal :weight bold))) "Custom face for the C++ `this' pointer.")
+(defface scion-font-lock-auto '((t (:inherit font-lock-type-face :slant italic :weight normal)))
+  "Custom face for the C++ 'auto' keyword.")
+(defface scion-font-lock-this '((t (:foreground "#00609b" :slant normal :weight bold)))
+  "Custom face for the C++ `this' pointer.")
 
 (add-hook 'c++-ts-mode-hook
           (lambda()
@@ -721,6 +716,11 @@ The DWIM behaviour of this command is as follows:
 (defun scion/set-custom-faces ()
   (set-face-attribute 'nerd-icons-completion-dir-face nil
                       :foreground (face-foreground 'font-lock-keyword-face))
+
+  (set-face-attribute 'default        nil :family "GeistMonoNerdFontMono" :height 150)
+  (set-face-attribute 'fixed-pitch    nil :family "GeistMonoNerdFontMono")
+  (set-face-attribute 'variable-pitch nil :family "GeistNerdFontPropo")
+
   (set-face-attribute 'mode-line nil :inherit 'variable-pitch :box 'nil)
   (set-face-attribute 'mode-line-active nil :inherit 'variable-pitch :box 'nil)
   (set-face-attribute 'mode-line-inactive nil :inherit 'variable-pitch :box 'nil)
@@ -729,13 +729,14 @@ The DWIM behaviour of this command is as follows:
   (set-face-attribute 'vc-edited-state nil :inherit 'variable-pitch :slant 'italic)
   (set-face-attribute 'vc-locked-state nil :inherit 'variable-pitch :slant 'normal)
 
-  (set-face-attribute 'consult-highlight-match nil :background "#850085" :weight 'bold)
 
   (set-face-attribute 'font-lock-variable-use-face nil :foreground (face-foreground 'default))
   (set-face-attribute 'font-lock-property-name-face nil :foreground "#8aa0df")
   (set-face-attribute 'font-lock-property-name-face nil :foreground "#8aa0df")
 
-  (set-face-attribute 'consult-file nil :foreground (face-foreground 'shadow))
+  (with-eval-after-load 'consult
+    (set-face-attribute 'consult-highlight-match nil :background "#850085" :weight 'bold)
+    (set-face-attribute 'consult-file nil :foreground (face-foreground 'shadow)))
 
   (with-eval-after-load 'eglot
     (set-face-attribute 'eglot-mode-line nil :weight 'regular :foreground (face-foreground 'default))
@@ -744,6 +745,24 @@ The DWIM behaviour of this command is as follows:
     (set-face-attribute 'eglot-semantic-parameter nil :inherit 'font-lock-variable-name-face)
     (set-face-attribute 'eglot-semantic-enumMember nil :foreground (face-foreground 'default))
     (set-face-attribute 'eglot-semantic-static nil :slant 'italic :weight 'normal :foreground 'unspecified :inherit 'nil))
+
+  (with-eval-after-load 'org
+    (set-face-attribute 'org-block                 nil :inherit 'fixed-pitch)
+    (set-face-attribute 'org-code                  nil :inherit '(shadow fixed-pitch))
+    (set-face-attribute 'org-document-info         nil :foreground "dark orange")
+    (set-face-attribute 'org-document-info-keyword nil :inherit '(shadow fixed-pitch))
+    (set-face-attribute 'org-level-1               nil :inherit 'outline-1 :height 1.7)
+    (set-face-attribute 'org-level-2               nil :inherit 'outline-2 :height 1.6)
+    (set-face-attribute 'org-level-3               nil :inherit 'outline-3 :height 1.5)
+    (set-face-attribute 'org-level-4               nil :inherit 'outline-4 :height 1.4)
+    (set-face-attribute 'org-level-5               nil :inherit 'outline-5 :height 1.3)
+    (set-face-attribute 'org-link                  nil :foreground "royal blue" :underline t)
+    (set-face-attribute 'org-meta-line             nil :inherit '(font-lock-comment-face fixed-pitch))
+    (set-face-attribute 'org-property-value        nil :inherit 'fixed-pitch)
+    (set-face-attribute 'org-special-keyword       nil :inherit '(font-lock-comment-face fixed-pitch))
+    (set-face-attribute 'org-table                 nil :inherit 'fixed-pitch :foreground "#83a598")
+    (set-face-attribute 'org-tag                   nil :inherit '(shadow fixed-pitch) :weight 'bold :height 0.8)
+    (set-face-attribute 'org-verbatim              nil :inherit '(shadow fixed-pitch)))
   )
 
 (if (daemonp)
@@ -754,7 +773,7 @@ The DWIM behaviour of this command is as follows:
 		(remove-hook 'after-make-frame-functions
 			     #'my/icon-init-daemon)
 		(fmakunbound 'my/icon-init-daemon)))
-  (scion/set-default-faces))
+  (scion/set-custom-faces))
 
 ;;; Automated
 
@@ -769,40 +788,14 @@ The DWIM behaviour of this command is as follows:
    '("/home/scion/Projects/learn_cpp/chapter_27_x" "/home/scion/Projects/learn_cpp/demo"
      "/home/scion/Projects/Notepad--"))
  '(package-selected-packages
-   '(agent-shell auctex beginend consult ef-themes eglot eldoc-box elfeed elfeed-tube embark
-                 embark-consult expand-region fireplace fzf highlight-doxygen hydra
-                 json-mode lin magit marginalia markdown-mode minions multiple-cursors
-                 nerd-icons-completion nerd-icons-dired no-littering olivetti opam
-                 orderless org-appear org-bullets org-modern page-break-lines pdf-tools
-                 pulsar quickrun tuareg vertico vundo ws-butler yasnippet)))
+   '(agent-shell auctex beginend consult ef-themes eglot eldoc-box elfeed elfeed-tube
+                 expand-region highlight-doxygen hydra json-mode lorem-ipsum magit
+                 marginalia markdown-mode minions move-text multiple-cursors
+                 nerd-icons-completion nerd-icons-dired no-littering olivetti orderless
+                 org-appear org-bullets page-break-lines pdf-tools pulsar vertico vundo
+                 ws-butler yasnippet))
+ '(paradox-github-token t))
 
 ;; ## added by opam user-setup for emacs / base ## 56ab50dc8996d2bb95e7856a6eddb17b ## you can edit, but keep this line
 ;;(require 'opam-user-setup "~/.config/emacs/opam-user-setup.el")
 ;; ## end of opam user-setup addition for emacs / base ## keep this line
-
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(default ((t (:font "GeistMonoNerdFontMono-15"))))
- '(fixed-pitch ((t (:family "GeistMonoNerdFontMono"))))
- '(monospace ((t (:family "GeistMonoNerdFontMono"))))
- '(org-block ((t (:inherit fixed-pitch))))
- '(org-code ((t (:inherit (shadow fixed-pitch)))))
- '(org-document-info ((t (:foreground "dark orange"))))
- '(org-document-info-keyword ((t (:inherit (shadow fixed-pitch)))))
- '(org-indent ((t (:inherit (org-hide fixed-pitch)))))
- '(org-level-1 ((t (:inherit outline-1 :height 1.7))))
- '(org-level-2 ((t (:inherit outline-2 :height 1.6))))
- '(org-level-3 ((t (:inherit outline-3 :height 1.5))))
- '(org-level-4 ((t (:inherit outline-4 :height 1.4))))
- '(org-level-5 ((t (:inherit outline-5 :height 1.3))))
- '(org-link ((t (:foreground "royal blue" :underline t))))
- '(org-meta-line ((t (:inherit (font-lock-comment-face fixed-pitch)))))
- '(org-property-value ((t (:inherit fixed-pitch))))
- '(org-special-keyword ((t (:inherit (font-lock-comment-face fixed-pitch)))))
- '(org-table ((t (:inherit fixed-pitch :foreground "#83a598"))))
- '(org-tag ((t (:inherit (shadow fixed-pitch) :weight bold :height 0.8))))
- '(org-verbatim ((t (:inherit (shadow fixed-pitch)))))
- '(variable-pitch ((t (:family "GeistNerdFontPropo")))))
