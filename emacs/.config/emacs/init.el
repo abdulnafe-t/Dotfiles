@@ -688,6 +688,11 @@ The DWIM behaviour of this command is as follows:
   :config
   (move-text-default-bindings))
 
+;;;; Extensions: whole line or region
+(use-package whole-line-or-region
+  :init
+  (whole-line-or-region-global-mode 1))
+
 ;;; Custom faces
 (defface scion-font-lock-auto '((t (:inherit font-lock-type-face :slant italic :weight normal)))
   "Custom face for the C++ 'auto' keyword.")
@@ -797,7 +802,7 @@ The DWIM behaviour of this command is as follows:
                  marginalia markdown-mode minions move-text multiple-cursors
                  nerd-icons-completion nerd-icons-dired no-littering olivetti orderless
                  org org-appear org-bullets page-break-lines pdf-tools pulsar vertico
-                 vundo ws-butler yasnippet))
+                 vundo whole-line-or-region ws-butler yasnippet))
  '(paradox-github-token t))
 
 ;; ## added by opam user-setup for emacs / base ## 56ab50dc8996d2bb95e7856a6eddb17b ## you can edit, but keep this line
