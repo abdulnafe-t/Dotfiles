@@ -465,7 +465,7 @@ The DWIM behaviour of this command is as follows:
                       :require-match mustmatch
                       :predicate pred
                       :sort t
-                      :preview-key "M-*"))))
+                      :preview-key '(:debounce 0.4 any)))))
 
   (setopt read-file-name-function #'consult-find-file-with-preview)
 
@@ -477,7 +477,10 @@ The DWIM behaviour of this command is as follows:
    consult-ripgrep
    :preview-key "M-*"
 
-   scion/consult-fd-home consult-fd :state (consult--file-preview) :sort t :preview-key "M-*")
+   consult-buffer :preview-key 'any
+
+   scion/consult-fd-home consult-fd :state (consult--file-preview) :sort t :preview-key '("M-*"
+                                                                                          :debounce 0.4 any))
   )
 
 (use-package orderless
@@ -489,8 +492,10 @@ The DWIM behaviour of this command is as follows:
 
   (setopt completion-styles '(orderless basic)
           completion-category-defaults nil
-          completion-category-overrides  '((file     (styles orderless+flex))
-                                           (buffer   (styles orderless+flex))
+          completion-category-overrides  '((file (styles orderless+flex))
+                                           (buffer (styles orderless+flex))
+                                           ;; Added for consult-buffer:
+                                           (multi-category (styles orderless+flex))
                                            )))
 
 (defun consult--orderless-flex-regexp-compiler (input type ignore-case)
@@ -544,9 +549,6 @@ The DWIM behaviour of this command is as follows:
   :demand t
   :init
   (nerd-icons-completion-mode))
-  ;; :config
-  ;; (set-face-attribute 'nerd-icons-completion-dir-face nil
-  ;;                     :foreground (face-foreground 'font-lock-keyword-face)))
 
 ;;;; Extensions: hydra
 (use-package hydra
@@ -573,7 +575,7 @@ The DWIM behaviour of this command is as follows:
     ("k" kill-current-buffer "Kill current buffer" :column "Buffer")
     ("C-f" find-file "Find file" :color blue :column "Buffer")
     ("C-s" save-buffer "Save" :color blue :column "Buffer")
-    ("b" switch-to-buffer "Switch to buffer" :color blue :column "Buffer")
+    ("b" consult-buffer "Switch to buffer" :color blue :column "Buffer")
     ("d" dired "Dired" :color blue :column "Buffer")
     ("0" delete-window "Delete current window" :color blue :column "Windows")
     ("1" delete-other-windows "Delete other windows" :color blue :column "Windows")
@@ -782,7 +784,10 @@ The DWIM behaviour of this command is as follows:
  '(custom-safe-themes
    '("fff0dc54ff5a194ba6593d1cce0fbb4fe8cf9da59fcef47f9e06dec6ef11b1fa" default))
  '(ede-project-directories
-   '("/home/scion/Projects/lazyfoo/02-textures-and-extension-libraries"
+   '("/home/scion/Projects/learn_cpp/chapter_o_4"
+     "/home/scion/Projects/learn_cpp/chapter_o_3"
+     "/home/scion/Projects/learn_cpp/chapter_o_2"
+     "/home/scion/Projects/lazyfoo/02-textures-and-extension-libraries"
      "/home/scion/Projects/lazyfoo/hello_sdl3"
      "/home/scion/Projects/learn_cpp/chapter_27_x" "/home/scion/Projects/learn_cpp/demo"
      "/home/scion/Projects/Notepad--"))
