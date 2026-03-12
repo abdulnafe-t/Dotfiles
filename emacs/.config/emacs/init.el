@@ -324,13 +324,6 @@ The DWIM behaviour of this command is as follows:
 
 ;;; Other QOL packages & extensions
 
-;;;; Melpa
-(progn
-  (require 'package)
-  ;; add melpa repository.
-  (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
-  (when (< emacs-major-version 27) (package-initialize)))
-
 ;;;; Dired
 ;; Enable long listing in dired, sort directories before other files,
 ;; use human-readable file sizes (kb, gb, etc), and don't show hidden files.
@@ -789,15 +782,17 @@ The DWIM behaviour of this command is as follows:
  '(custom-safe-themes
    '("fff0dc54ff5a194ba6593d1cce0fbb4fe8cf9da59fcef47f9e06dec6ef11b1fa" default))
  '(ede-project-directories
-   '("/home/scion/Projects/learn_cpp/chapter_27_x" "/home/scion/Projects/learn_cpp/demo"
+   '("/home/scion/Projects/lazyfoo/02-textures-and-extension-libraries"
+     "/home/scion/Projects/lazyfoo/hello_sdl3"
+     "/home/scion/Projects/learn_cpp/chapter_27_x" "/home/scion/Projects/learn_cpp/demo"
      "/home/scion/Projects/Notepad--"))
  '(package-selected-packages
-   '(agent-shell auctex beginend consult ef-themes eglot eldoc-box elfeed elfeed-tube
+   '(agent-shell auctex beginend consult ef-themes eglot eldoc eldoc-box elfeed elfeed-tube
                  expand-region highlight-doxygen hydra json-mode lorem-ipsum magit
                  marginalia markdown-mode minions move-text multiple-cursors
                  nerd-icons-completion nerd-icons-dired no-littering olivetti orderless
-                 org-appear org-bullets page-break-lines pdf-tools pulsar vertico vundo
-                 ws-butler yasnippet))
+                 org org-appear org-bullets page-break-lines pdf-tools pulsar vertico
+                 vundo ws-butler yasnippet))
  '(paradox-github-token t))
 
 ;; ## added by opam user-setup for emacs / base ## 56ab50dc8996d2bb95e7856a6eddb17b ## you can edit, but keep this line

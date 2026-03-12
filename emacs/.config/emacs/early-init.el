@@ -8,3 +8,15 @@
 (push '(fullscreen . maximized) default-frame-alist)
 
 (push '(background-color . "black") default-frame-alist)
+
+;;;; Melpa
+(progn
+  (require 'package)
+  ;; add melpa repository.
+  (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+  (when (< emacs-major-version 27) (package-initialize)))
+
+(setopt package-archive-priorities '(("gnu" . 10)
+                                     ("melpa" . 5)))
+(setq package-review-policy t
+      package-review-diff-command '("git" "diff" "--no-index" "--color=never" "--diff-filter=d"))
