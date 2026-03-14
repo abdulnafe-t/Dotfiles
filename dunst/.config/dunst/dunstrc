@@ -222,7 +222,7 @@
 
     # Set icon theme (only used for recursive icon lookup)
     # icon_theme = "Papirus-Dark, breeze-dark, Adwaita"
-    icon_theme = BeautyLineRecolored
+    icon_theme = BeautyLineSpring
 
     # You can also set multiple icon themes, with the leftmost one being used first.
     # icon_theme = "Adwaita, breeze"
@@ -345,11 +345,11 @@
 [urgency_low]
     # IMPORTANT: colors have to be defined in quotation marks.
     # Otherwise the "#" and following would be interpreted as a comment.
-    background = "#363636"
+    background = "#1d1d1d"
     foreground = "#888888"
-    frame_color = "#b6a0ff"
+    frame_color = "#47248e"
     timeout = 10
-    highlight = "#b6a0ff"
+    highlight = "#47248e"
 
 [urgency_normal]
     background = "#0D0E1C"
