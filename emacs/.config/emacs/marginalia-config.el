@@ -1,3 +1,5 @@
+;;; -*- lexical-binding: t -*-
+
 (defun scion/marginalia-annotate-function (cand)
   "Annotate function CAND with its documentation string. Display
 documentation string before other info."

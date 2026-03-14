@@ -1,3 +1,5 @@
+;;; -*- lexical-binding: t -*-
+
 ;; Ensure package.el uses the elpa directory under this user-emacs-directory
 (setq package-user-dir (expand-file-name "elpa/" user-emacs-directory))
 

@@ -1,3 +1,5 @@
+;;; -*- lexical-binding: t -*-
+
 ;;; Org mode configuration. Based on
 ;;; https://zzamboni.org/post/beautifying-org-mode-in-emacs/
 ;;; https://www.howardism.org/Technical/Emacs/orgmode-wordprocessor.html
