@@ -236,7 +236,8 @@ The DWIM behaviour of this command is as follows:
 
 (setq treesit-language-source-alist
       '((c "https://github.com/tree-sitter/tree-sitter-c")
-        (cpp "https://github.com/tree-sitter/tree-sitter-cpp")))
+        (cpp "https://github.com/tree-sitter/tree-sitter-cpp")
+        (bash "https://github.com/tree-sitter/tree-sitter-bash")))
 
 ;; ede: emacs development environment
 (add-hook 'prog-mode-hook #'global-ede-mode)
