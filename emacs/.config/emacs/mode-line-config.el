@@ -28,22 +28,37 @@
 
 (defun scion/buffer-name-with-project ()
   "Display buffer name as Project|file."
-  (cond
-   (buffer-file-name
-    (let* ((project-root (or (condition-case nil
-                                 (let ((pr (project-current)))
-                                   (when pr (car (project-roots pr))))
-                               (error nil))
-                             default-directory))
-           (project-name (when project-root
-                           (file-name-nondirectory
-                            (directory-file-name project-root))))
-           (file-name (file-name-nondirectory buffer-file-name)))
-      (if project-name
-          (concat project-name " | " (propertize file-name 'face '(bold mode-line-buffer-id)))
-        (propertize file-name 'face '(bold mode-line-buffer-id)))))
-   (t
-    (propertize (buffer-name) 'face '(bold mode-line-buffer-id)))))
+  (let* ((keymap-var (let ((map (make-sparse-keymap)))
+                      (define-key map [header-line mouse-3] 'mode-line-next-buffer)
+                      (define-key map [header-line down-mouse-3] 'ignore)
+                      (define-key map [header-line mouse-1] 'mode-line-previous-buffer)
+                      (define-key map [header-line down-mouse-1] 'ignore)
+                      (define-key map [mode-line mouse-3] 'mode-line-next-buffer)
+                      (define-key map [mode-line mouse-1] 'mode-line-previous-buffer)
+                      map)))
+    (if buffer-file-name
+        (let* ((project-root (or (condition-case nil
+                                     (let ((pr (project-current)))
+                                       (when pr (car (project-roots pr))))
+                                   (error nil))
+                          default-directory))
+               (project-name (when project-root
+                               (file-name-nondirectory
+                                (directory-file-name project-root))))
+               (file-name (file-name-nondirectory buffer-file-name)))
+          (if project-name
+              (concat project-name " | " (propertize file-name 'face '(bold mode-line-buffer-id)
+                                                      'help-echo "Buffer name\nmouse-1: Previous buffer\nmouse-3: Next buffer"
+                                                      'mouse-face 'mode-line-highlight
+                                                      'local-map keymap-var))
+            (propertize file-name 'face '(bold mode-line-buffer-id)
+                        'help-echo "Buffer name\nmouse-1: Previous buffer\nmouse-3: Next buffer"
+                        'mouse-face 'mode-line-highlight
+                        'local-map keymap-var)))
+      (propertize (buffer-name) 'face '(bold mode-line-buffer-id)
+                  'help-echo "Buffer name\nmouse-1: Previous buffer\nmouse-3: Next buffer"
+                  'mouse-face 'mode-line-highlight
+                  'local-map keymap-var))))
 
 (defun mode-line-fill-right (face reserve)
   "Return empty space using FACE and leaving RESERVE space on the right."
@@ -129,7 +144,7 @@
         "  "
         (:eval (when (bound-and-true-p flymake-mode)
                  (concat (format-mode-line flymake-mode-line-format) "   ")))
-        (:eval (when (bound-and-true-p minions-mode) minions-mode-line-modes))
+        (:eval (when (bound-and-true-p minions-mode) mode-line-modes))
         ))
 
 (setq-default mode-line-format
