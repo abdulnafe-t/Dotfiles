@@ -179,8 +179,6 @@ The DWIM behaviour of this command is as follows:
 (set-face-background 'custom-hl-line-face (face-background 'mode-line))
 
 (use-package hl-line
-  :custom-face
-  (hl-line ((t (:background unspecified :inherit 'custom-hl-line-face))))
   :hook
   (dired-mode-hook
    elfeed-search-mode-hook
@@ -742,10 +740,11 @@ The DWIM behaviour of this command is as follows:
   (set-face-attribute 'vc-edited-state nil :inherit 'variable-pitch :slant 'italic)
   (set-face-attribute 'vc-locked-state nil :inherit 'variable-pitch :slant 'normal)
 
-
   (set-face-attribute 'font-lock-variable-use-face nil :foreground (face-foreground 'default))
   (set-face-attribute 'font-lock-property-name-face nil :foreground "#8aa0df")
   (set-face-attribute 'font-lock-property-name-face nil :foreground "#8aa0df")
+
+  (set-face-attribute 'hl-line nil :background (face-background 'custom-hl-line-face) :weight 'bold)
 
   (with-eval-after-load 'consult
     (set-face-attribute 'consult-highlight-match nil :background "#850085" :weight 'bold)
