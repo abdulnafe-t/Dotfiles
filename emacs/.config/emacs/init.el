@@ -167,8 +167,10 @@ The DWIM behaviour of this command is as follows:
   (setopt pulsar-face 'pulsar-magenta
           pulsar-region-face 'pulsar-magenta
           pulsar-region-change-face 'pulsar-magenta
-          pulsar-highlight-face 'pulsar-magenta))
-(pulsar-global-mode 1)
+          pulsar-highlight-face 'pulsar-magenta)
+  (push 'kill-visual-line pulsar-pulse-functions)
+  :init
+(pulsar-global-mode 1))
 
 (defface custom-hl-line-face
   '((t (:box nil :inherit 'default :weight bold)))
@@ -692,7 +694,13 @@ The DWIM behaviour of this command is as follows:
 ;;;; Extensions: whole line or region
 (use-package whole-line-or-region
   :init
-  (whole-line-or-region-global-mode 1))
+  (whole-line-or-region-global-mode 1)
+  :config
+  (push 'whole-line-or-region-kill-region pulsar-pulse-functions)
+  (push 'whole-line-or-region-kill-region pulsar-pulse-region-functions)
+
+  (push 'whole-line-or-region-kill-ring-save pulsar-pulse-region-functions)
+  )
 
 ;;; Custom faces
 (defface scion-font-lock-auto '((t (:inherit font-lock-type-face :slant italic :weight normal)))
