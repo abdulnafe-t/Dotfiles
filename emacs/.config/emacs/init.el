@@ -700,6 +700,9 @@ The DWIM behaviour of this command is as follows:
   (push 'whole-line-or-region-kill-ring-save pulsar-pulse-region-functions)
   )
 
+;;;; Extensions: wiki-summary
+(use-package wiki-summary)
+
 ;;; Custom faces
 (defface scion-font-lock-auto '((t (:inherit font-lock-type-face :slant italic :weight normal)))
   "Custom face for the C++ 'auto' keyword.")
@@ -810,7 +813,7 @@ The DWIM behaviour of this command is as follows:
                  marginalia markdown-mode minions move-text multiple-cursors
                  nerd-icons-completion nerd-icons-dired no-littering olivetti orderless
                  org-appear org-bullets page-break-lines pdf-tools pulsar vertico vundo
-                 whole-line-or-region ws-butler yasnippet))
+                 whole-line-or-region wiki-summary ws-butler yasnippet))
  '(paradox-github-token t))
 
 ;; ## added by opam user-setup for emacs / base ## 56ab50dc8996d2bb95e7856a6eddb17b ## you can edit, but keep this line
