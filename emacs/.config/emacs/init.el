@@ -38,7 +38,10 @@
 
 (electric-pair-mode 1)
 (delete-selection-mode 1)
-(setopt fill-column 90)
+(setq-default blink-matching-paren-highlight-offscreen t
+              show-paren-context-when-offscreen t)
+
+(setq-default fill-column 90)
 
 ;; Replace tabs with spaces
 (add-hook 'prog-mode-hook
