@@ -127,10 +127,6 @@ The DWIM behaviour of this command is as follows:
 
 (setq-default cursor-type 'box)
 
-(add-hook 'text-mode-hook
-          (lambda ()
-            (setq-local cursor-type 'bar)))
-
 ;; Customize modeline
 (load "~/.config/emacs/mode-line-config.el")
 
@@ -783,6 +779,10 @@ The DWIM behaviour of this command is as follows:
     (set-face-attribute 'org-table                 nil :inherit 'fixed-pitch :foreground "#83a598")
     (set-face-attribute 'org-tag                   nil :inherit '(shadow fixed-pitch) :weight 'bold :height 0.8)
     (set-face-attribute 'org-verbatim              nil :inherit '(shadow fixed-pitch)))
+
+  (with-eval-after-load 'olivetti
+    (set-face-attribute 'olivetti-fringe nil :background "gray50")
+    )
   )
 
 (if (daemonp)

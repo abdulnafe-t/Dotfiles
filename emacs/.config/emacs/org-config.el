@@ -29,8 +29,15 @@
 (use-package olivetti
   :ensure t
   :hook
-  (org-mode-hook . olivetti-mode)
-  :config
-  (setopt olivetti-body-width 72))
+  (olivetti-mode-on-hook . (lambda ()
+                             (setq-local cursor-type 'bar)
+                             (variable-pitch-mode t)))
 
-(add-hook 'org-mode-hook 'variable-pitch-mode)
+  (olivetti-mode-off-hook . (lambda ()
+                              (setq-local cursor-type t)
+                              (variable-pitch-mode -1)))
+
+  :config
+  (setopt olivetti-style nil
+          olivetti-body-width 72)
+  )
