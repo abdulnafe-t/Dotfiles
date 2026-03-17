@@ -731,6 +731,8 @@ The DWIM behaviour of this command is as follows:
   (set-face-attribute 'nerd-icons-completion-dir-face nil
                       :foreground (face-foreground 'font-lock-keyword-face))
 
+  (set-fontset-font "fontset-default" 'arabic "Scheherazade New")
+
   (set-face-attribute 'default        nil :family "GeistMonoNerdFontMono" :height 150)
   (set-face-attribute 'fixed-pitch    nil :family "GeistMonoNerdFontMono")
   (set-face-attribute 'variable-pitch nil :family "GeistNerdFontPropo")
