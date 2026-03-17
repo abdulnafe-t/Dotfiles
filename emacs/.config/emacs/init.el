@@ -472,13 +472,13 @@ The DWIM behaviour of this command is as follows:
 
   (consult-customize
    consult-theme consult-git-grep consult-grep consult-man
-   consult-bookmark consult-recent-file consult-xref consult-source-bookmark
+   consult-bookmark consult-recent-file consult-source-bookmark
    consult-source-file-register consult-source-recent-file
    consult-source-project-recent-file
    consult-ripgrep
    :preview-key "M-*"
 
-   consult-buffer :preview-key 'any
+   consult-buffer consult-xref :preview-key 'any
 
    scion/consult-fd-home consult-fd :state (consult--file-preview) :sort t :preview-key '("M-*"
                                                                                           :debounce 0.4 any))
