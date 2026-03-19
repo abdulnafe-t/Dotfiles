@@ -7,8 +7,31 @@
 
 ;;; General emacs settings
 (setopt inhibit-splash-screen t
+        initial-scratch-message nil
         visible-bell nil
-        initial-scratch-message nil)
+
+        view-read-only t
+
+        confirm-kill-processes nil
+        shell-command-prompt-show-cwd t
+        use-short-answers t
+
+        minibuffer-visible-completions t
+        completions-group t
+        completion-eager-update t
+
+        package-autosuggest-mode t
+
+        frame-inhibit-implied-resize t
+        frame-resize-pixelwise t
+        window-resize-pixelwise t
+
+        context-menu-mode t
+        save-interprogram-paste-before-kill t
+
+        savehist-mode t
+        save-place-mode t
+        recentf-mode t)
 
 (menu-bar-mode -1)
 (tool-bar-mode -1)
@@ -67,7 +90,6 @@
         scroll-preserve-screen-position 1
         mouse-wheel-scroll-amount '(1 ((shift) . 1))
         mouse-wheel-progressive-speed nil)
-(setq-default smooth-scroll-margin 0)
 
 ;; Display a counter in I-search, showing total number of matches, as well as the current
 ;; position in them. Taken from Protesilaos Stavrou
@@ -75,10 +97,6 @@
         lazy-count-prefix-format "(%s/%s) "
         lazy-count-suffix-format nil
         search-whitespace-regexp ".*?")
-
-(setopt confirm-kill-processes nil
-        use-short-answers t
-        view-read-only t)
 
 ;; Augment default C-g behavior
 (defun prot/keyboard-quit-dwim ()
