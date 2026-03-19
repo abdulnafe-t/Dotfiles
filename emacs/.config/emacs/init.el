@@ -568,6 +568,12 @@ The DWIM behaviour of this command is as follows:
   :init
   (nerd-icons-completion-mode))
 
+
+;;;; Extensions: avy
+(use-package avy
+  :bind
+  ("C-ù" . avy-goto-char-timer))
+
 ;;;; Extensions: hydra
 (use-package hydra
   :ensure t
@@ -713,9 +719,7 @@ The DWIM behaviour of this command is as follows:
   :config
   (push 'whole-line-or-region-kill-region pulsar-pulse-functions)
   (push 'whole-line-or-region-kill-region pulsar-pulse-region-functions)
-
-  (push 'whole-line-or-region-kill-ring-save pulsar-pulse-region-functions)
-  )
+  (push 'whole-line-or-region-kill-ring-save pulsar-pulse-region-functions))
 
 ;;;; Extensions: wiki-summary
 (use-package wiki-summary)
@@ -831,12 +835,12 @@ The DWIM behaviour of this command is as follows:
      "/home/scion/Projects/learn_cpp/chapter_27_x" "/home/scion/Projects/learn_cpp/demo"
      "/home/scion/Projects/Notepad--"))
  '(package-selected-packages
-   '(agent-shell auctex beginend consult ef-themes eglot eldoc-box elfeed elfeed-tube
+   '(agent-shell auctex avy beginend consult ef-themes eglot eldoc-box elfeed elfeed-tube
                  expand-region highlight-doxygen hydra json-mode lorem-ipsum magit
                  marginalia markdown-mode minions move-text multiple-cursors
                  nerd-icons-completion nerd-icons-dired no-littering olivetti orderless
-                 org-appear org-bullets page-break-lines pdf-tools pulsar vertico vundo
-                 whole-line-or-region wiki-summary ws-butler yasnippet))
+                 org-appear org-bullets page-break-lines pdf-tools pulsar shrface svg-lib
+                 vertico vundo whole-line-or-region wiki-summary ws-butler yasnippet))
  '(paradox-github-token t))
 
 ;; ## added by opam user-setup for emacs / base ## 56ab50dc8996d2bb95e7856a6eddb17b ## you can edit, but keep this line
