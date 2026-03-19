@@ -16,7 +16,8 @@
   (setq-default elfeed-search-filter "@2months")
 
   (setopt elfeed-feeds
-	  '(("https://xkcd.com/rss.xml" xkcd humor general comics)
+          '(("https://karthinks.com/index.xml" emacs software)
+	    ("https://xkcd.com/rss.xml" xkcd humor general comics)
 	    ("https://archlinux.org/feeds/news" arch linux software)
             ("https://emacshorrors.com/feed.atom" emacs software humor)
 	    ("https://blog.ar-ms.me/atom.xml" abdul-rahman-sibahi arabic software typography general)
