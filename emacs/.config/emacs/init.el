@@ -360,8 +360,8 @@ The DWIM behaviour of this command is as follows:
                        (set-face-attribute 'dired-directory nil
                                            :foreground (face-foreground 'font-lock-keyword-face))))
   :config
-  (setopt dired-auto-revert-buffer t)
-  (setopt dired-omit-files
+  (setopt dired-auto-revert-buffer t
+          dired-omit-files
           (concat (default-value 'dired-omit-files) "\\|^\\..+$"))
   )
 
