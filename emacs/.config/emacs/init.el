@@ -141,6 +141,9 @@ The DWIM behaviour of this command is as follows:
 
 (setopt use-package-hook-name-suffix nil)
 
+;;; Gnus
+(load "~/.config/emacs/gnus-config.el")
+
 ;;; Theme & style
 
 (setq-default cursor-type 'box)
@@ -206,6 +209,9 @@ The DWIM behaviour of this command is as follows:
    org-agenda-mode-hook
    pdf-outline-buffer-mode-hook
    proced-mode-hook
+   gnus-server-mode-hook
+   gnus-browse-mode-hook
+   gnus-summary-mode-hook
    tabulated-list-mode-hook))
 
 (add-hook 'hl-line-mode-hook
@@ -836,7 +842,7 @@ The DWIM behaviour of this command is as follows:
                  nerd-icons-completion nerd-icons-dired no-littering olivetti orderless
                  org-appear org-bullets page-break-lines pdf-tools pulsar shrface svg-lib
                  vertico vundo whole-line-or-region wiki-summary ws-butler yasnippet))
- '(paradox-github-token t))
+ '(send-mail-function 'smtpmail-send-it))
 
 ;; ## added by opam user-setup for emacs / base ## 56ab50dc8996d2bb95e7856a6eddb17b ## you can edit, but keep this line
 ;;(require 'opam-user-setup "~/.config/emacs/opam-user-setup.el")
