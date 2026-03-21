@@ -167,7 +167,8 @@ The DWIM behaviour of this command is as follows:
             (fg-mode-line-active fg-main)
             (bg-mode-line-active "#2f2c39")
             (bg-mode-line-inactive "#17161c")
-            ))
+            )
+          )
   (modus-themes-load-theme 'ef-dark))
 
 ;; [WIP] Make background transparent, unless in fullscreen

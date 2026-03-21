@@ -18,8 +18,9 @@
                                               (nntp-port 563))
                                         (nntp "news.eternal-september.org"
                                               (nntp-stream tls)
-                                              (nntp-port 563))))
+                                              (nntp-port 563)))
+        )
 
 (setopt gnus-parameters '((".*" (display . all)))
-        gnus-posting-styles '(".*" (signature "A.T."))
+        gnus-posting-styles '((".*" (signature "A.T.")))
         )
