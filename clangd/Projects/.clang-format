@@ -35,7 +35,6 @@ CompactNamespaces: false
 
 BreakBeforeBraces: Custom
 BraceWrapping:
- BeforeElse: true
  AfterNamespace: false
  AfterStruct: false
  AfterClass: false
@@ -43,7 +42,9 @@ BraceWrapping:
  SplitEmptyFunction: false
  SplitEmptyRecord: false
  SplitEmptyNamespace: false
-
+ BeforeCatch: true
+ BeforeElse: true
+  
 AlignConsecutiveAssignments:
   Enabled: true
   PadOperators: true
