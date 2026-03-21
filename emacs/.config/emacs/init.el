@@ -626,9 +626,6 @@ The DWIM behaviour of this command is as follows:
 ;;;; Extensions: Vundo
 (use-package vundo
   :ensure t
-  :hook
-  (prog-mode-hook . vundo-popup-mode)
-  (text-mode-hook . vundo-popup-mode)
   :config
   (setopt vundo-glyph-alist vundo-unicode-symbols
           vundo-popup-time 4.0))
