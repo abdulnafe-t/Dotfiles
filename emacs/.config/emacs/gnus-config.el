@@ -1,6 +1,7 @@
 ;;; -*- lexical-binding: t -*-
 
-(setopt user-mail-address "abdulnafe.toulaimat@gmail.com"
+(setopt auth-sources '("~/.authinfo.gpg")
+        user-mail-address "abdulnafe.toulaimat@gmail.com"
         user-full-name "Abdulnafé Toulaïmat")
 
 (setopt gnus-select-method
@@ -18,9 +19,12 @@
                                               (nntp-port 563))
                                         (nntp "news.eternal-september.org"
                                               (nntp-stream tls)
-                                              (nntp-port 563)))
-        )
+                                              (nntp-port 563))))
 
 (setopt gnus-parameters '((".*" (display . all)))
         gnus-posting-styles '((".*" (signature "A.T.")))
-        )
+        gnus-asynchronous t
+        gnus-article-sort-functions
+        '(gnus-article-sort-by-number
+          gnus-article-sort-by-date)
+        gnus-summary-to-prefix "To: ")

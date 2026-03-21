@@ -361,6 +361,7 @@ The DWIM behaviour of this command is as follows:
         ("M-o" . dired-omit-mode))
   :hook
   (dired-mode-hook . dired-omit-mode)
+  (dired-mode-hook . gnus-dired-mode)
   (dired-mode-hook . (lambda()
                        (set-face-attribute 'dired-directory nil
                                            :foreground (face-foreground 'font-lock-keyword-face))))
