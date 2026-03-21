@@ -161,8 +161,6 @@ The DWIM behaviour of this command is as follows:
           '((cursor fg-main)
             (string red-faint)
             (comment fg-dim)
-            (bg-hover fg-active)
-            (fg-prompt cyan)
             (fg-mode-line-active fg-main)
             (bg-mode-line-active "#2f2c39")
             (bg-mode-line-inactive "#17161c")
@@ -181,10 +179,10 @@ The DWIM behaviour of this command is as follows:
 (use-package pulsar
   :ensure t
   :config
-  (setopt pulsar-face 'pulsar-magenta
-          pulsar-region-face 'pulsar-magenta
-          pulsar-region-change-face 'pulsar-magenta
-          pulsar-highlight-face 'pulsar-magenta)
+  (setopt pulsar-face 'pulsar-cyan
+          pulsar-region-face 'pulsar-cyan
+          pulsar-region-change-face 'pulsar-cyan
+          pulsar-highlight-face 'pulsar-cyan)
   (push 'kill-visual-line pulsar-pulse-functions)
   :init
 (pulsar-global-mode 1))
