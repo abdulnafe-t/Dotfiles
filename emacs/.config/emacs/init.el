@@ -217,10 +217,12 @@ The DWIM behaviour of this command is as follows:
 
 (add-hook 'hl-line-mode-hook
           (lambda ()
+            (visual-line-mode -1)
             (setq-local cursor-type nil
-                        column-number-mode (not hl-line-mode))
+                        column-number-mode (not hl-line-mode)
+                        line-move-visual nil)
             (pulsar-mode -1)
-            (visual-line-mode -1)))
+            ))
 
 ;;; Org mode
 (load "~/.config/emacs/org-config")
