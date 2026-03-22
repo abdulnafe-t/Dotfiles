@@ -29,8 +29,6 @@
         context-menu-mode t
         save-interprogram-paste-before-kill t
 
-        savehist-mode t
-        save-place-mode t
         recentf-mode t)
 
 (menu-bar-mode -1)
@@ -491,7 +489,8 @@ The DWIM behaviour of this command is as follows:
                       :require-match mustmatch
                       :predicate pred
                       :sort t
-                      :preview-key '(:debounce 0.4 any)))))
+                      :preview-key '("M-*"
+                                     :debounce 0.4 any)))))
 
   (setopt read-file-name-function #'consult-find-file-with-preview)
 

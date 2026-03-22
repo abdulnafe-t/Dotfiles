@@ -26,5 +26,4 @@
         gnus-asynchronous t
         gnus-article-sort-functions
         '(gnus-article-sort-by-number
-          gnus-article-sort-by-date)
-        gnus-summary-to-prefix "To: ")
+          gnus-article-sort-by-date))
