@@ -17,6 +17,8 @@ if [ -z "$WAYLAND_DISPLAY" ] && [ "$(tty)" = "/dev/tty1" ]; then
     export PATH=${PATH}:${HOME}/.local/bin
     export EDITOR='emacsclient -c -a emacs'
     export VISUAL='emacsclient -c -a emacs'
+    GPG_TTY=$(tty)
+    export GPG_TTY
 
     GREEN=$(tput setaf 2)
     MAGENTA=$(tput setaf 5)
