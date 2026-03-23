@@ -11,6 +11,8 @@
         visible-bell nil
 
         view-read-only t
+        delete-by-moving-to-trash t
+        save-interprogram-paste-before-kill t
 
         confirm-kill-processes nil
         shell-command-prompt-show-cwd t
@@ -25,8 +27,6 @@
         frame-inhibit-implied-resize t
         frame-resize-pixelwise t
         window-resize-pixelwise t
-
-        save-interprogram-paste-before-kill t
         )
 
 (recentf-mode 1)
@@ -370,6 +370,7 @@ The DWIM behaviour of this command is as follows:
                                            :foreground (face-foreground 'font-lock-keyword-face))))
   :config
   (setopt dired-auto-revert-buffer t
+          dired-dwim-target t
           dired-omit-files
           (concat (default-value 'dired-omit-files) "\\|^\\..+$"))
 
@@ -530,7 +531,7 @@ The DWIM behaviour of this command is as follows:
   (orderless-define-completion-style orderless+flex
     (orderless-matching-styles '(orderless-flex orderless-literal orderless-regexp)))
 
-  (setopt completion-styles '(orderless basic)
+  (setopt completion-styles '(orderless basic partial-completion emacs22)
           completion-category-defaults nil
           completion-category-overrides  '((file (styles orderless+flex))
                                            (buffer (styles orderless+flex))
@@ -623,6 +624,7 @@ The DWIM behaviour of this command is as follows:
     ("C-s" save-buffer "Save" :color blue :column "Buffer")
     ("b" consult-buffer "Switch to buffer" :color blue :column "Buffer")
     ("d" dired "Dired" :color blue :column "Buffer")
+    ("C-d" dired "Dired" :color blue :column "Buffer")
     ("0" delete-window "Delete current window" :color blue :column "Windows")
     ("1" delete-other-windows "Delete other windows" :color blue :column "Windows")
     ("2" split-window-below "Split window below" :column "Windows")
