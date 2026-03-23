@@ -364,7 +364,7 @@ The DWIM behaviour of this command is as follows:
         ("M-o" . dired-omit-mode))
   :hook
   (dired-mode-hook . dired-omit-mode)
-  (dired-mode-hook . gnus-dired-mode)
+  (dired-mode-hook . turn-on-gnus-dired-mode)
   (dired-mode-hook . (lambda()
                        (set-face-attribute 'dired-directory nil
                                            :foreground (face-foreground 'font-lock-keyword-face))))
@@ -372,7 +372,17 @@ The DWIM behaviour of this command is as follows:
   (setopt dired-auto-revert-buffer t
           dired-omit-files
           (concat (default-value 'dired-omit-files) "\\|^\\..+$"))
+
+  (advice-add #'wdired-change-to-wdired-mode :after (lambda()
+                                                      (when hl-line-mode
+                                                        (hl-line-mode -1)
+                                                        (setq-local cursor-type 'box))))
+
+  (advice-add #'wdired-change-to-dired-mode :after (lambda ()
+                                                     (hl-line-mode 1)
+                                                     (setq-local cursor-type nil)))
   )
+
 
 ;; Enable mouse navigation between visited help-mode topics
 (add-hook 'help-mode-hook
