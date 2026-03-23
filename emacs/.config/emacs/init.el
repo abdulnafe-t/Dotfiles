@@ -507,8 +507,10 @@ The DWIM behaviour of this command is as follows:
 
    consult-buffer consult-xref :preview-key 'any
 
-   scion/consult-fd-home consult-fd :state (consult--file-preview) :sort t :preview-key '("M-*"
-                                                                                          :debounce 0.4 any))
+   scion/consult-fd-home consult-fd
+   :state (consult--file-preview)
+   :sort t
+   :preview-key '("M-*" :debounce 0.4 any))
   )
 
 (use-package orderless
