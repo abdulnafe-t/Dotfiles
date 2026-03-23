@@ -27,3 +27,5 @@
         gnus-article-sort-functions
         '(gnus-article-sort-by-number
           gnus-article-sort-by-date))
+
+(add-hook 'gnus-group-mode-hook #'gnus-topic-mode)

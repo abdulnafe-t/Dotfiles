@@ -212,6 +212,7 @@ The DWIM behaviour of this command is as follows:
    gnus-server-mode-hook
    gnus-browse-mode-hook
    gnus-summary-mode-hook
+   gnus-group-mode-hook
    tabulated-list-mode-hook))
 
 (add-hook 'hl-line-mode-hook
@@ -844,8 +845,8 @@ The DWIM behaviour of this command is as follows:
                  expand-region highlight-doxygen hydra json-mode lorem-ipsum magit
                  marginalia markdown-mode minions move-text multiple-cursors
                  nerd-icons-completion nerd-icons-dired no-littering olivetti orderless
-                 org-appear org-bullets page-break-lines pdf-tools pulsar shrface svg-lib
-                 vertico vundo whole-line-or-region wiki-summary ws-butler yasnippet))
+                 org-appear org-bullets page-break-lines pdf-tools pulsar svg-lib vertico
+                 vundo whole-line-or-region wiki-summary ws-butler yasnippet))
  '(send-mail-function 'smtpmail-send-it))
 
 ;; ## added by opam user-setup for emacs / base ## 56ab50dc8996d2bb95e7856a6eddb17b ## you can edit, but keep this line
