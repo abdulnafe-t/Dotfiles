@@ -26,10 +26,11 @@
         frame-resize-pixelwise t
         window-resize-pixelwise t
 
-        context-menu-mode t
         save-interprogram-paste-before-kill t
+        )
 
-        recentf-mode t)
+(recentf-mode 1)
+(context-menu-mode 1)
 
 (menu-bar-mode -1)
 (tool-bar-mode -1)
