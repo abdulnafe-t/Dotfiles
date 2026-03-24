@@ -225,6 +225,14 @@ The DWIM behaviour of this command is as follows:
             (pulsar-mode -1)
             ))
 
+(advice-add #'grep-change-to-grep-edit-mode :after (lambda()
+                                                     (when hl-line-mode
+                                                       (hl-line-mode -1)
+                                                       (setq-local cursor-type 'box))))
+
+(advice-add #'grep-edit-save-changes :after (lambda ()
+                                              (hl-line-mode 1)))
+
 ;;; Org mode
 (load "~/.config/emacs/org-config")
 
