@@ -477,12 +477,19 @@ The DWIM behaviour of this command is as follows:
     (consult-fd (getenv "HOME")))
 
   (setopt consult-fd-args
-          `(,(if (executable-find "fdfind" 'remote) "fdfind" "fd")
-            "--color=never" "--hidden" "--follow" "--type file")
+          '("fd --color=never --hidden --follow --type file")
 
           consult-ripgrep-args
           '("rg --null --line-buffered --color=never --max-columns=1000 --path-separator /"
-            "--smart-case --no-heading --with-filename --line-number --hidden"))
+            "--smart-case --no-heading --with-filename --line-number --hidden")
+
+          consult-find-args
+          '("find -L . -type f")
+
+          consult-grep-args
+          '("grep" (consult--grep-exclude-args)
+            "--null --line-buffered --color=never --ignore-case"
+            "--with-filename --line-number -I -r"))
 
   :config
   (setopt consult-async-min-input 2)
@@ -518,7 +525,7 @@ The DWIM behaviour of this command is as follows:
 
    consult-buffer consult-xref :preview-key 'any
 
-   scion/consult-fd-home consult-fd
+   scion/consult-fd-home consult-fd consult-find consult-locate
    :state (consult--file-preview)
    :sort t
    :preview-key '("M-*" :debounce 0.4 any))
@@ -557,11 +564,13 @@ The DWIM behaviour of this command is as follows:
                (setq pos next)))
            str))))))
 
-(defun consult--fd-with-orderless (&rest args)
+(defun consult--find-file-with-orderless (&rest args)
   (let ((consult--regexp-compiler #'consult--orderless-flex-regexp-compiler))
     (apply args)))
 
-(advice-add #'consult-fd :around #'consult--fd-with-orderless)
+(advice-add #'consult-fd :around #'consult--find-file-with-orderless)
+(advice-add #'consult-find :around #'consult--find-file-with-orderless)
+(advice-add #'consult-locate :around #'consult--find-file-with-orderless)
 
 (defun consult--orderless-regexp-compiler (input type &rest _config)
   (setq input (cdr (orderless-compile input)))
@@ -569,11 +578,12 @@ The DWIM behaviour of this command is as follows:
    (mapcar (lambda (r) (consult--convert-regexp r type)) input)
    (lambda (str) (orderless--highlight input t str))))
 
-(defun consult--rg-with-orderless (&rest args)
+(defun consult--grep-with-orderless (&rest args)
   (let ((consult--regexp-compiler #'consult--orderless-regexp-compiler))
     (apply args)))
 
-(advice-add #'consult-ripgrep :around #'consult--rg-with-orderless)
+(advice-add #'consult-ripgrep :around #'consult--grep-with-orderless)
+(advice-add #'consult-grep :around #'consult--grep-with-orderless)
 
 ;;;; Extensions: nerd-icons
 (use-package nerd-icons
