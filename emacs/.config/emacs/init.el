@@ -197,9 +197,8 @@ The DWIM behaviour of this command is as follows:
 (pulsar-global-mode 1))
 
 (defface custom-hl-line-face
-  '((t (:box nil :inherit 'default :weight bold)))
-  "Face for hl-line, as well as minibuffer augmentations (vertico et al.).")
-
+  '((t (:box nil :inherit 'default :weight normal)))
+  "Face for hl-line, as well as the minibuffer (vertico et al.).")
 (set-face-background 'custom-hl-line-face (face-background 'mode-line))
 
 (use-package hl-line
@@ -942,10 +941,11 @@ The DWIM behaviour of this command is as follows:
   (set-face-attribute 'font-lock-property-name-face nil :foreground "#8aa0df")
   (set-face-attribute 'font-lock-property-name-face nil :foreground "#8aa0df")
 
-  (set-face-attribute 'hl-line nil :background (face-background 'custom-hl-line-face) :weight 'bold)
+  (set-face-attribute 'hl-line nil :background (face-background 'custom-hl-line-face))
 
   (with-eval-after-load 'consult
-    (set-face-attribute 'consult-highlight-match nil :background "#850085" :weight 'bold)
+    (set-face-attribute 'consult-highlight-match nil :background "#561d32" :weight 'bold)
+    (set-face-attribute 'match nil :background "#561d32" :weight 'bold)
     (set-face-attribute 'consult-file nil :foreground (face-foreground 'shadow)))
 
   (with-eval-after-load 'eglot
