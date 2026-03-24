@@ -418,6 +418,7 @@ The DWIM behaviour of this command is as follows:
 ;;;; Extensions: multiple-cursor
 (use-package multiple-cursors
   :ensure t
+  :demand t
   :bind
   (("C-$ l" . mc/edit-lines)
    ("C-$ a" . mc/mark-all-like-this)
@@ -445,19 +446,14 @@ The DWIM behaviour of this command is as follows:
 
 (use-package embark
   :ensure t
-
+  :demand t
   :bind
   (("C-!" . embark-act)         ;; pick some comfortable binding
    ("C-M-!" . embark-dwim)        ;; good alternative: M-.
    ("C-h B" . embark-bindings)) ;; alternative for `describe-bindings'
-
   :init
-
-  ;; Optionally replace the key help with a completing-read interface
-  (setq prefix-help-command #'embark-prefix-help-command)
-
+  (setopt prefix-help-command #'embark-prefix-help-command)
   :config
-
   ;; Hide the mode line of the Embark live/completions buffers
   (add-to-list 'display-buffer-alist
                '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
@@ -482,6 +478,7 @@ The DWIM behaviour of this command is as follows:
 
 (use-package consult
   :ensure t
+  :demand t
   :bind (;; C-c bindings in `mode-specific-map'
          ("C-c k" . consult-kmacro)
          ([remap Info-search] . consult-info)
@@ -513,8 +510,6 @@ The DWIM behaviour of this command is as follows:
 	 )
 
   :init
-
-  ;; Use Consult to select xref locations with preview
   (setopt xref-show-xrefs-function #'consult-xref
           xref-show-definitions-function #'consult-xref)
 
@@ -588,7 +583,7 @@ The DWIM behaviour of this command is as follows:
           completion-category-defaults nil
           completion-category-overrides  '((file (styles orderless+flex))
                                            (buffer (styles orderless+flex))
-                                           ;; Added for consult-buffer:
+                                           ;; For consult-buffer:
                                            (multi-category (styles orderless+flex))
                                            )))
 
