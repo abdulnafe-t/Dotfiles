@@ -430,6 +430,30 @@ The DWIM behaviour of this command is as follows:
   (set-face-attribute 'vertico-current nil :inherit 'custom-hl-line-face)
   )
 
+(use-package embark
+  :ensure t
+
+  :bind
+  (("C-!" . embark-act)         ;; pick some comfortable binding
+   ("C-M-!" . embark-dwim)        ;; good alternative: M-.
+   ("C-h B" . embark-bindings)) ;; alternative for `describe-bindings'
+
+  :init
+
+  ;; Optionally replace the key help with a completing-read interface
+  (setq prefix-help-command #'embark-prefix-help-command)
+
+  :config
+
+  ;; Hide the mode line of the Embark live/completions buffers
+  (add-to-list 'display-buffer-alist
+               '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
+                 nil
+                 (window-parameters (mode-line-format . none)))))
+
+(use-package embark-consult
+  :ensure t)
+
 (use-package marginalia
   :ensure t
   :custom
