@@ -18,9 +18,10 @@
         shell-command-prompt-show-cwd t
         use-short-answers t
 
-        minibuffer-visible-completions t
         completions-group t
         completion-eager-update t
+        minibuffer-visible-completions t
+        help-enable-completion-autoload nil
 
         package-autosuggest-mode t
 
