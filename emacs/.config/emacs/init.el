@@ -238,6 +238,14 @@ The DWIM behaviour of this command is as follows:
 (advice-add #'grep-edit-save-changes :after (lambda ()
                                               (hl-line-mode 1)))
 
+(advice-add #'occur-edit-mode :after (lambda()
+                                       (when hl-line-mode
+                                         (hl-line-mode -1)
+                                         (setq-local cursor-type 'box))))
+
+(advice-add #'occur-cease-edit :after (lambda ()
+                                        (hl-line-mode 1)))
+
 ;;; Org mode
 (load "~/.config/emacs/org-config")
 
