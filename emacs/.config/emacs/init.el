@@ -645,8 +645,108 @@ The DWIM behaviour of this command is as follows:
 
 ;;;; Extensions: avy
 (use-package avy
+  :ensure t
+  :demand t
   :bind
-  ("C-ù" . avy-goto-char-timer))
+  (("C-ù" . avy-goto-char-timer)
+   (:map isearch-mode-map ("C-ù" . avy-isearch)))
+
+  :config
+  (setopt avy-keys '(?q ?s ?d ?f ?g ?h ?j ?k ?l ?m)) ; AZERTY
+
+  (defun avy-action-kill-whole-line (pt)
+    (save-excursion
+      (goto-char pt)
+      (kill-whole-line))
+    (select-window
+     (cdr
+      (ring-ref avy-ring 0)))
+    t)
+
+  (defun avy-action-copy-whole-line (pt)
+    (save-excursion
+      (goto-char pt)
+      (cl-destructuring-bind (start . end)
+          (bounds-of-thing-at-point 'line)
+        (copy-region-as-kill start end)))
+    (select-window
+     (cdr
+      (ring-ref avy-ring 0)))
+    t)
+
+  (defun avy-action-yank-whole-line (pt)
+    (avy-action-copy-whole-line pt)
+    (save-excursion (yank))
+    t)
+
+  (defun avy-action-teleport-whole-line (pt)
+    (avy-action-kill-whole-line pt)
+    (save-excursion (yank)) t)
+
+  (defun avy-action-mark-to-char (pt)
+    (activate-mark)
+    (goto-char pt))
+
+  (defun avy-action-embark (pt)
+    (unwind-protect
+        (save-excursion
+          (goto-char pt)
+          (embark-act))
+      (select-window
+       (cdr (ring-ref avy-ring 0))))
+    t)
+
+  (defun avy-action-xref-definitions (pt)
+    (unwind-protect
+        (save-excursion
+          (goto-char pt)
+          (xref-find-definitions (thing-at-point 'symbol)))
+      (select-window
+       (cdr (ring-ref avy-ring 0))))
+    t)
+
+  (defun avy-action-xref-references (pt)
+    (unwind-protect
+        (save-excursion
+          (goto-char pt)
+          (xref-find-references (thing-at-point 'symbol)))
+      (select-window
+       (cdr (ring-ref avy-ring 0))))
+    t)
+
+  (defun avy-show-dispatch-help ()
+    "Display available avy-actions in a grid, and fontify the keys."
+    (let* ((len (length "avy-action-"))
+           (fw (frame-width))
+           (raw-strings (mapcar
+                          (lambda (x)
+                            (let* ((key (car x))
+                                   (key-str (if (eq key ? ) "SPC" (char-to-string key))))
+                              (format "%3s:%-20s"
+                                      (propertize key-str 'face 'font-lock-builtin-face)
+                                      (substring (symbol-name (cdr x)) len))))
+                         avy-dispatch-alist))
+           (max-len (1+ (apply #'max (mapcar #'length raw-strings))))
+           (strings-len (length raw-strings))
+           (per-row (floor fw max-len))
+           display-strings)
+      (cl-loop for string in raw-strings
+               for N from 1 to strings-len do
+               (push (concat string " ") display-strings)
+               (when (= (mod N per-row) 0) (push "\n" display-strings)))
+      (message "%s" (apply #'concat (nreverse display-strings)))))
+
+  (setcar (assoc ?n avy-dispatch-alist) ?c)
+  (setf (alist-get ?y avy-dispatch-alist) 'avy-action-yank
+        (alist-get ?Y avy-dispatch-alist) 'avy-action-yank-whole-line
+        (alist-get ?w avy-dispatch-alist) 'avy-action-copy-whole-line
+        (alist-get ?W avy-dispatch-alist) 'avy-action-kill-whole-line
+        (alist-get ?T avy-dispatch-alist) 'avy-action-teleport-whole-line
+        (alist-get ?  avy-dispatch-alist) 'avy-action-mark-to-char
+        (alist-get ?! avy-dispatch-alist) 'avy-action-embark
+        (alist-get ?. avy-dispatch-alist) 'avy-action-xref-definitions
+        (alist-get ?: avy-dispatch-alist) 'avy-action-xref-references)
+  )
 
 ;;;; Extensions: hydra
 (use-package hydra
