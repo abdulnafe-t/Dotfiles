@@ -20,7 +20,11 @@
 
         completions-group t
         completion-eager-update t
+
+        enable-recursive-minibuffers t
         minibuffer-visible-completions t
+
+        help-window-select t
         help-enable-completion-autoload nil
 
         package-autosuggest-mode t
