@@ -127,10 +127,10 @@ The DWIM behaviour of this command is as follows:
 ;; Unbind suspend-frame to prevent weird behavior on hyprland, and to
 ;; prevent finger slippage while undoing.
 (keymap-unset global-map "C-x C-z")
-(keymap-global-set "C-z" 'undo)
 
-(keymap-global-set "M-?" 'xref-find-definitions)
-(keymap-global-set "M-." 'xref-find-references)
+(repeat-mode 1)
+(keymap-global-set "C-z" 'undo)
+(define-key undo-repeat-map (kbd "z") #'undo)
 
 ;; Enable certain "advanced" functions
 (put 'downcase-region 'disabled nil)
