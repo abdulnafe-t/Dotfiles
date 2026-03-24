@@ -371,6 +371,8 @@ The DWIM behaviour of this command is as follows:
   :config
   (setopt dired-auto-revert-buffer t
           dired-dwim-target t
+          dired-movement-style 'cycle-files
+          dired-kill-when-opening-new-dired-buffer t
           dired-omit-files
           (concat (default-value 'dired-omit-files) "\\|^\\..+$"))
 
@@ -380,8 +382,7 @@ The DWIM behaviour of this command is as follows:
                                                         (setq-local cursor-type 'box))))
 
   (advice-add #'wdired-change-to-dired-mode :after (lambda ()
-                                                     (hl-line-mode 1)
-                                                     (setq-local cursor-type nil)))
+                                                     (hl-line-mode 1)))
   )
 
 
