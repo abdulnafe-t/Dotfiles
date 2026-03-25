@@ -12,10 +12,6 @@
 	org-startup-with-inline-images t
         org-image-actual-width '(300))
 
-(setopt ispell-dictionary "en_US"
-	ispell-program-name "hunspell"
-	ispell-extra-args '("-a" "-i" "utf-8"))
-
 (use-package org-bullets
   :ensure t
   :hook
