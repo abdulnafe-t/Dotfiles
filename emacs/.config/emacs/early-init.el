@@ -11,10 +11,9 @@
 
 (push '(background-color . "black") default-frame-alist)
 
-;;;; Melpa
+;;;; `Melpa'
 (progn
   (require 'package)
-  ;; add melpa repository.
   (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
   (when (< emacs-major-version 27) (package-initialize)))
 

@@ -33,7 +33,7 @@
 	    ("https://www.youtube.com/feeds/videos.xml?channel_id=UCwHwDuNd9lCdA7chyyquDXw" youtube bread-on-penguins arch linux life general)
             )))
 
-(use-package elfeed-tube ;; improves youtube feeds
+(use-package elfeed-tube
   :after elfeed
   :ensure t
   :demand t

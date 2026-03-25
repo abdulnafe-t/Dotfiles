@@ -207,23 +207,27 @@
             (pulsar-mode -1)
             ))
 
-(advice-add #'grep-change-to-grep-edit-mode :after (lambda()
-                                                     (when hl-line-mode
-                                                       (hl-line-mode -1)
-                                                       (setq-local cursor-type 'box))))
+(advice-add #'grep-change-to-grep-edit-mode
+            :after (lambda()
+                     (when hl-line-mode
+                       (hl-line-mode -1)
+                       (setq-local cursor-type 'box))))
 
-(advice-add #'grep-edit-save-changes :after (lambda ()
-                                              (hl-line-mode 1)))
+(advice-add #'grep-edit-save-changes
+            :after (lambda ()
+                     (hl-line-mode 1)))
 
-(advice-add #'occur-edit-mode :after (lambda()
-                                       (when hl-line-mode
-                                         (hl-line-mode -1)
-                                         (setq-local cursor-type 'box))))
+(advice-add #'occur-edit-mode
+            :after (lambda()
+                     (when hl-line-mode
+                       (hl-line-mode -1)
+                       (setq-local cursor-type 'box))))
 
-(advice-add #'occur-cease-edit :after (lambda ()
-                                        (hl-line-mode 1)))
+(advice-add #'occur-cease-edit
+            :after (lambda ()
+                     (hl-line-mode 1)))
 
-;;; Org mode
+;;; `Org'
 (load "~/.config/emacs/org-config")
 
 ;;; Programming
@@ -232,7 +236,7 @@
         treesit-font-lock-level 3)
 
 (use-package autoinsert
-  ; Builtin, used to automatically insert header guards & includes in C++ files
+  ; Builtin, used to automatically insert header guards & #include macros when a header file has the same name as the current (new) C++ file
   :init
   (auto-insert-mode t)
   :config
@@ -391,10 +395,20 @@
   :bind (("M-$" . jinx-correct)
          ("C-M-$" . jinx-next))
   :config
-  (setopt jinx-languages "en_US fr_FR de_DE"
+  (setopt jinx-languages "en_US"
           jinx-camel-modes t)
+
+  ;; Don't spellcheck hex colors: #RGB, #RRGGBB, and #RRGGBBAA
   (push "\\([[:xdigit:]]\\{3\\}\\|[[:xdigit:]]\\{6\\}\\|[[:xdigit:]]\\{8\\}\\)"
         (cdr (assoc t jinx-exclude-regexps)))
+
+  ;; Don't check file extensions
+  (push ".*\\.[a-zA-Z]+\\>" (cdr (assoc t jinx-exclude-regexps)))
+
+  ;; Fix URL matching. The builtin regex for URLs fails for
+  ;; "https://www.youtube.com/feeds/videos.xml?channel_id=XXxx", where the `XXxx' gets
+  ;; tagged as a misspelling.
+  (push "[a-z]+://\\S-+\\>" (cdr (assoc t jinx-exclude-regexps)))
 
   (defun scion/jinx-skip-path-p (start)
     "Skip if the preceding text forms an absolute path.
@@ -420,8 +434,8 @@
       (goto-char word-start)
       (let ((start-pos (point)))
         (skip-chars-forward "a-zA-Z0-9-")
-         (let* ((potential-name (downcase (buffer-substring-no-properties start-pos (point))))
-                (pkg (intern-soft potential-name)))
+        (let* ((potential-name (downcase (buffer-substring-no-properties start-pos (point))))
+               (pkg (intern-soft potential-name)))
           (when (and pkg (assq pkg package-alist))
             (point))))))
 
@@ -436,7 +450,7 @@
    ("C-$ a" . mc/mark-all-like-this)
    ("C-$ <down>" . mc/mark-more-like-this-extended)
    ("C-$ <up>" . mc/mark-more-like-this-extended)
-   ;; There are more MC keybindings in the hydras hydra-mc-*
+   ;; There are more MC keybindings in the hydras `hydra-mc-*'
    ))
 
 ;;;; Extensions: `VEMCO' Stack
@@ -462,7 +476,7 @@
   :bind
   (("C-!" . embark-act)
    ("C-M-!" . embark-dwim)
-   ("C-h B" . embark-bindings)) ;; alternative for `describe-bindings'
+   ("C-h B" . embark-bindings))
   :init
   (setopt prefix-help-command #'embark-prefix-help-command)
   :config
@@ -483,8 +497,8 @@
   (marginalia-mode)
 
   :config
-  ;; Reorder marginalia annotations to place doc-strings first.  This
-  ;; is done by modifying the marginalia.el annotation functions.
+  ;; Reorder marginalia annotations to place doc strings first.  This is done by modifying
+  ;; the marginalia.el annotation functions.
   (load "~/.config/emacs/marginalia-config.el")
   )
 
