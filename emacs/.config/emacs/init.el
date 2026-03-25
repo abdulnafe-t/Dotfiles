@@ -99,18 +99,6 @@
 
 ;; Augment default C-g behavior
 (defun prot/keyboard-quit-dwim ()
-  "Do-What-I-Mean behaviour for a general `keyboard-quit'.
-
-The generic `keyboard-quit' does not do the expected thing when the
-minibuffer is open.  Whereas we want it to close the minibuffer, even
-without explicitly focusing it.
-
-The DWIM behaviour of this command is as follows:
-
-- When the region is active, disable it.  When a minibuffer is open, but
-- not focused, close the minibuffer.  When the Completions buffer is
-- selected, close it.  In every other case use the regular
-- `keyboard-quit'."
   (interactive)
   (cond
    ((region-active-p)
@@ -171,13 +159,8 @@ The DWIM behaviour of this command is as follows:
           )
   (modus-themes-load-theme 'ef-dark))
 
-;; [WIP] Make background transparent, unless in fullscreen
+;; [WIP] Make background transparent, unless in full screen
 (push '(alpha-background . 100) default-frame-alist)
-
-;; (defun scion/change-alpha-background-on-fullscreen (frame)
-;;   (let ((fullscreen  (frame-parameter frame 'fullscreen)))
-;;     (when (memq fullscreen '(fullscreen fullboth))
-;;       (set-background-color 'white))))
 
 ;; Pulsar: flash current line on certain window changes
 (use-package pulsar
@@ -257,7 +240,7 @@ The DWIM behaviour of this command is as follows:
 
 (use-package flymake
   ;; Builtin, used for syntax checking. Disable its
-  ;; modeline lighter "Flymake", but keep the error
+  ;; modeling lighter, but keep the error
   ;; counters
   :config
   (setopt flymake-mode-line-lighter ""))
@@ -307,28 +290,18 @@ The DWIM behaviour of this command is as follows:
           eglot-extend-to-xref t
           eglot-code-action-indications '(margin)
           eglot-events-buffer-config '(:size 0))
-  )
 
-;; Use quickrun, which enables programming language interpretation on the fly.
-;; quickrun-shell is useful for programs requiring user input (via std::cin for example),
-;; as such programs fail if run with quickrun.  This also covers C++, and other "C-like
-;; languages" according to treesitter.el documentation.
-(with-eval-after-load "c-ts-mode"
-  (keymap-set c-ts-base-mode-map "C-c C-r C-r" #'quickrun)
-  (keymap-set c-ts-base-mode-map "C-c C-r C-s" #'quickrun-shell)
-  (keymap-set c-ts-base-mode-map "RET" #'electric-indent-just-newline))
+  (add-to-list 'eglot-ignored-server-capabilities :documentOnTypeFormattingProvider)
+  (add-to-list 'eglot-ignored-server-capabilities :documentHighlightProvider)
+  (setq-default eglot-semantic-token-types '("macro" "property" "parameter" "enumMember")
+                eglot-semantic-token-modifiers '("static"))
+  )
 
 (add-hook 'c++-ts-mode-hook
           (lambda ()
             (setopt c-ts-mode-indent-offset 6)
-            (setopt indent-tabs-mode nil)))
-
-(with-eval-after-load 'eglot
-  (add-to-list 'eglot-ignored-server-capabilities :documentOnTypeFormattingProvider)
-  (add-to-list 'eglot-ignored-server-capabilities :documentHighlightProvider)
-  (setq-default eglot-semantic-token-types '("macro" "property" "parameter" "enumMember"))
-  (setq-default eglot-semantic-token-modifiers '("static"))
-  )
+            (setopt indent-tabs-mode nil)
+            (keymap-set c-ts-base-mode-map "RET" #'electric-indent-just-newline)))
 
 (use-package json-mode
   :ensure t
@@ -347,7 +320,7 @@ The DWIM behaviour of this command is as follows:
           tex-parse-self t
           tex-master nil))
 
-;; Use pdf-tools as an emacs-native pdf viewer
+;; Use pdf-tools as an emacs-native PDF viewer
 (use-package pdf-tools
   :ensure t
   :mode ("\\.pdf\\'" . pdf-view-mode)
@@ -487,8 +460,8 @@ The DWIM behaviour of this command is as follows:
   :ensure t
   :demand t
   :bind
-  (("C-!" . embark-act)         ;; pick some comfortable binding
-   ("C-M-!" . embark-dwim)        ;; good alternative: M-.
+  (("C-!" . embark-act)
+   ("C-M-!" . embark-dwim)
    ("C-h B" . embark-bindings)) ;; alternative for `describe-bindings'
   :init
   (setopt prefix-help-command #'embark-prefix-help-command)
@@ -510,7 +483,7 @@ The DWIM behaviour of this command is as follows:
   (marginalia-mode)
 
   :config
-  ;; Reorder marginalia annotations to place docstrings first.  This
+  ;; Reorder marginalia annotations to place doc-strings first.  This
   ;; is done by modifying the marginalia.el annotation functions.
   (load "~/.config/emacs/marginalia-config.el")
   )
@@ -541,7 +514,6 @@ The DWIM behaviour of this command is as follows:
          ("M-s r" . consult-ripgrep)
          ("M-s l" . consult-line)
          ("M-s L" . consult-line-multi)
-         ;; Isearch integration
          :map isearch-mode-map
          ("M-e" . consult-isearch-history)
          ("M-s l" . consult-line)
