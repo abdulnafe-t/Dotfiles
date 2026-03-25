@@ -140,7 +140,7 @@ The DWIM behaviour of this command is as follows:
 
 (setopt use-package-hook-name-suffix nil)
 
-;;; Gnus
+;;; `Gnus'
 (load "~/.config/emacs/gnus-config.el")
 
 ;;; Theme & style
@@ -279,7 +279,7 @@ The DWIM behaviour of this command is as follows:
         (cpp "https://github.com/tree-sitter/tree-sitter-cpp")
         (bash "https://github.com/tree-sitter/tree-sitter-bash")))
 
-;; ede: emacs development environment
+;; `EDE'
 (add-hook 'prog-mode-hook #'global-ede-mode)
 
 ;; Required to get proper auto-completion (e.g. for () after function names) with eglot &
@@ -365,15 +365,16 @@ The DWIM behaviour of this command is as follows:
 
 ;;; Other QOL packages & extensions
 
-;;;; Dired
-;; Enable long listing in dired, sort directories before other files,
-;; use human-readable file sizes (kb, gb, etc), and don't show hidden files.
-(setq-default dired-listing-switches "-alh --group-directories-first")
+;;;; `Dired'
+;; Enable long listing in dired, sort directories before other files, use human-readable
+;; file sizes (KB, GB, etc), and don't show hidden files.
+(setq-default dired-listing-switches "-a -l -h --group-directories-first")
 
 (use-package dired
   :demand t
   :init
   (require 'dired-x)
+
   :bind
   (:map dired-mode-map
         ("M-o" . dired-omit-mode))
@@ -465,7 +466,7 @@ The DWIM behaviour of this command is as follows:
    ;; There are more MC keybindings in the hydras hydra-mc-*
    ))
 
-;;;; Extensions: VEMCO Stack
+;;;; Extensions: `VEMCO' Stack
 (use-package vertico
   :ensure t
   :custom-face
@@ -664,7 +665,7 @@ The DWIM behaviour of this command is as follows:
 (advice-add #'consult-ripgrep :around #'consult--grep-with-orderless)
 (advice-add #'consult-grep :around #'consult--grep-with-orderless)
 
-;;;; Extensions: nerd-icons
+;;;; Extensions: `nerd-icons'
 (use-package nerd-icons
   :ensure t
   :demand t)
@@ -681,7 +682,7 @@ The DWIM behaviour of this command is as follows:
   (nerd-icons-completion-mode))
 
 
-;;;; Extensions: avy
+;;;; Extensions: `avy'
 (use-package avy
   :ensure t
   :demand t
@@ -786,7 +787,7 @@ The DWIM behaviour of this command is as follows:
         (alist-get ?: avy-dispatch-alist) 'avy-action-xref-references)
   )
 
-;;;; Extensions: hydra
+;;;; Extensions: `hydra'
 (use-package hydra
   :ensure t
   :config
@@ -836,42 +837,42 @@ The DWIM behaviour of this command is as follows:
       ("1" flymake-show-buffer-diagnostics "Diagnostics window" :color blue :column "Clean up")))
   )
 
-;;;; Extensions: Vundo
+;;;; Extensions: `vundo'
 (use-package vundo
   :ensure t
   :config
   (setopt vundo-glyph-alist vundo-unicode-symbols
           vundo-popup-time 4.0))
 
-;;;; Extensions: Magit
+;;;; Extensions: `magit'
 (use-package magit
   :ensure t
   :init
   (setopt vc-follow-symlinks t))
 
-;;;; Extensions: expand-region
+;;;; Extensions: `expand-region'
 (use-package expand-region
   :ensure t)
 (keymap-global-set "C-=" 'er/expand-region)
 
-;;;; Extensions: no-littering
+;;;; Extensions: `no-littering'
 (use-package no-littering
   :ensure t)
 
-;;;; Extensions: elfeed
+;;;; Extensions: `elfeed'
 (load "~/.config/emacs/elfeed-config")
 
-;;;; Extensions: agent-shell
+;;;; Extensions: `agent-shell'
 (use-package agent-shell
   :ensure t)
 
-;;;; Extensions: page-break-line
+;;;; Extensions: `page-break-line'
 (use-package page-break-lines
   :ensure t
   :config
   (global-page-break-lines-mode))
 
-;;;; Extensions: highlight-doxygen
+;;;; Extensions: `highlight-doxygen'
 (use-package highlight-doxygen
   :ensure t
   :custom-face
@@ -879,7 +880,7 @@ The DWIM behaviour of this command is as follows:
   :config
   (highlight-doxygen-global-mode 1))
 
-;;;; Extensions: eldoc-box
+;;;; Extensions: `eldoc-box'
 (use-package eldoc-box
   :ensure t
   :custom-face
@@ -896,7 +897,7 @@ The DWIM behaviour of this command is as follows:
   (eldoc-documentation-strategy 'eldoc-documentation-compose-eagerly)
   )
 
-;;;; Extensions: minions
+;;;; Extensions: `minions'
 (use-package minions
   :ensure t
   :init
@@ -906,23 +907,23 @@ The DWIM behaviour of this command is as follows:
           minions-mode-line-lighter "  ")
   )
 
-;;;; Extensions: beginend
+;;;; Extensions: `beginend'
 (use-package beginend
   :ensure t
   :init
   (beginend-global-mode))
 
-;;;; Extensions: lorem-ipsum
+;;;; Extensions: `lorem-ipsum'
 (use-package lorem-ipsum
   :ensure t)
 
-;;;; Extensions: move-text
+;;;; Extensions: `move-text'
 (use-package move-text
   :ensure t
   :config
   (move-text-default-bindings))
 
-;;;; Extensions: whole line or region
+;;;; Extensions: `whole line or region'
 (use-package whole-line-or-region
   :init
   (whole-line-or-region-global-mode 1)
@@ -931,7 +932,7 @@ The DWIM behaviour of this command is as follows:
   (push 'whole-line-or-region-kill-region pulsar-pulse-region-functions)
   (push 'whole-line-or-region-kill-ring-save pulsar-pulse-region-functions))
 
-;;;; Extensions: wiki-summary
+;;;; Extensions: `wiki-summary'
 (use-package wiki-summary)
 
 ;;; Custom faces
@@ -1047,7 +1048,7 @@ The DWIM behaviour of this command is as follows:
      "/home/scion/Projects/Notepad--"))
  '(package-selected-packages
    '(agent-shell auctex avy beginend consult ef-themes eglot eldoc-box elfeed elfeed-tube
-                 expand-region highlight-doxygen hydra json-mode lorem-ipsum magit
+                 expand-region highlight-doxygen hydra jinx json-mode lorem-ipsum magit
                  marginalia markdown-mode minions move-text multiple-cursors
                  nerd-icons-completion nerd-icons-dired no-littering olivetti orderless
                  org-appear org-bullets page-break-lines pdf-tools pulsar svg-lib vertico
@@ -1063,3 +1064,7 @@ The DWIM behaviour of this command is as follows:
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+
+;; Local Variables:
+;; jinx-local-words: "init lp opam"
+;; End:
