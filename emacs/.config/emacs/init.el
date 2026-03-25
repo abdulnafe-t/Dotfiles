@@ -82,11 +82,6 @@
 (setopt column-number-indicator-zero-based nil
         mode-line-percent-position nil)
 
-;; Spellchecking
-(add-hook 'text-mode-hook #'flyspell-mode)
-; In prog-mode, only check spelling in strings & comments
-(add-hook 'prog-mode-hook #'flyspell-prog-mode)
-
 ;; From https://stackoverflow.com/questions/3631220/fix-to-get-smooth-scrolling-in-emacs
 (setopt scroll-margin 1
         scroll-step 1
@@ -414,7 +409,51 @@ The DWIM behaviour of this command is as follows:
             (keymap-set help-mode-map
                         "<mouse-8>" #'help-go-back)))
 
-;;;; Extensions: multiple-cursor
+;;;; Extensions: `jinx'
+(use-package jinx
+  :ensure t
+  :demand t
+  :hook (emacs-startup-hook . global-jinx-mode)
+  :bind (("M-$" . jinx-correct)
+         ("C-M-$" . jinx-next))
+  :config
+  (setopt jinx-languages "en_US fr_FR de_DE"
+          jinx-camel-modes t)
+  (push "\\([[:xdigit:]]\\{3\\}\\|[[:xdigit:]]\\{6\\}\\|[[:xdigit:]]\\{8\\}\\)"
+        (cdr (assoc t jinx-exclude-regexps)))
+
+  (defun scion/jinx-skip-path-p (start)
+    "Skip if the preceding text forms an absolute path.
+     Meant to be used in jinx--predicates to skip file paths."
+    (save-excursion
+      (goto-char start)
+      (let ((beginning-of-path (line-beginning-position)))
+        (goto-char start)
+        (skip-chars-backward "~/A-Za-z0-9_.-")
+        (when (and (> (point) beginning-of-path)
+                   (file-name-absolute-p (buffer-substring-no-properties
+                                          (point) start)))
+          (re-search-forward "[^/]*" (line-end-position) t)
+          (point)))))
+
+  (push #'scion/jinx-skip-path-p jinx--predicates)
+
+  (defun scion/jinx-skip-package-p (word-start)
+    "Skip if the word at point is an installed package name.
+   Handles hyphenated package names in emacs-lisp-mode.
+   Meant to be used in jinx--predicates."
+    (save-excursion
+      (goto-char word-start)
+      (let ((start-pos (point)))
+        (skip-chars-forward "a-zA-Z0-9-")
+         (let* ((potential-name (downcase (buffer-substring-no-properties start-pos (point))))
+                (pkg (intern-soft potential-name)))
+          (when (and pkg (assq pkg package-alist))
+            (point))))))
+
+  (push #'scion/jinx-skip-package-p jinx--predicates))
+
+;;;; Extensions: `multiple-cursors'
 (use-package multiple-cursors
   :ensure t
   :demand t
