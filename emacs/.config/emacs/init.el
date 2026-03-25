@@ -594,6 +594,7 @@
           completion-category-defaults nil
           completion-category-overrides  '((file (styles orderless+flex))
                                            (buffer (styles orderless+flex))
+                                           (command  (styles orderless+flex))
                                            ;; For consult-buffer:
                                            (multi-category (styles orderless+flex))
                                            )))
