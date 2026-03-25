@@ -663,7 +663,13 @@
    (:map isearch-mode-map ("C-ù" . avy-isearch)))
 
   :config
-  (setopt avy-keys '(?q ?s ?d ?f ?g ?h ?j ?k ?l ?m)) ; AZERTY
+  (setopt avy-keys '(?q ?s ?d ?f ?g ?h ?j ?k ?l ?m) ; AZERTY
+          avy-background t
+          avy-all-windows 'all-frames
+          avy-timeout-seconds 0.2
+          avy-orders-alist '((avy-goto-char-timer . avy-order-closest)
+                             (avy-isearch . avy-order-closest))
+          avy-single-candidate-jump nil)
 
   (defun avy-action-kill-whole-line (pt)
     (save-excursion
@@ -726,16 +732,16 @@
     t)
 
   (defun avy-show-dispatch-help ()
-    "Display available avy-actions in a grid, and fontify the keys."
+    "Display available avy actions in a grid, and fontify the keys."
     (let* ((len (length "avy-action-"))
            (fw (frame-width))
            (raw-strings (mapcar
-                          (lambda (x)
-                            (let* ((key (car x))
-                                   (key-str (if (eq key ? ) "SPC" (char-to-string key))))
-                              (format "%3s:%-20s"
-                                      (propertize key-str 'face 'font-lock-builtin-face)
-                                      (substring (symbol-name (cdr x)) len))))
+                         (lambda (x)
+                           (let* ((key (car x))
+                                  (key-str (if (eq key ? ) "SPC" (char-to-string key))))
+                             (format "%3s:%-20s"
+                                     (propertize key-str 'face 'font-lock-builtin-face)
+                                     (substring (symbol-name (cdr x)) len))))
                          avy-dispatch-alist))
            (max-len (1+ (apply #'max (mapcar #'length raw-strings))))
            (strings-len (length raw-strings))
@@ -747,7 +753,9 @@
                (when (= (mod N per-row) 0) (push "\n" display-strings)))
       (message "%s" (apply #'concat (nreverse display-strings)))))
 
-  (setcar (assoc ?n avy-dispatch-alist) ?c)
+  (let ((entry (assoc ?n avy-dispatch-alist)))
+    (when entry
+      (setcar entry ?c)))
   (setf (alist-get ?y avy-dispatch-alist) 'avy-action-yank
         (alist-get ?Y avy-dispatch-alist) 'avy-action-yank-whole-line
         (alist-get ?w avy-dispatch-alist) 'avy-action-copy-whole-line
