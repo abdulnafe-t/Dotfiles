@@ -637,7 +637,6 @@
 
 (advice-add #'consult-fd :around #'consult--find-file-with-orderless)
 (advice-add #'consult-find :around #'consult--find-file-with-orderless)
-(advice-add #'consult-locate :around #'consult--find-file-with-orderless)
 
 (defun consult--orderless-regexp-compiler (input type &rest _config)
   (setq input (cdr (orderless-compile input)))
