@@ -398,17 +398,19 @@
   (setopt jinx-languages "en_US"
           jinx-camel-modes t)
 
-  ;; Don't spellcheck hex colors: #RGB, #RRGGBB, and #RRGGBBAA
-  (push "\\([[:xdigit:]]\\{3\\}\\|[[:xdigit:]]\\{6\\}\\|[[:xdigit:]]\\{8\\}\\)"
-        (cdr (assoc t jinx-exclude-regexps)))
-
-  ;; Don't check file extensions
-  (push ".*\\.[a-zA-Z]+\\>" (cdr (assoc t jinx-exclude-regexps)))
+  (dolist (r '("\\([[:xdigit:]]\\{3\\}\\|[[:xdigit:]]\\{6\\}\\|[[:xdigit:]]\\{8\\}\\)"
+                                        ; Don't spellcheck hex colors: #RGB, #RRGGBB, and #RRGGBBAA
+               ".*\\.[a-zA-Z]+\\>"      ; Don't spellcheck file extensions
+               ))
+    (push r (cdr (assoc t jinx-exclude-regexps))))
 
   ;; Fix URL matching. The builtin regex for URLs fails for
   ;; "https://www.youtube.com/feeds/videos.xml?channel_id=XXxx", where the `XXxx' gets
   ;; tagged as a misspelling.
-  (push "[a-z]+://\\S-+\\>" (cdr (assoc t jinx-exclude-regexps)))
+  (setf (cdr (assoc t jinx-exclude-regexps))
+        (cons "[a-z]+://\\S-+\\>"
+              (delete "[a-z]+://\\S-+"
+                      (cdr (assoc t jinx-exclude-regexps)))))
 
   (defun scion/jinx-skip-path-p (start)
     "Skip if the preceding text forms an absolute path.
