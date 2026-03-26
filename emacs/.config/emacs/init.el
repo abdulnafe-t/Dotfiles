@@ -967,7 +967,7 @@
   (set-face-attribute 'variable-pitch nil :family "GeistNerdFontPropo")
 
   (set-face-attribute 'mode-line nil :inherit 'variable-pitch :box 'nil)
-  (set-face-attribute 'mode-line-active nil :inherit 'variable-pitch :box 'nil)
+  (set-face-attribute 'mode-line-active nil :inherit 'variable-pitch :box '(:line-width -1 :style released-button))
   (set-face-attribute 'mode-line-inactive nil :inherit 'variable-pitch :box 'nil)
 
   (set-face-attribute 'vc-state-base nil :inherit 'variable-pitch :slant 'normal)
