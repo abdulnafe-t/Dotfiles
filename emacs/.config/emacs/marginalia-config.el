@@ -56,9 +56,33 @@ documentation string before other info."
        (package-desc-version desc))
       :truncate 16 :face 'marginalia-version))))
 
-(add-to-list 'marginalia-annotators
-               '(function scion/marginalia-annotate-function builtin none))
-(add-to-list 'marginalia-annotators
-	       '(variable scion/marginalia-annotate-variable builtin none))
-(add-to-list 'marginalia-annotators
-	       '(package scion/marginalia-annotate-package builtin none))
+(defun scion/marginalia-annotate-symbol (cand)
+  "Annotate symbol CAND with its documentation string. Display
+documentation string before other info."
+  (when-let* ((sym (intern-soft cand)))
+    (marginalia--fields
+     (:left (marginalia-annotate-binding cand))
+     ((if (fboundp sym)
+          (marginalia--function-doc sym)
+        (or (cl-loop
+             for doc in '(variable-documentation
+                          face-documentation
+                          group-documentation)
+             thereis (ignore-errors (documentation-property sym doc)))
+            (marginalia--definition-prefix sym)))
+      :truncate 1.0 :face 'marginalia-documentation)
+     ((marginalia--symbol-class sym) :face 'marginalia-type)
+     ((marginalia--abbreviate-file-name (or (symbol-file sym) ""))
+      :truncate -0.5 :face 'marginalia-file-name))))
+
+(defun scion/marginalia-annotate-imenu (cand)
+  "Annotate imenu CAND with its documentation string. Display documentation
+string before other info."
+  (when (derived-mode-p 'emacs-lisp-mode)
+    ;; Strip until the last whitespace in order to support flat imenu
+    (scion/marginalia-annotate-symbol (replace-regexp-in-string "\\`.* " "" cand))))
+
+(dolist (type '(function variable package symbol imenu))
+  (add-to-list 'marginalia-annotators
+               (list type (intern (concat "scion/marginalia-annotate-" (symbol-name type)))
+                     'builtin 'none)))
