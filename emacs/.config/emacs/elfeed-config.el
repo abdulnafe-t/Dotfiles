@@ -39,7 +39,7 @@
   :demand t
   :config
   (elfeed-tube-setup)
-
+  (setopt elfeed-tube-thumbnail-size 'medium)
   (defun scion/open-youtube-with-freetube (url &optional _new-window)
     (start-process "open-youtube" nil "freetube" url))
   (setopt browse-url-handlers

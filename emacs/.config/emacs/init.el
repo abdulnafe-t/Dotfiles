@@ -611,6 +611,7 @@
           completion-category-overrides  '((file (styles orderless+flex))
                                            (buffer (styles orderless+flex))
                                            (command  (styles orderless+flex))
+                                           (bookmark (styles orderless+flex))
                                            ;; For consult-buffer:
                                            (multi-category (styles orderless+flex))
                                            )))
@@ -919,7 +920,7 @@
   :config
   (move-text-default-bindings))
 
-;;;; Extensions: `whole line or region'
+;;;; Extensions: `whole-line-or-region'
 (use-package whole-line-or-region
   :init
   (whole-line-or-region-global-mode 1)

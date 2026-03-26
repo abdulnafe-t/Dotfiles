@@ -154,5 +154,5 @@
                                               (reserve-left/middle)))
                mode-line-align-middle
                'mode-line-format-right-align
-               mode-line-align-right "    "
+               mode-line-align-right "  "
                ))
