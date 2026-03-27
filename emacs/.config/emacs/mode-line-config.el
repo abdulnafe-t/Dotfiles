@@ -35,30 +35,25 @@
                       (define-key map [header-line down-mouse-1] 'ignore)
                       (define-key map [mode-line mouse-3] 'mode-line-next-buffer)
                       (define-key map [mode-line mouse-1] 'mode-line-previous-buffer)
-                      map)))
+                      map))
+         (bufname (propertize (format-mode-line mode-line-buffer-identification)
+                             'face '(bold mode-line-buffer-id)
+                             'help-echo "Buffer name\nmouse-1: Previous buffer\nmouse-3: Next buffer"
+                             'mouse-face 'mode-line-highlight
+                             'local-map keymap-var)))
     (if buffer-file-name
         (let* ((project-root (or (condition-case nil
                                      (let ((pr (project-current)))
                                        (when pr (car (project-roots pr))))
                                    (error nil))
-                          default-directory))
+                              default-directory))
                (project-name (when project-root
                                (file-name-nondirectory
-                                (directory-file-name project-root))))
-               (file-name (file-name-nondirectory buffer-file-name)))
+                                (directory-file-name project-root)))))
           (if project-name
-              (concat project-name " | " (propertize file-name 'face '(bold mode-line-buffer-id)
-                                                      'help-echo "Buffer name\nmouse-1: Previous buffer\nmouse-3: Next buffer"
-                                                      'mouse-face 'mode-line-highlight
-                                                      'local-map keymap-var))
-            (propertize file-name 'face '(bold mode-line-buffer-id)
-                        'help-echo "Buffer name\nmouse-1: Previous buffer\nmouse-3: Next buffer"
-                        'mouse-face 'mode-line-highlight
-                        'local-map keymap-var)))
-      (propertize (buffer-name) 'face '(bold mode-line-buffer-id)
-                  'help-echo "Buffer name\nmouse-1: Previous buffer\nmouse-3: Next buffer"
-                  'mouse-face 'mode-line-highlight
-                  'local-map keymap-var))))
+              (concat project-name " | " bufname)
+            bufname))
+      bufname)))
 
 (defun mode-line-fill-right (face reserve)
   "Return empty space using FACE and leaving RESERVE space on the right."
@@ -108,10 +103,11 @@
       '(""
         (project-mode-line project-mode-line-format)
         (:eval (with-current-buffer (current-buffer)
-                 (concat (propertize
-                          (nerd-icons-icon-for-mode
-                           (buffer-local-value 'major-mode (current-buffer)))
-                          'display '(raise 0.1))
+                 (concat (when (featurep 'nerd-icons)
+                           (propertize
+                            (nerd-icons-icon-for-mode
+                             (buffer-local-value 'major-mode (current-buffer)))
+                            'display '(raise 0.1)))
                          " "
                          (scion/buffer-name-with-project)))
                )
