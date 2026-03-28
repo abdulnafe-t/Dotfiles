@@ -55,29 +55,48 @@
             bufname))
       bufname)))
 
-(defun mode-line-fill-right (face reserve)
-  "Return empty space using FACE and leaving RESERVE space on the right."
-  (unless reserve
-    (setq reserve 20))
-  (when (and (display-graphic-p) (eq 'right (get-scroll-bar-mode)))
-    (setq reserve (- reserve 3)))
-  (propertize " "
-              'display `((space :align-to (- (+ right right-fringe right-margin) ,reserve)))
-              'face face))
 
-(defun mode-line-fill-center (face reserve)
-  "Return empty space using FACE to the center of remaining space leaving RESERVE space on the right."
-  (unless reserve
-    (setq reserve 20))
-  (when (and (display-graphic-p) (eq 'right (get-scroll-bar-mode)))
-    (setq reserve (- reserve 3)))
-  (propertize " "
-              'display `((space :align-to (- (+ center (.5 . right-margin)) ,reserve
-                                             (.46 . left-margin))))
-              'face face))
+(defun mode--line-format-center-align ()
+  (let* ((rest-beg (cdr (memq 'mode-line-format-center-align mode-line-format)))
+         (rest-end (memq 'mode-line-format-right-align rest-beg))
+         (center-constructs (butlast rest-beg (length rest-end)))
+         (center-constructs-str (format-mode-line center-constructs))
+         (center-constructs-width (progn
+                                    (add-face-text-property
+                                     0 (length center-constructs-str) 'mode-line t center-constructs-str)
+                                    (string-pixel-width center-constructs-str))))
 
-(defun reserve-left/middle ()
-  (/ (length (format-mode-line mode-line-align-middle)) 2))
+    (propertize " " 'display
+                (if (and (display-graphic-p)
+                         (not (eq mode-line-right-align-edge 'window)))
+	            `(space :align-to (,(/
+                                         (- ,mode-line-right-align-edge center-constructs-width)
+                                         2)))
+                  `(space :align-to (,(/
+                                       (- (window-pixel-width)
+                                          (window-scroll-bar-width)
+                                          (window-right-divider-width)
+                                          (* (or (car (window-margins)) 0)
+                                             (frame-char-width))
+                                          (car (window-fringes))
+                                          ;; Manually account for value of
+                                          ;; `mode-line-right-align-edge' even
+                                          ;; when display is non-graphical
+                                          (pcase mode-line-right-align-edge
+                                            ('right-margin
+                                             (or (cdr (window-margins)) 0))
+                                            ('right-fringe
+                                             ;; what here?
+                                             (or (cadr (window-fringes)) 0))
+                                            (_ 0))
+                                          center-constructs-width)
+                                       2)))))))
+
+(defvar mode-line-format-center-align '(:eval (mode--line-format-center-align))
+  "Mode line construct to center all following constructs up to and
+excluding mode-line-format-right-align and anything following it.")
+
+(put 'mode-line-format-center-align 'risky-local-variable t)
 
 (setq mode-line-align-left
       '(""
@@ -146,8 +165,7 @@
 (setq-default mode-line-format
               (list
                mode-line-align-left
-               '(:eval (mode-line-fill-center (if (mode-line-window-selected-p) 'mode-line-active 'mode-line-inactive)
-                                              (reserve-left/middle)))
+               'mode-line-format-center-align
                mode-line-align-middle
                'mode-line-format-right-align
                mode-line-align-right "  "
