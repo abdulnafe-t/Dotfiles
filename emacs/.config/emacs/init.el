@@ -287,15 +287,16 @@
                                             "--pretty"
                                             "--completion-style=detailed")))
   (add-to-list 'auto-mode-alist '("\\.h$" . c++-mode))
-  (setopt eglot-autoshutdown t
-          eglot-extend-to-xref t
-          eglot-code-action-indications '(margin)
-          eglot-events-buffer-config '(:size 0))
-
   (add-to-list 'eglot-ignored-server-capabilities :documentOnTypeFormattingProvider)
   (add-to-list 'eglot-ignored-server-capabilities :documentHighlightProvider)
-  (setq-default eglot-semantic-token-types '("macro" "property" "parameter" "enumMember")
-                eglot-semantic-token-modifiers '("static"))
+
+  :custom
+  (eglot-autoshutdown t)
+  (eglot-extend-to-xref t)
+  (eglot-code-action-indications '(margin))
+  (eglot-events-buffer-config '(:size 0))
+  (eglot-semantic-token-types '("macro" "property" "parameter" "enumMember"))
+  (eglot-semantic-token-modifiers '("static"))
   )
 
 (add-hook 'c++-ts-mode-hook
