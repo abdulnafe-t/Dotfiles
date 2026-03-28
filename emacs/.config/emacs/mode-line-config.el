@@ -38,7 +38,8 @@
                       map))
          (bufname (propertize (format-mode-line mode-line-buffer-identification)
                              'face '(bold mode-line-buffer-id)
-                             'help-echo "Buffer name\nmouse-1: Previous buffer\nmouse-3: Next buffer"
+                             'help-echo
+                             "Buffer name\nmouse-1: Previous buffer\nmouse-3: Next buffer"
                              'mouse-face 'mode-line-highlight
                              'local-map keymap-var)))
     (if buffer-file-name
@@ -63,14 +64,17 @@
          (center-constructs-str (format-mode-line center-constructs))
          (center-constructs-width (progn
                                     (add-face-text-property
-                                     0 (length center-constructs-str) 'mode-line t center-constructs-str)
+                                     0 (length center-constructs-str)
+                                     'mode-line t center-constructs-str)
                                     (string-pixel-width center-constructs-str))))
 
     (propertize " " 'display
                 (if (and (display-graphic-p)
                          (not (eq mode-line-right-align-edge 'window)))
 	            `(space :align-to (,(/
-                                         (- ,mode-line-right-align-edge center-constructs-width)
+                                         (-
+                                          ,mode-line-right-align-edge
+                                          center-constructs-width)
                                          2)))
                   `(space :align-to (,(/
                                        (- (window-pixel-width)
@@ -111,9 +115,15 @@ excluding mode-line-format-right-align and anything following it.")
         mode-line-frame-identification
         (:eval
          (when (mode-line-window-selected-p)
-           (concat "       " (format-mode-line mode-line-position) "   " (propertize (format "(%d:%d)" (count-lines (point-min) (point-max)) fill-column) 'face 'shadow) "  ")))
+           (concat "       " (format-mode-line mode-line-position) "   "
+                   (propertize
+                    (format "(%d:%d)"
+                            (count-lines (point-min) (point-max)) fill-column)
+                    'face 'shadow)
+                   "  ")))
 
-        (:eval (when (and which-function-mode which-func-format (mode-line-window-selected-p))
+        (:eval (when (and which-function-mode
+                          (mode-line-window-selected-p))
                  (concat "     " (format-mode-line which-func-format) "     ")))
 
         ))
