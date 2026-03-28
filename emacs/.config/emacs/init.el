@@ -304,6 +304,10 @@
             (setopt indent-tabs-mode nil)
             (keymap-set c-ts-base-mode-map "RET" #'electric-indent-just-newline)))
 
+(add-hook 'eglot-managed-mode-hook
+          (lambda ()
+            (setq-local eldoc-documentation-strategy 'eldoc-documentation-compose-eagerly)))
+
 (use-package json-mode
   :ensure t
   :config
@@ -342,7 +346,8 @@
 ;;;; `Dired'
 ;; Enable long listing in dired, sort directories before other files, use human-readable
 ;; file sizes (KB, GB, etc), and don't show hidden files.
-(setq-default dired-listing-switches "-a -l -h --group-directories-first")
+(setq-default dired-listing-switches "-alh --group-directories-first"
+              dired-switches-in-mode-line nil)
 
 (use-package dired
   :demand t
@@ -516,7 +521,6 @@
          ("M-y" . consult-yank-pop)
          ;; M-g bindings in `goto-map'
          ("M-g f" . consult-flymake)
-         ("M-g e" . consult-compile-error)
          ("M-g r" . consult-grep-match)
          ("M-g g" . consult-goto-line)
          ("M-g M-g" . consult-goto-line)
@@ -894,6 +898,7 @@
   (eldoc-box-max-pixel-width 750)
   (eldoc-box-max-pixel-height 350)
   (eldoc-documentation-strategy 'eldoc-documentation-compose-eagerly)
+  (eldoc-idle-delay 1)
   )
 
 ;;;; Extensions: `minions'
@@ -1050,8 +1055,9 @@
                  expand-region highlight-doxygen hydra jinx json-mode lorem-ipsum magit
                  marginalia markdown-mode minions move-text multiple-cursors
                  nerd-icons-completion nerd-icons-dired no-littering olivetti orderless
-                 org-appear org-bullets page-break-lines pdf-tools pulsar svg-lib vertico
-                 vundo whole-line-or-region wiki-summary ws-butler yasnippet))
+                 org-appear org-bullets page-break-lines pdf-tools posframe pulsar svg-lib
+                 typescript-mode vertico vundo whole-line-or-region wiki-summary ws-butler
+                 yasnippet))
  '(send-mail-function 'smtpmail-send-it))
 
 ;; ## added by opam user-setup for emacs / base ## 56ab50dc8996d2bb95e7856a6eddb17b ## you can edit, but keep this line
