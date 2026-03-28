@@ -128,9 +128,6 @@
 
 (setopt use-package-hook-name-suffix nil)
 
-;;; `Gnus'
-(load "~/.config/emacs/gnus-config.el")
-
 ;;; Theme & style
 
 (setq-default cursor-type 'box)
@@ -855,6 +852,9 @@
 ;;;; Extensions: `no-littering'
 (use-package no-littering
   :ensure t)
+
+;;; `Gnus'
+(load "~/.config/emacs/gnus-config.el")
 
 ;;;; Extensions: `elfeed'
 (load "~/.config/emacs/elfeed-config")
