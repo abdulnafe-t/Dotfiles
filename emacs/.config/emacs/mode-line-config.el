@@ -1,5 +1,9 @@
 ;; -*- lexical-binding: t; -*-
-;; Based in large part on https://emacs.stackexchange.com/a/16658
+;; Was originally based on https://emacs.stackexchange.com/a/16658
+
+(column-number-mode t)
+(setopt mode-line-percent-position nil
+        column-number-indicator-zero-based nil)
 
 (defun scion/format-git-string-advice (file &optional backend)
   "Strip VC mode prefix and apply face based on file state."
@@ -18,7 +22,7 @@
                    (_ 'vc-state-base)))
            (gitlogo (concat (propertize "  " 'display '(raise 0.1)
                                         'face face)
-                            (replace-regexp-in-string "^ Git[:|-]" "  " vc-mode))))
+                            (replace-regexp-in-string "^ Git[:|-]" " " vc-mode))))
 
       (setq vc-mode gitlogo))))
 
@@ -147,7 +151,6 @@ excluding mode-line-format-right-align and anything following it.")
       '((""
          "󱉟 "
          eglot-mode-line-menu
-         " "
          eglot-mode-line-error
          eglot-mode-line-pending-requests
          eglot-mode-line-progress
@@ -167,10 +170,7 @@ excluding mode-line-format-right-align and anything following it.")
         (:eval (when (bound-and-true-p eglot--managed-mode) scion/mode-line-eglot))
         vc-mode
         "  "
-        (:eval (when (bound-and-true-p flymake-mode)
-                 (concat (format-mode-line flymake-mode-line-format) "   ")))
-        (:eval (when (bound-and-true-p minions-mode) mode-line-modes))
-        ))
+        mode-line-modes))
 
 (setq-default mode-line-format
               (list

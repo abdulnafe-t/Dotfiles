@@ -78,10 +78,6 @@
 
 (global-auto-revert-mode 1)
 
-(column-number-mode 1)
-(setopt column-number-indicator-zero-based nil
-        mode-line-percent-position nil)
-
 ;; From https://stackoverflow.com/questions/3631220/fix-to-get-smooth-scrolling-in-emacs
 (setopt scroll-margin 1
         scroll-step 1
@@ -934,8 +930,9 @@
   :init
   (minions-mode t)
   :config
-  (setopt minions-mode-line-delimiters nil
-          minions-mode-line-lighter "  ")
+  (setopt mode-line-modes-delimiters nil
+          minions-mode-line-lighter "  "
+          minions-prominent-modes '(flymake-mode))
   )
 
 ;;;; Extensions: `beginend'
