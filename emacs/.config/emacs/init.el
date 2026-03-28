@@ -366,13 +366,15 @@
           dired-omit-files
           (concat (default-value 'dired-omit-files) "\\|^\\..+$"))
 
-  (advice-add #'wdired-change-to-wdired-mode :after (lambda()
-                                                      (when hl-line-mode
-                                                        (hl-line-mode -1)
-                                                        (setq-local cursor-type 'box))))
+  (advice-add #'wdired-change-to-wdired-mode
+              :after (lambda()
+                       (when hl-line-mode
+                         (hl-line-mode -1)
+                         (setq-local cursor-type 'box))))
 
-  (advice-add #'wdired-change-to-dired-mode :after (lambda ()
-                                                     (hl-line-mode 1)))
+  (advice-add #'wdired-change-to-dired-mode
+              :after (lambda ()
+                       (hl-line-mode 1)))
   )
 
 
