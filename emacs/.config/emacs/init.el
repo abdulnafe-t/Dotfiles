@@ -463,18 +463,44 @@
 ;;;; Extensions: `VEMCO' Stack
 (use-package vertico
   :ensure t
+
   :custom-face
   (vertico-group-title ((t (:inherit bold-italic))))
+
   :custom
   (vertico-scroll-margin 1)
   (vertico-count 10)
   (vertico-cycle t)
   (vertico-resize nil)
+
+  (read-extended-command-predicate #'command-completion-default-include-p)
+  (minibuffer-prompt-properties
+   '(read-only t cursor-intangible t face minibuffer-prompt))
+
   :init
   (vertico-mode)
+  (vertico-multiform-mode)
   (vertico-mouse-mode)
+
   :config
+
   (set-face-attribute 'vertico-current nil :inherit 'custom-hl-line-face)
+
+  (setopt vertico-multiform-commands
+          '((consult-flymake buffer indexed)
+            (execute-extended-command unobtrusive)))
+
+  (setopt vertico-multiform-categories
+          '((consult-grep buffer)
+            (consult-location buffer)
+            (imenu buffer)))
+  )
+
+(use-package vertico-flat
+  :after vertico
+  :config
+  (keymap-set vertico-flat-map "<remap> <left-char>" nil)
+  (keymap-set vertico-flat-map "<remap> <right-char>" nil)
   )
 
 (use-package embark
