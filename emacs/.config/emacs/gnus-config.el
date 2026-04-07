@@ -8,18 +8,10 @@
         '(nnimap "gmail"
 	         (nnimap-address "imap.gmail.com")
 	         (nnimap-server-port "imaps")
-	         (nnimap-stream tls)))
-
-(setopt smtpmail-smtp-server "smtp.gmail.com"
+	         (nnimap-stream tls))
+        smtpmail-smtp-server "smtp.gmail.com"
         smtpmail-smtp-service 587
         gnus-ignored-newsgroups "^to\\.\\|^[0-9. ]+\\( \\|$\\)\\|^[\"]\"[#'()]")
-
-(setopt gnus-secondary-select-methods '((nntp "news.gmane.io"
-                                              (nntp-stream tls)
-                                              (nntp-port 563))
-                                        (nntp "news.eternal-september.org"
-                                              (nntp-stream tls)
-                                              (nntp-port 563))))
 
 (setopt mail-user-agent 'gnus-user-agent
         gnus-parameters '((".*" (display . all)))
@@ -28,6 +20,13 @@
         gnus-article-sort-functions '(gnus-article-sort-by-number
                                       gnus-article-sort-by-date))
 
+(setopt gnus-secondary-select-methods '((nntp "news.gmane.io"
+                                              (nntp-stream tls)
+                                              (nntp-port 563))
+                                        (nntp "news.eternal-september.org"
+                                              (nntp-stream tls)
+                                              (nntp-port 563))))
+
 (setopt gnus-home-directory        (no-littering-expand-var-file-name "gnus")
         gnus-directory             (concat gnus-home-directory "/News")
         gnus-cache-directory       (concat gnus-directory "/cache")
@@ -35,6 +34,8 @@
         nndraft-directory          (concat gnus-home-directory "/nndrafts")
         gnus-startup-file          (no-littering-expand-etc-file-name "gnus/.newsrc")
         gnus-init-file             (no-littering-expand-etc-file-name "gnus/init.el"))
+
+(setq mailcap-user-mime-data '(((viewer . "xdg-open %s") (type . ".*"))))
 
 (setopt gnus-logo-color-style 'storm
         gnus-treat-emojize-symbols t
