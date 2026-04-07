@@ -629,6 +629,9 @@
   :ensure t
   :config
 
+  (orderless-define-completion-style orderless+initialism
+    (orderless-matching-styles '(orderless-initialism orderless-literal orderless-regexp)))
+
   (orderless-define-completion-style orderless+flex
     (orderless-matching-styles '(orderless-flex orderless-literal orderless-regexp)))
 
@@ -636,7 +639,7 @@
           completion-category-defaults nil
           completion-category-overrides  '((file (styles orderless+flex))
                                            (buffer (styles orderless+flex))
-                                           (command  (styles orderless+flex))
+                                           (command  (styles orderless+initialism))
                                            (bookmark (styles orderless+flex))
                                            ;; For consult-buffer:
                                            (multi-category (styles orderless+flex))
@@ -695,7 +698,6 @@
   :demand t
   :init
   (nerd-icons-completion-mode))
-
 
 ;;;; Extensions: `avy'
 (use-package avy
