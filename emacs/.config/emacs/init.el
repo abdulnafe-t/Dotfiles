@@ -1059,8 +1059,8 @@
 		(with-selected-frame frame
 		  (scion/set-custom-faces))
 		(remove-hook 'after-make-frame-functions
-			     #'my/icon-init-daemon)
-		(fmakunbound 'my/icon-init-daemon)))
+			     #'scion/faces-init-daemon)
+		(fmakunbound 'scion/faces-init-daemon)))
   (scion/set-custom-faces))
 
 ;;; Automated
@@ -1082,12 +1082,12 @@
      "/home/scion/Projects/Notepad--"))
  '(package-selected-packages
    '(agent-shell auctex avy beginend consult ef-themes eglot eldoc-box elfeed elfeed-tube
-                 expand-region highlight-doxygen hydra jinx json-mode lorem-ipsum magit
-                 marginalia markdown-mode minions move-text multiple-cursors
-                 nerd-icons-completion nerd-icons-dired no-littering olivetti orderless
-                 org-appear org-bullets page-break-lines pdf-tools posframe pulsar svg-lib
-                 typescript-mode vertico vundo whole-line-or-region wiki-summary ws-butler
-                 yasnippet))
+                 embark embark-consult expand-region highlight-doxygen hydra jinx
+                 json-mode lorem-ipsum magit marginalia markdown-mode minions move-text
+                 multiple-cursors nerd-icons-completion nerd-icons-dired no-littering
+                 olivetti orderless org-appear org-bullets page-break-lines pdf-tools
+                 posframe pulsar svg-lib typescript-mode vertico vundo
+                 whole-line-or-region wiki-summary ws-butler yasnippet))
  '(send-mail-function 'smtpmail-send-it))
 
 ;; ## added by opam user-setup for emacs / base ## 56ab50dc8996d2bb95e7856a6eddb17b ## you can edit, but keep this line
