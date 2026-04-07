@@ -35,6 +35,9 @@
         )
 
 (recentf-mode 1)
+(savehist-mode 1)
+(push 'command-history savehist-additional-variables)
+
 (context-menu-mode 1)
 
 (menu-bar-mode -1)
@@ -229,7 +232,8 @@
         treesit-font-lock-level 3)
 
 (use-package autoinsert
-  ; Builtin, used to automatically insert header guards & #include macros when a header file has the same name as the current (new) C++ file
+  ; Builtin, used to automatically insert header guards & #include macros when a header
+  ; file has the same name as the current (new) C++ file
   :init
   (auto-insert-mode t)
   :config
@@ -1000,7 +1004,7 @@
   (set-face-attribute 'variable-pitch nil :family "GeistNerdFontPropo")
 
   (set-face-attribute 'mode-line nil :inherit 'variable-pitch :box 'nil)
-  (set-face-attribute 'mode-line-active nil :inherit 'variable-pitch :box '(:line-width -1 :style released-button))
+  (set-face-attribute 'mode-line-active nil :inherit 'variable-pitch :box nil);;'(:line-width -1 :style released-button))
   (set-face-attribute 'mode-line-inactive nil :inherit 'variable-pitch :box 'nil)
 
   (set-face-attribute 'vc-state-base nil :inherit 'variable-pitch :slant 'normal)
