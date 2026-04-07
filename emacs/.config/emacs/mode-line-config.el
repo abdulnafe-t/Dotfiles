@@ -61,8 +61,22 @@
       bufname)))
 
 
-(defun mode--line-format-center-align ()
-  (let* ((rest-beg (cdr (memq 'mode-line-format-center-align mode-line-format)))
+(defun mode--line-format-center ()
+  "Center all following mode-line constructs, up to and excluding
+mode-line-format-right-align.
+
+When the symbol `mode-line-format-center' appears in `mode-line-format',
+return a string of one space, with a display property to make it appear
+long enough to align anything after that symbol - up to and excluding
+`mode-line-format-right-align' - to the the center of the rendered mode
+line.
+
+It is important that the symbol `mode-line-format-center' be included in
+`mode-line-format' (and not another similar construct such
+as `(:eval (mode-line-format-right-align)').  This is because the symbol
+`mode-line-format-center' is processed by `format-mode-line' as a
+variable."
+  (let* ((rest-beg (cdr (memq 'mode-line-format-center mode-line-format)))
          (rest-end (memq 'mode-line-format-right-align rest-beg))
          (center-constructs (butlast rest-beg (length rest-end)))
          (center-constructs-str (format-mode-line center-constructs))
@@ -84,27 +98,25 @@
                                        (- (window-pixel-width)
                                           (window-scroll-bar-width)
                                           (window-right-divider-width)
-                                          (* (or (car (window-margins)) 0)
-                                             (frame-char-width))
-                                          (car (window-fringes))
-                                          ;; Manually account for value of
-                                          ;; `mode-line-right-align-edge' even
-                                          ;; when display is non-graphical
+                                           (* (+ (or (car (window-margins)) 0)
+                                                 (or (cdr (window-margins)) 0))
+                                              (frame-char-width))
+                                           (car (window-fringes))
                                           (pcase mode-line-right-align-edge
                                             ('right-margin
                                              (or (cdr (window-margins)) 0))
                                             ('right-fringe
-                                             ;; what here?
                                              (or (cadr (window-fringes)) 0))
                                             (_ 0))
                                           center-constructs-width)
-                                       2)))))))
+                                       2)))
+                  ))))
 
-(defvar mode-line-format-center-align '(:eval (mode--line-format-center-align))
+(defvar mode-line-format-center '(:eval (mode--line-format-center))
   "Mode line construct to center all following constructs up to and
-excluding mode-line-format-right-align and anything following it.")
+excluding `mode-line-format-right-align' and anything following it.")
 
-(put 'mode-line-format-center-align 'risky-local-variable t)
+(put 'mode-line-format-center 'risky-local-variable t)
 
 (setq mode-line-align-left
       '(""
@@ -175,7 +187,7 @@ excluding mode-line-format-right-align and anything following it.")
 (setq-default mode-line-format
               (list
                mode-line-align-left
-               'mode-line-format-center-align
+               'mode-line-format-center
                mode-line-align-middle
                'mode-line-format-right-align
                mode-line-align-right "  "
