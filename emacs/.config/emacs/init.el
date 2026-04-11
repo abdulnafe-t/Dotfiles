@@ -324,24 +324,27 @@
 ;; Enable auctex to support common latex packages
 (use-package auctex
   :ensure t
-  :hook tex-mode-hook
+  :hook (LaTeX-mode-hook . TeX-source-correlate-mode)
   :config
   (setopt tex-auto-save t
           tex-parse-self t
-          tex-master nil))
+          tex-master nil
+          TeX-view-program-selection '((output-pdf "PDF Tools"))
+          TeX-source-correlate-start-server t
+          TeX-engine 'xetex)
+  )
 
 ;; Use pdf-tools as an emacs-native PDF viewer
 (use-package pdf-tools
   :ensure t
   :mode ("\\.pdf\\'" . pdf-view-mode)
-  :hook (pdf-view-mode-hook . pdf-misc-minor-mode)
+  :hook
+  ((pdf-view-mode-hook . pdf-misc-minor-mode)
+   (pdf-tools-enabled-hook . pdf-tools-enable-minor-modes))
   :config
-  (setopt pdf-info-epdfinfo-program "/usr/local/bin/epdfinfo"))
-
-(setopt TeX-view-program-selection '((output-pdf "PDF Tools"))
-        TeX-source-correlate-start-server t)
-
-(setopt pdf-misc-print-program-executable "lp")
+  (setopt pdf-info-epdfinfo-program "/usr/local/bin/epdfinfo"
+          pdf-misc-print-program-executable "lp")
+  )
 
 (add-hook 'TeX-after-compilation-finished-functions
           #'TeX-revert-document-buffer)
