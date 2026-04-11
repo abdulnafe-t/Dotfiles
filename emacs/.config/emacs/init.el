@@ -297,6 +297,7 @@
   :custom
   (eglot-autoshutdown t)
   (eglot-extend-to-xref t)
+  (eglot-sync-connect nil)
   (eglot-code-action-indications '(margin))
   (eglot-events-buffer-config '(:size 0))
   (eglot-semantic-token-types '("macro" "property" "parameter" "enumMember"))
