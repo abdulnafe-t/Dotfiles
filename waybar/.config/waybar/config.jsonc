@@ -36,6 +36,7 @@
     },
     "mpris": {
 	"format": "{status_icon} {player_icon} {dynamic}",
+	"format-stopped": "",
 	"player-icons": {
 	    "default": "",
 	    "mpv": "🎵",
@@ -64,8 +65,6 @@
         "format-full": "{icon}  {capacity}%",
         "format-charging": "  {capacity}%",
         "format-plugged": "  {capacity}%",
-        // "format-good": "", // An empty format will hide the module
-        // "format-full": "",
         "format-icons": ["", "", "", "", ""]
     },
     "network": {
@@ -94,7 +93,7 @@
 	"menu": "on-click",
 	"menu-file": "$HOME/.config/waybar/power_menu.xml", // Menu file in resources folder
 	"menu-actions": {
-	    "shutdown": "shutdown",
+	    "shutdown": "systemctl poweroff",
 	    "reboot": "reboot",
 	    "suspend": "systemctl suspend",
 	    "hibernate": "systemctl hibernate"
