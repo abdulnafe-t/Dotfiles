@@ -332,7 +332,7 @@
           tex-master nil
           TeX-view-program-selection '((output-pdf "PDF Tools"))
           TeX-source-correlate-start-server t
-          TeX-engine 'xetex)
+          TeX-engine 'luatex)
   )
 
 ;; Use pdf-tools as an emacs-native PDF viewer
