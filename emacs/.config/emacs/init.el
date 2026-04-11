@@ -127,6 +127,8 @@
 
 (setopt use-package-hook-name-suffix nil)
 
+(setq-default auth-sources '("secrets:App Passwords" "~/.authinfo.gpg"))
+
 ;;; Theme & style
 
 (setq-default cursor-type 'box)

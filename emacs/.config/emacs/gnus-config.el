@@ -1,7 +1,6 @@
 ;;; -*- lexical-binding: t -*-
 
-(setopt auth-sources '("~/.authinfo.gpg")
-        user-mail-address "abdulnafe.toulaimat@gmail.com"
+(setopt user-mail-address "abdulnafe.toulaimat@gmail.com"
         user-full-name "Abdulnafé Toulaïmat")
 
 (setopt gnus-select-method
