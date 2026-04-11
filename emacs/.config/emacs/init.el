@@ -71,7 +71,8 @@
 (setq-default blink-matching-paren-highlight-offscreen t
               show-paren-context-when-offscreen t)
 
-(setq-default fill-column 90)
+(setq-default fill-column 90
+              sentence-end-double-space nil)
 
 ;; Replace tabs with spaces
 (add-hook 'prog-mode-hook
@@ -80,6 +81,7 @@
               (indent-tabs-mode -1))))
 
 (global-auto-revert-mode 1)
+(global-so-long-mode 1)
 
 ;; From https://stackoverflow.com/questions/3631220/fix-to-get-smooth-scrolling-in-emacs
 (setopt scroll-margin 1
@@ -158,7 +160,7 @@
   (modus-themes-load-theme 'ef-dark))
 
 ;; [WIP] Make background transparent, unless in full screen
-(push '(alpha-background . 100) default-frame-alist)
+(push '(alpha-background . 60) default-frame-alist)
 
 ;; Pulsar: flash current line on certain window changes
 (use-package pulsar
@@ -349,7 +351,7 @@
 ;;;; `Dired'
 ;; Enable long listing in dired, sort directories before other files, use human-readable
 ;; file sizes (KB, GB, etc), and don't show hidden files.
-(setq-default dired-listing-switches "-alh --group-directories-first"
+(setq-default dired-listing-switches "-agho --group-directories-first"
               dired-switches-in-mode-line nil)
 
 (use-package dired
@@ -544,8 +546,7 @@
          ("C-c k" . consult-kmacro)
          ([remap Info-search] . consult-info)
          ;; Custom bindings
-         ("C-M-:" . consult-fd)
-         ("C-:" . scion/consult-fd-home)
+
          ;; Other custom bindings
          ("M-y" . consult-yank-pop)
          ;; M-g bindings in `goto-map'
