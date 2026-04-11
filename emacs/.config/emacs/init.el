@@ -160,7 +160,7 @@
   (modus-themes-load-theme 'ef-dark))
 
 ;; [WIP] Make background transparent, unless in full screen
-(push '(alpha-background . 60) default-frame-alist)
+(push '(alpha-background . 66) default-frame-alist)
 
 ;; Pulsar: flash current line on certain window changes
 (use-package pulsar
