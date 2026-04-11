@@ -562,6 +562,8 @@
          ("M-g k" . consult-global-mark)
          ("M-g i" . consult-imenu)
          ("M-g I" . consult-imenu-multi)
+         ("M-s d" . scion/consult-fd-home)
+         ("M-s D" . consult-fd)
          ;; M-s bindings in `search-map'
          ("M-s r" . consult-ripgrep)
          ("M-s l" . consult-line)
