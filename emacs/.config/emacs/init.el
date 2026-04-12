@@ -268,7 +268,7 @@
         (bash "https://github.com/tree-sitter/tree-sitter-bash")))
 
 ;; `EDE'
-(add-hook 'prog-mode-hook #'global-ede-mode)
+(add-hook 'c++-ts-mode-hook #'ede-minor-mode)
 
 ;; Required to get proper auto-completion (e.g. for () after function names) with eglot &
 ;; clangd
