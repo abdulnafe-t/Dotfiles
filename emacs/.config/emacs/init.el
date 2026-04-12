@@ -909,7 +909,11 @@
 
 ;;;; Extensions: `agent-shell'
 (use-package agent-shell
-  :ensure t)
+  :ensure t
+  :custom
+  (agent-shell-opencode-default-model-id "mistral/devstral-medium-latest")
+  (agent-shell-thought-process-expand-by-default t)
+  )
 
 ;;;; Extensions: `page-break-line'
 (use-package page-break-lines
