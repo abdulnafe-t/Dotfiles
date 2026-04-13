@@ -129,7 +129,23 @@
 
 (setopt use-package-hook-name-suffix nil)
 
+;;; Security
+
 (setq-default auth-sources '("secrets:App Passwords" "~/.authinfo.gpg"))
+
+;; Make local sudo always prompt for a password, as opposed to looking it up in
+;; `auth-sources'. From
+;; https://emacs.stackexchange.com/questions/64062/how-to-avoid-using-auth-sources-when-editing-with-sudo
+(setopt tramp-completion-use-auth-sources nil)
+
+(connection-local-set-profile-variables
+ 'remote-without-auth-sources
+ '((auth-sources . nil)))
+
+(connection-local-set-profiles
+ '(:application tramp :protocol "sudo"
+                :machine "plato" :user "root")
+ 'remote-without-auth-sources)
 
 ;;; Theme & style
 
