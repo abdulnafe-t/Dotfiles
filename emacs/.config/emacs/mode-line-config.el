@@ -35,38 +35,6 @@
   (interactive)
   (kill-new default-directory))
 
-(defun scion/buffer-name-with-project ()
-  "Display buffer name as Project|file."
-  (let* ((proj-keymap (let ((map (make-sparse-keymap)))
-                        (define-key map [mode-line mouse-1] 'dired-jump)
-                        (define-key map [mode-line mouse-3] 'scion/copy-project-directory)
-                        map))
-         (bufname (format-mode-line (propertized-buffer-identification "%b"))
-                  ))
-    (if buffer-file-name
-        (let* ((project-root (or (condition-case nil
-                                     (let ((pr (project-current)))
-                                       (when pr (car (project-roots pr))))
-                                   (error "Error in mode-line-config scion/buffer-name-with-project at project-root"))
-                                 default-directory))
-               (project-name (when project-root
-                               (propertize
-                                (file-name-nondirectory
-                                 (directory-file-name project-root))
-                                'help-echo
-                                (concat "Project name\n"
-                                        "CWD: "
-                                        default-directory
-                                        "\nmouse-1: Dired here\nmouse-3: Copy CWD"
-                                        )
-                                'mouse-face 'mode-line-highlight
-                                'local-map proj-keymap
-                                ))))
-          (if project-name
-              (concat project-name " | " bufname)
-            bufname))
-      bufname)))
-
 (defun mode--line-format-center ()
   "Center all following mode-line constructs, up to and excluding
 mode-line-format-right-align.
@@ -158,11 +126,15 @@ excluding `mode-line-format-right-align' and anything following it.")
                             (nerd-icons-icon-for-mode
                              (buffer-local-value 'major-mode (current-buffer)))
                             'display '(raise 0.1)))
-                         " "
-                         (scion/buffer-name-with-project)))
-               )
-        " "
-        ))
+                         (if (project-current)
+                           (concat
+                            (project-mode-line-format)
+                            " | ")
+                           " "))))
+
+        (:eval (format-mode-line mode-line-buffer-identification))
+        )
+      )
 
 (setq scion/eglot-mode-line-format
       '((""
