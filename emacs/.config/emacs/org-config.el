@@ -27,11 +27,11 @@
   :hook
   (olivetti-mode-on-hook . (lambda ()
                              (setq-local cursor-type 'bar)
-                             (variable-pitch-mode t)))
+                             ))
 
   (olivetti-mode-off-hook . (lambda ()
                               (setq-local cursor-type t)
-                              (variable-pitch-mode -1)))
+                              ))
 
   :config
   (setopt olivetti-style nil
