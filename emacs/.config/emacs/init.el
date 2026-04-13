@@ -935,7 +935,7 @@
 (use-package page-break-lines
   :ensure t
   :config
-  (global-page-break-lines-mode))
+  (global-page-break-lines-mode 1))
 
 ;;;; Extensions: `highlight-doxygen'
 (use-package highlight-doxygen
@@ -1103,6 +1103,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(auth-source-save-behavior nil)
  '(custom-safe-themes
    '("fff0dc54ff5a194ba6593d1cce0fbb4fe8cf9da59fcef47f9e06dec6ef11b1fa" default))
  '(ede-project-directories
