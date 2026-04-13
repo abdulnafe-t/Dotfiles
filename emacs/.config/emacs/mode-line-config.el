@@ -30,36 +30,42 @@
 
 (setopt mode-line-position-column-line-format '("%l:%c"))
 
+(defun scion/copy-project-directory ()
+  "Copy project directory to kill-ring."
+  (interactive)
+  (kill-new default-directory))
+
 (defun scion/buffer-name-with-project ()
   "Display buffer name as Project|file."
-  (let* ((keymap-var (let ((map (make-sparse-keymap)))
-                      (define-key map [header-line mouse-3] 'mode-line-next-buffer)
-                      (define-key map [header-line down-mouse-3] 'ignore)
-                      (define-key map [header-line mouse-1] 'mode-line-previous-buffer)
-                      (define-key map [header-line down-mouse-1] 'ignore)
-                      (define-key map [mode-line mouse-3] 'mode-line-next-buffer)
-                      (define-key map [mode-line mouse-1] 'mode-line-previous-buffer)
-                      map))
-         (bufname (propertize (format-mode-line mode-line-buffer-identification)
-                             'face '(bold mode-line-buffer-id)
-                             'help-echo
-                             "Buffer name\nmouse-1: Previous buffer\nmouse-3: Next buffer"
-                             'mouse-face 'mode-line-highlight
-                             'local-map keymap-var)))
+  (let* ((proj-keymap (let ((map (make-sparse-keymap)))
+                        (define-key map [mode-line mouse-1] 'dired-jump)
+                        (define-key map [mode-line mouse-3] 'scion/copy-project-directory)
+                        map))
+         (bufname (format-mode-line (propertized-buffer-identification "%b"))
+                  ))
     (if buffer-file-name
         (let* ((project-root (or (condition-case nil
                                      (let ((pr (project-current)))
                                        (when pr (car (project-roots pr))))
-                                   (error nil))
-                              default-directory))
+                                   (error "Error in mode-line-config scion/buffer-name-with-project at project-root"))
+                                 default-directory))
                (project-name (when project-root
-                               (file-name-nondirectory
-                                (directory-file-name project-root)))))
+                               (propertize
+                                (file-name-nondirectory
+                                 (directory-file-name project-root))
+                                'help-echo
+                                (concat "Project name\n"
+                                        "CWD: "
+                                        default-directory
+                                        "\nmouse-1: Dired here\nmouse-3: Copy CWD"
+                                        )
+                                'mouse-face 'mode-line-highlight
+                                'local-map proj-keymap
+                                ))))
           (if project-name
               (concat project-name " | " bufname)
             bufname))
       bufname)))
-
 
 (defun mode--line-format-center ()
   "Center all following mode-line constructs, up to and excluding
