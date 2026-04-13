@@ -974,7 +974,7 @@
   (minions-mode t)
   :config
   (setopt mode-line-modes-delimiters nil
-          minions-mode-line-lighter "  "
+          minions-mode-line-lighter "    "
           minions-prominent-modes '(flymake-mode))
   )
 

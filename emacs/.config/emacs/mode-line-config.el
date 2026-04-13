@@ -167,5 +167,5 @@ excluding `mode-line-format-right-align' and anything following it.")
                'mode-line-format-center
                mode-line-align-middle
                'mode-line-format-right-align
-               mode-line-align-right "  "
+               mode-line-align-right
                ))
