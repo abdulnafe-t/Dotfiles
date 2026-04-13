@@ -394,7 +394,11 @@
           dired-movement-style 'cycle-files
           dired-kill-when-opening-new-dired-buffer t
           dired-omit-files
-          (concat (default-value 'dired-omit-files) "\\|^\\..+$"))
+          (rx (or (seq bol (? ".") "#")         ;; emacs autosave files
+                  (seq bol "." (not (any "."))) ;; dot-files
+                  (seq "~" eol)                 ;; backup-files
+                  ))
+          )
 
   (advice-add #'wdired-change-to-wdired-mode
               :after (lambda()
