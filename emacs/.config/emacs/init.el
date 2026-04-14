@@ -990,6 +990,15 @@
 
 (setopt fortune-dir "/usr/share/fortune/")
 
+(defun scion/fortune-q-quit-window (&optional _file)
+  "Add q to quit the *fortune* buffer after it displays."
+  (with-current-buffer (get-buffer fortune-buffer-name)
+    (unless (current-local-map)
+      (use-local-map (make-sparse-keymap)))
+    (keymap-set (current-local-map) "q" #'quit-window)))
+
+(advice-add 'fortune :after #'scion/fortune-q-quit-window)
+
 ;;; Custom faces
 (defface scion-font-lock-auto '((t (:inherit font-lock-type-face :slant italic :weight normal)))
   "Custom face for the C++ 'auto' keyword.")
