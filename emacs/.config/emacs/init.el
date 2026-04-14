@@ -1036,13 +1036,13 @@
 
   (set-fontset-font "fontset-default" 'arabic "Scheherazade New")
 
-  (set-face-attribute 'default        nil :family "GeistMonoNerdFontMono" :height 150)
+  (set-face-attribute 'default        nil :family "GeistMonoNerdFontPropo" :height 150)
   (set-face-attribute 'fixed-pitch    nil :family "GeistMonoNerdFontMono")
   (set-face-attribute 'variable-pitch nil :family "GeistNerdFontPropo")
 
-  (set-face-attribute 'mode-line nil :inherit 'variable-pitch :box 'nil :underline 'nil)
-  (set-face-attribute 'mode-line-active nil :inherit 'variable-pitch :box nil :underline 'nil)
-  (set-face-attribute 'mode-line-inactive nil :inherit 'variable-pitch :box 'nil :underline 'nil)
+  (set-face-attribute 'mode-line nil :box 'nil :underline 'nil)
+  (set-face-attribute 'mode-line-active nil :box nil :underline 'nil)
+  (set-face-attribute 'mode-line-inactive nil :box 'nil :underline 'nil)
 
   (set-face-attribute 'vc-state-base nil :inherit 'variable-pitch :slant 'normal)
   (set-face-attribute 'vc-edited-state nil :inherit 'variable-pitch :slant 'italic)

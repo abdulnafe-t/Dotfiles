@@ -28,7 +28,7 @@
 
 (advice-add 'vc-mode-line :after #'scion/format-git-string-advice)
 
-(setopt mode-line-position-column-line-format '("%l:%c"))
+(setopt mode-line-position-column-line-format '("%5l:%c"))
 
 (defun scion/copy-project-directory ()
   "Copy project directory to kill-ring."
@@ -93,19 +93,16 @@ excluding `mode-line-format-right-align' and anything following it.")
 (put 'mode-line-format-center 'risky-local-variable t)
 
 (setq mode-line-align-left
-      '(""
-        "%e"
-        " "
+      '("%e"
         mode-line-front-space
-        (:propertize ("" mode-line-mule-info mode-line-client
-                      mode-line-modified mode-line-remote
-                      mode-line-window-dedicated)
-                     display (min-width (6.0)))
+        mode-line-mule-info mode-line-client
+        mode-line-modified mode-line-remote
+        mode-line-window-dedicated
 
         mode-line-frame-identification
         (:eval
          (when (mode-line-window-selected-p)
-           (concat "       " (format-mode-line mode-line-position) "   "
+           (concat "  " (format-mode-line mode-line-position) "    "
                    (propertize
                     (format "(%d:%d)"
                             (count-lines (point-min) (point-max)) fill-column)
@@ -114,22 +111,23 @@ excluding `mode-line-format-right-align' and anything following it.")
 
         (:eval (when (and which-function-mode
                           (mode-line-window-selected-p))
-                 (concat "     " (format-mode-line which-func-format) "     ")))
+                 (concat "    " (format-mode-line which-func-format) "     ")))
 
         ))
 
 (setq mode-line-align-middle
-      '(""
-        (:eval (with-current-buffer (current-buffer)
-                 (concat (when (featurep 'nerd-icons)
+      '((:eval (with-current-buffer (current-buffer)
+                 (concat (when (and (featurep 'nerd-icons)
+                                    (null (derived-mode-p 'gnus-mode)))
                            (propertize
                             (nerd-icons-icon-for-mode
                              (buffer-local-value 'major-mode (current-buffer)))
                             'display '(raise 0.1)))
-                         (if (project-current)
-                           (concat
-                            (project-mode-line-format)
-                            " | ")
+                         (if (and (project-current)
+                                  (null (derived-mode-p 'special-mode)))
+                             (concat
+                              (project-mode-line-format)
+                              "::")
                            " "))))
 
         (:eval (format-mode-line mode-line-buffer-identification))
@@ -137,8 +135,7 @@ excluding `mode-line-format-right-align' and anything following it.")
       )
 
 (setq scion/eglot-mode-line-format
-      '((""
-         "󱉟 "
+      '(("󱉟 "
          eglot-mode-line-menu
          eglot-mode-line-error
          eglot-mode-line-pending-requests
@@ -155,10 +152,9 @@ excluding `mode-line-format-right-align' and anything following it.")
                             when rest concat (if titlep ":" "/"))))))
 
 (setq mode-line-align-right
-      '(""
-        (:eval (when (bound-and-true-p eglot--managed-mode) scion/mode-line-eglot))
+      '((:eval (when (bound-and-true-p eglot--managed-mode) scion/mode-line-eglot))
         vc-mode
-        "  "
+        " "
         mode-line-modes))
 
 (setq-default mode-line-format
