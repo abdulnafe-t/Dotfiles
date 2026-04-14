@@ -3,6 +3,7 @@
   "permission": {
     "*": "ask",
     "websearch": "allow",
+    "codesearch": "allow",
     "todowrite": "allow"
   }
 }
