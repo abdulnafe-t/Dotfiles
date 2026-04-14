@@ -535,8 +535,7 @@
   :ensure t
   :demand t
   :bind
-  (("C-!" . embark-act)
-   ("C-M-!" . embark-dwim)
+  (("M-o" . embark-act)
    ("C-h B" . embark-bindings))
   :init
   (setopt prefix-help-command #'embark-prefix-help-command)
@@ -737,8 +736,8 @@
   :ensure t
   :demand t
   :bind
-  (("C-ù" . avy-goto-char-timer)
-   (:map isearch-mode-map ("C-ù" . avy-isearch)))
+  (("C-," . avy-goto-char-timer)
+   (:map isearch-mode-map ("C-," . avy-isearch)))
 
   :config
   (setopt avy-keys '(?q ?s ?d ?f ?g ?h ?j ?k ?l ?m) ; AZERTY
