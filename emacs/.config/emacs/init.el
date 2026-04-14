@@ -1005,6 +1005,10 @@
 ;;;; Extensions: `wiki-summary'
 (use-package wiki-summary)
 
+;;; Misc.
+
+(setopt fortune-dir "/usr/share/fortune/")
+
 ;;; Custom faces
 (defface scion-font-lock-auto '((t (:inherit font-lock-type-face :slant italic :weight normal)))
   "Custom face for the C++ 'auto' keyword.")
