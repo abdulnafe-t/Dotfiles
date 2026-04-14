@@ -170,7 +170,6 @@
             (fg-mode-line-active fg-main)
             (bg-mode-line-active "#2f2c39")
             (bg-mode-line-inactive "#17161c")
-            (bg-hover nil)
             )
           )
   (modus-themes-load-theme 'ef-dark))
@@ -216,12 +215,13 @@
 
 (add-hook 'hl-line-mode-hook
           (lambda ()
-            (visual-line-mode -1)
-            (setq-local cursor-type nil
-                        column-number-mode (not hl-line-mode)
-                        line-move-visual nil)
-            (pulsar-mode -1)
-            ))
+            (unless (derived-mode-p 'hexl-mode)
+              (visual-line-mode -1)
+              (setq-local cursor-type nil
+                          column-number-mode (not hl-line-mode)
+                          line-move-visual nil)
+              (pulsar-mode -1)
+            )))
 
 (advice-add #'grep-change-to-grep-edit-mode
             :after (lambda()
