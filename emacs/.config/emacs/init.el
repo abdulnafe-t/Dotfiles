@@ -556,8 +556,6 @@
   :bind (;; C-c bindings in `mode-specific-map'
          ("C-c k" . consult-kmacro)
          ([remap Info-search] . consult-info)
-         ;; Custom bindings
-
          ;; Other custom bindings
          ("M-y" . consult-yank-pop)
          ;; M-g bindings in `goto-map'
@@ -728,7 +726,7 @@
   (setopt avy-keys '(?q ?s ?d ?f ?g ?h ?j ?k ?l ?m) ; AZERTY
           avy-background t
           avy-all-windows 'all-frames
-          avy-timeout-seconds 0.2
+          avy-timeout-seconds 0.3
           avy-orders-alist '((avy-goto-char-timer . avy-order-closest)
                              (avy-isearch . avy-order-closest))
           avy-single-candidate-jump nil)

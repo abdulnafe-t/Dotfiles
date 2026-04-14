@@ -153,8 +153,9 @@ excluding `mode-line-format-right-align' and anything following it.")
 
 (setq mode-line-align-right
       '((:eval (when (bound-and-true-p eglot--managed-mode) scion/mode-line-eglot))
-        vc-mode
         " "
+        vc-mode
+        "  "
         mode-line-modes))
 
 (setq-default mode-line-format
