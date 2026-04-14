@@ -31,8 +31,7 @@
 
         frame-inhibit-implied-resize t
         frame-resize-pixelwise t
-        window-resize-pixelwise t
-        )
+        window-resize-pixelwise t)
 
 (recentf-mode 1)
 (savehist-mode 1)
@@ -169,9 +168,8 @@
             (comment fg-dim)
             (fg-mode-line-active fg-main)
             (bg-mode-line-active "#2f2c39")
-            (bg-mode-line-inactive "#17161c")
-            )
-          )
+            (bg-mode-line-inactive "#17161c")))
+
   (modus-themes-load-theme 'ef-dark))
 
 ;; [WIP] Make background transparent, unless in full screen
@@ -220,8 +218,7 @@
               (setq-local cursor-type nil
                           column-number-mode (not hl-line-mode)
                           line-move-visual nil)
-              (pulsar-mode -1)
-            )))
+              (pulsar-mode -1))))
 
 (advice-add #'grep-change-to-grep-edit-mode
             :after (lambda()
@@ -317,8 +314,7 @@
   (eglot-code-action-indications '(margin))
   (eglot-events-buffer-config '(:size 0))
   (eglot-semantic-token-types '("macro" "property" "parameter" "enumMember"))
-  (eglot-semantic-token-modifiers '("static"))
-  )
+  (eglot-semantic-token-modifiers '("static")))
 
 (add-hook 'c++-ts-mode-hook
           (lambda ()
@@ -348,8 +344,7 @@
           TeX-master nil
           TeX-view-program-selection '((output-pdf "PDF Tools"))
           TeX-source-correlate-start-server t
-          TeX-engine 'luatex)
-  )
+          TeX-engine 'luatex))
 
 ;; Use pdf-tools as an emacs-native PDF viewer
 (use-package pdf-tools
@@ -360,8 +355,7 @@
    (pdf-tools-enabled-hook . pdf-tools-enable-minor-modes))
   :config
   (setopt pdf-info-epdfinfo-program "/usr/local/bin/epdfinfo"
-          pdf-misc-print-program-executable "lp")
-  )
+          pdf-misc-print-program-executable "lp"))
 
 (add-hook 'TeX-after-compilation-finished-functions
           #'TeX-revert-document-buffer)
@@ -397,8 +391,7 @@
           (rx (or (seq bol (? ".") "#")         ;; emacs autosave files
                   (seq bol "." (not (any "."))) ;; dot-files
                   (seq "~" eol)                 ;; backup-files
-                  ))
-          )
+                  )))
 
   (advice-add #'wdired-change-to-wdired-mode
               :after (lambda()
@@ -408,9 +401,7 @@
 
   (advice-add #'wdired-change-to-dired-mode
               :after (lambda ()
-                       (hl-line-mode 1)))
-  )
-
+                       (hl-line-mode 1))))
 
 ;; Enable mouse navigation between visited help-mode topics
 (add-hook 'help-mode-hook
@@ -521,15 +512,13 @@
   (setopt vertico-multiform-categories
           '((consult-grep buffer)
             (consult-location buffer)
-            (imenu buffer)))
-  )
+            (imenu buffer))))
 
 (use-package vertico-flat
   :after vertico
   :config
   (keymap-set vertico-flat-map "<remap> <left-char>" nil)
-  (keymap-set vertico-flat-map "<remap> <right-char>" nil)
-  )
+  (keymap-set vertico-flat-map "<remap> <right-char>" nil))
 
 (use-package embark
   :ensure t
@@ -559,8 +548,7 @@
   :config
   ;; Reorder marginalia annotations to place doc strings first.  This is done by modifying
   ;; the marginalia.el annotation functions.
-  (load "~/.config/emacs/marginalia-config.el")
-  )
+  (load "~/.config/emacs/marginalia-config.el"))
 
 (use-package consult
   :ensure t
@@ -591,8 +579,7 @@
          :map isearch-mode-map
          ("M-e" . consult-isearch-history)
          ("M-s l" . consult-line)
-         ("M-s L" . consult-line-multi)
-	 )
+         ("M-s L" . consult-line-multi))
 
   :init
   (setopt xref-show-xrefs-function #'consult-xref
@@ -654,8 +641,7 @@
    scion/consult-fd-home consult-fd consult-find consult-locate
    :state (consult--file-preview)
    :sort t
-   :preview-key '("M-*" :debounce 0.4 any))
-  )
+   :preview-key '("M-*" :debounce 0.4 any)))
 
 (use-package orderless
   :ensure t
@@ -674,8 +660,7 @@
                                            (command  (styles orderless+initialism))
                                            (bookmark (styles orderless+flex))
                                            ;; For consult-buffer:
-                                           (multi-category (styles orderless+flex))
-                                           )))
+                                           (multi-category (styles orderless+flex)))))
 
 (defun consult--orderless-flex-regexp-compiler (input type ignore-case)
   (let* ((compiled (orderless-compile input '(orderless-flex)))
@@ -930,9 +915,8 @@
 (use-package agent-shell
   :ensure t
   :custom
-  (agent-shell-opencode-default-model-id "mistral/devstral-medium-latest")
-  (agent-shell-thought-process-expand-by-default t)
-  )
+  (agent-shell-opencode-default-model-id "opencode/big-pickle")
+  (agent-shell-thought-process-expand-by-default t))
 
 ;;;; Extensions: `page-break-line'
 (use-package page-break-lines
@@ -973,9 +957,8 @@
   (minions-mode t)
   :config
   (setopt mode-line-modes-delimiters nil
-          minions-mode-line-lighter "    "
-          minions-prominent-modes '(flymake-mode))
-  )
+          minions-mode-line-lighter "  "
+          minions-prominent-modes '(flymake-mode)))
 
 ;;;; Extensions: `beginend'
 (use-package beginend
@@ -1089,9 +1072,7 @@
     (set-face-attribute 'org-verbatim              nil :inherit '(shadow fixed-pitch)))
 
   (with-eval-after-load 'olivetti
-    (set-face-attribute 'olivetti-fringe nil :background "gray50")
-    )
-  )
+    (set-face-attribute 'olivetti-fringe nil :background "gray50")))
 
 (if (daemonp)
     (add-hook 'after-make-frame-functions

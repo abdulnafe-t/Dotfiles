@@ -72,10 +72,10 @@ variable."
                                        (- (window-pixel-width)
                                           (window-scroll-bar-width)
                                           (window-right-divider-width)
-                                           (* (+ (or (car (window-margins)) 0)
-                                                 (or (cdr (window-margins)) 0))
-                                              (frame-char-width))
-                                           (car (window-fringes))
+                                          (* (+ (or (car (window-margins)) 0)
+                                                (or (cdr (window-margins)) 0))
+                                             (frame-char-width))
+                                          (car (window-fringes))
                                           (pcase mode-line-right-align-edge
                                             ('right-margin
                                              (or (cdr (window-margins)) 0))
@@ -83,8 +83,7 @@ variable."
                                              (or (cadr (window-fringes)) 0))
                                             (_ 0))
                                           center-constructs-width)
-                                       2)))
-                  ))))
+                                       2)))))))
 
 (defvar mode-line-format-center '(:eval (mode--line-format-center))
   "Mode line construct to center all following constructs up to and
@@ -117,22 +116,23 @@ excluding `mode-line-format-right-align' and anything following it.")
 
 (setq mode-line-align-middle
       '((:eval (with-current-buffer (current-buffer)
-                 (concat (when (and (featurep 'nerd-icons)
-                                    (null (derived-mode-p 'gnus-mode)))
-                           (propertize
-                            (nerd-icons-icon-for-mode
-                             (buffer-local-value 'major-mode (current-buffer)))
-                            'display '(raise 0.1)))
-                         (if (and (project-current)
-                                  (null (derived-mode-p 'special-mode)))
-                             (concat
-                              (project-mode-line-format)
-                              "::")
-                           " "))))
+                 (concat
+                  (when (and (featurep 'nerd-icons)
+                             (not (derived-mode-p 'gnus-mode)))
+                    (propertize
+                     (nerd-icons-icon-for-mode
+                      (buffer-local-value 'major-mode (current-buffer)))
+                     'display '(raise 0.1)))
 
-        (:eval (format-mode-line mode-line-buffer-identification))
-        )
-      )
+                  (if (and
+                       (not (derived-mode-p '(agent-shell-mode gnus-mode eww-mode term-mode)))
+                       (project-current))
+                      (concat
+                       (project-mode-line-format)
+                       "::")
+                    " "))))
+
+        (:eval (format-mode-line mode-line-buffer-identification))))
 
 (setq scion/eglot-mode-line-format
       '(("󱉟 "
@@ -163,5 +163,4 @@ excluding `mode-line-format-right-align' and anything following it.")
                'mode-line-format-center
                mode-line-align-middle
                'mode-line-format-right-align
-               mode-line-align-right
-               ))
+               mode-line-align-right))
