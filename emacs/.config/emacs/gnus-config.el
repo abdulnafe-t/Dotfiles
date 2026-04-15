@@ -26,6 +26,7 @@
                                               (nntp-stream tls)
                                               (nntp-port 563))))
 
+;;; no-littering
 (setopt gnus-home-directory        (no-littering-expand-var-file-name "gnus")
         gnus-directory             (concat gnus-home-directory "/News")
         gnus-cache-directory       (concat gnus-directory "/cache")
@@ -36,27 +37,44 @@
 
 (setq mailcap-user-mime-data '(((viewer . "xdg-open %s") (type . ".*"))))
 
+;;; Optimization
+
+(setq gnus-check-new-newsgroups nil
+      gnus-save-newsrc-file nil)
+
+;;; Style
 (setopt gnus-logo-color-style 'storm
         gnus-treat-emojize-symbols nil
-        gnus-summary-line-format "%U%R%z %(%-20&user-date;  %-23,23f %* %B%-60,60S%)\n"
-        gnus-summary-thread-gathering-function 'gnus-gather-threads-by-subject
-        gnus-summary-gather-subject-limit 'fuzzy
+        gnus-treat-display-smileys nil
+        gnus-treat-buttonize t
+        gnus-treat-buttonize-head 'head
+
         gnus-use-cache t
-        gnus-thread-hide-subtree nil
-        gnus-summary-goto-unread 'never
+
+        gnus-thread-hide-subtree t
         gnus-group-goto-unread nil)
 
+(add-hook 'gnus-group-mode-hook #'gnus-topic-mode)
+(add-hook 'gnus-summary-mode-hook (lambda ()
+                                    (toggle-truncate-lines 16))) ; FIXME: doesn't take effect. Same in elfeed-config.el
 
 ;;; fancy summary
+;; Based on https://github.com/cofi/dotfiles/blob/master/gnus.el
 
-(setq gnus-summary-make-false-root 'dummy
-      gnus-summary-dummy-line-format  "%50= ▲    %-60,60S\n"
-      gnus-sum-thread-tree-false-root      "▲    "
-      gnus-sum-thread-tree-single-indent   "○    "
-      gnus-sum-thread-tree-root            "●    "
-      gnus-sum-thread-tree-vertical        "│    "
-      gnus-sum-thread-tree-leaf-with-other "├──╼ "
-      gnus-sum-thread-tree-single-leaf     "╰──╼ "
-      gnus-sum-thread-tree-indent          "   ")
+(setopt gnus-summary-line-format "│%U%R%z│ %(%1{%-20&user-date; %}│ %2{%-27,27f%}│ %* %B%4{%-80,80s%}%)\n"
+        gnus-summary-thread-gathering-function 'gnus-gather-threads-by-subject
+        gnus-summary-gather-subject-limit 'fuzzy
+        gnus-summary-goto-unread 'never
+        gnus-summary-make-false-root 'dummy
+        gnus-summary-dummy-line-format  "│   │ %27=│ %56=│ %* %3{▲   %-80,80S%}\n"
+        gnus-sum-thread-tree-false-root      "▲  "
+        gnus-sum-thread-tree-single-indent   "○  "
+        gnus-sum-thread-tree-root            "●  "
+        gnus-sum-thread-tree-vertical        "│ "
+        gnus-sum-thread-tree-leaf-with-other "├─╼"
+        gnus-sum-thread-tree-single-leaf     "╰─╼"
+        gnus-sum-thread-tree-indent          "  ")
 
-(add-hook 'gnus-group-mode-hook #'gnus-topic-mode)
+;; Format specification for the summary mode line.
+(setq gnus-summary-mode-line-format "%V: %%b"
+      gnus-group-mode-line-format "Gnus: %%b")
