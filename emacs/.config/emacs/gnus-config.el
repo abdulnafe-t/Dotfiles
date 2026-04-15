@@ -37,11 +37,26 @@
 (setq mailcap-user-mime-data '(((viewer . "xdg-open %s") (type . ".*"))))
 
 (setopt gnus-logo-color-style 'storm
-        gnus-treat-emojize-symbols t
-        gnus-summary-line-format "%U%R%z %(%d  %-23,23f %* %B%s%)\n"
+        gnus-treat-emojize-symbols nil
+        gnus-summary-line-format "%U%R%z %(%-20&user-date;  %-23,23f %* %B%-60,60S%)\n"
         gnus-summary-thread-gathering-function 'gnus-gather-threads-by-subject
+        gnus-summary-gather-subject-limit 'fuzzy
         gnus-use-cache t
-        gnus-thread-hide-subtree t
-        gnus-thread-ignore-subject t)
+        gnus-thread-hide-subtree nil
+        gnus-summary-goto-unread 'never
+        gnus-group-goto-unread nil)
+
+
+;;; fancy summary
+
+(setq gnus-summary-make-false-root 'dummy
+      gnus-summary-dummy-line-format  "%50= ▲    %-60,60S\n"
+      gnus-sum-thread-tree-false-root      "▲    "
+      gnus-sum-thread-tree-single-indent   "○    "
+      gnus-sum-thread-tree-root            "●    "
+      gnus-sum-thread-tree-vertical        "│    "
+      gnus-sum-thread-tree-leaf-with-other "├──╼ "
+      gnus-sum-thread-tree-single-leaf     "╰──╼ "
+      gnus-sum-thread-tree-indent          "   ")
 
 (add-hook 'gnus-group-mode-hook #'gnus-topic-mode)
