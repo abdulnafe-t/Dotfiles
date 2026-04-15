@@ -30,8 +30,7 @@
 	    ("https://www.youtube.com/feeds/videos.xml?channel_id=UChzRJQ-MbpcIxFT5YLW1R9w" youtube juniper-dev gamedev gaming)
 	    ("https://www.youtube.com/feeds/videos.xml?channel_id=UCX7lrgEOku1Ii5smnxDS5uQ" youtube soju-with-sarah podcast life)
 	    ("https://www.youtube.com/feeds/videos.xml?channel_id=UCX60pqsaaAPFh2sUZEaNKJA" youtube HGModernism life tech art general)
-	    ("https://www.youtube.com/feeds/videos.xml?channel_id=UCwHwDuNd9lCdA7chyyquDXw" youtube bread-on-penguins arch linux life general)
-            )))
+	    ("https://www.youtube.com/feeds/videos.xml?channel_id=UCwHwDuNd9lCdA7chyyquDXw" youtube bread-on-penguins arch linux life general))))
 
 (use-package elfeed-tube
   :after elfeed

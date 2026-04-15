@@ -193,6 +193,7 @@
 (set-face-background 'custom-hl-line-face (face-background 'mode-line))
 
 (use-package hl-line
+  :demand t
   :hook
   (dired-mode-hook
    elfeed-search-mode-hook
