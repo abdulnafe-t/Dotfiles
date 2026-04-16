@@ -51,7 +51,13 @@
       (insert (propertize feed-title 'face 'elfeed-search-feed-face) " "))))
 
   (setopt elfeed-search-print-entry-function #'scion/elfeed-search-print-entry
-          elfeed-sort-order 'ascending))
+          elfeed-sort-order 'descending))
+
+(add-hook 'elfeed-search-mode-hook
+          (lambda ()
+            (setq truncate-lines t
+                  truncate-partial-width-windows t)
+            (visual-line-mode -1)))
 
 (use-package elfeed-tube
   :after elfeed
