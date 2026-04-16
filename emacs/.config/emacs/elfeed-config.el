@@ -10,7 +10,7 @@
 			     (text-scale-set 2)))
 
   (elfeed-search-mode-hook . (lambda()
-                               (setq-local bidi-paragraph-direction 'left-to-right)))
+                               (setq bidi-paragraph-direction 'left-to-right)))
   :config
 
   (setq-default elfeed-search-filter "@2months")
