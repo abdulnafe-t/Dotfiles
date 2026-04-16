@@ -182,7 +182,8 @@
   (setopt pulsar-face 'pulsar-cyan
           pulsar-region-face 'pulsar-cyan
           pulsar-region-change-face 'pulsar-cyan
-          pulsar-highlight-face 'pulsar-cyan)
+          pulsar-highlight-face 'pulsar-cyan
+          pulsar-tty-color "dimgray")
   (push 'kill-visual-line pulsar-pulse-functions)
   :init
 (pulsar-global-mode 1))
