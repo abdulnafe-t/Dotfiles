@@ -12,9 +12,6 @@
   (elfeed-search-mode-hook . (lambda()
                                (setq bidi-paragraph-direction 'left-to-right)))
   :config
-
-  (setq-default elfeed-search-filter "@2months")
-
   (setopt elfeed-feeds
           '(("https://karthinks.com/index.xml" emacs software)
 	    ("https://xkcd.com/rss.xml" xkcd humor general comics)
@@ -30,7 +27,31 @@
 	    ("https://www.youtube.com/feeds/videos.xml?channel_id=UChzRJQ-MbpcIxFT5YLW1R9w" youtube juniper-dev gamedev gaming)
 	    ("https://www.youtube.com/feeds/videos.xml?channel_id=UCX7lrgEOku1Ii5smnxDS5uQ" youtube soju-with-sarah podcast life)
 	    ("https://www.youtube.com/feeds/videos.xml?channel_id=UCX60pqsaaAPFh2sUZEaNKJA" youtube HGModernism life tech art general)
-	    ("https://www.youtube.com/feeds/videos.xml?channel_id=UCwHwDuNd9lCdA7chyyquDXw" youtube bread-on-penguins arch linux life general))))
+	    ("https://www.youtube.com/feeds/videos.xml?channel_id=UCwHwDuNd9lCdA7chyyquDXw" youtube bread-on-penguins arch linux life general)))
+
+  (defun scion/elfeed-search-print-entry (entry)
+  "Print ENTRY to the buffer sans tags."
+  (let* ((date (elfeed-search-format-date (elfeed-entry-date entry)))
+         (title (or (elfeed-meta entry :title) (elfeed-entry-title entry) ""))
+         (title-faces (elfeed-search--faces (elfeed-entry-tags entry)))
+         (feed (elfeed-entry-feed entry))
+         (feed-title
+          (when feed
+            (or (elfeed-meta feed :title) (elfeed-feed-title feed))))
+         (title-width (- (window-width) 10 elfeed-search-trailing-width))
+         (title-column (elfeed-format-column
+                        title (elfeed-clamp
+                               elfeed-search-title-min-width
+                               title-width
+                               elfeed-search-title-max-width)
+                        :left)))
+    (insert (propertize date 'face 'elfeed-search-date-face) " ")
+    (insert (propertize title-column 'face title-faces 'kbd-help title) " ")
+    (when feed-title
+      (insert (propertize feed-title 'face 'elfeed-search-feed-face) " "))))
+
+  (setopt elfeed-search-print-entry-function #'scion/elfeed-search-print-entry
+          elfeed-sort-order 'ascending))
 
 (use-package elfeed-tube
   :after elfeed
