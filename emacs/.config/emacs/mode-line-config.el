@@ -5,7 +5,7 @@
 (setopt mode-line-percent-position nil
         column-number-indicator-zero-based nil)
 
-(defun scion/format-git-string-advice (file &optional backend)
+(defun scion/format-git-string-advice (_file &optional _backend)
   "Strip VC mode prefix and apply face based on file state."
   (when (and (buffer-file-name)
              (vc-backend (buffer-file-name)))
