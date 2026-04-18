@@ -4,6 +4,7 @@
     "*": "ask",
     "websearch": "allow",
     "codesearch": "allow",
-    "todowrite": "allow"
+    "todowrite": "allow",
+    "skill": "allow"
   }
 }
