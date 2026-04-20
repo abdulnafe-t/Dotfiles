@@ -1,5 +1,7 @@
 ;;; -*- lexical-binding: t -*-
 
+(global-set-key (kbd "C-c Y") 'gnus)
+
 (setopt user-mail-address "abdulnafe.toulaimat@gmail.com"
         user-full-name "Abdulnafé Toulaïmat")
 
@@ -35,7 +37,7 @@
         gnus-cache-directory        (concat gnus-directory "/cache")
         message-directory           (concat gnus-home-directory "/Mail")
         nndraft-directory           (concat gnus-home-directory "/nndrafts")
-        gnus-startup-file           (no-littering-expand-etc-file-name "gnus/.newsrc") ; FIXME: should be in var instead?
+        gnus-startup-file           (no-littering-expand-var-file-name "gnus/.newsrc")
         gnus-init-file              (no-littering-expand-etc-file-name "gnus/init.el"))
 
 (setq mailcap-user-mime-data '(((viewer . "xdg-open %s") (type . ".*"))))
@@ -43,13 +45,15 @@
 ;;; Optimization
 
 (setopt gnus-use-cache t
+        gnus-save-newsrc-file nil
+        gnus-read-newsrc-file nil
         gnus-check-new-newsgroups nil
         gnus-read-active-file nil)
 
 ;;; Saving
 (setopt gnus-prompt-before-saving t)
 
-;;; Style
+;;; Style & preferences
 (setopt gnus-logo-color-style 'storm
         gnus-treat-emojize-symbols nil
         gnus-treat-display-smileys nil
@@ -79,19 +83,21 @@
 ;; Based on https://github.com/cofi/dotfiles/blob/master/gnus.el
 
 (defun gnus-user-format-function-R (header)
-  "Add trailing spaces for thread roots to align to column 97."
+  "Add trailing spaces for thread roots to align author names to column 97."
   (if (or (zerop gnus-tmp-level)
           (not (gnus-subject-equal gnus-tmp-prev-subject (aref header 1))))
       (make-string (max 0 (- 97 (current-column))) ? )
     ""))
 
 (setopt gnus-summary-to-prefix "To: "
+        ;; gnus-summary-line-format "%U%R%z %(%1{%-16,16&user-date;%} %B %2{%0,30f%} %55=%*%4{%0,100s%}%)\n"
         gnus-summary-line-format "%U%R%z %(%1{%-16,16&user-date;%} %* %B%4{%0,70s%} %uR%2{%0,50f%}%)\n"
         gnus-summary-thread-gathering-function 'gnus-gather-threads-by-subject
         gnus-summary-gather-subject-limit 'fuzzy
         gnus-summary-goto-unread 'never
         gnus-summary-make-false-root 'dummy
-        gnus-summary-dummy-line-format  "    %3{[Dummy] %20= %* ▲ %0,70S%}\n"
+        ;; gnus-summary-dummy-line-format  "    %3{[Dummy] %20= ▲ %55=%*%0,100S%}\n"
+        gnus-summary-dummy-line-format  "    %3{[Dummy] %20= %* ▲ %0,70S %97= [Dummy]%}\n"
         gnus-sum-thread-tree-false-root      "▲ "
         gnus-sum-thread-tree-single-indent   "○ "
         gnus-sum-thread-tree-root            "● "
@@ -101,7 +107,7 @@
         gnus-sum-thread-tree-indent          "  ")
 
 (gnus-add-configuration
- '(article (horizontal 1.0 (summary .45 point) (article 1.0))))
+ '(article (horizontal 1.0 (summary .4 point) (article 1.0))))
 
 ;; Format specification for the summary mode line.
 (setopt gnus-summary-mode-line-format "Gnus: %V: %p"
