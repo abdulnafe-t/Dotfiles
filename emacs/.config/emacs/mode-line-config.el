@@ -65,7 +65,7 @@ variable."
                          (not (eq mode-line-right-align-edge 'window)))
 	            `(space :align-to (,(/
                                          (-
-                                          ,mode-line-right-align-edge
+                                          mode-line-right-align-edge
                                           center-constructs-width)
                                          2)))
                   `(space :align-to (,(/
@@ -93,7 +93,7 @@ excluding `mode-line-format-right-align' and anything following it.")
 
 (setq mode-line-align-left
       '("%e"
-        (:propertize " " display ((ascent center) (height 1.15)))
+        (:propertize " " display ((ascent center) (height 1.1)))
         mode-line-mule-info mode-line-client
         mode-line-modified mode-line-remote
         mode-line-window-dedicated
