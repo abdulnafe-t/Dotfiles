@@ -150,6 +150,9 @@
 
 (setq-default cursor-type 'box)
 
+(setq-default window-divider-default-right-width 3)
+(window-divider-mode 1)
+
 ;; Customize modeline
 (load "~/.config/emacs/mode-line-config.el")
 
@@ -270,20 +273,19 @@
   :ensure t
   :hook (prog-mode-hook . ws-butler-mode))
 
-;; Use treesitter for bash, C, & C++ in order to ensure accurate syntax highlighting
+;; Use treesitter for bash, C/C++, etc in order to ensure accurate syntax highlighting
 (setopt major-mode-remap-alist
         '((sh-mode . bash-ts-mode)
           (c-mode . c-ts-mode)
           (c++-mode . c++-ts-mode)
-          (c-or-c++-mode . c-or-c++-ts-mode)))
+          (c-or-c++-mode . c-or-c++-ts-mode)
+          (rust-mode . rust-ts-mode)))
 
 (setq treesit-language-source-alist
       '((c "https://github.com/tree-sitter/tree-sitter-c")
         (cpp "https://github.com/tree-sitter/tree-sitter-cpp")
-        (bash "https://github.com/tree-sitter/tree-sitter-bash")))
-
-;; `EDE'
-(add-hook 'c++-ts-mode-hook #'ede-minor-mode)
+        (bash "https://github.com/tree-sitter/tree-sitter-bash")
+        (rust "https://github.com/tree-sitter/tree-sitter-rust")))
 
 ;; Required to get proper auto-completion (e.g. for () after function names) with eglot &
 ;; clangd
@@ -320,9 +322,13 @@
 
 (add-hook 'c++-ts-mode-hook
           (lambda ()
-            (setopt c-ts-mode-indent-offset 6)
-            (setopt indent-tabs-mode nil)
-            (keymap-set c-ts-base-mode-map "RET" #'electric-indent-just-newline)))
+            (setopt c-ts-mode-indent-offset 6
+                    indent-tabs-mode nil)
+            (setq-local compile-command "cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -S ./src -B ./build && cmake --build ./build")
+            (keymap-set c-ts-base-mode-map "RET" #'electric-indent-just-newline)
+            (keymap-set c-ts-base-mode-map "C-c C-c" #'compile)
+            (keymap-set c-ts-base-mode-map "C-c c" #'compile)))
+
 
 (add-hook 'eglot-managed-mode-hook
           (lambda ()
@@ -862,22 +868,7 @@
     ("2" split-window-below "Split window below" :column "Windows")
     ("3" split-window-right "Split window to the right" :column "Windows")
     ("q" nil "Quit" :column "Quit")
-    ("RET" nil "Quit" :column "Quit"))
-
-  (with-eval-after-load 'eglot
-    (defhydra hdyra-eglot-and-ede (eglot-mode-map "C-c .")
-      "Eglot & EDE actions."
-      ("t" ede-new-target "New target" :column "Setup" :color blue)
-      ("a" ede-add-file "Add to target" :column "Setup")
-      ("RET" eglot-format-buffer "Format buffer" :column "Build")
-      ("C" ede-compile-project "Compile project" :column "Build")
-      ("c" ede-compile-target "Compile project" :column "Build")
-      ("r" ede-run-target "Run target" :column "Build" :color blue)
-      ("d" ede-remove-file "Remove from target" :column "Clean up")
-      ("e" ede-edit-file-target "Edit Project.ede" :column "Clean up")
-      ("q" nil "Quit" :color blue :column "Other")
-      ("1" flymake-show-buffer-diagnostics "Diagnostics window" :color blue :column "Clean up")))
-  )
+    ("RET" nil "Quit" :column "Quit")))
 
 ;;;; Extensions: `vundo'
 (use-package vundo
@@ -1018,14 +1009,6 @@
  '(auth-source-save-behavior nil)
  '(custom-safe-themes
    '("fff0dc54ff5a194ba6593d1cce0fbb4fe8cf9da59fcef47f9e06dec6ef11b1fa" default))
- '(ede-project-directories
-   '("/home/scion/Projects/learn_cpp/chapter_o_4"
-     "/home/scion/Projects/learn_cpp/chapter_o_3"
-     "/home/scion/Projects/learn_cpp/chapter_o_2"
-     "/home/scion/Projects/lazyfoo/02-textures-and-extension-libraries"
-     "/home/scion/Projects/lazyfoo/hello_sdl3"
-     "/home/scion/Projects/learn_cpp/chapter_27_x" "/home/scion/Projects/learn_cpp/demo"
-     "/home/scion/Projects/Notepad--"))
  '(package-selected-packages
    '(agent-shell auctex avy beginend consult ef-themes eglot eldoc-box elfeed elfeed-tube
 		 embark embark-consult expand-region forge highlight-doxygen hydra jinx
