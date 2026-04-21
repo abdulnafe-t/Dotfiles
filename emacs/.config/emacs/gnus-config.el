@@ -89,21 +89,32 @@
       (make-string (max 0 (- 97 (current-column))) ? )
     ""))
 
+(defun gnus-user-format-function-F (header)
+  "Like %f but removes \\=` via ...\\=' from the From: header.
+This removes mailing list or other intermediate identifiers."
+  (let* ((from (or (car (funcall gnus-extract-address-components
+                                 (mail-header-from header)))
+                   (mail-header-from header))))
+    (if (string-match " via " from)
+        (substring from 0 (match-beginning 0))
+      from)))
+
 (setopt gnus-summary-to-prefix "To: "
-        ;; gnus-summary-line-format "%U%R%z %(%1{%-16,16&user-date;%} %B %2{%0,30f%} %55=%*%4{%0,100s%}%)\n"
-        gnus-summary-line-format "%U%R%z %(%1{%-16,16&user-date;%} %* %B%4{%0,70s%} %uR%2{%0,50f%}%)\n"
+        gnus-summary-newsgroup-prefix "To: "
+        gnus-summary-line-format "%U%R%z %(%1{%-16,16&user-date;%}  %B%2{%0,25uF%} %50=%*%4{%0,105s%}%)\n"
+        ;; gnus-summary-line-format "%U%R%z %(%1{%-16,16&user-date;%} %B%*%4{%0,70s%} %uR%2{%0,50uF%}%)\n"
         gnus-summary-thread-gathering-function 'gnus-gather-threads-by-subject
         gnus-summary-gather-subject-limit 'fuzzy
         gnus-summary-goto-unread 'never
         gnus-summary-make-false-root 'dummy
-        ;; gnus-summary-dummy-line-format  "    %3{[Dummy] %20= ▲ %55=%*%0,100S%}\n"
-        gnus-summary-dummy-line-format  "    %3{[Dummy] %20= %* ▲ %0,70S %97= [Dummy]%}\n"
+        gnus-summary-dummy-line-format  "    %3{[Dummy] %20=  ▲ [Dummy] %50=%*%0,105S%}\n"
+        ;; gnus-summary-dummy-line-format  "    %3{[Dummy] %20= ▲ %* %0,70S %97= [Dummy]%}\n"
         gnus-sum-thread-tree-false-root      "▲ "
         gnus-sum-thread-tree-single-indent   "○ "
         gnus-sum-thread-tree-root            "● "
         gnus-sum-thread-tree-vertical        "│"
-        gnus-sum-thread-tree-leaf-with-other "├─╼"
-        gnus-sum-thread-tree-single-leaf     "╰─╼"
+        gnus-sum-thread-tree-leaf-with-other "├─╼ "
+        gnus-sum-thread-tree-single-leaf     "╰─╼ "
         gnus-sum-thread-tree-indent          "  ")
 
 (gnus-add-configuration
