@@ -46,11 +46,15 @@
     (set-face-attribute 'nerd-icons-completion-dir-face nil
 			:foreground (face-foreground 'font-lock-keyword-face)))
 
-  (set-fontset-font "fontset-default" 'arabic "Scheherazade New")
+  (set-fontset-font "fontset-default" 'arabic (font-spec :family "Kawkab Mono" :size 13.0))
 
   (set-face-attribute 'default        nil :family "GeistMonoNerdFontPropo" :height 150)
+  (unless (display-graphic-p)
+    (set-face-background 'default "unspecified"))
+
   (set-face-attribute 'fixed-pitch    nil :family "GeistMonoNerdFontMono")
   (set-face-attribute 'variable-pitch nil :family "GeistNerdFontPropo")
+
 
   (set-face-attribute 'mode-line nil :box 'nil :underline 'nil)
   (set-face-attribute 'mode-line-active nil :box nil :underline 'nil)

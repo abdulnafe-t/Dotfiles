@@ -38,6 +38,7 @@
 (push 'command-history savehist-additional-variables)
 
 (context-menu-mode 1)
+(xterm-mouse-mode 1)
 
 (menu-bar-mode -1)
 (tool-bar-mode -1)
@@ -152,6 +153,14 @@
 
 (setq-default window-divider-default-right-width 3)
 (window-divider-mode 1)
+
+(add-hook 'window-configuration-change-hook
+          (lambda ()
+            (unless (display-graphic-p)
+              (let ((display-table (or buffer-display-table
+                                       standard-display-table)))
+                (set-display-table-slot display-table 'vertical-border ?│)
+                (set-display-table-slot display-table 'truncation ? ))))) ; Replace $ with space
 
 ;; Customize modeline
 (load "~/.config/emacs/mode-line-config.el")
@@ -951,7 +960,7 @@
   (minions-mode t)
   :config
   (setopt mode-line-modes-delimiters nil
-          minions-mode-line-lighter "  "
+          minions-mode-line-lighter "   "
           minions-prominent-modes '(flymake-mode)))
 
 ;;;; Extensions: `beginend'

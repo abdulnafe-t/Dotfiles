@@ -118,7 +118,8 @@ excluding `mode-line-format-right-align' and anything following it.")
       '((:eval (with-current-buffer (current-buffer)
                  (concat
                   (when (and (featurep 'nerd-icons)
-                             (not (derived-mode-p 'gnus-mode)))
+                             (or (not (display-graphic-p))
+                                 (not (derived-mode-p 'gnus-mode))))
                     (propertize
                      (nerd-icons-icon-for-mode
                       (buffer-local-value 'major-mode (current-buffer)))
