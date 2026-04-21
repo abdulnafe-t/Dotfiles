@@ -892,9 +892,9 @@
   :init
   (setopt vc-follow-symlinks t))
 
-(use-package magit-prime
-  :config
-  (magit-prime-mode))
+(use-package forge
+  :ensure t
+  :after magit)
 
 ;;;; Extensions: `expand-region'
 (use-package expand-region
