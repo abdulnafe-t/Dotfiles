@@ -169,12 +169,12 @@
   :init
   (ef-themes-take-over-modus-themes-mode 1)
   :config
-  (setopt modus-themes-mixed-fonts t)
-  (setopt modus-themes-bold-constructs t
+  (setopt modus-themes-mixed-fonts t
+          modus-themes-bold-constructs t
           modus-themes-italic-constructs t
-          modus-themes-prompts '(ultrabold))
+          modus-themes-prompts '(ultrabold)
 
-  (setopt modus-themes-common-palette-overrides
+          modus-themes-common-palette-overrides
           '((cursor fg-main)
             (string red-faint)
             (comment fg-dim)
@@ -183,9 +183,6 @@
             (bg-mode-line-inactive "#17161c")))
 
   (modus-themes-load-theme 'ef-dark))
-
-;; [WIP] Make background transparent, unless in full screen
-(push '(alpha-background . 66) default-frame-alist)
 
 ;; Pulsar: flash current line on certain window changes
 (use-package pulsar
@@ -1016,8 +1013,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(auth-source-save-behavior nil)
- '(custom-safe-themes
-   '("fff0dc54ff5a194ba6593d1cce0fbb4fe8cf9da59fcef47f9e06dec6ef11b1fa" default))
+
  '(package-selected-packages
    '(agent-shell auctex avy beginend consult ef-themes eglot eldoc-box elfeed elfeed-tube
 		 embark embark-consult expand-region forge highlight-doxygen hydra jinx
