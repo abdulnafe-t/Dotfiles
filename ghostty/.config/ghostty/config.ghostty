@@ -1,0 +1,31 @@
+background = 000000
+
+font-family = monospace
+
+font-size = 15.0
+
+theme = Modus Vivendi
+
+shell-integration-features = no-cursor
+
+cursor-style = block
+
+cursor-click-to-move = true
+
+background-opacity = .66
+
+background-opacity-cells = true
+
+resize-overlay = never
+
+confirm-close-surface = false
+
+mouse-shift-capture = true
+
+scrollbar = never
+
+window-padding-x = 0
+
+window-padding-balance = true
+
+keybind = ctrl+,=unbind

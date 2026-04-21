@@ -5,7 +5,6 @@
 if [ -z "$WAYLAND_DISPLAY" ] && [ "$(tty)" = "/dev/tty1" ]; then
     fastfetch
     echo
-    export TERM=xterm-256color
     export FZF_DEFAULT_COMMAND="fd . --hidden --follow --full-path --absolute-path --type file"
     export FZF_DEFAULT_OPTS="
     --ansi
