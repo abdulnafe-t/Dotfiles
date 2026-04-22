@@ -38,7 +38,7 @@
 (push 'command-history savehist-additional-variables)
 
 (context-menu-mode 1)
-(xterm-mouse-mode 1)
+(xterm-mouse-mode 1) ; for TTY
 
 (menu-bar-mode -1)
 (tool-bar-mode -1)
@@ -154,17 +154,27 @@
 (setq-default window-divider-default-right-width 3)
 (window-divider-mode 1)
 
+;;;; Style: fringe indicators
+(setopt fringe-indicator-alist
+        (assq-delete-all 'truncation
+                         (assq-delete-all 'continuation
+                                          fringe-indicator-alist)))
+
 (add-hook 'window-configuration-change-hook
           (lambda ()
             (unless (display-graphic-p)
               (let ((display-table (or buffer-display-table
                                        standard-display-table)))
-                (set-display-table-slot display-table 'vertical-border ?│)
-                (set-display-table-slot display-table 'truncation ? ))))) ; Replace $ with space
+                (set-display-table-slot display-table 'vertical-border ?┃) ; Replace pipe
+                                                                           ; with box
+                                                                           ; segment
+                (set-display-table-slot display-table 'truncation ? ))))) ; Replace $ with
+                                                                          ; space
 
-;; Customize modeline
+;;;; Style: modeline
 (load "~/.config/emacs/mode-line-config.el")
 
+;;;; Style: theme
 (use-package ef-themes
   :init
   (ef-themes-take-over-modus-themes-mode 1)
@@ -184,7 +194,7 @@
 
   (modus-themes-load-theme 'ef-dark))
 
-;; Pulsar: flash current line on certain window changes
+;;;; Style: Pulsar
 (use-package pulsar
   :ensure t
   :config
