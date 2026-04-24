@@ -104,6 +104,13 @@
   (with-eval-after-load 'olivetti
     (set-face-attribute 'olivetti-fringe nil :background "gray50"))
 
+  (with-eval-after-load 'flymake
+    (set-face-attribute 'flymake-note nil :underline '(:style wave :color "#0faa26")))
+
+  (with-eval-after-load 'gnus-art
+    (set-face-attribute 'gnus-header-from nil :foreground (face-foreground 'scion-author))
+    (set-face-attribute 'gnus-header-subject nil :foreground (face-foreground 'font-lock-keyword-face)))
+
   (with-eval-after-load 'elfeed
     (set-face-attribute 'elfeed-search-date-face nil :foreground (face-foreground 'scion-date))
     (set-face-attribute 'elfeed-log-date-face  nil :foreground (face-foreground 'scion-date))
