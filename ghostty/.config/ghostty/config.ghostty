@@ -1,6 +1,7 @@
 background = 000000
 
 font-family = monospace
+font-family = Kawkab Mono
 
 font-size = 15.0
 
@@ -29,3 +30,5 @@ window-padding-x = 0
 window-padding-balance = true
 
 keybind = ctrl+,=unbind
+
+adjust-cell-height = 5
