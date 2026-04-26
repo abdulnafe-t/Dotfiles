@@ -907,7 +907,7 @@
 ;;;; Extensions: ‘expand-region’
 (use-package expand-region
   :ensure t)
-(keymap-global-set "C-=" 'er/expand-region)
+(keymap-global-set "C-c m" 'er/expand-region)
 
 ;;;; Extensions: ‘no-littering’
 (use-package no-littering
