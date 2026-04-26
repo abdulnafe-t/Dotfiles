@@ -13,7 +13,7 @@ cursor-style = block
 
 cursor-click-to-move = true
 
-background-opacity = .66
+background-opacity = 0.75
 
 background-opacity-cells = true
 

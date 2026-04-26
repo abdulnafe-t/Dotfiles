@@ -14,12 +14,16 @@
         delete-by-moving-to-trash t
         save-interprogram-paste-before-kill t
 
+        bookmark-save-flag 0
+
         confirm-kill-processes nil
         shell-command-prompt-show-cwd t
         use-short-answers t
 
         completions-group t
         completion-eager-update t
+
+        set-mark-command-repeat-pop t
 
         enable-recursive-minibuffers t
         minibuffer-visible-completions t
@@ -36,6 +40,7 @@
 (recentf-mode 1)
 (savehist-mode 1)
 (push 'command-history savehist-additional-variables)
+(auto-save-visited-mode 1)
 
 (context-menu-mode 1)
 (xterm-mouse-mode 1) ; for TTY
@@ -121,12 +126,6 @@
 (repeat-mode 1)
 (keymap-global-set "C-z" 'undo)
 (define-key undo-repeat-map (kbd "z") #'undo)
-
-;; Enable certain "advanced" functions
-(put 'downcase-region 'disabled nil)
-(put 'upcase-region 'disabled nil)
-(put 'scroll-left 'disabled nil)
-(put 'scroll-right 'disabled nil)
 
 (setopt use-package-hook-name-suffix nil)
 
@@ -427,6 +426,13 @@
   (advice-add #'wdired-change-to-dired-mode
               :after (lambda ()
                        (hl-line-mode 1))))
+
+;; Enable certain "advanced" functions
+(put 'downcase-region 'disabled nil)
+(put 'upcase-region 'disabled nil)
+(put 'scroll-left 'disabled nil)
+(put 'scroll-right 'disabled nil)
+(put 'dired-find-alternate-file 'disabled nil)
 
 ;; Enable mouse navigation between visited help-mode topics
 (add-hook 'help-mode-hook
