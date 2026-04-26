@@ -89,8 +89,8 @@
       (make-string (max 0 (- 97 (current-column))) ? )
     ""))
 
-(defun gnus-user-format-function-F (header)
-  "Like %f but removes \\=` via ...\\=' from the From: header.
+(defun gnus-user-format-function-f (header)
+  "Like %f but removes “ via ...” from the “From:” header.
 This removes mailing list or other intermediate identifiers."
   (let* ((from (or (car (funcall gnus-extract-address-components
                                  (mail-header-from header)))

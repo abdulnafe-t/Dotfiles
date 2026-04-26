@@ -1,10 +1,10 @@
 ;;; -*- lexical-binding: t -*-
 
 (defface scion-font-lock-auto '((t (:inherit font-lock-type-face :slant italic :weight normal)))
-  "Custom face for the C++ 'auto' keyword.")
+  "Custom face for the C++ ‘auto’ keyword.")
 
 (defface scion-font-lock-this-ptr '((t (:foreground "#00609b" :slant normal :weight bold)))
-  "Custom face for the C++ `this' pointer.")
+  "Custom face for the C++ ‘this’ pointer.")
 
 (defface scion-date '((t (:foreground "#00a692")))
   "Face for the date in the gnus summary buffer.")

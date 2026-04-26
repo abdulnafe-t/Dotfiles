@@ -39,16 +39,16 @@
   "Center all following mode-line constructs, up to and excluding
 mode-line-format-right-align.
 
-When the symbol `mode-line-format-center' appears in `mode-line-format',
+When the symbol ‘mode-line-format-center’ appears in ‘mode-line-format’,
 return a string of one space, with a display property to make it appear
 long enough to align anything after that symbol - up to and excluding
-`mode-line-format-right-align' - to the the center of the rendered mode
+‘mode-line-format-right-align’ - to the the center of the rendered mode
 line.
 
-It is important that the symbol `mode-line-format-center' be included in
-`mode-line-format' (and not another similar construct such
-as `(:eval (mode-line-format-right-align)').  This is because the symbol
-`mode-line-format-center' is processed by `format-mode-line' as a
+It is important that the symbol ‘mode-line-format-center’ be included in
+‘mode-line-format’ (and not another similar construct such
+as \\=`(:eval (mode-line-format-center)).  This is because the symbol
+‘mode-line-format-center’ is processed by ‘format-mode-line’ as a
 variable."
   (let* ((rest-beg (cdr (memq 'mode-line-format-center mode-line-format)))
          (rest-end (memq 'mode-line-format-right-align rest-beg))
@@ -87,7 +87,7 @@ variable."
 
 (defvar mode-line-format-center '(:eval (mode--line-format-center))
   "Mode line construct to center all following constructs up to and
-excluding `mode-line-format-right-align' and anything following it.")
+excluding ‘mode-line-format-right-align’ and anything following it.")
 
 (put 'mode-line-format-center 'risky-local-variable t)
 

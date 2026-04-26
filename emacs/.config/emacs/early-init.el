@@ -38,7 +38,7 @@
 
 (push '(background-color . "black") default-frame-alist)
 
-;;;; `Melpa'
+;;;; ‘Melpa’
 (progn
   (require 'package)
   (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)

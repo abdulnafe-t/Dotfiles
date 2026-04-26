@@ -67,6 +67,7 @@
 (global-set-key (kbd "<C-wheel-up>") 'text-scale-increase)
 
 (electric-pair-mode 1)
+(electric-quote-mode 1)
 (delete-selection-mode 1)
 (setq-default blink-matching-paren-highlight-offscreen t
               show-paren-context-when-offscreen t)
@@ -134,7 +135,7 @@
 (setq-default auth-sources '("secrets:App Passwords" "~/.authinfo.gpg"))
 
 ;; Make local sudo always prompt for a password, as opposed to looking it up in
-;; `auth-sources'. From
+;; ‘auth-sources’. From
 ;; https://emacs.stackexchange.com/questions/64062/how-to-avoid-using-auth-sources-when-editing-with-sudo
 (setopt tramp-completion-use-auth-sources nil)
 
@@ -261,7 +262,7 @@
             :after (lambda ()
                      (hl-line-mode 1)))
 
-;;; `Org'
+;;; ‘Org’
 (load "~/.config/emacs/org-config")
 
 ;;; Programming
@@ -386,7 +387,7 @@
 
 ;;; Other QOL packages & extensions
 
-;;;; `Dired'
+;;;; ‘Dired’
 ;; Enable long listing in dired, sort directories before other files, use human-readable
 ;; file sizes (KB, GB, etc), and don't show hidden files.
 (setq-default dired-listing-switches "-agho --group-directories-first"
@@ -435,7 +436,7 @@
             (keymap-set help-mode-map
                         "<mouse-8>" #'help-go-back)))
 
-;;;; Extensions: `jinx'
+;;;; Extensions: ‘jinx’
 (use-package jinx
   :ensure t
   :demand t
@@ -453,7 +454,7 @@
     (push r (cdr (assoc t jinx-exclude-regexps))))
 
   ;; Fix URL matching. The builtin regex for URLs fails for
-  ;; "https://www.youtube.com/feeds/videos.xml?channel_id=XXxx", where the `XXxx' gets
+  ;; "https://www.youtube.com/feeds/videos.xml?channel_id=XXxx", where the ‘XXxx’ gets
   ;; tagged as a misspelling.
   (setf (cdr (assoc t jinx-exclude-regexps))
         (cons "[a-z]+://\\S-+\\>"
@@ -491,7 +492,7 @@
 
   (push #'scion/jinx-skip-package-p jinx--predicates))
 
-;;;; Extensions: `multiple-cursors'
+;;;; Extensions: ‘multiple-cursors’
 (use-package multiple-cursors
   :ensure t
   :demand t
@@ -500,10 +501,10 @@
    ("C-$ a" . mc/mark-all-like-this)
    ("C-$ <down>" . mc/mark-more-like-this-extended)
    ("C-$ <up>" . mc/mark-more-like-this-extended)
-   ;; There are more MC keybindings in the hydras `hydra-mc-*'
+   ;; There are more MC keybindings in the hydras ‘hydra-mc-*’
    ))
 
-;;;; Extensions: `VEMCO' Stack
+;;;; Extensions: ‘VEMCO’ Stack
 (use-package vertico
   :ensure t
 
@@ -577,12 +578,12 @@
 (use-package consult
   :ensure t
   :demand t
-  :bind (;; C-c bindings in `mode-specific-map'
+  :bind (;; C-c bindings in ‘mode-specific-map’
          ("C-c k" . consult-kmacro)
          ([remap Info-search] . consult-info)
          ;; Other custom bindings
          ("M-y" . consult-yank-pop)
-         ;; M-g bindings in `goto-map'
+         ;; M-g bindings in ‘goto-map’
          ("M-g f" . consult-flymake)
          ("M-g r" . consult-grep-match)
          ("M-g g" . consult-goto-line)
@@ -594,7 +595,7 @@
          ("M-g I" . consult-imenu-multi)
          ("M-s d" . scion/consult-fd-home)
          ("M-s D" . consult-fd)
-         ;; M-s bindings in `search-map'
+         ;; M-s bindings in ‘search-map’
          ("M-s r" . consult-ripgrep)
          ("M-s l" . consult-line)
          ("M-s L" . consult-line-multi)
@@ -722,7 +723,7 @@
 (advice-add #'consult-ripgrep :around #'consult--grep-with-orderless)
 (advice-add #'consult-grep :around #'consult--grep-with-orderless)
 
-;;;; Extensions: `nerd-icons'
+;;;; Extensions: ‘nerd-icons’
 (use-package nerd-icons
   :ensure t
   :demand t)
@@ -738,7 +739,7 @@
   :init
   (nerd-icons-completion-mode))
 
-;;;; Extensions: `avy'
+;;;; Extensions: ‘avy’
 (use-package avy
   :ensure t
   :demand t
@@ -851,7 +852,7 @@
         (alist-get ?: avy-dispatch-alist) 'avy-action-xref-references)
   )
 
-;;;; Extensions: `hydra'
+;;;; Extensions: ‘hydra’
 (use-package hydra
   :ensure t
   :config
@@ -886,14 +887,14 @@
     ("q" nil "Quit" :column "Quit")
     ("RET" nil "Quit" :column "Quit")))
 
-;;;; Extensions: `vundo'
+;;;; Extensions: ‘vundo’
 (use-package vundo
   :ensure t
   :config
   (setopt vundo-glyph-alist vundo-unicode-symbols
           vundo-popup-time 4.0))
 
-;;;; Extensions: `magit'
+;;;; Extensions: ‘magit’
 (use-package magit
   :ensure t
   :init
@@ -903,22 +904,22 @@
   :ensure t
   :after magit)
 
-;;;; Extensions: `expand-region'
+;;;; Extensions: ‘expand-region’
 (use-package expand-region
   :ensure t)
 (keymap-global-set "C-=" 'er/expand-region)
 
-;;;; Extensions: `no-littering'
+;;;; Extensions: ‘no-littering’
 (use-package no-littering
   :ensure t)
 
-;;; `Gnus'
+;;; ‘Gnus’
 (load "~/.config/emacs/gnus-config.el")
 
-;;;; Extensions: `elfeed'
+;;;; Extensions: ‘elfeed’
 (load "~/.config/emacs/elfeed-config")
 
-;;;; Extensions: `agent-shell'
+;;;; Extensions: ‘agent-shell’
 (use-package agent-shell
   :ensure t
   :bind
@@ -928,13 +929,13 @@
   (agent-shell-opencode-default-model-id "opencode/big-pickle")
   (agent-shell-thought-process-expand-by-default t))
 
-;;;; Extensions: `page-break-line'
+;;;; Extensions: ‘page-break-line’
 (use-package page-break-lines
   :ensure t
   :config
   (global-page-break-lines-mode 1))
 
-;;;; Extensions: `highlight-doxygen'
+;;;; Extensions: ‘highlight-doxygen’
 (use-package highlight-doxygen
   :ensure t
   :custom-face
@@ -942,7 +943,7 @@
   :config
   (highlight-doxygen-global-mode 1))
 
-;;;; Extensions: `eldoc-box'
+;;;; Extensions: ‘eldoc-box’
 (use-package eldoc-box
   :ensure t
   :custom-face
@@ -960,7 +961,7 @@
   (eldoc-idle-delay 1)
   )
 
-;;;; Extensions: `minions'
+;;;; Extensions: ‘minions’
 (use-package minions
   :ensure t
   :init
@@ -970,23 +971,23 @@
           minions-mode-line-lighter "  "
           minions-prominent-modes '(flymake-mode)))
 
-;;;; Extensions: `beginend'
+;;;; Extensions: ‘beginend’
 (use-package beginend
   :ensure t
   :init
   (beginend-global-mode))
 
-;;;; Extensions: `lorem-ipsum'
+;;;; Extensions: ‘lorem-ipsum’
 (use-package lorem-ipsum
   :ensure t)
 
-;;;; Extensions: `move-text'
+;;;; Extensions: ‘move-text’
 (use-package move-text
   :ensure t
   :config
   (move-text-default-bindings))
 
-;;;; Extensions: `whole-line-or-region'
+;;;; Extensions: ‘whole-line-or-region’
 (use-package whole-line-or-region
   :init
   (whole-line-or-region-global-mode 1)
@@ -995,7 +996,7 @@
   (push 'whole-line-or-region-kill-region pulsar-pulse-region-functions)
   (push 'whole-line-or-region-kill-ring-save pulsar-pulse-region-functions))
 
-;;;; Extensions: `wiki-summary'
+;;;; Extensions: ‘wiki-summary’
 (use-package wiki-summary)
 
 ;;; Misc.

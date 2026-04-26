@@ -27,7 +27,7 @@ documentation string before other info."
   "Annotate package CAND with its description summary. Display
 documentation string before other info."
   (when-let* ((pkg-alist (bound-and-true-p package-alist))
-	      ;; See `package-get-version'.
+	      ;; See ‘package-get-version’.
 	      (name (replace-regexp-in-string
                      "-[0-9]\\(?:[0-9.]\\|pre\\|beta\\|alpha\\|snapshot\\)+\\'" "" cand))
 	      (pkg (intern-soft name))
@@ -38,7 +38,7 @@ documentation string before other info."
                                               (package-desc-version d))
                                              version)
                                    return d))
-                        ;; taken from `describe-package-1'
+                        ;; taken from ‘describe-package-1’
                         (car (alist-get pkg pkg-alist))
                         (if-let* ((built-in (assq pkg package--builtins)))
                             (package--from-builtin built-in)
