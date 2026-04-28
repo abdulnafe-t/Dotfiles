@@ -44,6 +44,10 @@
 
 (context-menu-mode 1)
 (xterm-mouse-mode 1) ; for TTY
+(setopt xterm-extra-capabilities '(getSelection
+                                   setSelection
+                                   modifyOtherKeys))
+
 
 (menu-bar-mode -1)
 (tool-bar-mode -1)
