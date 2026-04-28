@@ -20,6 +20,7 @@ dirs = [
 	{ name = ".steam",	text = "" },
 	{ name = "tmp",		text = "󰪺" },
 	{ name = "Dotfiles",	text = "" },
+	{ name = "Games", 	text = "󰖺" }
 	
 
 ]
