@@ -384,7 +384,8 @@
 ;; Use pdf-tools as an emacs-native PDF viewer
 (use-package pdf-tools
   :ensure t
-  :mode ("\\.pdf\\'" . pdf-view-mode)
+  :init
+  (pdf-tools-install)
   :hook
   ((pdf-view-mode-hook . pdf-misc-minor-mode)
    (pdf-tools-enabled-hook . pdf-tools-enable-minor-modes))
