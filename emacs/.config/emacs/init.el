@@ -778,8 +778,8 @@
   :ensure t
   :demand t
   :bind
-  (("C-," . avy-goto-char-timer)
-   (:map isearch-mode-map ("C-," . avy-isearch)))
+  (("C-;" . avy-goto-char-timer)
+   (:map isearch-mode-map ("C-;" . avy-isearch)))
 
   :config
   (setopt avy-keys '(?q ?s ?d ?f ?g ?h ?j ?k ?l ?m) ; AZERTY

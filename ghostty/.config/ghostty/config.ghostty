@@ -29,6 +29,3 @@ window-padding-x = 0
 
 window-padding-balance = true
 
-keybind = ctrl+,=unbind
-
-adjust-cell-height = 5
