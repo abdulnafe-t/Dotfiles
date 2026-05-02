@@ -48,7 +48,6 @@
                                    setSelection
                                    modifyOtherKeys))
 
-
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
@@ -278,8 +277,9 @@
   ; file has the same name as the current (new) C++ file
   :init
   (auto-insert-mode t)
-  :config
-  (setopt auto-insert-query nil))
+  :custom
+  (auto-insert-query nil)
+  (auto-insert nil))
 
 (use-package flymake
   ;; Builtin, used for syntax checking. Disable its
@@ -430,6 +430,22 @@
   (advice-add #'wdired-change-to-dired-mode
               :after (lambda ()
                        (hl-line-mode 1))))
+
+(use-package dired-preview
+  :ensure t
+  :init
+  (dired-preview-global-mode)
+  :custom
+  (dired-preview-delay 0.1)
+  (dired-preview-buffer-name-indicator "Preview:")
+  (dired-preview-max-size 5242880)
+  :config
+  (defun my-dired-preview-to-the-right ()
+    '((display-buffer-in-side-window)
+      (side . right)
+      (window-width . 0.5)))
+
+  (setopt dired-preview-display-action-alist #'my-dired-preview-to-the-right))
 
 ;; Enable certain "advanced" functions
 (put 'downcase-region 'disabled nil)
@@ -1033,21 +1049,18 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(auth-source-save-behavior nil)
-
  '(package-selected-packages
-   '(agent-shell auctex avy beginend consult ef-themes eglot eldoc-box elfeed elfeed-tube
-		 embark embark-consult expand-region forge highlight-doxygen hydra jinx
-		 json-mode lorem-ipsum magit magit-prime marginalia markdown-mode minions
-		 move-text multiple-cursors nerd-icons-completion nerd-icons-dired
-		 no-littering olivetti orderless org-appear org-bullets page-break-lines
-		 pdf-tools posframe pulsar rust-mode svg-lib typescript-mode vertico vundo
-		 whole-line-or-region wiki-summary ws-butler yasnippet))
+   '(agent-shell auctex avy beginend closql csharp-mode dictionary dired-preview editorconfig
+                 ef-themes eglot eldoc-box elfeed-tube elixir-ts-mode embark-consult
+                 expand-region faceup forge ghub highlight-doxygen hydra jinx json-mode
+                 lem less-css-mode lorem-ipsum lua-mode magit marginalia markdown-ts-mode
+                 minions move-text multiple-cursors nerd-icons-completion nerd-icons-dired
+                 no-littering olivetti orderless org-appear org-bullets page-break-lines
+                 pdf-tools peg posframe pulsar rust-mode tramp tuareg typescript-mode
+                 vertico vundo wallpaper whole-line-or-region wiki-summary ws-butler yaml
+                 yasnippet))
  '(send-mail-function 'smtpmail-send-it))
 
-;; ## added by opam user-setup for emacs / base ## 56ab50dc8996d2bb95e7856a6eddb17b ## you can edit, but keep this line
-;;(require 'opam-user-setup "~/.config/emacs/opam-user-setup.el")
-;; ## end of opam user-setup addition for emacs / base ## keep this line
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
