@@ -441,13 +441,18 @@
 
 (use-package dired-preview
   :ensure t
+  :after dired
   :init
   (dired-preview-global-mode)
   :custom
   (dired-preview-delay 0.1)
   (dired-preview-buffer-name-indicator "Preview:")
   (dired-preview-max-size 5242880)
+
   :config
+  (setopt dired-preview-ignored-extensions-regexp
+          (replace-regexp-in-string (regexp-quote "\\|pdf") "" dired-preview-ignored-extensions-regexp))
+
   (defun my-dired-preview-to-the-right ()
     '((display-buffer-in-side-window)
       (side . right)
