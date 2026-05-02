@@ -24,6 +24,7 @@
         completion-eager-update t
 
         set-mark-command-repeat-pop t
+        exchange-point-and-mark-highlight-region nil
 
         enable-recursive-minibuffers t
         minibuffer-visible-completions t
@@ -188,7 +189,7 @@
           modus-themes-prompts '(ultrabold)
 
           modus-themes-common-palette-overrides
-          '((cursor fg-main)
+          '((cursor "#ffffff")
             (string red-faint)
             (comment fg-dim)
             (fg-mode-line-active fg-main)
@@ -269,8 +270,7 @@
 
 ;;; Programming
 
-(setopt compilation-scroll-output t
-        treesit-font-lock-level 3)
+(setopt treesit-font-lock-level 3)
 
 (use-package autoinsert
   ; Builtin, used to automatically insert header guards & #include macros when a header
@@ -299,7 +299,8 @@
           (c-mode . c-ts-mode)
           (c++-mode . c++-ts-mode)
           (c-or-c++-mode . c-or-c++-ts-mode)
-          (rust-mode . rust-ts-mode)))
+          (rust-mode . rust-ts-mode)
+          (conf-toml-mode . toml-ts-mode)))
 
 (setq treesit-language-source-alist
       '((c "https://github.com/tree-sitter/tree-sitter-c")
@@ -339,6 +340,9 @@
   (eglot-events-buffer-config '(:size 0))
   (eglot-semantic-token-types '("macro" "property" "parameter" "enumMember"))
   (eglot-semantic-token-modifiers '("static")))
+
+
+(add-to-list 'auto-mode-alist '("\\.clang\\(-\\(format\\|tidy\\)\\|d\\)" . conf-mode))
 
 (add-hook 'c++-ts-mode-hook
           (lambda ()
@@ -561,7 +565,8 @@
 
   (setopt vertico-multiform-commands
           '((consult-flymake buffer indexed)
-            (execute-extended-command unobtrusive)))
+            (execute-extended-command unobtrusive)
+            (embark-bindings buffer)))
 
   (setopt vertico-multiform-categories
           '((consult-grep buffer)
@@ -987,8 +992,7 @@
   (eldoc-box-max-pixel-width 750)
   (eldoc-box-max-pixel-height 350)
   (eldoc-documentation-strategy 'eldoc-documentation-compose-eagerly)
-  (eldoc-idle-delay 1)
-  )
+  (eldoc-idle-delay 1))
 
 ;;;; Extensions: ‘minions’
 (use-package minions
