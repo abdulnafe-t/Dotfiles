@@ -155,10 +155,12 @@
 
 (setq-default cursor-type 'box)
 
+(add-to-list 'default-frame-alist '(alpha-background . 0.8))
+
+;;;; Style: fringe indicators & window dividers
 (setq-default window-divider-default-right-width 3)
 (window-divider-mode 1)
 
-;;;; Style: fringe indicators
 (setopt fringe-indicator-alist
         (assq-delete-all 'truncation
                          (assq-delete-all 'continuation
