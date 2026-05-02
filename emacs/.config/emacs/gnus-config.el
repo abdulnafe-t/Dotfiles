@@ -101,8 +101,8 @@ This removes mailing list or other intermediate identifiers."
 
 (setopt gnus-summary-to-prefix "To: "
         gnus-summary-newsgroup-prefix "To: "
-        gnus-summary-line-format "%U%R%z %(%1{%-16,16&user-date;%}  %B%2{%0,25uF%} %50=%*%4{%0,105s%}%)\n"
-        ;; gnus-summary-line-format "%U%R%z %(%1{%-16,16&user-date;%} %B%*%4{%0,70s%} %uR%2{%0,50uF%}%)\n"
+        gnus-summary-line-format "%U%R%z %(%1{%-16,16&user-date;%}  %B%2{%0,25uf%} %50=%*%4{%0,105s%}%)\n"
+        ;; gnus-summary-line-format "%U%R%z %(%1{%-16,16&user-date;%} %B%*%4{%0,70s%} %uR%2{%0,50uf%}%)\n"
         gnus-summary-thread-gathering-function 'gnus-gather-threads-by-subject
         gnus-summary-gather-subject-limit 'fuzzy
         gnus-summary-goto-unread 'never
