@@ -1,4 +1,4 @@
-;; -*- lexical-binding: t; -*-
+;;; -*- lexical-binding: t; -*-
 ;; Was originally based on https://emacs.stackexchange.com/a/16658
 
 (column-number-mode t)
