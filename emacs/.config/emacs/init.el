@@ -362,6 +362,9 @@
 (use-package markdown-mode
   :ensure t)
 
+(use-package tuareg
+  :ensure t)
+
 ;; Enable auctex to support common latex packages
 (use-package auctex
   :ensure t
@@ -1069,5 +1072,5 @@
  )
 
 ;; Local Variables:
-;; jinx-local-words: "init lp opam"
+;; jinx-local-words: "init lp"
 ;; End:
