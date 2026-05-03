@@ -493,9 +493,9 @@
   (setopt jinx-languages "en_US"
           jinx-camel-modes t)
 
-  (dolist (r '("\\([[:xdigit:]]\\{3\\}\\|[[:xdigit:]]\\{6\\}\\|[[:xdigit:]]\\{8\\}\\)"
+  (dolist (r '("\\([[:xdigit:]]\\{3\\}\\|[[:xdigit:]]\\{6\\}\\|[[:xdigit:]]\\{8\\}\\)\\>"
                                         ; Don't spellcheck hex colors: #RGB, #RRGGBB, and #RRGGBBAA
-               ".*\\.[a-zA-Z]+\\>"      ; Don't spellcheck file extensions
+               "\\<[[:alnum:]]*\\.[[:alnum:]]+\\>"      ; Don't spellcheck file names/extensions
                ))
     (push r (cdr (assoc t jinx-exclude-regexps))))
 
