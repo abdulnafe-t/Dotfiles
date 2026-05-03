@@ -391,8 +391,8 @@
   :init
   (pdf-tools-install)
   :hook
-  ((pdf-view-mode-hook . pdf-misc-minor-mode)
-   (pdf-tools-enabled-hook . pdf-tools-enable-minor-modes))
+  ((pdf-view-mode-hook . pdf-tools-enable-minor-modes)
+   (pdf-view-mode-hook . pdf-misc-minor-mode))
   :config
   (setopt pdf-info-epdfinfo-program "/usr/local/bin/epdfinfo"
           pdf-misc-print-program-executable "lp"))
