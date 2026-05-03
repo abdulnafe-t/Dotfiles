@@ -346,10 +346,7 @@
   (eglot-semantic-token-modifiers '("static")))
 
 
-(add-to-list 'auto-mode-alist `(,(rx (seq ".clang" (or "d"
-                                                       (seq "-" (or "format"
-                                                                    "tidy")))))
-                                . conf-mode))
+(add-to-list 'auto-mode-alist '("\\.clang\\(-\\(format\\|tidy\\)\\|d\\)" . conf-mode))
 
 (add-hook 'c++-ts-mode-hook
           (lambda ()
@@ -434,9 +431,9 @@
           dired-movement-style 'cycle-files
           dired-kill-when-opening-new-dired-buffer t
           dired-omit-files
-          (rx (or (seq bow (? ".") "#")         ;; emacs auto-save files
-                  (seq bow ".")                 ;; dot-files
-                  (seq "~" eow)                 ;; backup-files
+          (rx (or (seq bol (? ".") "#")         ;; emacs autosave files
+                  (seq bol "." (not (any "."))) ;; dot-files
+                  (seq "~" eol)                 ;; backup-files
                   )))
 
   (advice-add #'wdired-change-to-wdired-mode
@@ -496,13 +493,9 @@
   (setopt jinx-languages "en_US"
           jinx-camel-modes t)
 
-  (dolist (r `(,(rx (seq (or (= 3 hex-digit)
-                             (= 6 hex-digit)
-                             (= 8 hex-digit))
-                         eow))
-               ;; Don't spellcheck hex colors: #RGB, #RRGGBB, and #RRGGBBAA
-               ,(rx (seq bow (zero-or-more (in alnum)) "." (one-or-more (in alnum)) eow))
-               ;; Don't spellcheck file names/extensions
+  (dolist (r '("\\([[:xdigit:]]\\{3\\}\\|[[:xdigit:]]\\{6\\}\\|[[:xdigit:]]\\{8\\}\\)"
+                                        ; Don't spellcheck hex colors: #RGB, #RRGGBB, and #RRGGBBAA
+               ".*\\.[a-zA-Z]+\\>"      ; Don't spellcheck file extensions
                ))
     (push r (cdr (assoc t jinx-exclude-regexps))))
 
