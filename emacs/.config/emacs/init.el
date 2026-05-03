@@ -391,11 +391,14 @@
   :init
   (pdf-tools-install)
   :hook
-  ((pdf-view-mode-hook . pdf-tools-enable-minor-modes)
-   (pdf-view-mode-hook . pdf-misc-minor-mode))
-  :config
-  (setopt pdf-info-epdfinfo-program "/usr/local/bin/epdfinfo"
-          pdf-misc-print-program-executable "lp"))
+  (pdf-view-mode-hook . (lambda ()
+                          (setq pdf-tools-enabled-modes
+                                (delq #'pdf-misc-size-indication-minor-mode
+                                      pdf-tools-enabled-modes))))
+  (pdf-view-mode-hook . pdf-tools-enable-minor-modes)
+  :custom
+  (pdf-info-epdfinfo-program "/usr/local/bin/epdfinfo")
+  (pdf-misc-print-program-executable "lp"))
 
 (add-hook 'TeX-after-compilation-finished-functions
           #'TeX-revert-document-buffer)

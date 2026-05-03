@@ -102,10 +102,11 @@ excluding ‘mode-line-format-right-align’ and anything following it.")
         (:eval
          (when (mode-line-window-selected-p)
            (concat "  " (format-mode-line mode-line-position) "    "
-                   (propertize
-                    (format "(%d:%d)"
-                            (count-lines (point-min) (point-max)) fill-column)
-                    'face 'shadow)
+                   (unless (derived-mode-p 'pdf-view-mode)
+                     (propertize
+                      (format "(%d:%d)"
+                              (count-lines (point-min) (point-max)) fill-column)
+                      'face 'shadow))
                    "  ")))
 
         (:eval (when (and which-function-mode
