@@ -1,0 +1,34 @@
+#!/bin/bash
+
+# Launch dired in a dedicated frame. Pressing ‘q’ quits the window and kills the frame.
+# Based on https://gist.github.com/alphapapa/9c4eea0f204f865d37e8c99963feb922
+
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+
+emacsclient -c -a "" \
+            --eval "(dired \"~\")" \
+            --eval "(defun scion/kill-dired-frame ()
+                           \"Quit dired window and kill its buffer & frame. This function should only be callable and bound to \`q\' when emacs is used as a file manager from the WM, and only until a file is actually visited.\nDefined in $SCRIPT_DIR/dired\"
+                           (interactive)
+                           (scion/remove-dired-q-hook 'called-internally)
+                           (kill-current-buffer)
+                           (delete-frame))" \
+            --eval "(define-key dired-mode-map (kbd \"q\") #'scion/kill-dired-frame)" \
+            --eval "(setq scion/dired-file-finder-functions '(dired-find-file
+                                                              dired-find-alternate-file
+                                                              dired-simultaneous-find-file
+                                                              dired-mouse-find-file))" \
+            --eval "(defun scion/remove-dired-q-hook (&rest args)
+                           \"Restore \`q\' to its original functionality in dired buffers, and unbind both this function and \`scion/kill-dired-frame\', as well as the variable \`scion/dired-file-finder-functions\'.\"
+                           (interactive)
+                           (unless (and (not (eq (car args) 'called-internally))
+                                        (derived-mode-p 'dired-mode))
+                                                        (define-key dired-mode-map (kbd \"q\") #'quit-window)
+                                                        (fmakunbound 'scion/kill-dired-frame)
+                                                        (dolist (dired-file-finder-func scion/dired-file-finder-functions)
+                                                                (advice-remove dired-file-finder-func #'scion/remove-dired-q-hook))
+                                                        (fmakunbound 'scion/remove-dired-q-hook)
+                                                        (makunbound 'scion/dired-file-finder-functions))
+                            args)" \
+            --eval "(dolist (dired-file-finder-func scion/dired-file-finder-functions)
+                             (advice-add dired-file-finder-func :filter-return #'scion/remove-dired-q-hook))"

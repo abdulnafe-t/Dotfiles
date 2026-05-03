@@ -32,6 +32,8 @@
         help-window-select t
         help-enable-completion-autoload nil
 
+        quit-window-kill-buffer t
+
         package-autosuggest-mode t
 
         frame-inhibit-implied-resize t
