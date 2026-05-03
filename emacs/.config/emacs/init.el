@@ -596,7 +596,7 @@
   :ensure t
   :demand t
   :bind
-  (("M-o" . embark-act)
+  (("C-c e" . embark-act)
    ("C-h B" . embark-bindings))
   :init
   (setopt prefix-help-command #'embark-prefix-help-command)
