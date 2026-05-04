@@ -248,10 +248,10 @@
           (lambda ()
             (unless (derived-mode-p 'hexl-mode)
               (visual-line-mode -1)
+              (toggle-truncate-lines 1)
               (setq-local cursor-type nil
                           column-number-mode (not hl-line-mode)
-                          line-move-visual nil)
-              (pulsar-mode -1))))
+                          line-move-visual nil))))
 
 (advice-add #'grep-change-to-grep-edit-mode
             :after (lambda()
