@@ -432,6 +432,7 @@
   :config
   (setopt dired-auto-revert-buffer t
           dired-dwim-target t
+          image-dired-external-viewer "xdg-open"
           dired-movement-style 'cycle-files
           dired-kill-when-opening-new-dired-buffer t
           dired-omit-files
@@ -458,7 +459,7 @@
   :custom
   (dired-preview-delay 0.1)
   (dired-preview-buffer-name-indicator "Preview:")
-  (dired-preview-max-size 5242880)
+  (dired-preview-max-size (* 5 (expt 2 20)))
 
   :config
   (setopt dired-preview-ignored-extensions-regexp
@@ -1039,6 +1040,7 @@
 
 ;;;; Extensions: ‘whole-line-or-region’
 (use-package whole-line-or-region
+  :ensure t
   :init
   (whole-line-or-region-global-mode 1)
   :config
@@ -1049,7 +1051,7 @@
 ;;;; Extensions: ‘wiki-summary’
 (use-package wiki-summary)
 
-;;; Misc.
+;;; Misc: ‘fortune’
 
 (setopt fortune-dir "/usr/share/fortune/")
 
