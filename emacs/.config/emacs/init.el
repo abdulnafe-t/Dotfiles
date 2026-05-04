@@ -32,6 +32,10 @@
         help-window-select t
         help-enable-completion-autoload nil
 
+        dnd-indicate-insertion-point t
+        mouse-drag-and-drop-region 'control
+        mouse-drag-and-drop-region-cut-when-buffers-differ t
+
         quit-window-kill-buffer t
 
         package-autosuggest-mode t
