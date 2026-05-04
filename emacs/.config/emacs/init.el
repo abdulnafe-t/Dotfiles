@@ -1049,7 +1049,12 @@
   (push 'whole-line-or-region-kill-ring-save pulsar-pulse-region-functions))
 
 ;;;; Extensions: ‘wiki-summary’
-(use-package wiki-summary)
+(use-package wiki-summary
+  :ebsure t)
+
+;;;; Extensions: ‘show-font’
+(use-package show-font
+  :ensure t)
 
 ;;; Misc: ‘fortune’
 
@@ -1082,9 +1087,9 @@
                  lem less-css-mode lorem-ipsum lua-mode magit marginalia markdown-ts-mode
                  minions move-text multiple-cursors nerd-icons-completion nerd-icons-dired
                  no-littering olivetti orderless org-appear org-bullets page-break-lines
-                 pdf-tools peg posframe pulsar rust-mode tramp tuareg typescript-mode
-                 vertico vundo wallpaper whole-line-or-region wiki-summary ws-butler yaml
-                 yasnippet))
+                 pdf-tools posframe pulsar rust-mode show-font tramp tuareg
+                 typescript-mode vertico vundo wallpaper whole-line-or-region wiki-summary
+                 ws-butler yaml yasnippet))
  '(send-mail-function 'smtpmail-send-it))
 
 (custom-set-faces
