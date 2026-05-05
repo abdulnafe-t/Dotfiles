@@ -35,28 +35,29 @@
                              (this) @scion-font-lock-this-ptr)
                            )))
             (setq-local treesit-font-lock-feature-list
-                  (cl-loop for level in treesit-font-lock-feature-list
-                           collect (remove 'function-call level)))
+                        (cl-loop for level in treesit-font-lock-feature-list
+                                 collect (remove 'function-call level)))
             (push 'function (nth 2 treesit-font-lock-feature-list))
 
-          (treesit-font-lock-recompute-features)))
+            (treesit-font-lock-recompute-features)))
+
+;; Variable-pitch fontset: GeistNerdFontPropo + Amiri for Arabic
+(create-fontset-from-fontset-spec
+ (font-xlfd-name
+  (font-spec :size 20 :registry "fontset-arabicvar")))
 
 (defun scion/set-custom-faces ()
   (with-eval-after-load 'nerd-icons-completion
     (set-face-attribute 'nerd-icons-completion-dir-face nil
 			:foreground (face-foreground 'font-lock-keyword-face)))
 
-  (create-fontset-from-fontset-spec
-   (font-xlfd-name (font-spec :family "GeistNerdFontPropo" :size 14 :registry "fontset-var")))
+  (set-fontset-font "fontset-arabicvar" 'latin "GeistNerdFontPropo")
+  (set-fontset-font "fontset-arabicvar" 'arabic (font-spec :family "Amiri") nil 'append)
 
-  (set-face-attribute 'default        nil :family "GeistMonoNerdFontPropo" :height 150)
-  (set-fontset-font t 'arabic "Kawkab Mono" nil 'prepend)
+  (set-fontset-font "fontset-default" 'arabic "Kawkab Mono" nil 'prepend)
 
-  (set-fontset-font "fontset-var" 'arabic (font-spec :family "Amiri") nil 'prepend)
-  (set-face-attribute 'fixed-pitch    nil :family "GeistMonoNerdFontMono")
-
-  (when (display-graphic-p)
-    (set-face-attribute 'variable-pitch nil :font "fontset-var" :fontset "fontset-var" :height 1.1))
+  (set-face-attribute 'default        nil :height 150)
+  (set-face-attribute 'variable-pitch nil :fontset "fontset-arabicvar" :font 'unspecified :family 'unspecified)
 
   (unless (display-graphic-p)
     (set-face-attribute 'default nil :background "unspecified-bg"))
