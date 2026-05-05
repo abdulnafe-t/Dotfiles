@@ -1050,11 +1050,30 @@
 
 ;;;; Extensions: ‘wiki-summary’
 (use-package wiki-summary
-  :ebsure t)
+  :ensure t)
 
 ;;;; Extensions: ‘show-font’
 (use-package show-font
-  :ensure t)
+  :ensure t
+  :config
+  (add-to-list 'show-font-arabic-families "Kawkab Mono")
+  (add-to-list 'show-font-arabic-families "Amiri")
+  (add-to-list 'show-font-arabic-families "Amiri Quran")
+  (add-to-list 'show-font-arabic-families "Amiri Quran Colored")
+
+  (add-to-list 'show-font-japanese-families "IPAexGothic")
+  (add-to-list 'show-font-japanese-families "IPAexMincho")
+  (add-to-list 'show-font-japanese-families "HanaMinA")
+  (add-to-list 'show-font-japanese-families "HanaMinB")
+
+  (add-to-list 'show-font-korean-families "KoPubBatang")
+  (add-to-list 'show-font-korean-families "KoPubDotum")
+
+  (add-to-list 'show-font-chinese-families "LXGW Neo XiHei")
+  (add-to-list 'show-font-chinese-families "AR PL UMing CN")
+  (add-to-list 'show-font-chinese-families "AR PL UMing HK")
+  (add-to-list 'show-font-chinese-families "AR PL UMing TW")
+  (add-to-list 'show-font-chinese-families "AR PL UMing TW MBE"))
 
 ;;; Misc: ‘fortune’
 
@@ -1098,7 +1117,6 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
-
 ;; Local Variables:
 ;; jinx-local-words: "init lp"
 ;; End:
