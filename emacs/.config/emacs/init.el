@@ -361,6 +361,7 @@
             (keymap-set c-ts-base-mode-map "C-c C-c" #'compile)
             (keymap-set c-ts-base-mode-map "C-c c" #'compile)))
 
+(add-hook 'compilation-filter-hook 'ansi-color-compilation-filter)
 
 (add-hook 'eglot-managed-mode-hook
           (lambda ()
