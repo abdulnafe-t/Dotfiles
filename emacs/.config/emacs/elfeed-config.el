@@ -6,8 +6,7 @@
   ("C-c y" . elfeed)
   :hook
   (elfeed-show-mode-hook . (lambda ()
-			     (setq-local cursor-type 'bar)
-			     (text-scale-set 2)))
+			     (setq-local cursor-type 'bar)))
 
   (elfeed-search-mode-hook . (lambda()
                                (setq bidi-paragraph-direction 'left-to-right)))
