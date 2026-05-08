@@ -137,6 +137,14 @@
 (keymap-global-set "C-z" 'undo)
 (define-key undo-repeat-map (kbd "z") #'undo)
 
+(defvar-keymap dired-preview-repeat-map
+    :repeat (:exit (dired-preview-find-file))
+    "u" #'dired-preview-page-up
+    "d" #'dired-preview-page-down
+    "f" #'dired-preview-find-file
+    "x" #'dired-preview-hexl-toggle
+    "o" #'dired-preview-open-dwim)
+
 (setopt use-package-hook-name-suffix nil)
 
 ;;; Security
@@ -463,8 +471,8 @@
   (dired-preview-max-size (* 5 (expt 2 20)))
 
   :config
-  (setopt dired-preview-ignored-extensions-regexp
-          (replace-regexp-in-string (regexp-quote "\\|pdf") "" dired-preview-ignored-extensions-regexp))
+  (setopt dired-preview-ignored-extensions-regexp nil)
+          ;; (replace-regexp-in-string (regexp-quote "\\|pdf") "" dired-preview-ignored-extensions-regexp))
 
   (defun my-dired-preview-to-the-right ()
     '((display-buffer-in-side-window)
