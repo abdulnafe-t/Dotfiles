@@ -32,14 +32,16 @@
                            :feature 'keyword
                            :override t
                            '((auto) @scion-font-lock-auto
-                             (this) @scion-font-lock-this-ptr)
-                           )))
+                             (this) @scion-font-lock-this-ptr))))
+
             (setq-local treesit-font-lock-feature-list
                         (cl-loop for level in treesit-font-lock-feature-list
                                  collect (remove 'function-call level)))
             (push 'function (nth 2 treesit-font-lock-feature-list))
 
             (treesit-font-lock-recompute-features)))
+
+(setq use-default-font-for-symbols nil)
 
 ;; Variable-pitch fontset: GeistNerdFontPropo + Amiri for Arabic
 (create-fontset-from-fontset-spec
