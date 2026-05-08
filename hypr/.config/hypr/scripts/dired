@@ -5,8 +5,10 @@
 
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
+TARGET="${1:-$HOME}"
+
 emacsclient -c -a "" \
-            --eval "(dired \"~\")" \
+            --eval "(dired \"$TARGET\")" \
             --eval "(defun scion/kill-dired-frame ()
                            \"Quit dired window and kill its buffer & frame. This function should only be callable and bound to \`q\' when emacs is used as a file manager from the WM, and only until a file is actually visited.\nDefined in $SCRIPT_DIR/dired\"
                            (interactive)
