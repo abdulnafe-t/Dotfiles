@@ -43,7 +43,7 @@ BraceWrapping:
  SplitEmptyRecord: false
  SplitEmptyNamespace: false
  BeforeCatch: true
- BeforeElse: true
+ BeforeElse: false
   
 AlignConsecutiveAssignments:
   Enabled: true
