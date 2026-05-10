@@ -19,7 +19,8 @@ emacsclient -c -a "" \
             --eval "(setq scion/dired-file-finder-functions '(dired-find-file
                                                               dired-find-alternate-file
                                                               dired-simultaneous-find-file
-                                                              dired-mouse-find-file))" \
+                                                              dired-mouse-find-file
+                                                              dired-preview-find-file))" \
             --eval "(defun scion/remove-dired-q-hook (&rest args)
                            \"Restore \`q\' to its original functionality in dired buffers, and unbind both this function and \`scion/kill-dired-frame\', as well as the variable \`scion/dired-file-finder-functions\'.\"
                            (interactive)
