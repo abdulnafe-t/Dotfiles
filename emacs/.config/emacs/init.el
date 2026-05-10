@@ -421,7 +421,7 @@
 ;;;; ‘Dired’
 ;; Enable long listing in dired, sort directories before other files, use human-readable
 ;; file sizes (KB, GB, etc), and don't show hidden files.
-(setq-default dired-listing-switches "-agho --group-directories-first"
+(setq-default dired-listing-switches "-Agho --group-directories-first"
               dired-switches-in-mode-line nil)
 
 (use-package dired
@@ -478,11 +478,21 @@
 
   (setopt dired-preview-display-action-alist #'my-dired-preview-to-the-right))
 
-(use-package diredfl
+(use-package dired-subtree
+  :ensure t
   :after dired
-  :config
-  (setopt diredfl-ignore-compressed-flag nil)
-  (diredfl-global-mode))
+  :bind (:map dired-mode-map
+        ("<tab>" . dired-subtree-toggle))
+  :custom
+  (dired-subtree-line-prefix "      "))
+
+(use-package diredfl
+  :ensure t
+  :after dired
+  :init
+  (diredfl-global-mode)
+  :custom
+  (diredfl-ignore-compressed-flag nil))
 
 ;; Enable certain "advanced" functions
 (put 'downcase-region 'disabled nil)
@@ -1112,15 +1122,16 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(agent-shell auctex avy beginend closql csharp-mode dictionary dired-preview diredfl
-                 editorconfig ef-themes eglot eldoc-box elfeed-tube elixir-ts-mode
-                 embark-consult expand-region faceup forge ghub highlight-doxygen hydra
-                 jinx json-mode lem less-css-mode lorem-ipsum lua-mode magit marginalia
-                 markdown-ts-mode minions move-text multiple-cursors nerd-icons-completion
-                 nerd-icons-dired no-littering olivetti orderless org-appear org-bullets
-                 page-break-lines pdf-tools peg posframe pulsar rust-mode show-font
-                 timeout tramp tuareg typescript-mode vertico vundo wallpaper
-                 whole-line-or-region wiki-summary ws-butler yaml yasnippet))
+   '(agent-shell auctex avy beginend closql csharp-mode dictionary dired-preview
+                 dired-subtree diredfl editorconfig ef-themes eglot eldoc-box elfeed-tube
+                 elixir-ts-mode embark-consult expand-region faceup forge ghub
+                 highlight-doxygen hydra jinx json-mode lem less-css-mode lorem-ipsum
+                 lua-mode magit marginalia markdown-ts-mode minions move-text
+                 multiple-cursors nerd-icons-completion nerd-icons-dired no-littering
+                 olivetti orderless org-appear org-bullets page-break-lines pdf-tools peg
+                 posframe pulsar rust-mode show-font timeout tramp tuareg typescript-mode
+                 vertico vundo wallpaper whole-line-or-region wiki-summary ws-butler yaml
+                 yasnippet))
  '(send-mail-function 'smtpmail-send-it))
 
 (custom-set-faces
