@@ -139,11 +139,11 @@
 
 (defvar-keymap dired-preview-repeat-map
     :repeat (:exit (dired-preview-find-file))
-    "u" #'dired-preview-page-up
-    "d" #'dired-preview-page-down
-    "f" #'dired-preview-find-file
-    "x" #'dired-preview-hexl-toggle
-    "o" #'dired-preview-open-dwim)
+    "C-u" #'dired-preview-page-up
+    "C-d" #'dired-preview-page-down
+    "C-f" #'dired-preview-find-file
+    "C-x" #'dired-preview-hexl-toggle
+    "C-o" #'dired-preview-open-dwim)
 
 (setopt use-package-hook-name-suffix nil)
 
