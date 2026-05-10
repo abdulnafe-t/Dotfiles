@@ -47,8 +47,7 @@
 (setopt package-archive-priorities '(("gnu" . 10)
                                      ("melpa" . 5)))
 (setq package-review-policy t
-      package-review-diff-command '("git" "diff" "--no-index" "--diff-filter=d")
-      package-install-upgrade-built-in t)
+      package-review-diff-command '("git" "diff" "--no-index" "--diff-filter=d"))
 
 (eval-when-compile
   (require 'use-package))
