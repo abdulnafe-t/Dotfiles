@@ -123,8 +123,10 @@
     (set-face-attribute 'elfeed-search-date-face nil :foreground (face-foreground 'scion-date))
     (set-face-attribute 'elfeed-log-date-face  nil :foreground (face-foreground 'scion-date))
     (set-face-attribute 'elfeed-search-last-update-face nil :foreground (face-foreground 'scion-date))
+    (set-face-attribute 'elfeed-search-feed-face nil :foreground (face-foreground 'scion-author)))
 
-    (set-face-attribute 'elfeed-search-feed-face nil :foreground (face-foreground 'scion-author))))
+  (with-eval-after-load 'dired
+    (set-face-attribute 'dired-header nil :foreground (face-foreground 'font-lock-builtin-face))))
 
 (if (daemonp)
     (add-hook 'after-make-frame-functions
