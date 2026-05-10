@@ -5,13 +5,6 @@
 if [ -z "$WAYLAND_DISPLAY" ] && [ "$(tty)" = "/dev/tty1" ]; then
     fastfetch
     echo
-    export FZF_DEFAULT_COMMAND="fd . --hidden --follow --full-path --absolute-path --type file"
-    export FZF_DEFAULT_OPTS="
-    --ansi
-    --preview 'bat --color=always --paging=never {}'
-    --preview-window=right:50%:nowrap
-      --bind 'alt-left:preview-page-up,alt-right:preview-page-down,alt-up:preview-up,alt-down:preview-down'
-"
 
     export PATH=${PATH}:${HOME}/.local/bin
     export EDITOR='emacsclient -c -a emacs'

@@ -26,4 +26,3 @@ PS1="${BOLD}${MAGENTA}\u${WHITE}@${GREEN}\h${WHITE}:${CYAN}\w${RESET}\$ "
 PS2='$ '
 
 eval "$(zoxide init bash)"
-eval "$(fzf --bash)"
