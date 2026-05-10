@@ -61,6 +61,8 @@
   (unless (display-graphic-p)
     (set-face-attribute 'default nil :background "unspecified-bg"))
 
+  (set-face-attribute 'highlight nil :foreground "black" :background "#D0D0D0")
+
   (set-face-attribute 'mode-line nil :box 'nil :underline 'nil)
   (set-face-attribute 'mode-line-active nil :box nil :underline 'nil)
   (set-face-attribute 'mode-line-inactive nil :box 'nil :underline 'nil)
