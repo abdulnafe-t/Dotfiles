@@ -435,9 +435,6 @@
   :hook
   (dired-mode-hook . dired-omit-mode)
   (dired-mode-hook . turn-on-gnus-dired-mode)
-  (dired-mode-hook . (lambda()
-                       (set-face-attribute 'dired-directory nil
-                                           :foreground (face-foreground 'font-lock-keyword-face))))
   :config
   (setopt dired-auto-revert-buffer t
           dired-dwim-target t
@@ -485,14 +482,7 @@
   :after dired
   :config
   (setopt diredfl-ignore-compressed-flag nil)
-  (diredfl-global-mode)
-  :hook
-  (dired-mode-hook . (lambda()
-                       (set-face-attribute 'diredfl-dir-name nil
-                                           :foreground (face-foreground 'font-lock-keyword-face))))
-  (dired-mode-hook . (lambda()
-                       (set-face-attribute 'diredfl-dir-heading nil
-                                           :foreground (face-foreground 'font-lock-builtin-face)))))
+  (diredfl-global-mode))
 
 ;; Enable certain "advanced" functions
 (put 'downcase-region 'disabled nil)

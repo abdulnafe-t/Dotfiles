@@ -49,9 +49,6 @@
   (font-spec :size 20 :registry "fontset-arabicvar")))
 
 (defun scion/set-custom-faces ()
-  (with-eval-after-load 'nerd-icons-completion
-    (set-face-attribute 'nerd-icons-completion-dir-face nil
-			:foreground (face-foreground 'font-lock-keyword-face)))
 
   (set-fontset-font "fontset-arabicvar" 'latin "GeistNerdFontPropo")
   (set-fontset-font "fontset-arabicvar" 'arabic (font-spec :family "Amiri") nil 'append)
@@ -126,7 +123,17 @@
     (set-face-attribute 'elfeed-search-feed-face nil :foreground (face-foreground 'scion-author)))
 
   (with-eval-after-load 'dired
-    (set-face-attribute 'dired-header nil :foreground (face-foreground 'font-lock-builtin-face))))
+    (set-face-attribute 'dired-header nil :foreground (face-foreground 'font-lock-builtin-face))
+    (set-face-attribute 'dired-directory nil :foreground (face-foreground 'font-lock-keyword-face)))
+
+  (with-eval-after-load 'diredfl
+    (set-face-attribute 'diredfl-dir-name nil :foreground (face-foreground 'font-lock-keyword-face))
+    (set-face-attribute 'diredfl-dir-heading nil :foreground (face-foreground 'font-lock-builtin-face))
+    (set-face-attribute 'diredfl-file-suffix nil :foreground (face-foreground 'default))
+    (set-face-attribute 'diredfl-compressed-file-suffix nil :foreground (face-foreground 'diredfl-compressed-file-name)))
+
+  (with-eval-after-load 'nerd-icons-completion
+    (set-face-attribute 'nerd-icons-completion-dir-face nil :foreground (face-foreground 'font-lock-keyword-face))))
 
 (if (daemonp)
     (add-hook 'after-make-frame-functions
