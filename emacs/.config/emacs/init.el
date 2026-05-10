@@ -481,6 +481,19 @@
 
   (setopt dired-preview-display-action-alist #'my-dired-preview-to-the-right))
 
+(use-package diredfl
+  :after dired
+  :config
+  (setopt diredfl-ignore-compressed-flag nil)
+  (diredfl-global-mode)
+  :hook
+  (dired-mode-hook . (lambda()
+                       (set-face-attribute 'diredfl-dir-name nil
+                                           :foreground (face-foreground 'font-lock-keyword-face))))
+  (dired-mode-hook . (lambda()
+                       (set-face-attribute 'diredfl-dir-heading nil
+                                           :foreground (face-foreground 'font-lock-builtin-face)))))
+
 ;; Enable certain "advanced" functions
 (put 'downcase-region 'disabled nil)
 (put 'upcase-region 'disabled nil)
@@ -1109,15 +1122,15 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(agent-shell auctex avy beginend closql csharp-mode dictionary dired-preview editorconfig
-                 ef-themes eglot eldoc-box elfeed-tube elixir-ts-mode embark-consult
-                 expand-region faceup forge ghub highlight-doxygen hydra jinx json-mode
-                 lem less-css-mode lorem-ipsum lua-mode magit marginalia markdown-ts-mode
-                 minions move-text multiple-cursors nerd-icons-completion nerd-icons-dired
-                 no-littering olivetti orderless org-appear org-bullets page-break-lines
-                 pdf-tools posframe pulsar rust-mode show-font tramp tuareg
-                 typescript-mode vertico vundo wallpaper whole-line-or-region wiki-summary
-                 ws-butler yaml yasnippet))
+   '(agent-shell auctex avy beginend closql csharp-mode dictionary dired-preview diredfl
+                 editorconfig ef-themes eglot eldoc-box elfeed-tube elixir-ts-mode
+                 embark-consult expand-region faceup forge ghub highlight-doxygen hydra
+                 jinx json-mode lem less-css-mode lorem-ipsum lua-mode magit marginalia
+                 markdown-ts-mode minions move-text multiple-cursors nerd-icons-completion
+                 nerd-icons-dired no-littering olivetti orderless org-appear org-bullets
+                 page-break-lines pdf-tools peg posframe pulsar rust-mode show-font
+                 timeout tramp tuareg typescript-mode vertico vundo wallpaper
+                 whole-line-or-region wiki-summary ws-butler yaml yasnippet))
  '(send-mail-function 'smtpmail-send-it))
 
 (custom-set-faces
