@@ -21,7 +21,7 @@ emacsclient -c -a "" \
                                                               dired-simultaneous-find-file
                                                               dired-mouse-find-file
                                                               dired-preview-find-file
-                                                              bookmark-jump))" \
+                                                              pop-to-buffer-same-window))" \
             --eval "(defun scion/remove-dired-q-hook (&rest args)
                            \"Restore \`q\' to its original functionality in dired buffers, and unbind both this function and \`scion/kill-dired-frame\', as well as the variable \`scion/dired-file-finder-functions\'.\"
                            (interactive)
