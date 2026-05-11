@@ -494,20 +494,38 @@
   :custom
   (diredfl-ignore-compressed-flag nil))
 
-;; Enable certain "advanced" functions
-(put 'downcase-region 'disabled nil)
-(put 'upcase-region 'disabled nil)
-(put 'scroll-left 'disabled nil)
-(put 'scroll-right 'disabled nil)
-(put 'dired-find-alternate-file 'disabled nil)
+;;;; GDB
+(use-package gdb-mi
+  :ensure t
+  :config
+  (gdb-many-windows 1)
 
-;; Enable mouse navigation between visited help-mode topics
-(add-hook 'help-mode-hook
-          (lambda ()
-            (keymap-set help-mode-map
-                        "<mouse-9>" #'help-go-forward)
-            (keymap-set help-mode-map
-                        "<mouse-8>" #'help-go-back)))
+  (defun scion/gdb-mode-line ()
+    "function called when entering gdb to maximize mode line legibility under
+gdb-many-windows."
+    (setq-local mode-line-format-center (not gdb-many-windows))
+    (visual-line-mode 'toggle)
+    (setq-local line-number-mode nil)
+    (setq-local column-number-mode nil))
+
+  (when (boundp 'mode-line-format-center)
+    (dolist (hook '(gud-mode-hook
+                    gdb-script-mode-hook
+                    gdb-locals-mode-hook
+                    gdb-registers-mode-hook
+                    gdb-breakpoints-mode-hook
+                    gdb-inferior-io-mode-hook
+                    gdb-frames-mode-hook))
+      (add-hook hook #'scion/gdb-mode-line)))
+
+  :custom
+  (gdb-show-main t)
+  (gud-highlight-current-line t)
+  (gdb-display-io-buffer nil)
+  (gdb-display-io-nopopup t)
+  (gdb-debuginfod-enable-setting nil)
+  (gdb-restore-window-configuration-after-quit t)
+  (gdb-stack-buffer-addresses t))
 
 ;;;; Extensions: ‘jinx’
 (use-package jinx
@@ -564,6 +582,21 @@
             (point))))))
 
   (push #'scion/jinx-skip-package-p jinx--predicates))
+
+;;;; Enable certain "advanced" functions
+(put 'downcase-region 'disabled nil)
+(put 'upcase-region 'disabled nil)
+(put 'scroll-left 'disabled nil)
+(put 'scroll-right 'disabled nil)
+(put 'dired-find-alternate-file 'disabled nil)
+
+;; Enable mouse navigation between visited help-mode topics
+(add-hook 'help-mode-hook
+          (lambda ()
+            (keymap-set help-mode-map
+                        "<mouse-9>" #'help-go-forward)
+            (keymap-set help-mode-map
+                        "<mouse-8>" #'help-go-back)))
 
 ;;;; Extensions: ‘multiple-cursors’
 (use-package multiple-cursors
