@@ -167,7 +167,8 @@
 
 ;;; Theme & style
 
-(setq-default cursor-type 'box)
+(setq-default cursor-type 'box
+              cursor-in-non-selected-windows nil)
 
 (add-to-list 'default-frame-alist '(alpha-background . 0.8))
 

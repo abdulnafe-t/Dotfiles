@@ -99,21 +99,21 @@ excluding ‘mode-line-format-right-align’ and anything following it.")
         mode-line-window-dedicated
 
         mode-line-frame-identification
+        "  "
         (:eval
          (when (mode-line-window-selected-p)
-           (concat "  " (format-mode-line mode-line-position) "    "
-                   (unless (derived-mode-p 'pdf-view-mode)
-                     (propertize
-                      (format "(%d:%d)"
-                              (count-lines (point-min) (point-max)) fill-column)
-                      'face 'shadow))
-                   "  ")))
+           (concat (format-mode-line mode-line-position)
+                   (unless (derived-mode-p '(pdf-view-mode comint-mode gdb-parent-mode))
+                     (concat "    "
+                             (propertize
+                              (format "(%d:%d)"
+                                      (count-lines (point-min) (point-max)) fill-column)
+                              'face 'shadow)
+                             "  ")))))
 
         (:eval (when (and which-function-mode
                           (mode-line-window-selected-p))
-                 (concat "    " (format-mode-line which-func-format) "     ")))
-
-        ))
+                 (concat "    " (format-mode-line which-func-format) "     ")))))
 
 (setq mode-line-align-middle
       '((:eval (with-current-buffer (current-buffer)
