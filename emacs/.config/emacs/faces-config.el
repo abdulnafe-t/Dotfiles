@@ -55,7 +55,7 @@
 
   (set-fontset-font "fontset-default" 'arabic "Kawkab Mono" nil 'prepend)
 
-  (set-face-attribute 'default        nil :height 150)
+  (set-face-attribute 'default        nil :height 130)
   (set-face-attribute 'variable-pitch nil :fontset "fontset-arabicvar" :font 'unspecified :family 'unspecified)
 
   (unless (display-graphic-p)
