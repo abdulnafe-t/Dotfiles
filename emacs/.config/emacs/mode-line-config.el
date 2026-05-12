@@ -20,8 +20,7 @@
                    ('conflict 'vc-edited-state)
                    ('locked 'vc-locked-state)
                    (_ 'vc-state-base)))
-           (gitlogo (concat (propertize "  " 'display '(raise 0.1)
-                                        'face face)
+           (gitlogo (concat (propertize "  " 'face face)
                             (replace-regexp-in-string "^ Git[:|-]" " " vc-mode))))
 
       (setq vc-mode gitlogo))))
