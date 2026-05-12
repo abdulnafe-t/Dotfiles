@@ -118,7 +118,7 @@ This removes mailing list or other intermediate identifiers."
         gnus-sum-thread-tree-indent          "  ")
 
 (gnus-add-configuration
- '(article (horizontal 1.0 (summary .4 point) (article 1.0))))
+ '(article (horizontal 1.0 (summary .5 point) (article 1.0))))
 
 ;; Format specification for the summary mode line.
 (setopt gnus-summary-mode-line-format "Gnus: %V: %p"
