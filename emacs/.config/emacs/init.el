@@ -417,7 +417,7 @@
 
 ;;;; ‘Dired’
 ;; Enable long listing in dired, sort directories before other files, use human-readable
-;; file sizes (KB, GB, etc), and don't show hidden files.
+;; file sizes (KB, GB, etc), and don't show hidden files (including . and ..).
 (setq-default dired-listing-switches "-Agho --group-directories-first"
               dired-switches-in-mode-line nil)
 
