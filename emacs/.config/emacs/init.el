@@ -219,10 +219,10 @@
 (use-package pulsar
   :ensure t
   :config
-  (setopt pulsar-face 'pulsar-cyan
-          pulsar-region-face 'pulsar-cyan
-          pulsar-region-change-face 'pulsar-cyan
-          pulsar-highlight-face 'pulsar-cyan
+  (setopt pulsar-face 'highlight
+          pulsar-region-face 'highlight
+          pulsar-region-change-face 'highlight
+          pulsar-highlight-face 'highlight
           pulsar-tty-color "dimgray")
   (push 'kill-visual-line pulsar-pulse-functions)
   :init
