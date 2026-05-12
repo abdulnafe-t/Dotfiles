@@ -226,12 +226,7 @@
           pulsar-tty-color "dimgray")
   (push 'kill-visual-line pulsar-pulse-functions)
   :init
-(pulsar-global-mode 1))
-
-(defface custom-hl-line-face
-  '((t (:box nil :inherit 'default :weight normal)))
-  "Face for hl-line, as well as the minibuffer (vertico et al.).")
-(set-face-background 'custom-hl-line-face (face-background 'mode-line))
+  (pulsar-global-mode 1))
 
 (use-package hl-line
   :demand t
@@ -634,8 +629,6 @@ gdb-many-windows."
   (vertico-mouse-mode)
 
   :config
-
-  (set-face-attribute 'vertico-current nil :inherit 'custom-hl-line-face)
 
   (setopt vertico-multiform-commands
           '((consult-flymake buffer indexed)

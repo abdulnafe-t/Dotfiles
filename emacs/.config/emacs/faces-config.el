@@ -1,5 +1,9 @@
 ;;; -*- lexical-binding: t -*-
 
+(defface custom-hl-line-face
+  `((t (:box nil :inherit 'default :weight normal :background ,(face-background 'mode-line))))
+  "Face for hl-line, as well as the minibuffer (vertico et al.).")
+
 (defface scion-font-lock-auto '((t (:inherit font-lock-type-face :slant italic :weight normal)))
   "Custom face for the C++ ‘auto’ keyword.")
 
@@ -77,6 +81,9 @@
 
   (set-face-attribute 'hl-line nil :background (face-background 'custom-hl-line-face))
 
+  (with-eval-after-load 'vertico
+    (set-face-attribute 'vertico-current nil :inherit 'custom-hl-line-face))
+
   (with-eval-after-load 'consult
     (set-face-attribute 'consult-highlight-match nil :background "#561d32" :weight 'bold)
     (set-face-attribute 'match nil :background "#561d32" :weight 'bold)
@@ -87,7 +94,7 @@
     (set-face-attribute 'eglot-semantic-macro      nil :weight 'bold :foreground "#89afef")
     (set-face-attribute 'eglot-semantic-property   nil :weight 'normal :slant 'normal :foreground "#8aa0df")
     (set-face-attribute 'eglot-semantic-parameter  nil :inherit 'font-lock-variable-name-face)
-    (set-face-attribute 'eglot-semantic-enumMember nil :foreground (face-foreground 'default))
+    ;; (set-face-attribute 'eglot-semantic-enumMember nil :foreground (face-foreground 'default))
     (set-face-attribute 'eglot-semantic-static     nil :slant 'italic :weight 'normal :foreground 'unspecified :inherit 'nil))
 
   (with-eval-after-load 'org
