@@ -93,7 +93,7 @@ excluding ‘mode-line-format-right-align’ and anything following it.")
 
 (setq mode-line-align-left
       '("%e"
-        (:propertize " " display ((ascent center) (height 1.1)))
+        " "
         mode-line-mule-info mode-line-client
         mode-line-modified mode-line-remote
         mode-line-window-dedicated
