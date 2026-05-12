@@ -5,27 +5,24 @@
 (setopt mode-line-percent-position nil
         column-number-indicator-zero-based nil)
 
-(defun scion/format-git-string-advice (_file &optional _backend)
+(defun scion/vc-mode-line-advice (_file &optional _backend)
   "Strip VC mode prefix and apply face based on file state."
   (when (and (buffer-file-name)
              (vc-backend (buffer-file-name)))
     (let* ((state (vc-state (buffer-file-name)))
-           (face (pcase state
-                   ((or 'up-to-date 'nil) 'vc-state-base)
-                   ('edited 'vc-edited-state)
-                   ('needs-merge 'vc-edited-state)
-                   ('needs-update 'vc-edited-state)
-                   ('added 'vc-edited-state)
-                   ('removed 'vc-edited-state)
-                   ('conflict 'vc-edited-state)
-                   ('locked 'vc-locked-state)
-                   (_ 'vc-state-base)))
+           (face (cond ((eq state 'up-to-date) 'vc-up-to-date-state)
+                       ((stringp state) 'vc-locked-state)
+                       ((eq state 'added) 'vc-locally-added-state)
+                       ((eq state 'conflict) 'vc-conflict-state)
+                       ((eq state 'removed) 'vc-removed-state)
+                       ((eq state 'missing) 'vc-missing-state)
+                       ((eq state 'ignored) 'vc-ignored-state)
+                       (t 'vc-edited-state)))
            (gitlogo (concat (propertize "  " 'face face)
-                            (replace-regexp-in-string "^ Git[:|-]" " " vc-mode))))
-
+                            (replace-regexp-in-string "^ Git[-:!?@]" " " vc-mode))))
       (setq vc-mode gitlogo))))
 
-(advice-add 'vc-mode-line :after #'scion/format-git-string-advice)
+(advice-add 'vc-mode-line :after #'scion/vc-mode-line-advice)
 
 (setopt mode-line-position-column-line-format '("%5l:%c"))
 
