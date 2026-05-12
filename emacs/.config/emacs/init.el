@@ -343,6 +343,7 @@
   (add-to-list 'auto-mode-alist '("\\.h$" . c++-mode))
   (add-to-list 'eglot-ignored-server-capabilities :documentOnTypeFormattingProvider)
   (add-to-list 'eglot-ignored-server-capabilities :documentHighlightProvider)
+  (add-to-list 'eglot-ignored-server-capabilities :inlayHintProvider)
 
   :custom
   (eglot-autoshutdown t)
