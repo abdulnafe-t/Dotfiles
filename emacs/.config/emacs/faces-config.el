@@ -95,7 +95,6 @@
     (set-face-attribute 'eglot-semantic-macro      nil :weight 'bold :foreground "#89afef")
     (set-face-attribute 'eglot-semantic-property   nil :weight 'normal :slant 'normal :foreground "#8aa0df")
     (set-face-attribute 'eglot-semantic-parameter  nil :inherit 'font-lock-variable-name-face)
-    ;; (set-face-attribute 'eglot-semantic-enumMember nil :foreground (face-foreground 'default))
     (set-face-attribute 'eglot-semantic-static     nil :slant 'italic :weight 'normal :foreground 'unspecified :inherit 'nil))
 
   (with-eval-after-load 'org
