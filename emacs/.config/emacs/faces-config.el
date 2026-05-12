@@ -79,7 +79,8 @@
   (set-face-attribute 'font-lock-property-name-face nil :foreground "#8aa0df")
   (set-face-attribute 'font-lock-property-name-face nil :foreground "#8aa0df")
 
-  (set-face-attribute 'hl-line nil :background (face-background 'custom-hl-line-face))
+  (with-eval-after-load 'hl-line-mode
+    (set-face-attribute 'hl-line nil :background (face-background 'custom-hl-line-face)))
 
   (with-eval-after-load 'vertico
     (set-face-attribute 'vertico-current nil :inherit 'custom-hl-line-face))
