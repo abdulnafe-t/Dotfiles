@@ -497,28 +497,29 @@
   (gdb-many-windows 1)
 
   (defun scion/gdb-mode-line ()
-    "function called when entering gdb to maximize mode line legibility under
-gdb-many-windows."
+    "function called when entering GDB to maximize mode line legibility under
+\\=`gdb-many-windows\\='."
     (setq-local mode-line-format-center (not gdb-many-windows))
     (visual-line-mode 'toggle)
     (setq-local line-number-mode nil)
     (setq-local column-number-mode nil))
 
   (when (boundp 'mode-line-format-center)
-    (dolist (hook '(gud-mode-hook
-                    gdb-script-mode-hook
-                    gdb-locals-mode-hook
-                    gdb-registers-mode-hook
-                    gdb-breakpoints-mode-hook
-                    gdb-inferior-io-mode-hook
-                    gdb-frames-mode-hook))
-      (add-hook hook #'scion/gdb-mode-line)))
+    (add-hook 'gdb-many-windows-hook (lambda ()
+                                       (dolist (hook '(gud-mode-hook
+                                                       gdb-script-mode-hook
+                                                       gdb-locals-mode-hook
+                                                       gdb-threads-mode-hook
+                                                       gdb-registers-mode-hook
+                                                       gdb-breakpoints-mode-hook
+                                                       gdb-inferior-io-mode-hook
+                                                       gdb-frames-mode-hook))
+                                         (add-hook hook #'scion/gdb-mode-line)))))
 
   :custom
+  (gdb-default-window-configuration-file "gdb-window-config.eld")
   (gdb-show-main t)
   (gud-highlight-current-line t)
-  (gdb-display-io-buffer nil)
-  (gdb-display-io-nopopup t)
   (gdb-debuginfod-enable-setting nil)
   (gdb-restore-window-configuration-after-quit t)
   (gdb-stack-buffer-addresses t))
