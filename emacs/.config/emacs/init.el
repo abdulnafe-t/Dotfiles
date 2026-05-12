@@ -354,9 +354,6 @@
   (eglot-semantic-token-types '("macro" "property" "parameter" "enumMember"))
   (eglot-semantic-token-modifiers '("static")))
 
-
-(add-to-list 'auto-mode-alist '("\\.clang\\(-\\(format\\|tidy\\)\\|d\\)" . conf-mode))
-
 (add-hook 'c++-ts-mode-hook
           (lambda ()
             (setopt c-ts-mode-indent-offset 6
@@ -366,11 +363,14 @@
             (keymap-set c-ts-base-mode-map "C-c C-c" #'compile)
             (keymap-set c-ts-base-mode-map "C-c c" #'compile)))
 
-(add-hook 'compilation-filter-hook 'ansi-color-compilation-filter)
-
 (add-hook 'eglot-managed-mode-hook
           (lambda ()
             (setq-local eldoc-documentation-strategy 'eldoc-documentation-compose-eagerly)))
+
+(add-to-list 'auto-mode-alist '("\\.clang\\(-\\(format\\|tidy\\)\\|d\\)" . conf-mode))
+
+(add-hook 'compilation-filter-hook 'ansi-color-compilation-filter)
+(add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
 
 (use-package json-mode
   :ensure t
