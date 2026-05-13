@@ -218,11 +218,11 @@
 (use-package pulsar
   :ensure t
   :config
-  (setopt pulsar-face 'highlight
-          pulsar-region-face 'highlight
-          pulsar-region-change-face 'highlight
-          pulsar-highlight-face 'highlight
-          pulsar-tty-color "snow2")
+  (setopt pulsar-face 'cursor
+          pulsar-region-face 'cursor
+          pulsar-region-change-face 'cursor
+          pulsar-highlight-face 'cursor
+          pulsar-tty-color "snow3")
   (push 'kill-visual-line pulsar-pulse-functions)
   :init
   (pulsar-global-mode 1))
