@@ -30,8 +30,11 @@ window-padding-x = 0
 window-padding-balance = true
 
 copy-on-select = true
-keybind = ctrl+arrow_up=scroll_page_up
-keybind = ctrl+arrow_down=scroll_page_down
 
-keybind = alt+<=scroll_to_top
-keybind = alt+shift+<=scroll_to_bottom
+clipboard-read = allow
+
+keybind = super+alt+arrow_up=scroll_page_up
+keybind = super+alt+arrow_down=scroll_page_down
+
+keybind = ctrl+super+alt+arrow_up=scroll_to_top
+keybind = ctrl+super+alt+arrow_down=scroll_to_bottom
