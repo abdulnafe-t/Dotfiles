@@ -93,14 +93,13 @@ excluding ‘mode-line-format-right-align’ and anything following it.")
         mode-line-mule-info mode-line-client
         mode-line-modified mode-line-remote
         mode-line-window-dedicated
-
         mode-line-frame-identification
         "  "
         (:eval
          (when (mode-line-window-selected-p)
            (concat (format-mode-line mode-line-position)
                    (unless (derived-mode-p '(pdf-view-mode comint-mode gdb-parent-mode))
-                     (concat "    "
+                     (concat "  "
                              (propertize
                               (format "(%d:%d)"
                                       (count-lines (point-min) (point-max)) fill-column)

@@ -220,7 +220,7 @@
           pulsar-region-face 'highlight
           pulsar-region-change-face 'highlight
           pulsar-highlight-face 'highlight
-          pulsar-tty-color "dimgray")
+          pulsar-tty-color "snow2")
   (push 'kill-visual-line pulsar-pulse-functions)
   :init
   (pulsar-global-mode 1))
@@ -1067,7 +1067,7 @@
   (minions-mode t)
   :config
   (setopt mode-line-modes-delimiters nil
-          minions-mode-line-lighter "  "
+          minions-mode-line-lighter " "
           minions-prominent-modes '(flymake-mode)))
 
 ;;;; Extensions: ‘beginend’

@@ -59,13 +59,15 @@
 
   (set-fontset-font "fontset-default" 'arabic "Kawkab Mono" nil 'prepend)
 
-  (set-face-attribute 'default        nil :height 130)
-  (set-face-attribute 'variable-pitch nil :fontset "fontset-arabicvar" :font 'unspecified :family 'unspecified)
+  (set-face-attribute 'default nil :height 130)
+
+  (when (display-graphic-p)
+    (set-face-attribute 'variable-pitch nil :fontset "fontset-arabicvar" :font 'unspecified :family 'unspecified))
 
   (unless (display-graphic-p)
     (set-face-attribute 'default nil :background "unspecified-bg"))
 
-  (set-face-attribute 'highlight nil :foreground "black" :background "#D0D0D0")
+  (set-face-attribute 'highlight nil :foreground "black" :background "snow2")
 
   (set-face-attribute 'mode-line nil :box 'nil :underline 'nil)
   (set-face-attribute 'mode-line-active nil :box nil :underline 'nil)
