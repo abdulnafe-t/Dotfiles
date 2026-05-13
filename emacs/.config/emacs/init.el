@@ -208,7 +208,9 @@
           modus-themes-common-palette-overrides
           '((cursor "#ffffff")
             (string red-faint)
-            (comment fg-dim)))
+            (comment fg-dim)
+            (bg-hover nil)
+            (bg-mode-line-active "#331a65")))
 
   (modus-themes-load-theme 'ef-dark))
 
