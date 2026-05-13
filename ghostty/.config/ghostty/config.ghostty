@@ -23,8 +23,6 @@ confirm-close-surface = false
 
 mouse-shift-capture = true
 
-scrollbar = never
-
 window-padding-x = 0
 
 window-padding-balance = true
