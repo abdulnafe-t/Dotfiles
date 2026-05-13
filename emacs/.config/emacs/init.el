@@ -492,7 +492,6 @@
 (use-package gdb-mi
   :ensure t
   :config
-  (gdb-many-windows 1)
 
   (defun scion/gdb-mode-line ()
     "function called when entering GDB to maximize mode line legibility under
@@ -503,24 +502,26 @@
     (setq-local column-number-mode nil))
 
   (when (boundp 'mode-line-format-center)
-    (add-hook 'gdb-many-windows-hook (lambda ()
-                                       (dolist (hook '(gud-mode-hook
-                                                       gdb-script-mode-hook
-                                                       gdb-locals-mode-hook
-                                                       gdb-threads-mode-hook
-                                                       gdb-registers-mode-hook
-                                                       gdb-breakpoints-mode-hook
-                                                       gdb-inferior-io-mode-hook
-                                                       gdb-frames-mode-hook))
-                                         (add-hook hook #'scion/gdb-mode-line)))))
+    (advice-add #'gdb :before (lambda (_command-line)
+                                (dolist (hook '(gud-mode-hook
+                                                gdb-script-mode-hook
+                                                gdb-locals-mode-hook
+                                                gdb-threads-mode-hook
+                                                gdb-registers-mode-hook
+                                                gdb-breakpoints-mode-hook
+                                                gdb-inferior-io-mode-hook
+                                                gdb-frames-mode-hook))
+                                  (add-hook hook #'scion/gdb-mode-line)))))
+
+  (advice-add #'gdb :after (lambda(_command-line)
+                             (gdb-many-windows 1)))
 
   :custom
-  (gdb-default-window-configuration-file "gdb-window-config.eld")
+  (gdb-debuginfod-enable-setting nil)
   (gdb-show-main t)
   (gud-highlight-current-line t)
-  (gdb-debuginfod-enable-setting nil)
-  (gdb-restore-window-configuration-after-quit t)
-  (gdb-stack-buffer-addresses t))
+  (gdb-stack-buffer-addresses t)
+  (gdb-restore-window-configuration-after-quit t))
 
 ;;;; Extensions: ‘jinx’
 (use-package jinx
