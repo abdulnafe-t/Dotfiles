@@ -28,7 +28,6 @@ window-padding-x = 0
 window-padding-balance = true
 
 copy-on-select = true
-
 clipboard-read = allow
 
 keybind = super+alt+arrow_up=scroll_page_up
