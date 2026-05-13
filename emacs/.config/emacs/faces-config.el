@@ -1,7 +1,7 @@
 ;;; -*- lexical-binding: t -*-
 
 (defface custom-hl-line-face
-  `((t (:box nil :inherit 'default :weight normal :background ,(face-background 'mode-line))))
+  `((t (:box nil :inherit default :weight normal :background ,(face-background 'mode-line))))
   "Face for hl-line, as well as the minibuffer (vertico et al.).")
 
 (defface scion-font-lock-auto '((t (:inherit font-lock-type-face :slant italic :weight normal)))
