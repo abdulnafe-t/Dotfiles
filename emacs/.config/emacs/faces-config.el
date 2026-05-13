@@ -85,7 +85,7 @@
     (set-face-attribute 'hl-line nil :background (face-background 'custom-hl-line-face)))
 
   (with-eval-after-load 'vertico
-    (set-face-attribute 'vertico-current nil :inherit 'custom-hl-line-face))
+    (set-face-attribute 'vertico-current nil :background (face-background 'custom-hl-line-face)))
 
   (with-eval-after-load 'consult
     (set-face-attribute 'consult-highlight-match nil :background "#561d32" :weight 'bold)
