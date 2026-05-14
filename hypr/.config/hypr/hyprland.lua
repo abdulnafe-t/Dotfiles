@@ -165,12 +165,12 @@ hl.bind(mainMod .. " + mouse:272", hl.dsp.window.drag(),   { mouse = true })
 hl.bind(mainMod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true })
 
 -- Laptop multimedia keys for volume and LCD brightness
-hl.bind("XF86AudioRaiseVolume",  hl.dsp.exec_cmd("sh -c " .. hyprScripts .. "/volume-up"), { locked = true, repeating = true })
-hl.bind("XF86AudioLowerVolume",  hl.dsp.exec_cmd("sh -c " .. hyprScripts .. "/volume-down"), { locked = true, repeating = true })
-hl.bind("XF86AudioMute",         hl.dsp.exec_cmd("sh -c " .. hyprScripts .. "/toggle-mute"), { locked = true, repeating = true })
-hl.bind("XF86MonBrightnessUp",   hl.dsp.exec_cmd("sh -c " .. hyprScripts .. "/brightness-up"), { locked = true, repeating = true })
-hl.bind("XF86MonBrightnessDown", hl.dsp.exec_cmd("sh -c " .. hyprScripts .. "/brightness-down"), { locked = true, repeating = true })
-hl.bind("XF86TouchpadToggle",    hl.dsp.exec_cmd("sh -c " .. hyprScripts .. "/toggle-touchpad"), { locked = true, repeating = true })
+hl.bind("XF86AudioRaiseVolume",  hl.dsp.exec_cmd(hyprScripts .. "/volume-up"), { locked = true, repeating = true })
+hl.bind("XF86AudioLowerVolume",  hl.dsp.exec_cmd(hyprScripts .. "/volume-down"), { locked = true, repeating = true })
+hl.bind("XF86AudioMute",         hl.dsp.exec_cmd(hyprScripts .. "/toggle-mute"))
+hl.bind("XF86MonBrightnessUp",   hl.dsp.exec_cmd(hyprScripts .. "/brightness-up"), { locked = true, repeating = true })
+hl.bind("XF86MonBrightnessDown", hl.dsp.exec_cmd(hyprScripts .. "/brightness-down"), { locked = true, repeating = true })
+hl.bind("XF86TouchpadToggle",    hl.dsp.exec_cmd(hyprScripts .. "/toggle-touchpad"), { locked = true, repeating = true })
 
 -- Requires playerctl
 hl.bind("XF86AudioNext",  hl.dsp.exec_cmd("playerctl next"),       { locked = true })
