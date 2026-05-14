@@ -1,6 +1,6 @@
 #!/usr/bin/bash
 
-hyprctl keyword exec "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
+wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
 
 MUTE_STATUS=$(wpctl get-volume @DEFAULT_AUDIO_SINK@)
 VOLUME=$(wpctl get-volume @DEFAULT_AUDIO_SINK@ | grep -oE '[0-9]+([.][0-9]+)?' | awk '{print $1 * 100}')
