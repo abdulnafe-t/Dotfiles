@@ -24,7 +24,7 @@
 
 (advice-add 'vc-mode-line :after #'scion/vc-mode-line-advice)
 
-(setopt mode-line-position-column-line-format '("%5l:%c"))
+(setopt mode-line-position-column-line-format '("%6l:%2C"))
 
 (defun scion/copy-project-directory ()
   "Copy project directory to kill-ring."
@@ -97,14 +97,10 @@ excluding ‘mode-line-format-right-align’ and anything following it.")
         "  "
         (:eval
          (when (mode-line-window-selected-p)
-           (concat (format-mode-line mode-line-position)
+           (concat (string-pad (format-mode-line mode-line-position) 14)
                    (unless (derived-mode-p '(pdf-view-mode comint-mode gdb-parent-mode))
-                     (concat "  "
-                             (propertize
-                              (format "(%d:%d)"
-                                      (count-lines (point-min) (point-max)) fill-column)
-                              'face 'shadow)
-                             "  ")))))
+                     (format "(%d:%d)"
+                             (count-lines (point-min) (point-max)) fill-column)))))
 
         (:eval (when (and which-function-mode
                           (mode-line-window-selected-p))
