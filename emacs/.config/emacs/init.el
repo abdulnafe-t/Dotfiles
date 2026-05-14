@@ -197,6 +197,8 @@
 
 ;;;; Style: theme
 (use-package ef-themes
+  :ensure t
+  :demand t
   :init
   (ef-themes-take-over-modus-themes-mode 1)
   :config
@@ -206,11 +208,11 @@
           modus-themes-prompts '(ultrabold)
 
           modus-themes-common-palette-overrides
-          '((cursor "#ffffff")
-            (string red-faint)
+          '((string red-faint)
             (comment fg-dim)
             (bg-hover nil)
-            (bg-mode-line-active "#331a65")))
+            (bg-mode-line-active "#47248e")
+            (cursor "#b57281")))
 
   (modus-themes-load-theme 'ef-dark))
 

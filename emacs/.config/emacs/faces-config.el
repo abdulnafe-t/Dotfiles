@@ -1,8 +1,12 @@
 ;;; -*- lexical-binding: t -*-
 
-(defface custom-hl-line-face
-  `((t (:box nil :inherit default :weight normal :background ,(face-background 'mode-line))))
+(defface scion-hl-line-face
+  `((t (:box nil :inherit default :weight normal :background "#2f2c39")))
   "Face for hl-line, as well as the minibuffer (vertico et al.).")
+
+(defface scion-dir-face
+  `((t (:foreground ,(face-background 'cursor))))
+  "Face for directories.")
 
 (defface scion-font-lock-auto '((t (:inherit font-lock-type-face :slant italic :weight normal)))
   "Custom face for the C++ ‘auto’ keyword.")
@@ -69,6 +73,8 @@
 
   (set-face-attribute 'highlight nil :foreground "black" :background "snow3")
 
+  (set-face-attribute 'scion-dir-face nil :foreground (face-background 'cursor))
+
   (set-face-attribute 'mode-line nil :box 'nil :underline 'nil)
   (set-face-attribute 'mode-line-active nil :box nil :underline 'nil)
   (set-face-attribute 'mode-line-inactive nil :box 'nil :underline 'nil)
@@ -79,13 +85,12 @@
 
   (set-face-attribute 'font-lock-variable-use-face nil :foreground (face-foreground 'default))
   (set-face-attribute 'font-lock-property-name-face nil :foreground "#8aa0df")
-  (set-face-attribute 'font-lock-property-name-face nil :foreground "#8aa0df")
 
   (with-eval-after-load 'hl-line
-    (set-face-attribute 'hl-line nil :background (face-background 'custom-hl-line-face)))
+    (set-face-attribute 'hl-line nil :background (face-background 'scion-hl-line-face)))
 
   (with-eval-after-load 'vertico
-    (set-face-attribute 'vertico-current nil :background (face-background 'custom-hl-line-face)))
+    (set-face-attribute 'vertico-current nil :background (face-background 'scion-hl-line-face)))
 
   (with-eval-after-load 'consult
     (set-face-attribute 'consult-highlight-match nil :background "#561d32" :weight 'bold)
@@ -135,16 +140,16 @@
 
   (with-eval-after-load 'dired
     (set-face-attribute 'dired-header nil :foreground (face-foreground 'font-lock-builtin-face))
-    (set-face-attribute 'dired-directory nil :foreground (face-foreground 'font-lock-keyword-face)))
+    (set-face-attribute 'dired-directory nil :foreground (face-foreground 'scion-dir-face)))
 
   (with-eval-after-load 'diredfl
-    (set-face-attribute 'diredfl-dir-name nil :foreground (face-foreground 'font-lock-keyword-face))
+    (set-face-attribute 'diredfl-dir-name nil :foreground (face-foreground 'scion-dir-face))
     (set-face-attribute 'diredfl-dir-heading nil :foreground (face-foreground 'font-lock-builtin-face))
     (set-face-attribute 'diredfl-file-suffix nil :foreground (face-foreground 'default))
     (set-face-attribute 'diredfl-compressed-file-suffix nil :foreground (face-foreground 'diredfl-compressed-file-name)))
 
   (with-eval-after-load 'nerd-icons-completion
-    (set-face-attribute 'nerd-icons-completion-dir-face nil :foreground (face-foreground 'font-lock-keyword-face))))
+    (set-face-attribute 'nerd-icons-completion-dir-face nil :foreground (face-foreground 'scion-dir-face))))
 
 (if (daemonp)
     (add-hook 'after-make-frame-functions
