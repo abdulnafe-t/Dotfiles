@@ -10,6 +10,10 @@
         initial-scratch-message nil
         visible-bell nil
 
+        mode-line-percent-position nil
+        project-mode-line t
+        mode-line-position-column-line-format '("%6l:%2C")
+
         view-read-only t
         delete-by-moving-to-trash t
         save-interprogram-paste-before-kill t
@@ -58,6 +62,9 @@
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
+
+(line-count-global-mode 1)
+(column-number-mode 1)
 
 (global-visual-line-mode 1)
 (global-word-wrap-whitespace-mode 1)
