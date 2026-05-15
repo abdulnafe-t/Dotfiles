@@ -27,8 +27,8 @@
 (setopt mode-line-position-column-line-format '("%6l:%2C"))
 
 (defvar line-count-mode-line-indicator
-  '(:eval (format "    (%d:%d) "
-                  (count-lines (point-min) (point-max)) fill-column))
+  '(line-count-mode (:eval (format "    (%d:%d) "
+                                   (count-lines (point-min) (point-max)) fill-column)))
   "Mode line construct used by \\=`line-count-mode\\='.")
 
 (put 'mode-line-total-lines-indicator 'risky-local-variable t)
