@@ -27,7 +27,7 @@
 (setopt mode-line-position-column-line-format '("%6l:%2C"))
 
 (require 'line-count)
-(global-line-count-mode 1)
+(line-count-global-mode 1)
 
 (defun scion/copy-project-directory ()
   "Copy project directory to kill-ring."

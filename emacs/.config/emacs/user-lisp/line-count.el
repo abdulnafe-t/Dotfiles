@@ -49,7 +49,7 @@ modifying \\=`mode-line-position\\=', which see."
           (delq line-count-mode-line-indicator mode-line-position)))
   (force-mode-line-update))
 
-(define-globalized-minor-mode global-line-count-mode
+(define-globalized-minor-mode line-count-global-mode
   line-count-mode line-count-mode
   :predicate '(not pdf-view-mode)
   :group 'line-count)
