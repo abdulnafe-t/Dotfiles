@@ -38,6 +38,7 @@
 
 (put 'mode-line-total-lines-indicator 'risky-local-variable t)
 
+;;;###autoload
 (define-minor-mode line-count-mode
   "Minor mode that shows total line & column count in the mode line by
 modifying `mode-line-position', which see."
@@ -49,6 +50,7 @@ modifying `mode-line-position', which see."
           (delq line-count-mode-line-indicator mode-line-position)))
   (force-mode-line-update))
 
+;;;###autoload
 (define-globalized-minor-mode line-count-global-mode
   line-count-mode line-count-mode
   :predicate '(not pdf-view-mode)

@@ -26,7 +26,6 @@
 
 (setopt mode-line-position-column-line-format '("%6l:%2C"))
 
-(require 'line-count)
 (line-count-global-mode 1)
 
 (defun scion/copy-project-directory ()
