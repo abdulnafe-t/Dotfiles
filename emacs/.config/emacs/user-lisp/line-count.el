@@ -38,10 +38,17 @@
   :type 'string
   :group 'line-count)
 
+(defcustom line-count-mode-line-format
+  "(%d:%d) "
+  "Format string for `line-count-mode-line-indicator’."
+  :type 'string
+  :group 'line-count)
+
 (defvar line-count-mode-line-indicator
   '(line-count-mode (:eval (concat line-count-mode-line-space
-                                   (format "(%d:%d) "
-                                           (count-lines (point-min) (point-max)) fill-column))))
+                                   (format line-count-mode-line-format
+                                           (count-lines (point-min) (point-max))
+                                           fill-column))))
   "Mode line construct used by `line-count-mode'.")
 
 (put 'mode-line-total-lines-indicator 'risky-local-variable t)
