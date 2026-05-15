@@ -26,26 +26,7 @@
 
 (setopt mode-line-position-column-line-format '("%6l:%2C"))
 
-(defvar line-count-mode-line-indicator
-  '(line-count-mode (:eval (format "    (%d:%d) "
-                                   (count-lines (point-min) (point-max)) fill-column)))
-  "Mode line construct used by \\=`line-count-mode\\='.")
-
-(put 'mode-line-total-lines-indicator 'risky-local-variable t)
-
-(define-minor-mode line-count-mode
-  "Minor mode that shows total line & column count in mode-line-position."
-  :lighter " totln"
-  (if line-count-mode
-      (add-to-list 'mode-line-position line-count-mode-line-indicator t)
-    (setq mode-line-position
-          (delq line-count-mode-line-indicator mode-line-position)))
-  (force-mode-line-update))
-
-(define-globalized-minor-mode global-line-count-mode
-  line-count-mode line-count-mode
-  :predicate '(not pdf-view-mode))
-
+(require 'line-count)
 (global-line-count-mode 1)
 
 (defun scion/copy-project-directory ()
