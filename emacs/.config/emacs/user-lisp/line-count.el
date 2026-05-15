@@ -42,7 +42,7 @@
 (define-minor-mode line-count-mode
   "Minor mode that shows total line & column count in the mode line by
 modifying `mode-line-position', which see."
-  :lighter " totln"
+  :lighter " lnct"
   :group 'line-count
   (if line-count-mode
       (add-to-list 'mode-line-position line-count-mode-line-indicator t)
