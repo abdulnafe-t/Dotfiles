@@ -68,7 +68,7 @@ modifying ‘mode-line-position’, which see."
 ;;;###autoload
 (define-globalized-minor-mode line-count-global-mode
   line-count-mode line-count-mode
-  :predicate '(not pdf-view-mode)
+  :predicate '(not pdf-view-mode hl-line-mode)
   :group 'line-count)
 
 (provide 'line-count)
