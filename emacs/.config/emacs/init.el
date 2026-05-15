@@ -193,7 +193,7 @@
                                                                           ; space
 
 ;;;; Style: modeline
-(load "~/.config/emacs/mode-line-config.el")
+(require 'mode-line-config)
 
 ;;;; Style: theme
 (use-package ef-themes
