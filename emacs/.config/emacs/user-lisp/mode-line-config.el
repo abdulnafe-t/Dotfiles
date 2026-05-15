@@ -37,16 +37,17 @@
   "Custom mode line with centered content."
   :group 'mode-line)
 
-(defun scion/vc-mode-line-advice (file &optional _backend)
+(defun scion/vc-mode-line-advice (file &optional backend)
   "Replace the prefix of the VC mode line lighter with an icon. Apply a
 face based on VC file state.
 
 FILE is the file being checked for version control.
 
-BACKEND is ignored, assumed to be git."
+BACKEND is the backend to check for version control. Defaults to git."
   (when (and file
-             (vc-backend file))
+             (vc-registered file))
     (let* ((state (vc-state file))
+           (backend (or (symbol-name backend) "Git"))
            (face (cond ((eq state 'up-to-date) 'vc-up-to-date-state)
                        ((stringp state) 'vc-locked-state)
                        ((eq state 'added) 'vc-locally-added-state)
@@ -55,9 +56,11 @@ BACKEND is ignored, assumed to be git."
                        ((eq state 'missing) 'vc-missing-state)
                        ((eq state 'ignored) 'vc-ignored-state)
                        (t 'vc-edited-state)))
-           (gitlogo (concat (propertize
-                             (replace-regexp-in-string "^ Git[-:!?@]" " " vc-mode) 'face face))))
-      (setq vc-mode gitlogo))))
+           (lighter-with-logo (propertize
+                               (replace-regexp-in-string
+                                (concat "^ " backend "[-:!?@]") " " vc-mode)
+                               'face face)))
+      (setq vc-mode lighter-with-logo))))
 
 (advice-add 'vc-mode-line :after #'scion/vc-mode-line-advice)
 
