@@ -34,7 +34,7 @@
   (interactive)
   (kill-new default-directory))
 
-(defun mode--line-format-center ()
+(defun mode-line--format-center ()
   "Center all following mode-line constructs, up to and excluding
 mode-line-format-right-align.
 
@@ -84,7 +84,7 @@ variable."
                                           center-constructs-width)
                                        2)))))))
 
-(defvar mode-line-format-center '(:eval (mode--line-format-center))
+(defvar mode-line-format-center '(:eval (mode-line--format-center))
   "Mode line construct to center all following constructs up to and
 excluding ‘mode-line-format-right-align’ and anything following it.")
 
