@@ -120,8 +120,7 @@ excluding ‘mode-line-format-right-align’ and anything following it.")
 
         (:eval
          (when (mode-line-window-selected-p)
-           (unless (or (derived-mode-p '(comint-mode gdb-parent-mode))
-                       (bound-and-true-p gud-minor-mode))
+           (unless (bound-and-true-p gud-minor-mode)
 
 	     (format-mode-line mode-line-position))))
 
