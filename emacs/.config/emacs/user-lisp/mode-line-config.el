@@ -148,8 +148,8 @@ all constructs following this one are centered.")
              (concat "    " (format-mode-line which-func-format) "     "))))
   "Mode line construct containing all entries that should be left-aligned."
   :type '(repeat (choice (string :tag "Literal text to display in the mode line")
-                         (sexp :tag "Sexp to pass on to ‘format-mode-line’, which see. For example, this
-can be a list whose car is one of the keywords :propertize or :eval")))
+                         (sexp :tag "Sexp to pass on to ‘format-mode-line’, which see. For example, this can
+be a list whose car is one of the keywords :propertize or :eval")))
   :group 'scion/mode-line)
 
 (defcustom mode-line-align-middle
@@ -176,8 +176,8 @@ default, this is a major-mode-appropriate icon,
 ‘project-mode-line-format’, and ‘mode-line-buffer-identification’ (which
 see)."
   :type '(repeat (choice (string :tag "Literal text to display in the mode line")
-                         (sexp :tag "Sexp to pass on to ‘format-mode-line’, which see. For example, this
-can be a list whose car is one of the keywords :propertize or :eval")))
+                         (sexp :tag "Sexp to pass on to ‘format-mode-line’, which see. For example, this can
+be a list whose car is one of the keywords :propertize or :eval")))
   :group 'scion/mode-line)
 
 (defvar scion/eglot-mode-line-format
@@ -212,9 +212,8 @@ can be a list whose car is one of the keywords :propertize or :eval")))
     mode-line-modes)
   "Mode line construct containing all entries that should be right-aligned."
   :type '(repeat (choice (string :tag "Literal text to display in the mode line")
-                         (sexp :tag "Sexp to pass on to ‘format-mode-line’, which see. For example,
-this can be a list whose car is one of the keywords :propertize or or
-:eval")))
+                         (sexp :tag "Sexp to pass on to ‘format-mode-line’, which see. For example, this can
+be a list whose car is one of the keywords :propertize or :eval")))
   :group 'scion/mode-line)
 
 (setq-default mode-line-format
