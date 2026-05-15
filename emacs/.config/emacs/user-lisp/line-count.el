@@ -34,13 +34,13 @@
 (defcustom line-count-mode-line-space
   "      "
   "Empty space between the line/column position indicator and
-`line-count-mode'’s own indicator."
+‘line-count-mode’’s own indicator."
   :type 'string
   :group 'line-count)
 
 (defcustom line-count-mode-line-format
   "(%d:%d) "
-  "Format string for `line-count-mode-line-indicator’."
+  "Format string for ‘line-count-mode-line-indicator’."
   :type 'string
   :group 'line-count)
 
@@ -49,14 +49,14 @@
                                    (format line-count-mode-line-format
                                            (count-lines (point-min) (point-max))
                                            fill-column))))
-  "Mode line construct used by `line-count-mode'.")
+  "Mode line construct used by ‘line-count-mode’.")
 
 (put 'mode-line-total-lines-indicator 'risky-local-variable t)
 
 ;;;###autoload
 (define-minor-mode line-count-mode
   "Minor mode that shows total line & column count in the mode line by
-modifying `mode-line-position', which see."
+modifying ‘mode-line-position’, which see."
   :lighter " lnct"
   :group 'line-count
   (if line-count-mode
