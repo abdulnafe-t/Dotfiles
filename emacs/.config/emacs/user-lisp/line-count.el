@@ -74,7 +74,3 @@ modifying `mode-line-position', which see."
 (provide 'line-count)
 
 ;;; line-count.el ends here
-
-
-
-
