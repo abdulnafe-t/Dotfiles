@@ -31,9 +31,17 @@
   :group 'mode-line
   :prefix "line-count-")
 
+(defcustom line-count-mode-line-space
+  "      "
+  "Empty space between the line/column position indicator and
+`line-count-mode'’s own indicator."
+  :type 'string
+  :group 'line-count)
+
 (defvar line-count-mode-line-indicator
-  '(line-count-mode (:eval (format "    (%d:%d) "
-                                   (count-lines (point-min) (point-max)) fill-column)))
+  '(line-count-mode (:eval (concat line-count-mode-line-space
+                                   (format "(%d:%d) "
+                                           (count-lines (point-min) (point-max)) fill-column))))
   "Mode line construct used by `line-count-mode'.")
 
 (put 'mode-line-total-lines-indicator 'risky-local-variable t)
