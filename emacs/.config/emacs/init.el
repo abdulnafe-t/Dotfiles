@@ -496,13 +496,40 @@
   :ensure t
   :config
 
-  (defun scion/gdb-mode-line ()
-    "function called when entering GDB to maximize mode line legibility under
+  (defun scion/gdb-remove-mode-line-numbers ()
+    "Function called when entering GDB to maximize mode line legibility under
 \\=`gdb-many-windows\\='."
     (setq-local mode-line-format-center (not gdb-many-windows))
     (visual-line-mode 'toggle)
     (setq-local line-number-mode nil)
     (setq-local column-number-mode nil))
+
+  (defun scion/gdb-maybe-enable-line-numbers ()
+    "Function called when initializing a buffer to enable line numbers in
+it if it's a GDB source buffer."
+    (when (and (derived-mode-p 'prog-mode)
+               (eq gud-minor-mode 'gdbmi))
+      (display-line-numbers-mode 1)))
+
+  (defun scion/gdb-maybe-disable-line-numbers ()
+    "Function called when exiting gdb to disable line numbers in current buffer if it was a GDB
+source buffer."
+    (when (and (derived-mode-p 'prog-mode)
+               (bound-and-true-p gud-minor-mode))
+      (display-line-numbers-mode -1)))
+
+  (advice-add #'gdb-find-file-hook :after #'scion/gdb-maybe-enable-line-numbers)
+  (advice-add #'gdb-find-file-hook :after #'scion/gdb-remove-mode-line-numbers)
+
+  (advice-add #'gdb-init-buffer :after #'scion/gdb-maybe-enable-line-numbers)
+  (advice-add #'gdb-init-buffer :after #'scion/gdb-remove-mode-line-numbers)
+
+  ;; Disable line numbers when GDB resets (exits)
+  (advice-add #'gdb-reset :before
+              (lambda ()
+                (dolist (buffer (buffer-list))
+                  (with-current-buffer buffer
+                    (scion/gdb-maybe-disable-line-numbers)))))
 
   (when (boundp 'mode-line-format-center)
     (advice-add #'gdb :before (lambda (_command-line)
@@ -514,7 +541,7 @@
                                                 gdb-breakpoints-mode-hook
                                                 gdb-inferior-io-mode-hook
                                                 gdb-frames-mode-hook))
-                                  (add-hook hook #'scion/gdb-mode-line)))))
+                                  (add-hook hook #'scion/gdb-remove-mode-line-numbers)))))
 
   (advice-add #'gdb :after (lambda(_command-line)
                              (gdb-many-windows 1)))

@@ -97,10 +97,13 @@ excluding ‘mode-line-format-right-align’ and anything following it.")
         "  "
         (:eval
          (when (mode-line-window-selected-p)
-           (concat (string-pad (format-mode-line mode-line-position) 14)
-                   (unless (derived-mode-p '(pdf-view-mode comint-mode gdb-parent-mode))
-                     (format "(%d:%d)"
-                             (count-lines (point-min) (point-max)) fill-column)))))
+           (concat (format-mode-line mode-line-position)
+                   (unless (or (derived-mode-p '(pdf-view-mode comint-mode gdb-parent-mode))
+                               (bound-and-true-p gud-minor-mode))
+                     (concat "   "
+                             (format "(%d:%d)"
+                                     (count-lines (point-min) (point-max)) fill-column)
+                             "   ")))))
 
         (:eval (when (and which-function-mode
                           (mode-line-window-selected-p))
