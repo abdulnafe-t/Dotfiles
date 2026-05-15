@@ -120,9 +120,7 @@ excluding ‘mode-line-format-right-align’ and anything following it.")
 
         (:eval
          (when (mode-line-window-selected-p)
-           (unless (bound-and-true-p gud-minor-mode)
-
-	     (format-mode-line mode-line-position))))
+	   (format-mode-line mode-line-position)))
 
         (:eval (when (and which-function-mode
                           (mode-line-window-selected-p))
