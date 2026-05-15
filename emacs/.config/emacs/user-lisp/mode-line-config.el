@@ -191,12 +191,17 @@ can be a list whose car is one of the keywords :propertize or :eval")))
 
 (defun scion/mode-line-eglot()
 "Mode line construct for ‘eglot’."
-(cl-loop for e in scion/eglot-mode-line-format for render = (format-mode-line e) unless
-         (eq render #1="") collect (cons render (eq e 'eglot-mode-line-menu)) into
-         rendered finally
-         (return
-          (cl-loop for (rspec . rest) on rendered for (r . titlep) = rspec concat r
-                   when rest concat (if titlep ":" "/")))))
+(cl-loop for e in scion/eglot-mode-line-format
+         for render = (format-mode-line e)
+         unless (string= render "")
+         collect (cons render
+                       (eq e 'eglot-mode-line-menu))
+         into rendered
+         finally
+         (return (cl-loop for (rspec . rest) on rendered
+                          for (r . titlep) = rspec
+                          concat r
+                          when rest concat (if titlep ":" "/")))))
 
 (defcustom mode-line-align-right
   '(""
