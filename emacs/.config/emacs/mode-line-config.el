@@ -26,6 +26,27 @@
 
 (setopt mode-line-position-column-line-format '("%6l:%2C"))
 
+(defvar line-count-mode-line-indicator
+  '(:eval (format "    (%d:%d) "
+                  (count-lines (point-min) (point-max)) fill-column))
+  "Mode line construct used by \\=`line-count-mode\\='.")
+
+(put 'mode-line-total-lines-indicator 'risky-local-variable t)
+
+(define-minor-mode line-count-mode
+  "Minor mode that shows total line & column count in mode-line-position."
+  :lighter " totln"
+  (if line-count-mode
+      (add-to-list 'mode-line-position line-count-mode-line-indicator t)
+    (setq mode-line-position
+          (delq line-count-mode-line-indicator mode-line-position)))
+  (force-mode-line-update))
+
+(define-globalized-minor-mode global-line-count-mode
+  line-count-mode line-count-mode)
+
+(global-line-count-mode 1)
+
 (defun scion/copy-project-directory ()
   "Copy project directory to kill-ring."
   (interactive)
@@ -95,15 +116,13 @@ excluding ‘mode-line-format-right-align’ and anything following it.")
         mode-line-window-dedicated
         mode-line-frame-identification
         "  "
+
         (:eval
          (when (mode-line-window-selected-p)
-           (concat (format-mode-line mode-line-position)
-                   (unless (or (derived-mode-p '(pdf-view-mode comint-mode gdb-parent-mode))
-                               (bound-and-true-p gud-minor-mode))
-                     (concat "   "
-                             (format "(%d:%d)"
-                                     (count-lines (point-min) (point-max)) fill-column)
-                             "   ")))))
+           (unless (or (derived-mode-p '(pdf-view-mode comint-mode gdb-parent-mode))
+                       (bound-and-true-p gud-minor-mode))
+
+	     (format-mode-line mode-line-position))))
 
         (:eval (when (and which-function-mode
                           (mode-line-window-selected-p))
