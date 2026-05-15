@@ -20,7 +20,7 @@
 
 ;;; Commentary:
 
-;; This is a small script that defines \\=`line-count-mode\\=', a globalized minor mode
+;; This is a small script that defines ‘line-count-mode’, a globalized minor mode
 ;; that shows total line and column count in the minibuffer.
 
 ;;; Code:
@@ -34,13 +34,13 @@
 (defvar line-count-mode-line-indicator
   '(line-count-mode (:eval (format "    (%d:%d) "
                                    (count-lines (point-min) (point-max)) fill-column)))
-  "Mode line construct used by \\=`line-count-mode\\='.")
+  "Mode line construct used by `line-count-mode'.")
 
 (put 'mode-line-total-lines-indicator 'risky-local-variable t)
 
 (define-minor-mode line-count-mode
   "Minor mode that shows total line & column count in the mode line by
-modifying \\=`mode-line-position\\=', which see."
+modifying `mode-line-position', which see."
   :lighter " totln"
   :group 'line-count
   (if line-count-mode

@@ -46,7 +46,7 @@ line.
 
 It is important that the symbol ‘mode-line-format-center’ be included in
 ‘mode-line-format’ (and not another similar construct such
-as \\=`(:eval (mode-line-format-center)).  This is because the symbol
+as \\=`(:eval (mode-line-format-center))\\='.  This is because the symbol
 ‘mode-line-format-center’ is processed by ‘format-mode-line’ as a
 variable."
   (let* ((rest-beg (cdr (memq 'mode-line-format-center mode-line-format)))
