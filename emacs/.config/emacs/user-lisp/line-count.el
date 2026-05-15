@@ -72,5 +72,4 @@ modifying ‘mode-line-position’, which see."
   :group 'line-count)
 
 (provide 'line-count)
-
 ;;; line-count.el ends here
