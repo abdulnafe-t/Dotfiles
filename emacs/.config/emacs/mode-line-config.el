@@ -43,7 +43,8 @@
   (force-mode-line-update))
 
 (define-globalized-minor-mode global-line-count-mode
-  line-count-mode line-count-mode)
+  line-count-mode line-count-mode
+  :predicate '(not pdf-view-mode))
 
 (global-line-count-mode 1)
 
@@ -119,7 +120,7 @@ excluding ‘mode-line-format-right-align’ and anything following it.")
 
         (:eval
          (when (mode-line-window-selected-p)
-           (unless (or (derived-mode-p '(pdf-view-mode comint-mode gdb-parent-mode))
+           (unless (or (derived-mode-p '(comint-mode gdb-parent-mode))
                        (bound-and-true-p gud-minor-mode))
 
 	     (format-mode-line mode-line-position))))
