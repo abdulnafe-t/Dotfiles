@@ -685,7 +685,6 @@
 
   (setopt vertico-multiform-commands
           '((consult-flymake buffer indexed)
-            (execute-extended-command unobtrusive)
             (embark-bindings buffer)))
 
   (setopt vertico-multiform-categories
