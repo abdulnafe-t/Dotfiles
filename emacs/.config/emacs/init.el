@@ -506,7 +506,7 @@
   :custom
   (diredfl-ignore-compressed-flag nil))
 
-;;;; GDB
+;;;; Extensions: ‘GDB’
 (use-package gdb-mi
   :ensure t
   :config
@@ -996,8 +996,7 @@
         (alist-get ?  avy-dispatch-alist) 'avy-action-mark-to-char
         (alist-get ?! avy-dispatch-alist) 'avy-action-embark
         (alist-get ?. avy-dispatch-alist) 'avy-action-xref-definitions
-        (alist-get ?: avy-dispatch-alist) 'avy-action-xref-references)
-  )
+        (alist-get ?: avy-dispatch-alist) 'avy-action-xref-references))
 
 ;;;; Extensions: ‘hydra’
 (use-package hydra
