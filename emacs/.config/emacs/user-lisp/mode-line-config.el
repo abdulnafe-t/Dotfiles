@@ -163,9 +163,9 @@ be a list whose car is one of the keywords :propertize or :eval")))
                 " "))))
 
     (project-mode-line
-     (:eval (unless (derived-mode-p '(agent-shell-mode gnus-mode eww-mode term-mode))
-              (when-let ((fmt (project-mode-line-format)))
-                (concat fmt "::")))))
+     (:eval (when-let ((fmt (and (not (derived-mode-p '(agent-shell-mode gnus-mode eww-mode term-mode)))
+                                 (project-mode-line-format))))
+              (concat fmt "::"))))
 
     (:eval (format-mode-line mode-line-buffer-identification)))
   "Mode line construct containing all entries that should be centered. By
