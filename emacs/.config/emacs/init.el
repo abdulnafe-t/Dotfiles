@@ -349,9 +349,9 @@
                                             "--pretty"
                                             "--completion-style=detailed")))
   (add-to-list 'auto-mode-alist '("\\.h$" . c++-mode))
-  (add-to-list 'eglot-ignored-server-capabilities :documentOnTypeFormattingProvider)
-  (add-to-list 'eglot-ignored-server-capabilities :documentHighlightProvider)
   (add-to-list 'eglot-ignored-server-capabilities :inlayHintProvider)
+  (add-to-list 'eglot-ignored-server-capabilities :documentHighlightProvider)
+  (add-to-list 'eglot-ignored-server-capabilities :documentOnTypeFormattingProvider)
 
   :custom
   (eglot-autoshutdown t)
@@ -359,7 +359,14 @@
   (eglot-sync-connect nil)
   (eglot-code-action-indications '(margin))
   (eglot-semantic-token-types '("macro" "property" "parameter" "enumMember"))
-  (eglot-semantic-token-modifiers '("static")))
+  (eglot-semantic-token-modifiers '("static"))
+  (eglot-mode-line-format
+   '(("󱉟 "
+      eglot-mode-line-menu
+      eglot-mode-line-error
+      eglot-mode-line-pending-requests
+      eglot-mode-line-progress
+      eglot-mode-line-action-suggestion))))
 
 (add-hook 'c++-ts-mode-hook
           (lambda ()

@@ -142,10 +142,7 @@ all constructs following this one are centered.")
     (:eval
      (when (mode-line-window-selected-p)
        (format-mode-line mode-line-position)))
-
-    (:eval (when (and which-function-mode
-                      (mode-line-window-selected-p))
-             (concat "    " (format-mode-line which-func-format) "     "))))
+    "    ")
   "Mode line construct containing all entries that should be left-aligned."
   :type '(repeat (choice (string :tag "Literal text to display in the mode line")
                          (sexp :tag "Sexp to pass on to ‘format-mode-line’, which see. For example, this can
@@ -180,32 +177,9 @@ see)."
 be a list whose car is one of the keywords :propertize or :eval")))
   :group 'scion/mode-line)
 
-(defvar scion/eglot-mode-line-format
-  '(("󱉟 "
-     eglot-mode-line-menu
-     eglot-mode-line-error
-     eglot-mode-line-pending-requests
-     eglot-mode-line-progress
-     eglot-mode-line-action-suggestion))
-  "List of mode line constructs to display for ‘eglot’.")
-
-(defun scion/mode-line-eglot()
-"Mode line construct for ‘eglot’."
-(cl-loop for e in scion/eglot-mode-line-format
-         for render = (format-mode-line e)
-         unless (string= render "")
-         collect (cons render
-                       (eq e 'eglot-mode-line-menu))
-         into rendered
-         finally
-         (return (cl-loop for (rspec . rest) on rendered
-                          for (r . titlep) = rspec
-                          concat r
-                          when rest concat (if titlep ":" "/")))))
-
 (defcustom mode-line-align-right
   '(""
-    (:eval (when (bound-and-true-p eglot--managed-mode) (scion/mode-line-eglot)))
+    mode-line-misc-info
     "  "
     vc-mode
     "  "
