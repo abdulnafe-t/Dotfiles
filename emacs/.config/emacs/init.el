@@ -532,7 +532,7 @@
     "Restore source buffers after GDB exits."
     (when (and (derived-mode-p 'prog-mode)
                (eq gud-minor-mode 'gdbmi))
-      (setq-local mode-line-format-center '(:eval (mode--line-format-center))
+      (setq-local mode-line-format-center (default-value 'mode-line-format-center)
                   column-number-mode 1
                   line-number-mode 1)
       (display-line-numbers-mode -1)
