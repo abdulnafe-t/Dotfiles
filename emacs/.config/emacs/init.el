@@ -496,14 +496,6 @@
 
   (setopt dired-preview-display-action-alist #'my-dired-preview-to-the-right))
 
-(use-package dired-subtree
-  :ensure t
-  :after dired
-  :bind (:map dired-mode-map
-        ("<tab>" . dired-subtree-toggle))
-  :custom
-  (dired-subtree-line-prefix "      "))
-
 (use-package diredfl
   :ensure t
   :after dired
@@ -1201,14 +1193,14 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(agent-shell auctex avy beginend closql csharp-mode dired-preview dired-subtree diredfl
-                 ef-themes eglot eldoc-box elfeed-tube embark-consult expand-region forge
-                 ghub highlight-doxygen hydra jinx json-mode lem lorem-ipsum magit
-                 marginalia minions move-text multiple-cursors nerd-icons-completion
-                 nerd-icons-dired no-littering olivetti orderless org-appear org-bullets
-                 page-break-lines pdf-tools posframe pulsar rust-mode show-font tramp
-                 tuareg typescript-mode vertico vundo wallpaper whole-line-or-region
-                 wiki-summary ws-butler yaml yasnippet))
+   '(agent-shell auctex avy beginend closql csharp-mode dired-preview diredfl ef-themes eglot
+                 eldoc-box elfeed-tube embark-consult expand-region forge ghub
+                 highlight-doxygen hydra jinx json-mode lem lorem-ipsum magit marginalia
+                 minions move-text multiple-cursors nerd-icons-completion nerd-icons-dired
+                 no-littering olivetti orderless org-appear org-bullets page-break-lines
+                 pdf-tools posframe pulsar rust-mode show-font tramp tuareg
+                 typescript-mode vertico vundo wallpaper whole-line-or-region wiki-summary
+                 ws-butler yaml yasnippet))
  '(send-mail-function 'smtpmail-send-it))
 
 (custom-set-faces
