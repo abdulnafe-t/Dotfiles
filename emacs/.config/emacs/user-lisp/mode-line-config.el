@@ -180,7 +180,7 @@ be a list whose car is one of the keywords :propertize or :eval")))
 (defcustom mode-line-align-right
   '(""
     mode-line-misc-info
-    "  "
+    " "
     vc-mode
     "  "
     mode-line-modes)

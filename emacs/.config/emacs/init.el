@@ -368,6 +368,13 @@
       eglot-mode-line-progress
       eglot-mode-line-action-suggestion))))
 
+(with-eval-after-load 'eglot
+  (let ((entry (assq 'eglot--managed-mode mode-line-misc-info)))
+    (when entry
+      (let ((fmt (cadr entry)))
+        (setcar fmt " ") ; Remove "["
+        (setcar (last fmt) " "))))) ; Remove "]"
+
 (add-hook 'c++-ts-mode-hook
           (lambda ()
             (setopt c-ts-mode-indent-offset 6
