@@ -776,9 +776,8 @@
   :config
   (setopt consult-async-min-input 2)
 
-  (let ((entry (assoc 'perl consult-async-split-styles-alist)))
-    (when entry
-      (setf (cadr (memq :initial entry)) ?$)))
+  (when-let ((entry (assoc 'perl consult-async-split-styles-alist)))
+    (setf (cadr (memq :initial entry)) ?$))
 
   (defun consult-find-file-with-preview (prompt &optional dir default mustmatch initial pred)
     (interactive)
@@ -842,10 +841,9 @@
               (hl (orderless--highlight input t (copy-sequence fname))))
          (let ((pos 0))
            (while (< pos (length hl))
-             (let* ((next (or (next-property-change pos hl) (length hl)))
-                    (face (get-text-property pos 'face hl)))
-               (when face
-                 (add-text-properties (+ start pos) (+ start next) `(face ,face) str))
+             (when-let* ((next (or (next-property-change pos hl) (length hl)))
+                         (face (get-text-property pos 'face hl)))
+               (add-text-properties (+ start pos) (+ start next) `(face ,face) str)
                (setq pos next)))
            str))))))
 
