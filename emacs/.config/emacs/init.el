@@ -177,7 +177,11 @@
 (setq-default cursor-type 'box
               cursor-in-non-selected-windows nil)
 
-(add-to-list 'default-frame-alist '(alpha-background . 0.8))
+(setopt elisp-fontify-semantically t
+        font-lock-maximum-decoration t
+        treesit-font-lock-level 3)
+
+;; (add-to-list 'default-frame-alist '(alpha-background . 0.8))
 
 ;;;; Style: fringe indicators & window dividers
 (setq-default window-divider-default-right-width 3)
@@ -289,8 +293,6 @@
 (load "~/.config/emacs/org-config")
 
 ;;; Programming
-
-(setopt treesit-font-lock-level 3)
 
 (use-package autoinsert
   ; Builtin, used to automatically insert header guards & #include macros when a header
