@@ -371,11 +371,10 @@
       eglot-mode-line-action-suggestion))))
 
 (with-eval-after-load 'eglot
-  (let ((entry (assq 'eglot--managed-mode mode-line-misc-info)))
-    (when entry
-      (let ((fmt (cadr entry)))
-        (setcar fmt " ") ; Remove "["
-        (setcar (last fmt) " "))))) ; Remove "]"
+  (when-let* ((entry (assq 'eglot--managed-mode mode-line-misc-info))
+              (fmt (cadr entry)))
+    (setcar fmt " ") ; Remove "["
+    (setcar (last fmt) " "))) ; Remove "]"
 
 (add-hook 'c++-ts-mode-hook
           (lambda ()
