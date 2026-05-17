@@ -5,6 +5,9 @@
 (unless (server-running-p)
   (server-start))
 
+;;; Emacs source code
+(setq find-function-C-source-directory "~/Etc/Programs/emacs-c-code")
+
 ;;; General emacs settings
 (setopt inhibit-splash-screen t
         initial-scratch-message nil
