@@ -13,7 +13,9 @@
 
   :config
 
-   (add-hook 'elfeed-new-entry-hook (elfeed-make-tagger :entry-link "youtube\\.com/shorts/"
+  (remove-hook 'elfeed-search-update-hook #'elfeed-search-add-separators)
+
+  (add-hook 'elfeed-new-entry-hook (elfeed-make-tagger :entry-link "youtube\\.com/shorts/"
                                                        :add '(read shorts junk)
                                                        :remove 'unread)) ; FIXME: replace
                                                                          ; with :hook
