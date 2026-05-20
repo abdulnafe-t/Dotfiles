@@ -209,6 +209,8 @@
 ;;;; Style: modeline
 (require 'mode-line-config)
 
+(load "~/.config/emacs/season-colors.el")
+
 ;;;; Style: theme
 (use-package ef-themes
   :ensure t
@@ -222,11 +224,11 @@
           modus-themes-prompts '(ultrabold)
 
           modus-themes-common-palette-overrides
-          '((string red-faint)
+          `((string red-faint)
             (comment fg-dim)
             (bg-hover nil)
-            (bg-mode-line-active "#47248e")
-            (cursor "#b57281")))
+            (bg-mode-line-active ,season-dim)
+            (cursor ,season-bright)))
 
   (modus-themes-load-theme 'ef-dark))
 
