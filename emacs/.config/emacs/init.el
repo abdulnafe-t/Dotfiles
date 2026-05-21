@@ -781,7 +781,7 @@
   :config
   (setopt consult-async-min-input 2)
 
-  (when-let ((entry (assoc 'perl consult-async-split-styles-alist)))
+  (when-let* ((entry (assoc 'perl consult-async-split-styles-alist)))
     (setf (cadr (memq :initial entry)) ?$))
 
   (defun consult-find-file-with-preview (prompt &optional dir default mustmatch initial pred)
@@ -987,7 +987,7 @@
                (when (= (mod N per-row) 0) (push "\n" display-strings)))
       (message "%s" (apply #'concat (nreverse display-strings)))))
 
-  (when-let ((entry (assoc ?n avy-dispatch-alist)))
+  (when-let* ((entry (assoc ?n avy-dispatch-alist)))
     (setcar entry ?c))
   (setf (alist-get ?y avy-dispatch-alist) 'avy-action-yank
         (alist-get ?Y avy-dispatch-alist) 'avy-action-yank-whole-line
