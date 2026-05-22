@@ -102,10 +102,12 @@
               sentence-end-double-space nil)
 
 ;; Replace tabs with spaces
-(add-hook 'prog-mode-hook
-          (lambda ()
-            (unless (derived-mode-p 'makefile-gmake-mode)
-              (indent-tabs-mode -1))))
+(defun scion/disable-tabs ()
+  "Use spaces and not tabs for indentation, unless in ‘makefile-gmake-mode’"
+  (unless (derived-mode-p 'makefile-gmake-mode)
+    (indent-tabs-mode -1)))
+
+(add-hook 'prog-mode-hook #'scion/disable-tabs)
 
 (global-auto-revert-mode 1)
 (global-so-long-mode 1)
@@ -196,16 +198,16 @@
                          (assq-delete-all 'continuation
                                           fringe-indicator-alist)))
 
-(add-hook 'window-configuration-change-hook
-          (lambda ()
-            (unless (display-graphic-p)
-              (let ((display-table (or buffer-display-table
-                                       standard-display-table)))
-                (set-display-table-slot display-table 'vertical-border ?┃) ; Replace pipe
-                                                                           ; with box
-                                                                           ; segment
-                (set-display-table-slot display-table 'truncation ? ))))) ; Replace $ with
-                                                                          ; space
+(defun scion/modernize-tty ()
+  "Replace window borders and special glyphs with more modern looking alternatives."
+  (unless (display-graphic-p)
+    (let ((display-table (or buffer-display-table
+                             standard-display-table)))
+      (set-display-table-slot display-table 'vertical-border ?┃) ; Replace pipe with box
+                                                                 ; segment
+      (set-display-table-slot display-table 'truncation ? )))) ; Replace $ with space
+
+(add-hook 'window-configuration-change-hook #'scion/modernize-tty)
 
 ;;;; Style: modeline
 (require 'mode-line-config)
@@ -266,14 +268,16 @@
    gnus-group-mode-hook
    tabulated-list-mode-hook))
 
-(add-hook 'hl-line-mode-hook
-          (lambda ()
-            (unless (derived-mode-p 'hexl-mode)
-              (visual-line-mode -1)
-              (toggle-truncate-lines 1)
-              (setq-local cursor-type nil
-                          column-number-mode (not hl-line-mode)
-                          line-move-visual nil))))
+(defun scion/disable-visual-line-mode ()
+  "Disable ‘visual-line-mode’ and associated modes."
+  (unless (derived-mode-p 'hexl-mode)
+    (visual-line-mode -1)
+    (toggle-truncate-lines 1)
+    (setq-local cursor-type nil
+                column-number-mode (not hl-line-mode)
+                line-move-visual nil)))
+
+(add-hook 'hl-line-mode-hook #'scion/disable-visual-line-mode)
 
 (advice-add #'grep-change-to-grep-edit-mode
             :after (lambda()
@@ -382,18 +386,22 @@
     (setcar fmt " ") ; Remove "["
     (setcar (last fmt) " "))) ; Remove "]"
 
-(add-hook 'c++-ts-mode-hook
-          (lambda ()
-            (setopt c-ts-mode-indent-offset 6
-                    indent-tabs-mode nil)
-            (setq-local compile-command "cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -S ./src -B ./build && cmake --build ./build")
-            (keymap-set c-ts-base-mode-map "RET" #'electric-indent-just-newline)
-            (keymap-set c-ts-base-mode-map "C-c C-c" #'compile)
-            (keymap-set c-ts-base-mode-map "C-c c" #'compile)))
+(defun scion/c++-config ()
+  "Set custom C++ options."
+  (setopt c-ts-mode-indent-offset 6
+          indent-tabs-mode nil)
+  (setq-local compile-command "cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -S ./src -B ./build && cmake --build ./build")
+  (keymap-set c-ts-base-mode-map "RET" #'electric-indent-just-newline)
+  (keymap-set c-ts-base-mode-map "C-c C-c" #'compile)
+  (keymap-set c-ts-base-mode-map "C-c c" #'compile))
 
-(add-hook 'eglot-managed-mode-hook
-          (lambda ()
-            (setq-local eldoc-documentation-strategy 'eldoc-documentation-compose-eagerly)))
+(add-hook 'c++-ts-mode-hook #'scion/c++-config)
+
+(defun scion/eglot-config ()
+  "Set custom eglot options."
+  (setq-local eldoc-documentation-strategy 'eldoc-documentation-compose-eagerly))
+
+(add-hook 'eglot-managed-mode-hook #'scion/eglot-config)
 
 (add-to-list 'auto-mode-alist '("\\.clang\\(-\\(format\\|tidy\\)\\|d\\)" . conf-mode))
 
@@ -631,12 +639,9 @@
 (put 'dired-find-alternate-file 'disabled nil)
 
 ;; Enable mouse navigation between visited help-mode topics
-(add-hook 'help-mode-hook
-          (lambda ()
-            (keymap-set help-mode-map
-                        "<mouse-9>" #'help-go-forward)
-            (keymap-set help-mode-map
-                        "<mouse-8>" #'help-go-back)))
+(with-eval-after-load 'help-mode
+  (keymap-set help-mode-map "<mouse-9>" #'help-go-forward)
+  (keymap-set help-mode-map "<mouse-8>" #'help-go-back))
 
 ;;;; Extensions: ‘multiple-cursors’
 (use-package multiple-cursors
