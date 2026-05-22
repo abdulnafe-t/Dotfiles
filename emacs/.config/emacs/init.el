@@ -360,7 +360,6 @@
                                             "--log=verbose"
                                             "--pretty"
                                             "--completion-style=detailed")))
-  (add-to-list 'auto-mode-alist '("\\.h$" . c++-mode))
   (add-to-list 'eglot-ignored-server-capabilities :inlayHintProvider)
   (add-to-list 'eglot-ignored-server-capabilities :documentHighlightProvider)
   (add-to-list 'eglot-ignored-server-capabilities :documentOnTypeFormattingProvider)
