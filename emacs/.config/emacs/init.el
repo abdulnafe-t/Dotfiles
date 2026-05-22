@@ -1038,7 +1038,7 @@
     ("d" dired "Dired" :color blue :column "Buffer")
     ("C-d" dired "Dired" :color blue :column "Buffer")
     ("0" delete-window "Delete current window" :color blue :column "Windows")
-    ("1" zygospore-toggle-delete-other-windows "Toggle other windows" :color blue :column "Windows")
+    ("1" zygospore-toggle-delete-other-windows "Toggle other windows" :column "Windows")
     ("2" split-window-below "Split window below" :column "Windows")
     ("3" split-window-right "Split window to the right" :column "Windows")
     ("q" nil "Quit" :column "Quit")
