@@ -47,7 +47,7 @@
 (defvar line-count-mode-line-indicator
   '(line-count-mode (:eval (concat line-count-mode-line-space
                                    (format line-count-mode-line-format
-                                           (count-lines (point-min) (point-max))
+                                           (line-number-at-pos (point-max))
                                            fill-column))))
   "Mode line construct used by ‘line-count-mode’.")
 
