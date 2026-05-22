@@ -17,6 +17,7 @@
         project-mode-line t
         mode-line-position-column-line-format '("%6l:%2C")
 
+        find-file-visit-truename t
         view-read-only t
         delete-by-moving-to-trash t
         save-interprogram-paste-before-kill t
