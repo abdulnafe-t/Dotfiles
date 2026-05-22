@@ -502,7 +502,6 @@
 
   :config
   (setopt dired-preview-ignored-extensions-regexp nil)
-          ;; (replace-regexp-in-string (regexp-quote "\\|pdf") "" dired-preview-ignored-extensions-regexp))
 
   (defun my-dired-preview-to-the-right ()
     '((display-buffer-in-side-window)
@@ -594,10 +593,22 @@
   (setopt jinx-languages "en_US"
           jinx-camel-modes t)
 
-  (dolist (r '("\\([[:xdigit:]]\\{3\\}\\|[[:xdigit:]]\\{6\\}\\|[[:xdigit:]]\\{8\\}\\)\\>"
-                                        ; Don't spellcheck hex colors: #RGB, #RRGGBB, and #RRGGBBAA
-               "\\<[[:alnum:]]*\\.[[:alnum:]]+\\>"      ; Don't spellcheck file names/extensions
-               ))
+  (dolist (r `( ,(rx ; Don't spellcheck hex colors: #RGB, #RRGGBB, and #RRGGBBAA
+                  (seq
+                   (group (or
+                           (= 3 xdigit)
+                           (= 6 xdigit)
+                           (= 8 xdigit)))
+                   eow))
+
+
+                ,(rx ; Don't spellcheck file names/extensions
+                  (seq
+                   bow
+                   (zero-or-more alnum)
+                   "."
+                   (one-or-more alnum)
+                   eow))))
     (push r (cdr (assoc t jinx-exclude-regexps))))
 
   (defun scion/jinx-skip-path-p (start)
@@ -1116,6 +1127,9 @@
           minions-mode-line-lighter " "
           minions-prominent-modes '(flymake-mode)))
 
+;;;; Extensions: ‘xr’
+(use-package xr)
+
 ;;;; Extensions: ‘beginend’
 (use-package beginend
   :ensure t
@@ -1197,7 +1211,7 @@
                  no-littering olivetti orderless org-appear org-bullets page-break-lines
                  pdf-tools posframe pulsar rust-mode show-font tramp tuareg
                  typescript-mode vertico vundo wallpaper whole-line-or-region wiki-summary
-                 ws-butler yaml yasnippet zygospore))
+                 ws-butler xr yaml yasnippet zygospore))
  '(send-mail-function 'smtpmail-send-it))
 
 (custom-set-faces
