@@ -1173,16 +1173,12 @@
 
 ;;; Misc: ‘fortune’
 
-(setopt fortune-dir "/usr/share/fortune/")
-
-(defun scion/fortune-q-quit-window (&optional _file)
-  "Add q to quit the *fortune* buffer after it displays."
-  (with-current-buffer (get-buffer fortune-buffer-name)
-    (unless (current-local-map)
-      (use-local-map (make-sparse-keymap)))
-    (keymap-set (current-local-map) "q" #'quit-window)))
-
-(advice-add 'fortune :after #'scion/fortune-q-quit-window)
+(use-package fortune
+  :custom
+  (fortune-dir "/usr/share/fortune/")
+  :config
+  (advice-add 'fortune :after (lambda (&optional _file)
+                                (view-mode 1))))
 
 ;;; Custom faces
 
