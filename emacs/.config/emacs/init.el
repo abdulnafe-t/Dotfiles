@@ -591,14 +591,6 @@
                ))
     (push r (cdr (assoc t jinx-exclude-regexps))))
 
-  ;; Fix URL matching. The builtin regex for URLs fails for
-  ;; "https://www.youtube.com/feeds/videos.xml?channel_id=XXxx", where the ‘XXxx’ gets
-  ;; tagged as a misspelling.
-  (setf (cdr (assoc t jinx-exclude-regexps))
-        (cons "[a-z]+://\\S-+\\>"
-              (delete "[a-z]+://\\S-+"
-                      (cdr (assoc t jinx-exclude-regexps)))))
-
   (defun scion/jinx-skip-path-p (start)
     "Skip if the preceding text forms an absolute path.
      Meant to be used in jinx--predicates to skip file paths."
