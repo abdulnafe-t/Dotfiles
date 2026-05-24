@@ -36,8 +36,6 @@
 
 (push '(fullscreen . maximized) default-frame-alist)
 
-(push '(background-color . "black") default-frame-alist)
-
 ;;;; ‘Melpa’
 (progn
   (require 'package)
