@@ -4,24 +4,24 @@
   `((t (:box nil :inherit default :weight normal :background "#2f2c39")))
   "Face for hl-line, as well as the minibuffer (vertico et al.).")
 
-(defface scion-dir-face
-  `((t (:foreground ,(face-background 'cursor))))
-  "Face for directories.")
-
 (defface scion-font-lock-auto '((t (:inherit font-lock-type-face :slant italic :weight normal)))
   "Custom face for the C++ ‘auto’ keyword.")
 
 (defface scion-font-lock-this-ptr '((t (:foreground "#00609b" :slant normal :weight bold)))
   "Custom face for the C++ ‘this’ pointer.")
 
-(defface scion-date '((t (:foreground "#00a692")))
-  "Face for the date in the gnus summary buffer.")
+(modus-themes-with-colors
+  (defface scion-author `((t (:foreground ,mail-recipient)))
+    "Face for author of an article in the gnus summary buffer.")
 
-(defface scion-author `((t (:foreground "#e580ea")))
-  "Face for author of an article in the gnus summary buffer.")
+  (defface scion-date `((t (:foreground ,date-common)))
+    "Face for the date in the gnus summary buffer.")
 
-(defface scion-dummy '((t (:foreground "#80baea" :slant italic)))
-  "Face for dummy articles in the gnus summary buffer.")
+  (defface scion-dummy `((t (:foreground ,fg-alt :slant italic)))
+    "Face for dummy articles in the gnus summary buffer.")
+
+  (defface scion-dir-face `((t (:foreground ,cursor)))
+    "Face for directories."))
 
 (setq gnus-face-1 'scion-date
       gnus-face-2 'scion-author
