@@ -23,13 +23,9 @@
 (defface scion-dummy '((t (:foreground "#80baea" :slant italic)))
   "Face for dummy articles in the gnus summary buffer.")
 
-(defface scion-subject '((t (:weight normal)))
-  "Face for subject of an article in the gnus summary buffer.")
-
 (setq gnus-face-1 'scion-date
       gnus-face-2 'scion-author
-      gnus-face-3 'scion-dummy
-      gnus-face-4 'scion-subject)
+      gnus-face-3 'scion-dummy)
 
 (add-hook 'c++-ts-mode-hook
           (lambda()
