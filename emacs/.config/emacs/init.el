@@ -220,19 +220,20 @@
   :demand t
   :init
   (ef-themes-take-over-modus-themes-mode 1)
+  :custom
+  (modus-themes-mixed-fonts t)
+  (modus-themes-bold-constructs t)
+  (modus-themes-italic-constructs t)
+  (modus-themes-prompts '(ultrabold))
+
+  (ef-dark-palette-overrides
+   `((string red-faint)
+     (comment fg-dim)
+     (bg-hover nil)
+     (bg-mode-line-active ,season-dim)
+     (cursor ,season-bright)))
+
   :config
-  (setopt modus-themes-mixed-fonts t
-          modus-themes-bold-constructs t
-          modus-themes-italic-constructs t
-          modus-themes-prompts '(ultrabold)
-
-          modus-themes-common-palette-overrides
-          `((string red-faint)
-            (comment fg-dim)
-            (bg-hover nil)
-            (bg-mode-line-active ,season-dim)
-            (cursor ,season-bright)))
-
   (modus-themes-load-theme 'ef-dark))
 
 ;;;; Style: Pulsar
