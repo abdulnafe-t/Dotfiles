@@ -233,8 +233,22 @@
      (bg-mode-line-active ,season-dim)
      (cursor ,season-bright)))
 
+  (ef-night-palette-overrides
+   `((bg-main "#000000")
+     (string red-faint)
+     (comment fg-dim)
+     (bg-hover nil)
+     (cursor ,season-bright)))
+
+  (ef-melissa-dark-palette-overrides
+   `((bg-main "#000000")
+     (string red-faint)
+     (comment fg-dim)
+     (bg-hover nil)
+     (cursor ,season-bright)))
+
   :config
-  (modus-themes-load-theme 'ef-dark))
+  (modus-themes-load-theme season-theme))
 
 ;;;; Style: Pulsar
 (use-package pulsar
