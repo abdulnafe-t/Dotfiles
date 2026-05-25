@@ -14,11 +14,13 @@
 
 (use-package org-bullets
   :ensure t
+  :after org
   :hook
-  (org-mode-hook . (lambda () (org-bullets-mode 1))))
+  (org-mode-hook . org-bullets-mode))
 
 (use-package org-appear
   :ensure t
+  :after org
   :hook
   (org-mode-hook . org-appear-mode))
 
@@ -26,14 +28,11 @@
   :ensure t
   :hook
   (olivetti-mode-on-hook . (lambda ()
-                             (setq-local cursor-type 'bar)
-                             ))
+                             (setq-local cursor-type 'bar)))
 
   (olivetti-mode-off-hook . (lambda ()
-                              (setq-local cursor-type t)
-                              ))
+                              (setq-local cursor-type t)))
 
   :config
   (setopt olivetti-style nil
-          olivetti-body-width 72)
-  )
+          olivetti-body-width 72))
