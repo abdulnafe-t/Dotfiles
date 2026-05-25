@@ -27,11 +27,11 @@ documentation string before other info."
   "Annotate package CAND with its description summary. Display
 documentation string before other info."
   (when-let* ((pkg-alist (bound-and-true-p package-alist))
-	      ;; See ‘package-get-version’.
-	      (name (replace-regexp-in-string
+              ;; See ‘package-get-version’.
+              (name (replace-regexp-in-string
                      "-[0-9]\\(?:[0-9.]\\|pre\\|beta\\|alpha\\|snapshot\\)+\\'" "" cand))
-	      (pkg (intern-soft name))
-	      (desc (or (unless (equal name cand)
+              (pkg (intern-soft name))
+              (desc (or (unless (equal name cand)
                           (cl-loop with version = (substring cand (1+ (length name)))
                                    for d in (alist-get pkg pkg-alist)
                                    if (equal (package-version-join
@@ -47,10 +47,10 @@ documentation string before other info."
      ((package-desc-summary desc) :truncate 1.0 :face 'marginalia-documentation)
      ((cond
        ((package-desc-archive desc)
-	(propertize (package-desc-archive desc) 'face 'marginalia-archive))
+        (propertize (package-desc-archive desc) 'face 'marginalia-archive))
        (t (propertize
-	   (or (package-desc-status desc) "orphan")
-	   'face 'marginalia-installed)))
+           (or (package-desc-status desc) "orphan")
+           'face 'marginalia-installed)))
       :truncate 12)
      ((package-version-join
        (package-desc-version desc))

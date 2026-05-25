@@ -153,10 +153,10 @@
 
 (if (daemonp)
     (add-hook 'after-make-frame-functions
-	      (defun scion/faces-init-daemon (frame)
-		(with-selected-frame frame
-		  (scion/set-custom-faces))
-		(remove-hook 'after-make-frame-functions
-			     #'scion/faces-init-daemon)
-		(fmakunbound 'scion/faces-init-daemon)))
+              (defun scion/faces-init-daemon (frame)
+                (with-selected-frame frame
+                  (scion/set-custom-faces))
+                (remove-hook 'after-make-frame-functions
+                             #'scion/faces-init-daemon)
+                (fmakunbound 'scion/faces-init-daemon)))
   (scion/set-custom-faces))

@@ -6,10 +6,10 @@
 ;;; https://lucidmanager.org/productivity/ricing-org-mode/
 
 (setopt org-hide-emphasis-markers t
-	org-startup-indented t
-	org-pretty-entities t
-	org-use-sub-superscripts '{}
-	org-startup-with-inline-images t
+        org-startup-indented t
+        org-pretty-entities t
+        org-use-sub-superscripts '{}
+        org-startup-with-inline-images t
         org-image-actual-width '(300))
 
 (use-package org-bullets
