@@ -1,13 +1,21 @@
 #!/usr/bin/bash
 
-month=$(date +%m)
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    -s|--season) season="$2"; shift 2 ;;
+    *) echo "Unknown flag: $1"; shift ;;
+  esac
+done
 
-case "$month" in
-  12|01|02) season=winter ;;
-  03|04|05) season=spring ;;
-  06|07|08) season=summer ;;
-  09|10|11) season=fall ;;
-esac
+if [[ -z "${season:-}" ]]; then
+    month=$(date +%m)
+    case "$month" in
+        12|01|02) season=winter ;;
+        03|04|05) season=spring ;;
+        06|07|08) season=summer ;;
+        09|10|11) season=fall ;;
+    esac
+fi
 
 previous_season=$(cat "$HOME/.local/share/set-season-theme/last-season")
 
