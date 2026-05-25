@@ -7,6 +7,10 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
+if [[ "${season}" == autumn ]]; then
+    season=fall;
+fi
+
 if [[ -z "${season:-}" ]]; then
     month=$(date +%m)
     case "$month" in
