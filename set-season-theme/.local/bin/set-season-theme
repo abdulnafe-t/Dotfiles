@@ -44,6 +44,9 @@ dim="${season}_dim"
 ########## Emacs ############
 #############################
 
+# ef-melissa-dark <-> ef-dream?
+# ef-night <-> ef-winter?
+
 case "$season" in
   winter) theme=ef-night ;;
   spring) theme=ef-dark ;;
