@@ -1201,7 +1201,7 @@
 
 (use-package fortune
   :custom
-  (fortune-dir "/usr/share/fortune/")
+  (fortune-dir "~/Etc/fortunes/")
   :config
   (advice-add 'fortune :after (lambda (&optional _file)
                                 (view-mode 1))))
