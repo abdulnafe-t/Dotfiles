@@ -1103,8 +1103,10 @@
 ;;;; Extensions: ‘page-break-line’
 (use-package page-break-lines
   :ensure t
+  :init
+  (global-page-break-lines-mode 1)
   :config
-  (global-page-break-lines-mode 1))
+  (add-to-list 'page-break-lines-modes 'c-mode))
 
 ;;;; Extensions: ‘highlight-doxygen’
 (use-package highlight-doxygen
