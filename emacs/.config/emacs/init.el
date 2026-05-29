@@ -219,7 +219,7 @@
   :ensure t
   :demand t
   :init
-  (ef-themes-take-over-modus-themes-mode 1)
+  (ef-themes-take-over-modus-themes-mode)
   :custom
   (modus-themes-mixed-fonts t)
   (modus-themes-bold-constructs t)
@@ -261,7 +261,7 @@
           pulsar-tty-color "snow3")
   (push 'kill-visual-line pulsar-pulse-functions)
   :init
-  (pulsar-global-mode 1))
+  (pulsar-global-mode))
 
 (use-package hl-line
   :demand t
@@ -323,7 +323,7 @@
   ; Builtin, used to automatically insert header guards & #include macros when a header
   ; file has the same name as the current (new) C++ file
   :init
-  (auto-insert-mode t)
+  (auto-insert-mode)
   :custom
   (auto-insert-query nil)
   (auto-insert nil))
@@ -360,7 +360,7 @@
 (use-package yasnippet
   :ensure t
   :config
-  (yas-global-mode 1))
+  (yas-global-mode))
 
 (use-package eglot
   :bind
@@ -1114,7 +1114,7 @@
   :custom-face
   (highlight-doxygen-comment ((t (:background unspecified))))
   :config
-  (highlight-doxygen-global-mode 1))
+  (highlight-doxygen-global-mode))
 
 ;;;; Extensions: ‘eldoc-box’
 (use-package eldoc-box
@@ -1166,7 +1166,7 @@
 (use-package whole-line-or-region
   :ensure t
   :init
-  (whole-line-or-region-global-mode 1)
+  (whole-line-or-region-global-mode)
   :config
   (push 'whole-line-or-region-kill-region pulsar-pulse-functions)
   (push 'whole-line-or-region-kill-region pulsar-pulse-region-functions)
@@ -1206,7 +1206,7 @@
   (fortune-dir "~/Etc/fortunes/")
   :config
   (advice-add 'fortune :after (lambda (&optional _file)
-                                (view-mode 1))))
+                                (view-mode))))
 
 ;;; Custom faces
 
