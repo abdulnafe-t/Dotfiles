@@ -90,6 +90,11 @@
     (set-face-attribute 'font-lock-variable-use-face nil :foreground fg-main)
     (set-face-attribute 'font-lock-property-name-face nil :foreground fg-alt)
 
+    (with-eval-after-load 'page-break-lines
+      (set-fontset-font "fontset-default"
+                        (cons page-break-lines-char page-break-lines-char)
+                        (face-attribute 'default :family)))
+
     (with-eval-after-load 'hl-line
       (set-face-attribute 'hl-line nil :background (face-background 'scion-hl-line-face)))
 

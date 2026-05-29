@@ -1104,7 +1104,7 @@
 (use-package page-break-lines
   :ensure t
   :init
-  (global-page-break-lines-mode 1)
+  (global-page-break-lines-mode)
   :config
   (add-to-list 'page-break-lines-modes 'c-mode))
 
