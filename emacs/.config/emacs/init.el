@@ -494,6 +494,8 @@
   :hook
   (dired-mode-hook . dired-omit-mode)
   (dired-mode-hook . turn-on-gnus-dired-mode)
+  :custom
+  (dired-dwim-target t)
   :config
   (setopt dired-auto-revert-buffer t
           dired-dwim-target t
@@ -527,14 +529,7 @@
   (dired-preview-max-size (* 5 (expt 2 20)))
 
   :config
-  (setopt dired-preview-ignored-extensions-regexp nil)
-
-  (defun my-dired-preview-to-the-right ()
-    '((display-buffer-in-side-window)
-      (side . right)
-      (window-width . 0.5)))
-
-  (setopt dired-preview-display-action-alist #'my-dired-preview-to-the-right))
+  (setopt dired-preview-ignored-extensions-regexp nil))
 
 (use-package diredfl
   :ensure t
@@ -1035,6 +1030,10 @@
         (alist-get ?. avy-dispatch-alist) 'avy-action-xref-definitions
         (alist-get ?: avy-dispatch-alist) 'avy-action-xref-references))
 
+;;;; Extensions: ‘zygospore’
+(use-package zygospore
+  :ensure t)
+
 ;;;; Extensions: ‘hydra’
 (use-package hydra
   :ensure t
@@ -1089,8 +1088,10 @@
 
 ;;;; Extensions: ‘expand-region’
 (use-package expand-region
-  :ensure t)
-(keymap-global-set "C-c m" 'er/expand-region)
+  :ensure t
+  :bind
+  (("C-c m" . er/expand-region)
+   ("C-c s" . er/mark-symbol)))
 
 ;;;; Extensions: ‘no-littering’
 (use-package no-littering
@@ -1212,7 +1213,6 @@
   (add-to-list 'show-font-chinese-families "AR PL UMing TW MBE"))
 
 ;;; Misc: ‘fortune’
-
 (use-package fortune
   :custom
   (fortune-dir "~/Etc/fortunes/")
@@ -1232,14 +1232,13 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(agent-shell auctex avy beginend closql csharp-mode dired-preview diredfl ef-themes eglot
-                 eldoc-box elfeed-tube embark-consult expand-region forge ghub
-                 highlight-doxygen hydra jinx json-mode lem lorem-ipsum magit marginalia
-                 minions move-text multiple-cursors nerd-icons-completion nerd-icons-dired
-                 no-littering olivetti orderless org-appear org-bullets page-break-lines
-                 pdf-tools posframe pulsar rust-mode show-font tramp tuareg
-                 typescript-mode vertico vundo wallpaper whole-line-or-region wiki-summary
-                 ws-butler xr yaml yasnippet zygospore))
+   '(agent-shell auctex avy beginend dired-preview diredfl ef-themes eldoc-box elfeed-tube
+                 embark-consult expand-region forge highlight-doxygen hydra jinx json-mode
+                 lorem-ipsum marginalia minions modus-themes move-text multiple-cursors
+                 nerd-icons-completion nerd-icons-dired no-littering olivetti orderless
+                 org-appear org-bullets page-break-lines pdf-tools pulsar show-font tuareg
+                 vertico vundo whole-line-or-region wiki-summary ws-butler xr yasnippet
+                 zygospore))
  '(send-mail-function 'smtpmail-send-it))
 
 (custom-set-faces
