@@ -130,6 +130,13 @@ all constructs following this one are centered.")
 
 (put 'mode-line-format-center 'risky-local-variable t)
 
+(defcustom mode-line-raw-buf-id-mode-list '(agent-shell-mode gnus-mode eww-mode term-mode elfeed-search-mode elfeed-show-mode)
+  "List of major modes in which the buffer id should show neither an icon
+nor a project name."
+
+  :type '(repeat (symbol :tag "Major mode"))
+  :group 'a-t/mode-line)
+
 (defcustom mode-line-align-left
   '("%e"
     " "
@@ -157,11 +164,11 @@ be a list whose car is one of the keywords :propertize or :eval")))
               (nerd-icons-icon-for-mode major-mode)
               (unless (and (project-current)
                            project-mode-line
-                           (not (derived-mode-p '(agent-shell-mode gnus-mode eww-mode term-mode))))
+                           (not (derived-mode-p mode-line-raw-buf-id-mode-list)))
                 " "))))
 
     (project-mode-line
-     (:eval (when-let ((fmt (and (not (derived-mode-p '(agent-shell-mode gnus-mode eww-mode term-mode)))
+     (:eval (when-let ((fmt (and (not (derived-mode-p mode-line-raw-buf-id-mode-list))
                                  (project-mode-line-format))))
               (concat fmt "::"))))
 
