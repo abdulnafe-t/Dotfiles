@@ -351,15 +351,9 @@
   :ensure t
   :hook (prog-mode-hook . ws-butler-mode))
 
-;; Use treesitter for bash, C/C++, etc in order to ensure accurate syntax highlighting
-
-(setq treesit-language-source-alist
-      '((c "https://github.com/tree-sitter/tree-sitter-c")
-        (cpp "https://github.com/tree-sitter/tree-sitter-cpp")
-        (bash "https://github.com/tree-sitter/tree-sitter-bash")
-        (rust "https://github.com/tree-sitter/tree-sitter-rust")))
-
-;; Required to get proper auto-completion (e.g. for () after function names) with eglot &
+;; Extensions: ‘yasnippet’.
+;;
+;;Required to get proper auto-completion (e.g. for () after function names) with eglot &
 ;; clangd
 (use-package yasnippet
   :ensure t
@@ -426,6 +420,71 @@
 (add-hook 'compilation-filter-hook 'ansi-color-compilation-filter)
 (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
 
+;;;; Extensions: ‘GDB’
+(use-package gdb-mi
+  :ensure t
+  :config
+
+  (defun a-t/gdb--configure-source-buffer ()
+    "Configure source buffers during GDB debugging session."
+    (when (and (derived-mode-p 'prog-mode)
+               (eq gud-minor-mode 'gdbmi))
+      (setq-local line-number-mode nil
+                  column-number-mode nil
+                  mode-line-format-center nil)
+      (display-line-numbers-mode 1)
+      (line-count-mode -1)
+      (visual-line-mode -1)))
+
+  (defun a-t/gdb--configure-special-buffer ()
+    "Strip mode-line noise in GDB special buffers."
+    (setq-local line-number-mode nil
+                column-number-mode nil
+                mode-line-format-center nil)
+    (line-count-mode -1)
+    (visual-line-mode -1))
+
+  (defun a-t/gdb--cleanup-source-buffer ()
+    "Restore source buffers after GDB exits."
+    (when (and (derived-mode-p 'prog-mode)
+               (eq gud-minor-mode 'gdbmi))
+      (setq-local mode-line-format-center (default-value 'mode-line-format-center)
+                  column-number-mode 1
+                  line-number-mode 1)
+      (display-line-numbers-mode -1)
+      (line-count-mode 1)))
+
+  (add-hook 'gdb-find-file-hook #'a-t/gdb--configure-source-buffer)
+  (advice-add #'gdb-init-buffer :after #'a-t/gdb--configure-source-buffer)
+  (advice-add #'gdb-reset :before
+              (lambda ()
+                (dolist (buffer (buffer-list))
+                  (with-current-buffer buffer
+                    (a-t/gdb--cleanup-source-buffer)))))
+
+  (advice-add #'gdb :before
+              (lambda (_command-line)
+                (dolist (hook '(gud-mode-hook
+                                gdb-script-mode-hook
+                                gdb-locals-mode-hook
+                                gdb-threads-mode-hook
+                                gdb-registers-mode-hook
+                                gdb-breakpoints-mode-hook
+                                gdb-inferior-io-mode-hook
+                                gdb-frames-mode-hook))
+                  (add-hook hook #'a-t/gdb--configure-special-buffer))))
+
+  (advice-add #'gdb :after (lambda (_command-line)
+                             (gdb-many-windows 1)))
+
+  :custom
+  (gdb-debuginfod-enable-setting nil)
+  (gdb-show-main t)
+  (gud-highlight-current-line t)
+  (gdb-stack-buffer-addresses t)
+  (gdb-restore-window-configuration-after-quit t))
+
+;;;; Extensions: ‘json-’ and ‘markdown-mode’
 (use-package json-mode
   :ensure t
   :config
@@ -434,10 +493,7 @@
 (use-package markdown-mode
   :ensure t)
 
-(use-package tuareg
-  :ensure t)
-
-;; Enable auctex to support common latex packages
+;;;; Extensions: ‘AUCTeX’
 (use-package auctex
   :ensure t
   :hook (LaTeX-mode-hook . TeX-source-correlate-mode)
@@ -466,6 +522,10 @@
 
 (add-hook 'TeX-after-compilation-finished-functions
           #'TeX-revert-document-buffer)
+
+;;;; Extensions: ‘tuareg’
+(use-package tuareg
+  :ensure t)
 
 ;;; Other QOL packages & extensions
 
@@ -540,70 +600,6 @@
   (diredfl-global-mode)
   :custom
   (diredfl-ignore-compressed-flag nil))
-
-;;;; Extensions: ‘GDB’
-(use-package gdb-mi
-  :ensure t
-  :config
-
-  (defun a-t/gdb--configure-source-buffer ()
-    "Configure source buffers during GDB debugging session."
-    (when (and (derived-mode-p 'prog-mode)
-               (eq gud-minor-mode 'gdbmi))
-      (setq-local line-number-mode nil
-                  column-number-mode nil
-                  mode-line-format-center nil)
-      (display-line-numbers-mode 1)
-      (line-count-mode -1)
-      (visual-line-mode -1)))
-
-  (defun a-t/gdb--configure-special-buffer ()
-    "Strip mode-line noise in GDB special buffers."
-    (setq-local line-number-mode nil
-                column-number-mode nil
-                mode-line-format-center nil)
-    (line-count-mode -1)
-    (visual-line-mode -1))
-
-  (defun a-t/gdb--cleanup-source-buffer ()
-    "Restore source buffers after GDB exits."
-    (when (and (derived-mode-p 'prog-mode)
-               (eq gud-minor-mode 'gdbmi))
-      (setq-local mode-line-format-center (default-value 'mode-line-format-center)
-                  column-number-mode 1
-                  line-number-mode 1)
-      (display-line-numbers-mode -1)
-      (line-count-mode 1)))
-
-  (add-hook 'gdb-find-file-hook #'a-t/gdb--configure-source-buffer)
-  (advice-add #'gdb-init-buffer :after #'a-t/gdb--configure-source-buffer)
-  (advice-add #'gdb-reset :before
-              (lambda ()
-                (dolist (buffer (buffer-list))
-                  (with-current-buffer buffer
-                    (a-t/gdb--cleanup-source-buffer)))))
-
-  (advice-add #'gdb :before
-              (lambda (_command-line)
-                (dolist (hook '(gud-mode-hook
-                                gdb-script-mode-hook
-                                gdb-locals-mode-hook
-                                gdb-threads-mode-hook
-                                gdb-registers-mode-hook
-                                gdb-breakpoints-mode-hook
-                                gdb-inferior-io-mode-hook
-                                gdb-frames-mode-hook))
-                  (add-hook hook #'a-t/gdb--configure-special-buffer))))
-
-  (advice-add #'gdb :after (lambda (_command-line)
-                             (gdb-many-windows 1)))
-
-  :custom
-  (gdb-debuginfod-enable-setting nil)
-  (gdb-show-main t)
-  (gud-highlight-current-line t)
-  (gdb-stack-buffer-addresses t)
-  (gdb-restore-window-configuration-after-quit t))
 
 ;;;; Extensions: ‘jinx’
 (use-package jinx
@@ -912,6 +908,7 @@
 
 (use-package nerd-icons-dired
   :ensure t
+  :after (nerd-icons dired)
   :hook
   (dired-mode-hook . nerd-icons-dired-mode))
 
