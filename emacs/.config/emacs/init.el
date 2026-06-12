@@ -908,7 +908,17 @@
 ;;;; Extensions: ‘nerd-icons’
 (use-package nerd-icons
   :ensure t
-  :demand t)
+  :demand t
+
+  :config
+  (dolist (entry '(("^Videos$"    nerd-icons-mdicon "nf-md-folder_play")
+                   ("^Projects$"  nerd-icons-mdicon "nf-md-folder_open")
+                   ("^Public$"    nerd-icons-mdicon "nf-md-earth")
+                   ("^Templates$" nerd-icons-mdicon "nf-md-folder_file")
+                   ("^Games$"     nerd-icons-mdicon "nf-md-gamepad_variant")
+                   ("^Projects$" nerd-icons-octicon "nf-oct-project_roadmap")
+                   ("^Etc$"       nerd-icons-mdicon "nf-md-dice_multiple")))
+    (add-to-list 'nerd-icons-dir-icon-alist entry)))
 
 (use-package nerd-icons-dired
   :ensure t
