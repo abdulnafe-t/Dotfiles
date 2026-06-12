@@ -8,7 +8,7 @@
 ;;; Emacs source code
 (setq find-function-C-source-directory "~/Etc/Programs/emacs-c-code")
 
-;;; General emacs settings
+;;; General Emacs settings
 (setopt inhibit-splash-screen t
         initial-scratch-message nil
         visible-bell nil
@@ -624,7 +624,6 @@
                            (= 6 xdigit)
                            (= 8 xdigit)))
                    eow))
-
 
                 ,(rx ; Don't spellcheck file names/extensions
                   (seq
