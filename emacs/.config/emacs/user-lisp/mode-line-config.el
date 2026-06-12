@@ -154,9 +154,7 @@ be a list whose car is one of the keywords :propertize or :eval")))
                       (or (not (display-graphic-p))
                           (not (derived-mode-p 'gnus-mode)))) ; TODO: make this into a minor mode
              (concat
-              (propertize (nerd-icons-icon-for-mode major-mode)
-                          'display '(raise 0.1))
-
+              (nerd-icons-icon-for-mode major-mode)
               (unless (and (project-current)
                            project-mode-line
                            (not (derived-mode-p '(agent-shell-mode gnus-mode eww-mode term-mode))))
