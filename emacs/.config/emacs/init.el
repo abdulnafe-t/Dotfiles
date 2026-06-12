@@ -1198,12 +1198,36 @@
 ;;;; Extensions: ‘whole-line-or-region’
 (use-package whole-line-or-region
   :ensure t
+
   :init
   (whole-line-or-region-global-mode)
+
   :config
   (push 'whole-line-or-region-kill-region pulsar-pulse-functions)
   (push 'whole-line-or-region-kill-region pulsar-pulse-region-functions)
-  (push 'whole-line-or-region-kill-ring-save pulsar-pulse-region-functions))
+  (push 'whole-line-or-region-kill-ring-save pulsar-pulse-region-functions)
+
+  ;; Based on
+  ;; https://github.com/purcell/whole-line-or-region/issues/16#issuecomment-870494559
+  (defun a-t/comment-whole-line-or-region (prefix)
+    "Wrapper around ‘whole-line-or-region-comment-dwim-2’.
+
+The original function does nothing on empty lines. This fixes that by
+calling ‘comment-dwim’ in that case."
+
+    (interactive "*P")
+    (if (a-t/current-line-empty-p)
+        (call-interactively 'comment-dwim)
+      (call-interactively 'whole-line-or-region-comment-dwim-2)))
+
+  (defun a-t/current-line-empty-p ()
+    "Check whether the current line is empty."
+    (save-excursion
+      (beginning-of-line)
+      (looking-at-p "[[:blank:]]*$")))
+
+  :bind
+  ("M-;" . a-t/comment-whole-line-or-region))
 
 ;;;; Extensions: ‘wiki-summary’
 (use-package wiki-summary
