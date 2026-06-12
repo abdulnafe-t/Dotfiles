@@ -33,11 +33,11 @@
 
 ;; (declare-function line-count-global-mode "line-count.el")
 
-(defgroup scion/mode-line nil
+(defgroup a-t/mode-line nil
   "Custom mode line with centered content."
   :group 'mode-line)
 
-(defun scion/vc-mode-line-advice (file &optional backend)
+(defun a-t/vc-mode-line-advice (file &optional backend)
   "Replace the prefix of the VC mode line lighter with an icon. Apply a
 face based on VC file state.
 
@@ -62,9 +62,9 @@ BACKEND is the backend to check for version control. Defaults to git."
                                'face face)))
       (setq vc-mode lighter-with-logo))))
 
-(advice-add 'vc-mode-line :after #'scion/vc-mode-line-advice)
+(advice-add 'vc-mode-line :after #'a-t/vc-mode-line-advice)
 
-(defun scion/copy-project-directory ()
+(defun a-t/copy-project-directory ()
   "Copy project directory to kill-ring."
   (interactive)
   (kill-new default-directory))
@@ -147,7 +147,7 @@ all constructs following this one are centered.")
   :type '(repeat (choice (string :tag "Literal text to display in the mode line")
                          (sexp :tag "Sexp to pass on to ‘format-mode-line’, which see. For example, this can
 be a list whose car is one of the keywords :propertize or :eval")))
-  :group 'scion/mode-line)
+  :group 'a-t/mode-line)
 
 (defcustom mode-line-align-middle
   '((:eval (when (and (featurep 'nerd-icons)
@@ -175,7 +175,7 @@ see)."
   :type '(repeat (choice (string :tag "Literal text to display in the mode line")
                          (sexp :tag "Sexp to pass on to ‘format-mode-line’, which see. For example, this can
 be a list whose car is one of the keywords :propertize or :eval")))
-  :group 'scion/mode-line)
+  :group 'a-t/mode-line)
 
 (defcustom mode-line-align-right
   '(""
@@ -188,7 +188,7 @@ be a list whose car is one of the keywords :propertize or :eval")))
   :type '(repeat (choice (string :tag "Literal text to display in the mode line")
                          (sexp :tag "Sexp to pass on to ‘format-mode-line’, which see. For example, this can
 be a list whose car is one of the keywords :propertize or :eval")))
-  :group 'scion/mode-line)
+  :group 'a-t/mode-line)
 
 (setq-default mode-line-format
               (list

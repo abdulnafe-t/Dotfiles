@@ -1,6 +1,6 @@
 ;;; -*- lexical-binding: t -*-
 
-(defun scion/marginalia-annotate-function (cand)
+(defun a-t/marginalia-annotate-function (cand)
   "Annotate function CAND with its documentation string. Display
 documentation string before other info."
   (when-let* ((sym (intern-soft cand)))
@@ -12,7 +12,7 @@ documentation string before other info."
       :truncate 0.5)
      ((marginalia--symbol-class sym) :face 'marginalia-type))))
 
-(defun scion/marginalia-annotate-variable (cand)
+(defun a-t/marginalia-annotate-variable (cand)
   "Annotate variable CAND with its documentation string. Display
 documentation string before other info."
   (when-let* ((sym (intern-soft cand)))
@@ -23,7 +23,7 @@ documentation string before other info."
      ((marginalia--variable-value sym) :truncate 0.5)
      ((marginalia--symbol-class sym) :face 'marginalia-type))))
 
-(defun scion/marginalia-annotate-package (cand)
+(defun a-t/marginalia-annotate-package (cand)
   "Annotate package CAND with its description summary. Display
 documentation string before other info."
   (when-let* ((pkg-alist (bound-and-true-p package-alist))
@@ -56,7 +56,7 @@ documentation string before other info."
        (package-desc-version desc))
       :truncate 16 :face 'marginalia-version))))
 
-(defun scion/marginalia-annotate-symbol (cand)
+(defun a-t/marginalia-annotate-symbol (cand)
   "Annotate symbol CAND with its documentation string. Display
 documentation string before other info."
   (when-let* ((sym (intern-soft cand)))
@@ -75,14 +75,14 @@ documentation string before other info."
      ((marginalia--abbreviate-file-name (or (symbol-file sym) ""))
       :truncate -0.5 :face 'marginalia-file-name))))
 
-(defun scion/marginalia-annotate-imenu (cand)
+(defun a-t/marginalia-annotate-imenu (cand)
   "Annotate imenu CAND with its documentation string. Display documentation
 string before other info."
   (when (derived-mode-p 'emacs-lisp-mode)
     ;; Strip until the last whitespace in order to support flat imenu
-    (scion/marginalia-annotate-symbol (replace-regexp-in-string "\\`.* " "" cand))))
+    (a-t/marginalia-annotate-symbol (replace-regexp-in-string "\\`.* " "" cand))))
 
 (dolist (type '(function variable package symbol imenu))
   (add-to-list 'marginalia-annotators
-               (list type (intern (concat "scion/marginalia-annotate-" (symbol-name type)))
+               (list type (intern (concat "a-t/marginalia-annotate-" (symbol-name type)))
                      'builtin 'none)))

@@ -1,32 +1,32 @@
 ;;; -*- lexical-binding: t -*-
 
-(defface scion-hl-line-face
+(defface a-t-hl-line-face
   `((((background dark)) :box nil :inherit default :weight normal :background "#2f2c39")
     (t (:box nil :inherit default :weight normal :background "#d2d1d7")))
   "Face for hl-line, as well as the minibuffer (vertico et al.).")
 
-(defface scion-font-lock-auto '((t (:inherit font-lock-type-face :slant italic :weight normal)))
+(defface a-t-font-lock-auto '((t (:inherit font-lock-type-face :slant italic :weight normal)))
   "Custom face for the C++ ‘auto’ keyword.")
 
-(defface scion-font-lock-this-ptr '((t (:foreground "#0060ab" :slant normal :weight bold)))
+(defface a-t-font-lock-this-ptr '((t (:foreground "#0060ab" :slant normal :weight bold)))
   "Custom face for the C++ ‘this’ pointer.")
 
 (modus-themes-with-colors
-  (defface scion-author `((t (:foreground ,accent-1)))
+  (defface a-t-author `((t (:foreground ,accent-1)))
     "Face for author of an article in the gnus summary buffer.")
 
-  (defface scion-date `((t (:foreground ,date-common)))
+  (defface a-t-date `((t (:foreground ,date-common)))
     "Face for the date in the gnus summary buffer.")
 
-  (defface scion-dummy `((t (:foreground ,fg-alt :slant italic)))
+  (defface a-t-dummy `((t (:foreground ,fg-alt :slant italic)))
     "Face for dummy articles in the gnus summary buffer.")
 
-  (defface scion-dir-face `((t (:foreground ,cursor)))
+  (defface a-t-dir-face `((t (:foreground ,cursor)))
     "Face for directories."))
 
-(setq gnus-face-1 'scion-date
-      gnus-face-2 'scion-author
-      gnus-face-3 'scion-dummy)
+(setq gnus-face-1 'a-t-date
+      gnus-face-2 'a-t-author
+      gnus-face-3 'a-t-dummy)
 
 (add-hook 'c++-ts-mode-hook
           (lambda()
@@ -36,8 +36,8 @@
                            :language 'cpp
                            :feature 'keyword
                            :override t
-                           '((auto) @scion-font-lock-auto
-                             (this) @scion-font-lock-this-ptr))))
+                           '((auto) @a-t-font-lock-auto
+                             (this) @a-t-font-lock-this-ptr))))
 
             (setq-local treesit-font-lock-feature-list
                         (cl-loop for level in treesit-font-lock-feature-list
@@ -46,7 +46,7 @@
 
             (treesit-font-lock-recompute-features)))
 
-(defun scion/set-custom-faces ()
+(defun a-t/set-custom-faces ()
 
   (set-face-attribute 'default nil :height 120 :family "GeistMono Nerd Font Mono")
 
@@ -65,7 +65,7 @@
                                         fg-main
                                       bg-active))
 
-    (set-face-attribute 'scion-dir-face nil :foreground cursor)
+    (set-face-attribute 'a-t-dir-face nil :foreground cursor)
 
     (set-face-attribute 'mode-line nil :box 'nil :underline 'nil :family "GeistMono Nerd Font Propo")
     (set-face-attribute 'mode-line-active nil :box nil :underline 'nil :family "GeistMono Nerd Font Propo")
@@ -84,10 +84,10 @@
                       (face-attribute 'default :family)))
 
   (with-eval-after-load 'hl-line
-    (set-face-attribute 'hl-line nil :background (face-background 'scion-hl-line-face)))
+    (set-face-attribute 'hl-line nil :background (face-background 'a-t-hl-line-face)))
 
   (with-eval-after-load 'vertico
-    (set-face-attribute 'vertico-current nil :background (face-background 'scion-hl-line-face) :weight 'normal))
+    (set-face-attribute 'vertico-current nil :background (face-background 'a-t-hl-line-face) :weight 'normal))
 
   (with-eval-after-load 'consult
     (modus-themes-with-colors
@@ -130,29 +130,29 @@
     (set-face-attribute 'flymake-warning nil :underline '(:style wave :color "#bf9032")))
 
   (with-eval-after-load 'gnus-art
-    (set-face-attribute 'gnus-header-from nil :foreground (face-foreground 'scion-author))
+    (set-face-attribute 'gnus-header-from nil :foreground (face-foreground 'a-t-author))
     (set-face-attribute 'gnus-header-subject nil :foreground (face-foreground 'font-lock-keyword-face)))
 
   (with-eval-after-load 'dired
     (set-face-attribute 'dired-header nil :foreground (face-foreground 'font-lock-builtin-face))
-    (set-face-attribute 'dired-directory nil :foreground (face-foreground 'scion-dir-face)))
+    (set-face-attribute 'dired-directory nil :foreground (face-foreground 'a-t-dir-face)))
 
   (with-eval-after-load 'diredfl
     (modus-themes-with-colors
-      (set-face-attribute 'diredfl-dir-name nil :foreground (face-foreground 'scion-dir-face))
+      (set-face-attribute 'diredfl-dir-name nil :foreground (face-foreground 'a-t-dir-face))
       (set-face-attribute 'diredfl-dir-heading nil :foreground (face-foreground 'font-lock-builtin-face))
       (set-face-attribute 'diredfl-file-suffix nil :foreground fg-main)
       (set-face-attribute 'diredfl-compressed-file-suffix nil :foreground (face-foreground 'diredfl-compressed-file-name))))
 
   (with-eval-after-load 'nerd-icons-completion
-    (set-face-attribute 'nerd-icons-completion-dir-face nil :foreground (face-foreground 'scion-dir-face))))
+    (set-face-attribute 'nerd-icons-completion-dir-face nil :foreground (face-foreground 'a-t-dir-face))))
 
 (if (daemonp)
     (add-hook 'after-make-frame-functions
-              (defun scion/faces-init-daemon (frame)
+              (defun a-t/faces-init-daemon (frame)
                 (with-selected-frame frame
-                  (scion/set-custom-faces))
+                  (a-t/set-custom-faces))
                 (remove-hook 'after-make-frame-functions
-                             #'scion/faces-init-daemon)
-                (fmakunbound 'scion/faces-init-daemon)))
-  (scion/set-custom-faces))
+                             #'a-t/faces-init-daemon)
+                (fmakunbound 'a-t/faces-init-daemon)))
+  (a-t/set-custom-faces))

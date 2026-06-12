@@ -108,12 +108,12 @@
               sentence-end-double-space nil)
 
 ;; Replace tabs with spaces
-(defun scion/disable-tabs ()
+(defun a-t/disable-tabs ()
   "Use spaces and not tabs for indentation, unless in ‘makefile-gmake-mode’"
   (unless (derived-mode-p 'makefile-gmake-mode)
     (indent-tabs-mode -1)))
 
-(add-hook 'prog-mode-hook #'scion/disable-tabs)
+(add-hook 'prog-mode-hook #'a-t/disable-tabs)
 
 (global-auto-revert-mode 1)
 (global-so-long-mode 1)
@@ -196,7 +196,7 @@
                          (assq-delete-all 'continuation
                                           fringe-indicator-alist)))
 
-(defun scion/modernize-tty ()
+(defun a-t/modernize-tty ()
   "Replace window borders and special glyphs with more modern looking alternatives."
   (unless (display-graphic-p)
     (let ((display-table (or buffer-display-table
@@ -205,7 +205,7 @@
                                                                  ; segment
       (set-display-table-slot display-table 'truncation ? )))) ; Replace $ with space
 
-(add-hook 'window-configuration-change-hook #'scion/modernize-tty)
+(add-hook 'window-configuration-change-hook #'a-t/modernize-tty)
 
 ;;;; Style: modeline
 (require 'mode-line-config)
@@ -293,7 +293,7 @@
    gnus-group-mode-hook
    tabulated-list-mode-hook))
 
-(defun scion/disable-visual-line-mode ()
+(defun a-t/disable-visual-line-mode ()
   "Disable ‘visual-line-mode’ and associated modes."
   (unless (derived-mode-p 'hexl-mode)
     (visual-line-mode -1)
@@ -302,7 +302,7 @@
                 column-number-mode (not hl-line-mode)
                 line-move-visual nil)))
 
-(add-hook 'hl-line-mode-hook #'scion/disable-visual-line-mode)
+(add-hook 'hl-line-mode-hook #'a-t/disable-visual-line-mode)
 
 (advice-add #'grep-change-to-grep-edit-mode
             :after (lambda()
@@ -410,7 +410,7 @@
     (setcar fmt " ") ; Remove "["
     (setcar (last fmt) " "))) ; Remove "]"
 
-(defun scion/c++-config ()
+(defun a-t/c++-config ()
   "Set custom C++ options."
   (setopt c-ts-mode-indent-offset 6
           indent-tabs-mode nil)
@@ -419,13 +419,13 @@
   (keymap-set c-ts-base-mode-map "C-c C-c" #'compile)
   (keymap-set c-ts-base-mode-map "C-c c" #'compile))
 
-(add-hook 'c++-ts-mode-hook #'scion/c++-config)
+(add-hook 'c++-ts-mode-hook #'a-t/c++-config)
 
-(defun scion/eglot-config ()
+(defun a-t/eglot-config ()
   "Set custom eglot options."
   (setq-local eldoc-documentation-strategy 'eldoc-documentation-compose-eagerly))
 
-(add-hook 'eglot-managed-mode-hook #'scion/eglot-config)
+(add-hook 'eglot-managed-mode-hook #'a-t/eglot-config)
 
 (add-to-list 'auto-mode-alist '("\\.clang\\(-\\(format\\|tidy\\)\\|d\\)" . conf-mode))
 
@@ -552,7 +552,7 @@
   :ensure t
   :config
 
-  (defun scion/gdb--configure-source-buffer ()
+  (defun a-t/gdb--configure-source-buffer ()
     "Configure source buffers during GDB debugging session."
     (when (and (derived-mode-p 'prog-mode)
                (eq gud-minor-mode 'gdbmi))
@@ -563,7 +563,7 @@
       (line-count-mode -1)
       (visual-line-mode -1)))
 
-  (defun scion/gdb--configure-special-buffer ()
+  (defun a-t/gdb--configure-special-buffer ()
     "Strip mode-line noise in GDB special buffers."
     (setq-local line-number-mode nil
                 column-number-mode nil
@@ -571,7 +571,7 @@
     (line-count-mode -1)
     (visual-line-mode -1))
 
-  (defun scion/gdb--cleanup-source-buffer ()
+  (defun a-t/gdb--cleanup-source-buffer ()
     "Restore source buffers after GDB exits."
     (when (and (derived-mode-p 'prog-mode)
                (eq gud-minor-mode 'gdbmi))
@@ -581,13 +581,13 @@
       (display-line-numbers-mode -1)
       (line-count-mode 1)))
 
-  (add-hook 'gdb-find-file-hook #'scion/gdb--configure-source-buffer)
-  (advice-add #'gdb-init-buffer :after #'scion/gdb--configure-source-buffer)
+  (add-hook 'gdb-find-file-hook #'a-t/gdb--configure-source-buffer)
+  (advice-add #'gdb-init-buffer :after #'a-t/gdb--configure-source-buffer)
   (advice-add #'gdb-reset :before
               (lambda ()
                 (dolist (buffer (buffer-list))
                   (with-current-buffer buffer
-                    (scion/gdb--cleanup-source-buffer)))))
+                    (a-t/gdb--cleanup-source-buffer)))))
 
   (advice-add #'gdb :before
               (lambda (_command-line)
@@ -599,7 +599,7 @@
                                 gdb-breakpoints-mode-hook
                                 gdb-inferior-io-mode-hook
                                 gdb-frames-mode-hook))
-                  (add-hook hook #'scion/gdb--configure-special-buffer))))
+                  (add-hook hook #'a-t/gdb--configure-special-buffer))))
 
   (advice-add #'gdb :after (lambda (_command-line)
                              (gdb-many-windows 1)))
@@ -640,7 +640,7 @@
                    eow))))
     (push r (cdr (assoc t jinx-exclude-regexps))))
 
-  (defun scion/jinx-skip-path-p (start)
+  (defun a-t/jinx-skip-path-p (start)
     "Skip if the preceding text forms an absolute path.
      Meant to be used in jinx--predicates to skip file paths."
     (save-excursion
@@ -654,9 +654,9 @@
           (re-search-forward "[^/]*" (line-end-position) t)
           (point)))))
 
-  (push #'scion/jinx-skip-path-p jinx--predicates)
+  (push #'a-t/jinx-skip-path-p jinx--predicates)
 
-  (defun scion/jinx-skip-package-p (word-start)
+  (defun a-t/jinx-skip-package-p (word-start)
     "Skip if the word at point is an installed package name.
    Handles hyphenated package names in emacs-lisp-mode.
    Meant to be used in jinx--predicates."
@@ -669,7 +669,7 @@
           (when (and pkg (assq pkg package-alist))
             (point))))))
 
-  (push #'scion/jinx-skip-package-p jinx--predicates))
+  (push #'a-t/jinx-skip-package-p jinx--predicates))
 
 ;;;; Enable certain "advanced" functions
 (put 'downcase-region 'disabled nil)
@@ -782,7 +782,7 @@
          ("M-g k" . consult-global-mark)
          ("M-g i" . consult-imenu)
          ("M-g I" . consult-imenu-multi)
-         ("M-s d" . scion/consult-fd-home)
+         ("M-s d" . a-t/consult-fd-home)
          ("M-s D" . consult-fd)
          ;; M-s bindings in ‘search-map’
          ("M-s r" . consult-ripgrep)
@@ -797,7 +797,7 @@
   (setopt xref-show-xrefs-function #'consult-xref
           xref-show-definitions-function #'consult-xref)
 
-  (defun scion/consult-fd-home ()
+  (defun a-t/consult-fd-home ()
     (interactive)
     (consult-fd (getenv "HOME")))
 
@@ -849,7 +849,7 @@
 
    consult-buffer consult-xref :preview-key 'any
 
-   scion/consult-fd-home consult-fd consult-find consult-locate
+   a-t/consult-fd-home consult-fd consult-find consult-locate
    :state (consult--file-preview)
    :sort t
    :preview-key '("M-*" :debounce 0.4 any)))

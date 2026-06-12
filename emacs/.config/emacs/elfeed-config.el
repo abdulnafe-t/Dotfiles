@@ -39,7 +39,7 @@
             ("https://www.youtube.com/feeds/videos.xml?channel_id=UCX60pqsaaAPFh2sUZEaNKJA" youtube HGModernism life tech art general)
             ("https://www.youtube.com/feeds/videos.xml?channel_id=UCwHwDuNd9lCdA7chyyquDXw" youtube bread-on-penguins arch linux life general)))
 
-  (defun scion/elfeed-search-print-entry (entry)
+  (defun a-t/elfeed-search-print-entry (entry)
     "Print ENTRY to the buffer sans tags."
     (let* ((date (elfeed-search-format-date (elfeed-entry-date entry)))
            (title (or (elfeed-meta entry :title) (elfeed-entry-title entry) ""))
@@ -60,7 +60,7 @@
       (when feed-title
         (insert (propertize feed-title 'face 'elfeed-search-feed-face) " "))))
 
-  (setopt elfeed-search-print-entry-function #'scion/elfeed-search-print-entry
+  (setopt elfeed-search-print-entry-function #'a-t/elfeed-search-print-entry
           elfeed-sort-order 'descending))
 
 (add-hook 'elfeed-search-mode-hook
@@ -76,10 +76,10 @@
   :config
   (elfeed-tube-setup)
   (setopt elfeed-tube-thumbnail-size 'medium)
-  (defun scion/open-youtube-with-freetube (url &optional _new-window)
+  (defun a-t/open-youtube-with-freetube (url &optional _new-window)
     (start-process "open-youtube" nil "freetube" url))
   (setopt browse-url-handlers
-          '(("https?://\\(www\\.\\)?\\(youtube\\.com\\)/" . scion/open-youtube-with-freetube)
+          '(("https?://\\(www\\.\\)?\\(youtube\\.com\\)/" . a-t/open-youtube-with-freetube)
             ("." . browse-url-default-browser)))
 
   :bind (:map elfeed-show-mode-map
