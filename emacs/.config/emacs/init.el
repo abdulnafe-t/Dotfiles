@@ -352,13 +352,6 @@
   :hook (prog-mode-hook . ws-butler-mode))
 
 ;; Use treesitter for bash, C/C++, etc in order to ensure accurate syntax highlighting
-(setopt major-mode-remap-alist
-        '((sh-mode . bash-ts-mode)
-          (c-mode . c-ts-mode)
-          (c++-mode . c++-ts-mode)
-          (c-or-c++-mode . c-or-c++-ts-mode)
-          (rust-mode . rust-ts-mode)
-          (conf-toml-mode . toml-ts-mode)))
 
 (setq treesit-language-source-alist
       '((c "https://github.com/tree-sitter/tree-sitter-c")
