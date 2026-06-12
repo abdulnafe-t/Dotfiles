@@ -918,6 +918,12 @@
   :init
   (nerd-icons-completion-mode))
 
+(use-package nerd-icons-grep
+  :ensure t
+  :after (nerd-icons grep)
+  :init
+  (nerd-icons-grep-mode))
+
 ;;;; Extensions: ‘avy’
 (use-package avy
   :ensure t
@@ -1261,6 +1267,11 @@ calling ‘comment-dwim’ in that case."
   (advice-add 'fortune :after (lambda (&optional _file)
                                 (view-mode))))
 
+;;;; Misc: ‘grep’
+(use-package grep
+  :custom
+  (grep-use-headings t))
+
 ;;; Custom faces
 
 (load "~/.config/emacs/faces-config.el")
@@ -1276,10 +1287,10 @@ calling ‘comment-dwim’ in that case."
    '(agent-shell auctex avy beginend dired-preview diredfl ef-themes eldoc-box elfeed-tube
                  embark-consult expand-region forge highlight-doxygen hydra jinx json-mode
                  lorem-ipsum marginalia minions modus-themes move-text multiple-cursors
-                 nerd-icons-completion nerd-icons-dired no-littering olivetti orderless
-                 org-appear org-bullets page-break-lines pdf-tools pulsar show-font tuareg
-                 vertico vundo whole-line-or-region wiki-summary ws-butler xr yasnippet
-                 zygospore))
+                 nerd-icons nerd-icons-completion nerd-icons-dired nerd-icons-grep
+                 no-littering olivetti orderless org-appear org-bullets page-break-lines
+                 pdf-tools pulsar show-font tuareg vertico vundo whole-line-or-region
+                 wiki-summary ws-butler xr yasnippet zygospore))
  '(send-mail-function 'smtpmail-send-it))
 
 (custom-set-faces
