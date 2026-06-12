@@ -183,7 +183,7 @@
 
 (setopt elisp-fontify-semantically t
         elisp-add-help-echo nil
-        font-lock-maximum-decoration t
+        font-lock-maximum-decoration 3
         treesit-font-lock-level 3)
 
 ;; (add-to-list 'default-frame-alist '(alpha-background . 0.8))
