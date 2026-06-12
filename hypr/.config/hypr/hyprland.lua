@@ -57,10 +57,13 @@ end)
 ---- ENVIRONMENT VARIABLES ----
 -------------------------------
 
+hl.env("XCURSOR_THEME", "BreezeX-RosePine-Linux")
+
 hl.env("HYPRCURSOR_THEME", "rose-pine-hyprcursor")
 hl.env("HYPRCURSOR_SIZE", "31")
 
 hl.env("GTK_THEME", "Adwaita:dark")
+hl.env("GTK_CURSOR_THEME", "BreezeX-RosePine-Linux")
 
 hl.env("QT_QPA_PLATFORMTHEME", "qt5ct")
 hl.env("QT_QPA_PLATFORMTHEME","qt6ct")
