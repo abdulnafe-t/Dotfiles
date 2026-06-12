@@ -182,6 +182,7 @@
               cursor-in-non-selected-windows nil)
 
 (setopt elisp-fontify-semantically t
+        elisp-add-help-echo nil
         font-lock-maximum-decoration t
         treesit-font-lock-level 3)
 
