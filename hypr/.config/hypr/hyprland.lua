@@ -68,7 +68,8 @@ hl.env("GTK_CURSOR_THEME", "BreezeX-RosePine-Linux")
 hl.env("QT_QPA_PLATFORMTHEME", "qt5ct")
 hl.env("QT_QPA_PLATFORMTHEME","qt6ct")
 
-hl.env("HYPRSHOT_DIR", os.getenv("HOME") .. "/Pictures/Screenshots/")
+
+hl.env("HYPRSHOT_DIR", os.getenv("HOME") .. "/Pictures/screenshots/")
 
 ---------------------
 ---- KEYBINDINGS ----
