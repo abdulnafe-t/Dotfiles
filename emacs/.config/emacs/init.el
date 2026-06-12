@@ -551,20 +551,21 @@
   :hook
   (dired-mode-hook . dired-omit-mode)
   (dired-mode-hook . turn-on-gnus-dired-mode)
+
   :custom
   (dired-dwim-target t)
+  (dired-omit-verbose nil)
+  (dired-mouse-drag-files 'move)
+  (dired-auto-revert-buffer t)
+  (dired-dwim-target t)
+  (image-dired-external-viewer "xdg-open")
+  (dired-movement-style 'cycle-files)
+  (dired-kill-when-opening-new-dired-buffer t)
+  (dired-omit-files (rx (or (seq bol (? ".") "#")         ;; emacs autosave files
+                            (seq bol "." (not (any "."))) ;; dot-files
+                            (seq "~" eol)                 ;; backup-files
+                            )))
   :config
-  (setopt dired-auto-revert-buffer t
-          dired-dwim-target t
-          image-dired-external-viewer "xdg-open"
-          dired-movement-style 'cycle-files
-          dired-kill-when-opening-new-dired-buffer t
-          dired-omit-files
-          (rx (or (seq bol (? ".") "#")         ;; emacs autosave files
-                  (seq bol "." (not (any "."))) ;; dot-files
-                  (seq "~" eol)                 ;; backup-files
-                  )))
-
   (advice-add #'wdired-change-to-wdired-mode
               :after (lambda()
                        (when hl-line-mode
