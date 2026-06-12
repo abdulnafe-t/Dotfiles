@@ -1,0 +1,13 @@
+#!/usr/bin/bash
+set -euo pipefail
+
+PKGBUILD_DIR="$HOME/.cache/yay/emacs-git"
+CCODE_DIR="$HOME/Etc/Programs/emacs-c-code"
+
+cd "$PKGBUILD_DIR"
+makepkg -si "$@"
+
+cd "$PKGBUILD_DIR/src/emacs-git"
+rm "$CCODE_DIR" -rf
+mkdir -p "$CCODE_DIR"
+git archive --format=tar HEAD -- src/*.c src/*.h | tar xf - --directory="$CCODE_DIR" --strip-components=1
