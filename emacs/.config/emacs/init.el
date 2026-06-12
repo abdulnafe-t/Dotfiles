@@ -73,19 +73,25 @@
 (global-visual-line-mode 1)
 (global-word-wrap-whitespace-mode 1)
 
-(add-hook 'prog-mode-hook #'completion-preview-mode)
-(add-hook 'text-mode-hook #'completion-preview-mode)
-(with-eval-after-load 'completion-preview
+(use-package completion-preview
+
+  :bind
+  (:map completion-preview-active-mode-map
+        ("M-n" . completion-preview-next-candidate)
+        ("M-<down>" . completion-preview-next-candidate)
+        ("M-p" . completion-preview-prev-candidate)
+        ("M-<up>" . completion-preview-prev-candidate)
+        ("<tab>" . completion-preview-insert)
+        ("M-<tab>" . completion-preview-complete))
+
+  :hook
+  ((prog-mode-hook text-mode-hook))
+
+  :config
   (push 'org-self-insert-command completion-preview-commands)
-  (setopt completion-preview-minimum-symbol-length 2)
-  (keymap-set completion-preview-active-mode-map
-              "M-n" #'completion-preview-next-candidate)
-  (keymap-set completion-preview-active-mode-map
-              "M-<down>" #'completion-preview-next-candidate)
-  (keymap-set completion-preview-active-mode-map
-              "M-p" #'completion-preview-prev-candidate)
-  (keymap-set completion-preview-active-mode-map
-              "M-<up>" #'completion-preview-prev-candidate))
+
+  :custom
+  (completion-preview-minimum-symbol-length 2))
 
 (global-set-key (kbd "C-+") 'text-scale-increase)
 (global-set-key (kbd "C--") 'text-scale-decrease)
