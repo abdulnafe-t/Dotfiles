@@ -398,6 +398,11 @@
     (setcar fmt " ") ; Remove "["
     (setcar (last fmt) " "))) ; Remove "]"
 
+;;;; Extensions: ‘treesitter’
+(use-package treesit
+  :custom
+  (treesit-enabled-modes t))
+
 (defun a-t/c++-config ()
   "Set custom C++ options."
   (setopt c-ts-mode-indent-offset 6
