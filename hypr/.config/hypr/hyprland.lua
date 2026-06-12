@@ -32,7 +32,7 @@ hl.monitor({
 
 -- Set programs that you use
 local hyprScripts = os.getenv("HOME") .. "/.config/hypr/scripts"
-local terminal = "ghostty +new-window"
+local terminal = "footclient"
 local fileManager = "sh -c \"" .. hyprScripts .. "/dired\""
 local menu = "fuzzel"
 local editor = "emacsclient -c -a \"\""
@@ -44,7 +44,7 @@ local browser = "librewolf"
 -------------------
 
 hl.on("hyprland.start", function()
-          hl.exec_cmd("systemctl --user enable app-com.mitchellh.ghostty.service ")
+          hl.exec_cmd("systemctl --user enable foot-server.service")
           hl.exec_cmd("udiskie")
           hl.exec_cmd("systemctl --user start hyprpolkitagent")
           hl.exec_cmd("waybar")
