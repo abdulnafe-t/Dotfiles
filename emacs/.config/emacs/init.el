@@ -150,14 +150,6 @@
 (keymap-global-set "C-z" 'undo)
 (define-key undo-repeat-map (kbd "z") #'undo)
 
-(defvar-keymap dired-preview-repeat-map
-    :repeat (:exit (dired-preview-find-file))
-    "C-u" #'dired-preview-page-up
-    "C-d" #'dired-preview-page-down
-    "C-f" #'dired-preview-find-file
-    "C-x" #'dired-preview-hexl-toggle
-    "C-o" #'dired-preview-open-dwim)
-
 (setopt use-package-hook-name-suffix nil)
 
 ;;; Security
@@ -527,6 +519,16 @@
   (dired-preview-delay 0.1)
   (dired-preview-buffer-name-indicator "Preview:")
   (dired-preview-max-size (* 5 (expt 2 20)))
+
+  :bind
+
+  (:repeat-map dired-preview-repeat-map
+               ("C-u" . dired-preview-page-up)
+               ("C-d" . dired-preview-page-down)
+               ("C-x" . dired-preview-hexl-toggle)
+               :exit
+               ("C-f" . dired-preview-find-file)
+               ("C-o" . dired-preview-open-dwim))
 
   :config
   (setopt dired-preview-ignored-extensions-regexp nil))
