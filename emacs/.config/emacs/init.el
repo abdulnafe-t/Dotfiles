@@ -220,6 +220,11 @@
   :demand t
   :init
   (ef-themes-take-over-modus-themes-mode)
+
+  :bind
+  (("<f5>" . a-t-toggle-dark-ef-theme)
+   ("C-<f5>" . modus-themes-select))
+
   :custom
   (modus-themes-mixed-fonts t)
   (modus-themes-bold-constructs t)
@@ -248,7 +253,14 @@
      (cursor ,season-bright)))
 
   :config
-  (modus-themes-load-theme season-theme))
+
+  (defun a-t-toggle-dark-ef-theme ()
+    (interactive)
+    (modus-themes-load-theme (if (eq (modus-themes-get-current-theme) season-dark-theme)
+                                 season-light-theme
+                               season-dark-theme)))
+
+  (modus-themes-load-theme season-dark-theme))
 
 ;;;; Style: Pulsar
 (use-package pulsar

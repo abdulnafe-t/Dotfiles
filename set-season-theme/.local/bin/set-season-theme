@@ -21,19 +21,25 @@ if [[ -z "${season:-}" ]]; then
     esac
 fi
 
+mkdir -p "$HOME/.local/share/set-season-theme/"
+touch "$HOME/.local/share/set-season-theme/last-season"
 previous_season=$(cat "$HOME/.local/share/set-season-theme/last-season")
 
 if [ "$previous_season" != "$season" ]; then # season has changed
 
+# Frozen winter’s blue and white
 winter_bright=ffffff
 winter_dim=003a7f
 
+# Spring is pink and purple bright
 spring_bright=b57281
 spring_dim=47248e
 
+# Gilded warm are summer's nights
 summer_bright=ffcba4
 summer_dim=704f00
 
+# Fall brings calming woodland sights
 fall_bright=009150
 fall_dim=692a12
 
@@ -44,14 +50,11 @@ dim="${season}_dim"
 ########## Emacs ############
 #############################
 
-# ef-melissa-dark <-> ef-dream?
-# ef-night <-> ef-winter?
-
 case "$season" in
-  winter) theme=ef-night ;;
-  spring) theme=ef-dark ;;
-  summer) theme=ef-melissa-dark ;;
-  fall)   theme=ef-autumn ;;
+  winter) dark_theme=ef-night        light_theme=ef-frost ;;
+  spring) dark_theme=ef-dark         light_theme=ef-light ;;
+  summer) dark_theme=ef-melissa-dark light_theme=ef-melissa-light ;;
+  fall)   dark_theme=ef-autumn       light_theme=ef-day ;;
 esac
 
 cat > "$HOME/.config/emacs/season-colors.el" <<EOF
@@ -60,7 +63,8 @@ cat > "$HOME/.config/emacs/season-colors.el" <<EOF
 
 (setq season-bright "#${!bright}"
       season-dim "#${!dim}"
-      season-theme '${theme})
+      season-dark-theme '${dark_theme}
+      season-light-theme '${light_theme})
 EOF
 
 #############################

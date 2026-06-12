@@ -54,7 +54,7 @@
 (setopt gnus-prompt-before-saving t)
 
 ;;; Style & preferences
-(setopt gnus-logo-color-style 'storm
+(setopt gnus-logo-colors `(,season-bright ,season-dim)
         gnus-treat-emojize-symbols nil
         gnus-treat-display-smileys nil
         gnus-treat-buttonize t
