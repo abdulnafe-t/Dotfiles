@@ -1157,7 +1157,25 @@
           minions-prominent-modes '(flymake-mode)))
 
 ;;;; Extensions: ‘xr’
-(use-package xr)
+(use-package xr
+  :ensure t)
+
+;;;; Extensions: ‘auto-capitalize’ (from user-lisp)
+(use-package auto-capitalize
+  :init
+  (auto-capitalize-global-mode)
+
+  :config
+  (modify-syntax-entry ?' ".   " text-mode-syntax-table)
+  (modify-syntax-entry ?’ ".   " text-mode-syntax-table))
+
+;;;; Extensions: ‘auto-read-only’ (from user-lisp)
+(use-package auto-read-only
+  :init
+  (auto-read-only-mode 1)
+  :config
+  (add-to-list 'auto-read-only-file-regexps
+               (rx (literal (expand-file-name find-function-C-source-directory)))))
 
 ;;;; Extensions: ‘beginend’
 (use-package beginend
