@@ -158,8 +158,9 @@ be a list whose car is one of the keywords :propertize or :eval")))
 
 (defcustom mode-line-align-middle
   '((:eval (when (and (featurep 'nerd-icons)
-                      (or (not (display-graphic-p))
-                          (not (derived-mode-p 'gnus-mode)))) ; TODO: make this into a minor mode
+                      (not (and (display-graphic-p)
+                                (derived-mode-p 'gnus-mode)))) ; TODO: make this into a
+                                                               ; minor mode
              (concat
               (nerd-icons-icon-for-mode major-mode)
               (unless (and (project-current)
