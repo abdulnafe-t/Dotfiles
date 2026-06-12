@@ -1,7 +1,7 @@
 #!/usr/bin/bash
 set -euo pipefail
 
-PKGBUILD_DIR="$HOME/.cache/yay/emacs-git"
+PKGBUILD_DIR="$HOME/Etc/Programs/emacs-build"
 CCODE_DIR="$HOME/Etc/Programs/emacs-c-code"
 
 cd "$PKGBUILD_DIR"
