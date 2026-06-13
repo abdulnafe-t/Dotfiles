@@ -343,8 +343,10 @@
   ;; Builtin, used for syntax checking. Disable its
   ;; modeling lighter, but keep the error
   ;; counters
+  :custom
+  (flymake-mode-line-lighter "")
   :config
-  (setopt flymake-mode-line-lighter ""))
+  (add-hook 'bash-ts-mode-hook #'flymake-mode))
 
 ;; Trim extraneous whitespaces in code files
 (use-package ws-butler
