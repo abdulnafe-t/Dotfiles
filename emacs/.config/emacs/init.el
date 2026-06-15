@@ -223,7 +223,7 @@
   (ef-themes-take-over-modus-themes-mode)
 
   :bind
-  (("<f5>" . a-t-toggle-dark-ef-theme)
+  (("<f5>" . a-t/toggle-dark-modus-theme)
    ("C-<f5>" . modus-themes-select))
 
   :custom
@@ -253,13 +253,19 @@
      (bg-hover nil)
      (cursor ,season-bright)))
 
+  (ef-melissa-light-palette-overrides
+   `((bg-main "#ffffff")
+     (bg-hover nil)
+     (cursor ,season-dim)))
+
   :config
 
-  (defun a-t-toggle-dark-ef-theme ()
+  (defun a-t/toggle-dark-modus-theme ()
     (interactive)
     (modus-themes-load-theme (if (eq (modus-themes-get-current-theme) season-dark-theme)
                                  season-light-theme
-                               season-dark-theme)))
+                               season-dark-theme))
+    (a-t/set-custom-faces))
 
   (modus-themes-load-theme season-dark-theme))
 
