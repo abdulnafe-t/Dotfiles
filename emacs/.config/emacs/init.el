@@ -210,7 +210,7 @@
 
 (add-hook 'window-configuration-change-hook #'a-t/modernize-tty)
 
-;;;; Style: modeline
+;;;; Style: mode line
 (require 'mode-line-config)
 
 (load "~/.config/emacs/season-colors.el")

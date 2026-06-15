@@ -1,6 +1,6 @@
 ;;; mode-line-config.el --- A minimalist mode line with centered buffer id  -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2026  Abdulnafé Toulaïmat
+;; Copyright (C) 2026 Abdulnafé Toulaïmat
 
 ;; Author: Abdulnafé Toulaïmat <abdulnafe.toulaimat@gmail.com>
 ;; Keywords: lisp, mode-line
@@ -38,8 +38,7 @@
   :group 'mode-line)
 
 (defun a-t/vc-mode-line-advice (file &optional backend)
-  "Replace the prefix of the VC mode line lighter with an icon. Apply a
-face based on VC file state.
+  "Replace the prefix of the VC mode line lighter with an icon.
 
 FILE is the file being checked for version control.
 
@@ -65,13 +64,12 @@ BACKEND is the backend to check for version control. Defaults to git."
 (advice-add 'vc-mode-line :after #'a-t/vc-mode-line-advice)
 
 (defun a-t/copy-project-directory ()
-  "Copy project directory to kill-ring."
+  "Copy project directory to ‘kill-ring’."
   (interactive)
   (kill-new default-directory))
 
 (defun mode-line--format-center () ; TODO: rewrite this in C?
-  "Center all following mode-line constructs, up to and excluding
-‘mode-line-format-right-align’.
+  "Center all following constructs, up to ‘mode-line-format-right-align’.
 
 When the symbol ‘mode-line-format-center’ appears in ‘mode-line-format’,
 return a string of one space, with a display property to make it appear
@@ -80,8 +78,8 @@ long enough to align anything after that symbol - up to and excluding
 line.
 
 It is important that the symbol ‘mode-line-format-center’ be included in
-‘mode-line-format’ (and not another similar construct such
-as \\=`(:eval (mode-line-format-center))\\='.  This is because the symbol
+‘mode-line-format’ (and not another similar construct such as
+\\=`(:eval (mode-line-format-center))\\='. This is because the symbol
 ‘mode-line-format-center’ is processed by ‘format-mode-line’ as a
 variable."
   (let* ((rest-beg (cdr (memq 'mode-line-format-center mode-line-format)))
@@ -122,17 +120,19 @@ variable."
 ;;(seq-take rest-beg (seq-position rest-beg 'mode-line-format-right-align))
 
 (defvar mode-line-format-center '(:eval (mode-line--format-center))
-  "Mode line construct to center all following constructs up to and
-excluding ‘mode-line-format-right-align’ and anything following it.
+  "Mode line construct to center all following constructs.
+
+This affects all constructs up to and excluding
+‘mode-line-format-right-align’ and anything following it.
 
 If ‘mode-line-format-right-align’ does not appear in ‘mode-line-format’,
 all constructs following this one are centered.")
 
 (put 'mode-line-format-center 'risky-local-variable t)
 
-(defcustom mode-line-raw-buf-id-mode-list '(agent-shell-mode gnus-mode eww-mode term-mode elfeed-search-mode elfeed-show-mode)
-  "List of major modes in which the buffer id should show neither an icon
-nor a project name."
+(defcustom mode-line-raw-buf-id-mode-list
+  '(agent-shell-mode gnus-mode eww-mode term-mode elfeed-search-mode elfeed-show-mode)
+  "List of major modes in which buffer id should not show a project name."
 
   :type '(repeat (symbol :tag "Major mode"))
   :group 'a-t/mode-line)
@@ -162,7 +162,7 @@ be a list whose car is one of the keywords :propertize or :eval")))
                                 (derived-mode-p 'gnus-mode)))) ; TODO: make this into a
                                                                ; minor mode
              (concat
-              (nerd-icons-icon-for-mode major-mode)
+              (nerd-icons-icon-for-buffer :v-adjust 0.1)
               (unless (and (project-current)
                            project-mode-line
                            (not (derived-mode-p mode-line-raw-buf-id-mode-list)))
@@ -174,8 +174,9 @@ be a list whose car is one of the keywords :propertize or :eval")))
               (concat fmt "::"))))
 
     (:eval (format-mode-line mode-line-buffer-identification)))
-  "Mode line construct containing all entries that should be centered. By
-default, this is a major-mode-appropriate icon,
+  "Mode line construct containing all entries that should be centered.
+
+By default, this is a major-mode-appropriate icon, the variable
 ‘project-mode-line-format’, and ‘mode-line-buffer-identification’ (which
 see)."
   :type '(repeat (choice (string :tag "Literal text to display in the mode line")
