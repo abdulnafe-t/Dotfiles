@@ -373,7 +373,8 @@
 ;; Trim extraneous whitespaces in code files
 (use-package ws-butler
   :ensure t
-  :hook (prog-mode-hook . ws-butler-mode))
+  :init
+  (ws-butler-global-mode))
 
 ;; Extensions: ‘yasnippet’.
 ;;
