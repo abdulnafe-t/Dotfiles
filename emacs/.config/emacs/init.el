@@ -126,6 +126,14 @@
         mouse-wheel-scroll-amount '(1 ((shift) . 1))
         mouse-wheel-progressive-speed nil)
 
+;; From https://karthinks.com/software/even-more-batteries-included-with-emacs/
+;; Get DWIM behavior from ‘scroll-other-window’
+(setq other-window-scroll-default
+      (lambda ()
+        (or (get-mru-window nil nil 'not-this-one-dummy)
+            (next-window)               ;fall back to next window
+            (next-window nil nil 'visible))))
+
 ;; Display a counter in I-search, showing total number of matches, as well as the current
 ;; position in them. Taken from Protesilaos Stavrou
 (setopt isearch-lazy-count t
@@ -269,7 +277,7 @@
 
   (modus-themes-load-theme season-dark-theme))
 
-;;;; Style: Pulsar
+;;;; Style: ‘pulsar’
 (use-package pulsar
   :ensure t
   :config
@@ -693,6 +701,9 @@
 (with-eval-after-load 'help-mode
   (keymap-set help-mode-map "<mouse-9>" #'help-go-forward)
   (keymap-set help-mode-map "<mouse-8>" #'help-go-back))
+
+;; Bind "C-h M-k" to ‘find-function-on-key’, which is like "C-h k <key> s"
+(keymap-set help-map "C-k" #'find-function-on-key)
 
 ;;;; Extensions: ‘multiple-cursors’
 (use-package multiple-cursors
