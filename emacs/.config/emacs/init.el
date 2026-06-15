@@ -160,6 +160,8 @@
 
 ;;; Security
 
+(setq trusted-content '("~/Projects/"))
+
 (setq-default auth-sources '("secrets:App Passwords" "~/.authinfo.gpg"))
 
 ;; Make local sudo always prompt for a password, as opposed to looking it up in
