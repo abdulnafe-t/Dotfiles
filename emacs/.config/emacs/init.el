@@ -535,6 +535,9 @@
           TeX-source-correlate-start-server t
           TeX-engine 'luatex))
 
+(add-hook 'TeX-after-compilation-finished-functions
+          #'TeX-revert-document-buffer)
+
 ;; Use pdf-tools as an emacs-native PDF viewer
 (use-package pdf-tools
   :ensure t
@@ -550,8 +553,8 @@
   (pdf-info-epdfinfo-program "/usr/local/bin/epdfinfo")
   (pdf-misc-print-program-executable "lp"))
 
-(add-hook 'TeX-after-compilation-finished-functions
-          #'TeX-revert-document-buffer)
+(use-package pdffontetc
+  :ensure t)
 
 ;;;; Extensions: ‘tuareg’
 (use-package tuareg
@@ -1331,9 +1334,10 @@ calling ‘comment-dwim’ in that case."
                  embark-consult expand-region forge highlight-doxygen hydra jinx json-mode
                  lorem-ipsum marginalia minions modus-themes move-text multiple-cursors
                  nerd-icons nerd-icons-completion nerd-icons-dired nerd-icons-grep
-                 no-littering olivetti orderless org-appear org-bullets page-break-lines
-                 pdf-tools pulsar show-font tuareg vertico vundo whole-line-or-region
-                 wiki-summary ws-butler xr yasnippet zygospore))
+                 no-littering olivetti orderless org-appear org-bullets
+                 package-lint-flymake page-break-lines pdf-tools pdffontetc pulsar
+                 show-font tuareg vertico vundo whole-line-or-region wiki-summary
+                 ws-butler xr yasnippet zygospore))
  '(send-mail-function 'smtpmail-send-it))
 
 (custom-set-faces
