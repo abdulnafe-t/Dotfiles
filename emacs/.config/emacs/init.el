@@ -282,6 +282,12 @@
   :init
   (pulsar-global-mode))
 
+;;;; Style: ‘shr’
+(use-package shr
+  :custom
+  (shr-use-colors nil)
+  (shr-use-fonts nil))
+
 (use-package hl-line
   :demand t
   :hook
