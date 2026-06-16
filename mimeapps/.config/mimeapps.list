@@ -1,0 +1,11 @@
+[Default Applications]
+x-scheme-handler/freetube=freetube.desktop
+text/html=librewolf.desktop
+x-scheme-handler/http=librewolf.desktop
+x-scheme-handler/https=librewolf.desktop
+x-scheme-handler/about=librewolf.desktop
+x-scheme-handler/unknown=librewolf.desktop
+inode/directory=emacsclient-dired.desktop
+
+[Added Associations]
+font/ttf=com.github.FontManager.FontViewer.desktop;
