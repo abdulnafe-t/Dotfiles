@@ -808,11 +808,12 @@
          ("M-g k" . consult-global-mark)
          ("M-g i" . consult-imenu)
          ("M-g I" . consult-imenu-multi)
+         ;; M-s bindings in ‘search-map’
          ("M-s d" . a-t/consult-fd-home)
          ("M-s D" . consult-fd)
-         ;; M-s bindings in ‘search-map’
          ("M-s r" . consult-ripgrep)
          ("M-s l" . consult-line)
+         ("M-s c" . consult-locate)
          ("M-s L" . consult-line-multi)
          :map isearch-mode-map
          ("M-e" . consult-isearch-history)
