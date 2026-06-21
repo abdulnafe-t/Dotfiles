@@ -1319,6 +1319,12 @@ calling ‘comment-dwim’ in that case."
   :custom
   (grep-use-headings t))
 
+;;;; Misc: ‘man’
+(use-package man
+  :custom
+  (Man-notify-method 'aggressive)
+  (Man-width-max 90))
+
 ;;; Custom faces
 
 (load "~/.config/emacs/faces-config.el")
