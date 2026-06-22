@@ -549,6 +549,10 @@
                                 (delq #'pdf-misc-size-indication-minor-mode
                                       pdf-tools-enabled-modes))))
   (pdf-view-mode-hook . pdf-tools-enable-minor-modes)
+  :bind
+  (:map pdf-view-mode-map
+        ([remap image-mouse-increase-size] . pdf-view-enlarge)
+        ([remap image-mouse-decrease-size] . pdf-view-shrink))
   :custom
   (pdf-info-epdfinfo-program "/usr/local/bin/epdfinfo")
   (pdf-misc-print-program-executable "lp"))
