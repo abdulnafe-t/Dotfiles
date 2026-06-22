@@ -4,13 +4,24 @@
 ;;; https://zzamboni.org/post/beautifying-org-mode-in-emacs/
 ;;; https://www.howardism.org/Technical/Emacs/orgmode-wordprocessor.html
 ;;; https://lucidmanager.org/productivity/ricing-org-mode/
+;;; https://youtu.be/L0EJeN1fCYw
 
-(setopt org-hide-emphasis-markers t
-        org-startup-indented t
-        org-pretty-entities t
-        org-use-sub-superscripts '{}
-        org-startup-with-inline-images t
-        org-image-actual-width '(300))
+(use-package org
+  :bind
+  ("C-c a" . org-agenda)
+  :custom
+  (org-M-RET-may-split-line '((default . nil)))
+  (org-insert-heading-respect-content t)
+  (org-log-into-drawer t)
+  (org-log-done 'time)
+  (org-directory "~/Documents/org")
+  (org-agenda-files (list org-directory))
+  (org-hide-emphasis-markers t)
+  (org-startup-indented t)
+  (org-pretty-entities t)
+  (org-use-sub-superscripts '{})
+  (org-startup-with-inline-images t)
+  (org-image-actual-width '(300)))
 
 (use-package org-bullets
   :ensure t
