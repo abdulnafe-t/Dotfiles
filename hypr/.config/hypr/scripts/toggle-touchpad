@@ -10,13 +10,13 @@ fi
 export STATUS_FILE="$XDG_RUNTIME_DIR/touchpad.status"
 
 enable_touchpad() {
-    hyprctl keyword "device[$TOUCHPAD]:enabled" true
+    hyprctl eval "hl.device({ name = '$TOUCHPAD', enabled = true })"
     dunstify -u low "Touchpad enabled" -i "input-touchpad-on" -h string:x-dunst-stack-tag:touchpad
     printf "true" >"$STATUS_FILE"	
 }
 
 disable_touchpad() {
-    hyprctl keyword "device[$TOUCHPAD]:enabled" false
+    hyprctl eval "hl.device({ name = '$TOUCHPAD', enabled = false })"
     dunstify -u low "Touchpad disabled" -i "input-touchpad-off" -h string:x-dunst-stack-tag:touchpad
     printf "false" >"$STATUS_FILE"
 }
