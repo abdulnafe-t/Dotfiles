@@ -367,8 +367,8 @@
   ;; counters
   :custom
   (flymake-mode-line-lighter "")
-  :config
-  (add-hook 'bash-ts-mode-hook #'flymake-mode))
+  :hook
+  (bash-ts-mode-hook . flymake-mode))
 
 ;; Trim extraneous whitespaces in code files
 (use-package ws-butler
