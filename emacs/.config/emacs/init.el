@@ -378,7 +378,7 @@
 
 ;; Extensions: ‘yasnippet’.
 ;;
-;;Required to get proper auto-completion (e.g. for () after function names) with eglot &
+;; Required to get proper auto-completion (e.g. for () after function names) with eglot &
 ;; clangd
 (use-package yasnippet
   :ensure t
