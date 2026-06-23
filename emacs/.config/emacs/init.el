@@ -476,7 +476,7 @@
 ;;;; Extensions: ‘eldoc’
 (use-package eldoc
   :custom
-  (eldoc-documentation-strategy eldoc-documentation-compose-eagerly))
+  (eldoc-documentation-strategy #'eldoc-documentation-compose-eagerly))
 
 (add-to-list 'auto-mode-alist '("\\.clang\\(-\\(format\\|tidy\\)\\|d\\)" . conf-mode))
 
