@@ -428,22 +428,25 @@
   :custom
   (treesit-enabled-modes t))
 
-(defun a-t/c++-config ()
-  "Set custom C++ options."
-  (setopt c-ts-mode-indent-offset 6
-          indent-tabs-mode nil)
+(defun a-t/c-config ():
+  "Set custom C/C++ options."
+  (setopt c-ts-mode-indent-offset 6)
   (setq-local compile-command "cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -S ./src -B ./build && cmake --build ./build")
   (keymap-set c-ts-base-mode-map "RET" #'electric-indent-just-newline)
   (keymap-set c-ts-base-mode-map "C-c C-c" #'compile)
   (keymap-set c-ts-base-mode-map "C-c c" #'compile))
 
-(add-hook 'c++-ts-mode-hook #'a-t/c++-config)
+(defun a-t/python-config ()
+  "Set custom python options."
+  (setopt python-indent-guess-indent-offset-verbose nil))
 
-(defun a-t/eglot-config ()
-  "Set custom eglot options."
-  (setq-local eldoc-documentation-strategy 'eldoc-documentation-compose-eagerly))
+(add-hook 'c-ts-base-mode-hook #'a-t/c-config)
+(add-hook 'python-ts-base-mode-hook #'a-t/python-config)
 
-(add-hook 'eglot-managed-mode-hook #'a-t/eglot-config)
+;;;; Extensions: ‘eldoc’
+(use-package eldoc
+  :custom
+  (eldoc-documentation-strategy eldoc-documentation-compose-eagerly))
 
 (add-to-list 'auto-mode-alist '("\\.clang\\(-\\(format\\|tidy\\)\\|d\\)" . conf-mode))
 
