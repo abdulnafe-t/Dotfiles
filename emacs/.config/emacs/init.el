@@ -412,7 +412,7 @@
   :bind
   (:map eglot-mode-map
         ("M-q" . eglot-format))
-  :hook ((c-ts-mode-hook c++-ts-mode-hook) . eglot-ensure)
+  :hook ((c-ts-mode-hook c++-ts-mode-hook python-base-mode-hook) . eglot-ensure)
   :config
   (add-to-list 'eglot-server-programs
                '(c-ts-base-mode . ("clangd"
