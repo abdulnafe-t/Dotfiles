@@ -11,6 +11,9 @@
   ("C-c a" . org-agenda)
   :custom
   (org-M-RET-may-split-line '((default . nil)))
+  (org-src-fontify-natively t)
+  (org-src-tab-acts-natively t)
+  (org-src-preserve-indentation t)
   (org-insert-heading-respect-content t)
   (org-log-into-drawer t)
   (org-log-done 'time)
