@@ -402,8 +402,9 @@
   (add-to-list 'eglot-server-programs
                '(python-ts-base-mode . ("rass" "python")))
 
-  (setopt eglot-workspace-configuration
-          '(:ty (:completions (:completeFunctionParentheses t))))
+  (setq-default eglot-workspace-configuration
+                '(:ty (:completions (:completeFunctionParentheses t)
+                                    :showSyntaxErrors :json-false)))
 
   (add-to-list 'eglot-ignored-server-capabilities :inlayHintProvider)
   (add-to-list 'eglot-ignored-server-capabilities :documentHighlightProvider)
