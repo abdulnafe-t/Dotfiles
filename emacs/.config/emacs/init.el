@@ -439,8 +439,8 @@
 (defun a-t/c-config ():
   "Set custom C/C++ options."
   (setopt c-ts-mode-indent-offset 6)
-  (setq-local compile-command "cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -S ./src -B ./build && cmake --build ./build")
-  (keymap-set c-ts-base-mode-map "RET" #'electric-indent-just-newline)
+  (setq-local compile-command "cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -S ./src -B ./build && cmake --build ./build"
+              electric-indent-inhibit t)
   (keymap-set c-ts-base-mode-map "C-c C-c" #'compile)
   (keymap-set c-ts-base-mode-map "C-c c" #'compile))
 
