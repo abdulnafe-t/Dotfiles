@@ -86,6 +86,9 @@
   (with-eval-after-load 'hl-line
     (set-face-attribute 'hl-line nil :background (face-background 'a-t-hl-line-face)))
 
+  (with-eval-after-load 'csv-mode
+    (set-face-attribute 'csv-separator-face nil :foreground (face-foreground 'escape-glyph)))
+
   (with-eval-after-load 'vertico
     (set-face-attribute 'vertico-current nil :background (face-background 'a-t-hl-line-face) :weight 'normal))
 

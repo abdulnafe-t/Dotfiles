@@ -1400,6 +1400,15 @@ calling ‘comment-dwim’ in that case."
   (add-to-list 'show-font-chinese-families "AR PL UMing TW")
   (add-to-list 'show-font-chinese-families "AR PL UMing TW MBE"))
 
+;;;; Extensions: ‘csv-mode’
+(use-package csv-mode
+  :hook
+  (csv-mode-hook . csv-guess-set-separator)
+  :custom
+  (csv-align-max-width 12)
+  (csv-align-padding 2)
+  (csv-align-style 'centre))
+
 ;;; Misc: ‘fortune’
 (use-package fortune
   :custom
