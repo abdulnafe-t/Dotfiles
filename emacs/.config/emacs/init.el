@@ -517,7 +517,7 @@ comment."
 
 (defun a-t/c-config ():
   "Set custom C/C++ options."
-  (setopt c-ts-mode-indent-offset 6)
+  (setopt c-ts-indent-offset 6)
   (setq-local compile-command "cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -S ./src -B ./build && cmake --build ./build"
               electric-indent-inhibit t)
   (keymap-set c-ts-base-mode-map "C-c C-c" #'compile)
