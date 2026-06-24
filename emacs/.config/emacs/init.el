@@ -370,29 +370,6 @@
   :hook
   (bash-ts-mode-hook . flymake-mode))
 
-;;;; Extensions: ‘flymake-ruff’
-;; Used because ‘ty’ and ‘ruff’ don’t plug into each other yet, and ‘eglot’ can’t run more
-;; than one LSP server out of the box. This way, ‘eglot’ talks to ‘ty’, and ‘flymake’
-;; handles ‘ruff’.
-(use-package flymake-ruff
-  :ensure t
-  :hook
-  (eglot-managed-mode-hook . flymake-ruff-load))
-
-(use-package ruff-format
-  :ensure t
-  :config
-  (defun my/override-eglot-mq-in-python ()
-    "Replace eglot-format with ruff-format in python buffers only."
-    (when (derived-mode-p 'python-ts-mode)
-      (let* ((oldmap (cdr (assq 'eglot--managed-mode minor-mode-map-alist)))
-             (newmap (make-sparse-keymap)))
-        (set-keymap-parent newmap oldmap)
-        (define-key newmap (kbd "M-q") #'ruff-format-buffer)
-        (push `(eglot--managed-mode . ,newmap)
-              minor-mode-overriding-map-alist))))
-  (add-hook 'eglot--managed-mode-hook #'my/override-eglot-mq-in-python))
-
 ;; Trim extraneous white spaces in code files
 (use-package ws-butler
   :ensure t
@@ -423,7 +400,7 @@
                                    "--completion-style=detailed")))
 
   (add-to-list 'eglot-server-programs
-               '(python-ts-base-mode . ("ty" "server")))
+               '(python-ts-base-mode . ("rass" "python")))
 
   (setopt eglot-workspace-configuration
           '(:ty (:completions (:completeFunctionParentheses t))))
@@ -1375,13 +1352,13 @@ calling ‘comment-dwim’ in that case."
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    '(agent-shell auctex avy beginend dired-preview diredfl ef-themes eldoc-box elfeed-tube
-                 embark-consult expand-region flymake-ruff forge highlight-doxygen hydra
-                 jinx json-mode lorem-ipsum marginalia minions modus-themes move-text
-                 multiple-cursors nerd-icons nerd-icons-completion nerd-icons-dired
-                 nerd-icons-grep no-littering olivetti orderless org-appear org-bullets
+                 embark-consult expand-region forge highlight-doxygen hydra jinx json-mode
+                 lorem-ipsum marginalia minions modus-themes move-text multiple-cursors
+                 nerd-icons nerd-icons-completion nerd-icons-dired nerd-icons-grep
+                 no-littering olivetti orderless org-appear org-bullets
                  package-lint-flymake page-break-lines pdf-tools pdffontetc pulsar
-                 ruff-format show-font tuareg vertico vundo whole-line-or-region
-                 wiki-summary ws-butler xr yasnippet zygospore))
+                 show-font tuareg vertico vundo whole-line-or-region wiki-summary
+                 ws-butler xr yasnippet zygospore))
  '(send-mail-function 'smtpmail-send-it))
 
 (custom-set-faces
