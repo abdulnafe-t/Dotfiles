@@ -27,13 +27,12 @@
 
 (add-hook 'c++-ts-mode-hook
           (lambda()
-            (setq treesit-font-lock-settings
-                  (append treesit-font-lock-settings
-                          (treesit-font-lock-rules
-                           :language 'cpp
-                           :feature 'keyword
-                           :override t
-                           '((auto) @a-t-font-lock-auto))))
+            (nconc treesit-font-lock-settings
+                   (treesit-font-lock-rules
+                    :language 'cpp
+                    :feature 'keyword
+                    :override t
+                    '((auto) @a-t-font-lock-auto)))
 
             (push 'function (nth 2 treesit-font-lock-feature-list))
             (treesit-font-lock-recompute-features)))
