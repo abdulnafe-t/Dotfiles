@@ -530,6 +530,17 @@ comment."
   "Set custom python options."
   (setopt python-indent-guess-indent-offset-verbose nil))
 
+;;;; Extensions: ‘pyvenv’
+(use-package pyvenv
+    :ensure t)
+
+(use-package pyvenv-auto
+    :ensure t
+    :hook
+    (python-ts-mode-hook . (lambda()
+                             (pyvenv-auto-run)
+                             (pyvenv-mode))))
+
 (add-hook 'c-ts-base-mode-hook #'a-t/c-config)
 (add-hook 'python-ts-base-mode-hook #'a-t/python-config)
 
