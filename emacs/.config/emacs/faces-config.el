@@ -114,7 +114,7 @@
     (set-face-attribute 'org-level-2               nil :inherit 'outline-2 :height 1.6)
     (set-face-attribute 'org-level-3               nil :inherit 'outline-3 :height 1.5)
     (set-face-attribute 'org-level-4               nil :inherit 'outline-4 :height 1.4)
-    (set-face-attribute 'org-level-5               nil :inherit 'outline-5 :height 1.3)
+    (set-face-attribute 'org-level-5               nil :inherit 'outline-5 :height 1.2)
     (set-face-attribute 'org-link                  nil :foreground "royal blue" :underline t)
     (set-face-attribute 'org-meta-line             nil :inherit '(font-lock-comment-face fixed-pitch))
     (set-face-attribute 'org-property-value        nil :inherit 'fixed-pitch)
