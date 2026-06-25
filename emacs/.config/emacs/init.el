@@ -282,16 +282,16 @@
 
 ;;;; Style: ‘pulsar’
 (use-package pulsar
-  :ensure t
-  :config
-  (setopt pulsar-face 'cursor
-          pulsar-region-face 'cursor
-          pulsar-region-change-face 'cursor
-          pulsar-highlight-face 'cursor
-          pulsar-tty-color "snow3")
-  (push 'kill-visual-line pulsar-pulse-functions)
-  :init
-  (pulsar-global-mode))
+    :ensure t
+    :config
+    (setopt pulsar-face 'mode-line-active
+            pulsar-region-face 'mode-line-active
+            pulsar-region-change-face 'mode-line-active
+            pulsar-highlight-face 'mode-line-active
+            pulsar-tty-color season-dim)
+    (push 'kill-visual-line pulsar-pulse-functions)
+    :init
+    (pulsar-global-mode))
 
 ;;;; Style: ‘shr’
 (use-package shr
