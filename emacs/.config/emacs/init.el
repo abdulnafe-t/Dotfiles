@@ -1444,7 +1444,7 @@ calling ‘comment-dwim’ in that case."
                  embark-consult expand-region forge highlight-doxygen hydra jinx json-mode
                  lorem-ipsum marginalia minions modus-themes move-text multiple-cursors
                  nerd-icons nerd-icons-completion nerd-icons-dired nerd-icons-grep
-                 no-littering olivetti orderless org-appear org-bullets
+                 no-littering olivetti orderless org-appear org-superstar
                  package-lint-flymake page-break-lines pdf-tools pdffontetc pulsar
                  show-font tuareg vertico vundo whole-line-or-region wiki-summary
                  ws-butler xr yasnippet zygospore))

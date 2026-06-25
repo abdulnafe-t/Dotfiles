@@ -24,13 +24,19 @@
   (org-pretty-entities t)
   (org-use-sub-superscripts '{})
   (org-startup-with-inline-images t)
-  (org-image-actual-width '(300)))
+  (org-image-actual-width '(300))
+  (org-todo-keywords
+   '((sequence "TODO(t)" "WAIT(w!)" "|" "CANCELED(c!)" "DONE(d!)"))))
 
-(use-package org-bullets
+(use-package org-superstar
   :ensure t
   :after org
   :hook
-  (org-mode-hook . org-bullets-mode))
+  (org-mode-hook . org-superstar-mode)
+  :custom
+  (org-superstar-cycle-headline-bullets t)
+  (org-superstar-leading-bullet ?\s)
+  (org-indent-mode-turns-on-hiding-stars nil))
 
 (use-package org-appear
   :ensure t
