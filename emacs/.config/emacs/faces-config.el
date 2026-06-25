@@ -32,10 +32,14 @@
                     :language 'cpp
                     :feature 'keyword
                     :override t
-                    '((auto) @a-t-font-lock-auto)))
+                    '((auto) @a-t-font-lock-auto)))))
 
-            (push 'function (nth 2 treesit-font-lock-feature-list))
-            (treesit-font-lock-recompute-features)))
+(add-hook 'prog-mode-hook
+          (lambda()
+            (when (treesit-parser-list) ; When the current buffer is a treesitter buffer
+              (push 'function
+                    (nth 2 treesit-font-lock-feature-list)) ; third entry
+              (treesit-font-lock-recompute-features))))
 
 (defun a-t/set-custom-faces ()
 
