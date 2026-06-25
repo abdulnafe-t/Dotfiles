@@ -35,11 +35,7 @@
                            :override t
                            '((auto) @a-t-font-lock-auto))))
 
-            (setq-local treesit-font-lock-feature-list
-                        (cl-loop for level in treesit-font-lock-feature-list
-                                 collect (remove 'function-call level)))
             (push 'function (nth 2 treesit-font-lock-feature-list))
-
             (treesit-font-lock-recompute-features)))
 
 (defun a-t/set-custom-faces ()
