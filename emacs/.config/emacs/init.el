@@ -1439,28 +1439,11 @@ calling ‘comment-dwim’ in that case."
 
 ;;; Automated
 
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   '(agent-shell auctex avy beginend dired-preview diredfl ef-themes eldoc-box elfeed-tube
-                 embark-consult expand-region forge highlight-doxygen hydra jinx json-mode
-                 lorem-ipsum marginalia minions modus-themes move-text multiple-cursors
-                 nerd-icons nerd-icons-completion nerd-icons-dired nerd-icons-grep
-                 no-littering olivetti orderless org-appear org-superstar
-                 package-lint-flymake page-break-lines pdf-tools pdffontetc pulsar
-                 show-font tuareg vertico vundo whole-line-or-region wiki-summary
-                 ws-butler xr yasnippet zygospore))
- '(send-mail-function 'smtpmail-send-it))
+;;;; Misc: ‘custom’
+;; Builtin; moved out of init file to keep things tidy.
+(setopt custom-file "~/.config/emacs/custom.el")
+(load custom-file)
 
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
 ;; Local Variables:
 ;; jinx-local-words: "init lp"
 ;; End:

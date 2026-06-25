@@ -15,6 +15,7 @@
         gnus-ignored-newsgroups "^to\\.\\|^[0-9. ]+\\( \\|$\\)\\|^[\"]\"[#'()]")
 
 (setopt mail-user-agent 'gnus-user-agent
+        send-mail-function 'smtpmail-send-it
         gnus-posting-styles '((".*" (signature "A.T.")))
         gnus-asynchronous t
         gnus-article-sort-functions '(gnus-article-sort-by-most-recent-number
