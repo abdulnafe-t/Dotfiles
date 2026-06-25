@@ -1227,9 +1227,11 @@ comment."
 
 ;;;; Extensions: ‘magit’
 (use-package magit
-  :ensure t
-  :init
-  (setopt vc-follow-symlinks t))
+    :ensure t
+    :init
+    (setopt vc-follow-symlinks t)
+    :custom
+    (magit-format-file-function #'magit-format-file-nerd-icons))
 
 (use-package forge
   :ensure t
