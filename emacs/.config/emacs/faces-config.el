@@ -8,9 +8,6 @@
 (defface a-t-font-lock-auto '((t (:inherit font-lock-type-face :slant italic :weight bold)))
   "Custom face for the C++ ‘auto’ keyword.")
 
-(defface a-t-font-lock-this-ptr '((t (:foreground "#0060ab" :slant normal :weight bold)))
-  "Custom face for the C++ ‘this’ pointer.")
-
 (modus-themes-with-colors
   (defface a-t-author `((t (:foreground ,accent-1)))
     "Face for author of an article in the gnus summary buffer.")
@@ -36,8 +33,7 @@
                            :language 'cpp
                            :feature 'keyword
                            :override t
-                           '((auto) @a-t-font-lock-auto
-                             (this) @a-t-font-lock-this-ptr))))
+                           '((auto) @a-t-font-lock-auto))))
 
             (setq-local treesit-font-lock-feature-list
                         (cl-loop for level in treesit-font-lock-feature-list
