@@ -113,6 +113,9 @@
   (unless (derived-mode-p 'makefile-gmake-mode)
     (indent-tabs-mode -1)))
 
+;; More intuitive alignment of wrapped lists. From https://stackoverflow.com/a/22167050
+(setopt lisp-indent-function #'common-lisp-indent-function)
+
 (add-hook 'prog-mode-hook #'a-t/disable-tabs)
 
 (global-auto-revert-mode 1)
