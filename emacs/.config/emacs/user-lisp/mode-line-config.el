@@ -42,7 +42,8 @@
 
 FILE is the file being checked for version control.
 
-BACKEND is the backend to check for version control. Defaults to git."
+BACKEND is the backend to check for version control. Defaults to
+\"Git\"."
   (when (and file
              (vc-registered file))
     (let* ((state (vc-state file))
