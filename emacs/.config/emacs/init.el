@@ -652,7 +652,6 @@ comment."
   :config
   (setopt TeX-auto-save t
           TeX-parse-self t
-          TeX-master nil
           TeX-view-program-selection '((output-pdf "PDF Tools"))
           TeX-source-correlate-start-server t
           TeX-engine 'luatex))
