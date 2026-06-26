@@ -547,7 +547,10 @@ comment."
 
 ;;;; Extensions: ‘pyvenv’
 (use-package pyvenv
-    :ensure t)
+    :ensure t
+    :custom
+    (pyvenv-mode-line-indicator
+     '(pyvenv-virtual-env-name ("[pyvenv:" pyvenv-virtual-env-name "] "))))
 
 (use-package pyvenv-auto
     :ensure t
