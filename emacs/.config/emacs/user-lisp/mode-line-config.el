@@ -188,12 +188,14 @@ be a list whose car is one of the keywords :propertize or :eval")))
   '(""
     mode-line-misc-info
     " "
-    vc-mode
-    "  "
+    (vc-mode
+     (:eval
+      (concat vc-mode
+              "  ")))
     mode-line-modes)
   "Mode line construct containing all entries that should be right-aligned."
   :type '(repeat (choice (string :tag "Literal text to display in the mode line")
-                         (sexp :tag "Sexp to pass on to ‘format-mode-line’, which see. For example, this can
+                  (sexp :tag "Sexp to pass on to ‘format-mode-line’, which see. For example, this can
 be a list whose car is one of the keywords :propertize or :eval")))
   :group 'a-t/mode-line)
 
