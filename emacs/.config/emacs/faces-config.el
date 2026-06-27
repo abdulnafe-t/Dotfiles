@@ -95,7 +95,7 @@
 
   (with-eval-after-load 'eglot
     (modus-themes-with-colors
-      (set-face-attribute 'eglot-mode-line           nil :weight 'regular :foreground fg-main)
+      (set-face-attribute 'eglot-mode-line           nil :weight 'regular :foreground 'unspecified)
       (set-face-attribute 'eglot-semantic-macro      nil :weight 'bold :foreground fg-alt)
       (set-face-attribute 'eglot-semantic-parameter  nil :inherit 'font-lock-variable-name-face)
       (set-face-attribute 'eglot-semantic-static     nil :slant 'italic :weight 'normal :foreground 'unspecified :inherit 'nil)))
