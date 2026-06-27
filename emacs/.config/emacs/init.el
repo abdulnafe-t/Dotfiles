@@ -1281,16 +1281,6 @@ comment."
 ;;;; Extensions: ‘elfeed’
 (load "~/.config/emacs/elfeed-config")
 
-;;;; Extensions: ‘agent-shell’
-(use-package agent-shell
-  :ensure t
-  :bind
-  (:map agent-shell-mode-map (("C-c C-c" . nil)
-                              ("C-c C-k" . agent-shell-interrupt)))
-  :custom
-  (agent-shell-opencode-default-model-id "opencode/big-pickle")
-  (agent-shell-thought-process-expand-by-default t))
-
 ;;;; Extensions: ‘page-break-line’
 (use-package page-break-lines
   :ensure t
