@@ -275,7 +275,6 @@
       (interactive)
       (let ((dark-to-light-p (eq (modus-themes-get-current-theme) season-dark-theme)))
 
-
         (if dark-to-light-p
             (progn
               (modus-themes-load-theme season-light-theme)
