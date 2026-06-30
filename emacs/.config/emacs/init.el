@@ -1259,9 +1259,10 @@ comment."
 (use-package magit
     :ensure t
     :init
-    (setopt vc-follow-symlinks t)
     :custom
-    (magit-format-file-function #'magit-format-file-nerd-icons))
+    (vc-follow-symlinks t)
+    (magit-format-file-function #'magit-format-file-nerd-icons)
+    (magit-diff-use-indicator-faces t))
 
 (use-package forge
   :ensure t
