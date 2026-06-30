@@ -544,6 +544,11 @@ comment."
   "Set custom python options."
   (setopt python-indent-guess-indent-offset-verbose nil))
 
+(defun a-t/python-always-send-main (orig-fun start end &optional send-main msg no-cookie)
+  (funcall orig-fun start end t msg no-cookie))
+
+(advice-add 'python-shell-send-region :around #'a-t/python-always-send-main)
+
 ;;;; Extensions: ‘pyvenv’
 (use-package pyvenv
     :ensure t
