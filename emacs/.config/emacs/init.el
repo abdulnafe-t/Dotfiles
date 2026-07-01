@@ -651,14 +651,18 @@ comment."
 
 ;;;; Extensions: ‘AUCTeX’
 (use-package auctex
-  :ensure t
-  :hook (LaTeX-mode-hook . TeX-source-correlate-mode)
-  :config
-  (setopt TeX-auto-save t
-          TeX-parse-self t
-          TeX-view-program-selection '((output-pdf "PDF Tools"))
-          TeX-source-correlate-start-server t
-          TeX-engine 'luatex))
+    :ensure t
+    :hook
+    ((LaTeX-mode-hook . TeX-source-correlate-mode)
+     (LaTeX-mode-hook . turn-on-reftex))
+    :custom
+    (TeX-auto-save t)
+    (TeX-parse-self t)
+    (TeX-view-program-selection '((output-pdf "PDF Tools")))
+    (TeX-source-correlate-start-server-maybe t)
+    (reftex-plug-into-AUCTeX t)
+    (reftex-cite-format 'biblatex)
+    (TeX-engine 'luatex))
 
 (add-hook 'TeX-after-compilation-finished-functions
           #'TeX-revert-document-buffer)
