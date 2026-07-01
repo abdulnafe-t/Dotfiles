@@ -1,0 +1,5 @@
+#!/bin/bash
+emacsclient -n "$1" 2>/dev/null \
+  || (emacs --daemon && emacsclient -n "$1") \
+  || emacs "$1" 2>/dev/null \
+  || librewolf "$1"

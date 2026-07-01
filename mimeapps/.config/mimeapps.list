@@ -6,6 +6,7 @@ x-scheme-handler/https=librewolf.desktop
 x-scheme-handler/about=librewolf.desktop
 x-scheme-handler/unknown=librewolf.desktop
 inode/directory=emacsclient-dired.desktop
+application/pdf=pdf-viewer.desktop
 
 [Added Associations]
 font/ttf=com.github.FontManager.FontViewer.desktop;
