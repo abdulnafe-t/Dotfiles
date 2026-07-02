@@ -663,6 +663,7 @@ comment."
     (TeX-source-correlate-start-server-maybe t)
     (reftex-plug-into-AUCTeX t)
     (reftex-cite-format 'biblatex)
+    (bibtex-dialect 'biblatex)
     (TeX-engine 'luatex))
 
 (add-hook 'TeX-after-compilation-finished-functions
