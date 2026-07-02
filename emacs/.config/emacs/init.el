@@ -654,7 +654,8 @@ comment."
     :ensure t
     :hook
     ((LaTeX-mode-hook . TeX-source-correlate-mode)
-     (LaTeX-mode-hook . turn-on-reftex))
+     (LaTeX-mode-hook . turn-on-reftex)
+     (LaTeX-mode-hook . flymake-mode))
     :custom
     (TeX-auto-save t)
     (TeX-parse-self t)
