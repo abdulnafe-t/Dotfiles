@@ -387,6 +387,18 @@
   :hook
   (bash-ts-mode-hook . flymake-mode))
 
+(use-package flymake-vale
+    :after flymake
+    :hook
+    ((text-mode-hook
+      latex-mode-hook
+      org-mode-hook
+      markdown-mode-hook
+      message-mode-hook)
+     . (lambda ()
+         (flymake-vale-load)
+         (flymake-mode))))
+
 ;; Trim extraneous white spaces in code files
 (use-package ws-butler
   :ensure t

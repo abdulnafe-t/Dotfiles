@@ -1,0 +1,1 @@
+/home/scion/Projects/flymake-vale/flymake-vale.el
