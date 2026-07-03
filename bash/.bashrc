@@ -57,3 +57,5 @@ export GROFF_NO_SGR=1
 export MANPAGER='less'
 
 eval "$(zoxide init bash)"
+
+eval "$(thefuck --alias)"
