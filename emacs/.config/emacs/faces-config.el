@@ -61,6 +61,9 @@
                                       bg-active))
 
     (set-face-attribute 'a-t-dir-face nil :foreground cursor)
+    (set-face-attribute 'a-t-author   nil :foreground accent-1)
+    (set-face-attribute 'a-t-date     nil :foreground date-common)
+    (set-face-attribute 'a-t-dummy    nil :foreground fg-alt)
 
     (set-face-attribute 'mode-line nil :box 'nil :underline 'nil :family "GeistMono Nerd Font Propo")
     (set-face-attribute 'mode-line-active nil :box nil :underline 'nil :family "GeistMono Nerd Font Propo")
