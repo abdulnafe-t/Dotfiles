@@ -1348,11 +1348,11 @@ comment."
 ;;;; Extensions: ‘auto-capitalize’ (from user-lisp)
 (use-package auto-capitalize
   :init
-  (auto-capitalize-global-mode)
+  (auto-capitalize-global-mode))
 
-  :config
-  (modify-syntax-entry ?' ".   " text-mode-syntax-table)
-  (modify-syntax-entry ?’ ".   " text-mode-syntax-table))
+;;;; Extensions: ‘auto-capitalize-tex’ (from user-lisp)
+(use-package auto-capitalize-tex
+    :after auto-capitalize)
 
 ;;;; Extensions: ‘auto-read-only’ (from user-lisp)
 (use-package auto-read-only

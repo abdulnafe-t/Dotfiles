@@ -1,0 +1,1 @@
+/home/scion/Projects/auto-capitalize-el/auto-capitalize-tex.el
