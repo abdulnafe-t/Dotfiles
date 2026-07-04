@@ -1,10 +1,5 @@
 ;;; -*- lexical-binding: t -*-
 
-;;; Server/Client architecture
-(use-package server)
-(unless (server-running-p)
-  (server-start))
-
 ;;; Emacs source code
 (setq find-function-C-source-directory "~/Etc/Programs/emacs-c-code")
 
