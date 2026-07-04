@@ -487,9 +487,9 @@ comment."
     	;; For newline, we want to reindent both lines and basically
     	;; behave like reindent-then-newline-and-indent (whose code we
     	;; hence copied).
-    	(let ( (at-newline (<= pos (line-beginning-position)))
-    	       (whitespace-indentation nil) ;; new variable introduced
-    	       )
+    	(let ((at-newline (<= pos (line-beginning-position)))
+    	      (whitespace-indentation nil) ;; new variable introduced
+    	      )
     	  (when at-newline
     	    (let ((before (copy-marker (1- pos) t)))
     	      (save-excursion
