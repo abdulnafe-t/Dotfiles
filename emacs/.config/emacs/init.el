@@ -164,6 +164,8 @@
 
 (setopt use-package-hook-name-suffix nil)
 
+(global-goto-address-mode)
+
 ;;; Security
 
 (setq trusted-content '("~/Projects/"))
