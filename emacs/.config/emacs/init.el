@@ -109,7 +109,7 @@
     (indent-tabs-mode -1)))
 
 ;; More intuitive alignment of wrapped lists. From https://stackoverflow.com/a/22167050
-(setopt lisp-indent-function #'common-lisp-indent-function)
+;; (setopt lisp-indent-function #'common-lisp-indent-function)
 
 (add-hook 'prog-mode-hook #'a-t/disable-tabs)
 
@@ -360,6 +360,15 @@
 (advice-add #'occur-cease-edit
             :after (lambda ()
                      (hl-line-mode 1)))
+
+;;;; Style: ‘hl-todo’
+(use-package hl-todo
+  :ensure t
+  :after (flymake nerd-icons)
+  :init
+  (global-hl-todo-mode)
+  :config
+  (modify-syntax-entry ?\" "_" hl-todo--syntax-table))
 
 ;;; ‘Org’
 (load "~/.config/emacs/org-config")
@@ -1282,6 +1291,21 @@ comment."
 (use-package forge
   :ensure t
   :after magit)
+
+(use-package magit-todos
+  :ensure t
+  :after magit
+  :init
+  (magit-todos-mode 1)
+  :custom
+  (magit-todos-rg-extra-args '("--hidden"))
+  (magit-todos-auto-group-items 'always)
+  (magit-todos-group-by '(magit-todos-item-keyword))
+  (magit-todos-branch-list nil)
+  (magit-todos-ignored-keywords '("DONE"))
+  :config
+  (add-to-list 'magit-todos-exclude-globs "opencode/")
+  (add-to-list 'magit-todos-exclude-globs "dunst/"))
 
 ;;;; Extensions: ‘expand-region’
 (use-package expand-region
