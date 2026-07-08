@@ -17,9 +17,8 @@
 
   (add-hook 'elfeed-new-entry-hook (elfeed-make-tagger :entry-link "youtube\\.com/shorts/"
                                                        :add '(read shorts junk)
-                                                       :remove 'unread)) ; FIXME: replace
-                                                                         ; with :hook
-                                                                         ; kwarg?
+                                                       :remove 'unread))
+                                        ; FIXME: replace with :hook kwarg?
 
   (setopt elfeed-search-filter "@2-months-ago +unread")
   (setopt elfeed-feeds
