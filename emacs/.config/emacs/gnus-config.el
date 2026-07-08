@@ -124,3 +124,29 @@ This removes mailing list or other intermediate identifiers."
 ;; Format specification for the summary mode line.
 (setopt gnus-summary-mode-line-format "Gnus: %V: %p"
         gnus-group-mode-line-format "Gnus: %%b")
+
+(defun a-t/compose-mail-from-region ()
+  "Insert the region into a mail buffer.
+
+If there is already an active message buffer, insert the region there.
+If there’s more than one, prompt the user to choose one. If none exist,
+create one and insert the region.
+
+If the region isn’t active, simply call ‘compose-mail’."
+  (interactive)
+  (if (not (region-active-p))
+      (compose-mail)
+    (let* ((text (buffer-substring (region-beginning) (region-end)))
+           (bufs (message-buffers))
+           (destination
+            (if (and bufs (y-or-n-p "Attach files to existing mail composition buffer? "))
+                (if (= (length bufs) 1)
+                    (get-buffer (car bufs))
+                  (gnus-completing-read "Attach to buffer"
+                                        bufs t nil nil (car bufs)))
+              (progn (compose-mail) (current-buffer)))))
+      (with-current-buffer destination
+        (let ((beg (point)))
+          (insert text)
+          (message-mark-inserted-region beg (point))))
+      (switch-to-buffer destination))))
