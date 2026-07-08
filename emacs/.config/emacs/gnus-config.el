@@ -16,7 +16,7 @@
 
 (setopt mail-user-agent 'gnus-user-agent
         send-mail-function 'smtpmail-send-it
-        gnus-posting-styles '((".*" (signature "A.T.")))
+        gnus-posting-styles '((".*" (signature "Abdulnafé Toulaïmat")))
         gnus-asynchronous t
         gnus-article-sort-functions '(gnus-article-sort-by-most-recent-number
                                       gnus-article-sort-by-most-recent-date)
