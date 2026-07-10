@@ -53,8 +53,4 @@
                              (setq-local cursor-type 'bar)))
 
   (olivetti-mode-off-hook . (lambda ()
-                              (setq-local cursor-type t)))
-
-  :config
-  (setopt olivetti-style nil
-          olivetti-body-width 72))
+                              (setq-local cursor-type t))))
