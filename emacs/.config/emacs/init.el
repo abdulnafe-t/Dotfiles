@@ -218,9 +218,13 @@
 ;;;; Style: mode line
 (require 'mode-line-config)
 
-(load "~/.config/emacs/season-colors.el")
+(setopt mode-line-collapse-minor-modes '(not flymake-mode)
+        mode-line-collapse-minor-modes-to " "
+        mode-line-modes-delimiters nil)
 
 ;;;; Style: theme
+(load "~/.config/emacs/season-colors.el")
+
 (use-package ef-themes
     :ensure t
     :demand t
@@ -1353,16 +1357,6 @@ comment."
   (eldoc-box-max-pixel-height 350)
   (eldoc-documentation-strategy 'eldoc-documentation-compose-eagerly)
   (eldoc-idle-delay 1))
-
-;;;; Extensions: ‘minions’
-(use-package minions
-  :ensure t
-  :init
-  (minions-mode t)
-  :config
-  (setopt mode-line-modes-delimiters nil
-          minions-mode-line-lighter " "
-          minions-prominent-modes '(flymake-mode)))
 
 ;;;; Extensions: ‘xr’
 (use-package xr
