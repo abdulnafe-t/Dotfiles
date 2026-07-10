@@ -5,6 +5,7 @@
 ;;; https://www.howardism.org/Technical/Emacs/orgmode-wordprocessor.html
 ;;; https://lucidmanager.org/productivity/ricing-org-mode/
 ;;; https://youtu.be/L0EJeN1fCYw
+;;; https://github.com/minad/org-modern
 
 (use-package org
   :bind
@@ -26,7 +27,8 @@
   (org-startup-with-inline-images t)
   (org-image-actual-width '(300))
   (org-todo-keywords
-   '((sequence "TODO(t)" "WAIT(w!)" "|" "CANCELED(c!)" "DONE(d!)"))))
+   '((sequence "TODO(t)" "WAIT(w!)" "|" "CANCELED(c!)" "DONE(d!)")))
+  (org-ellipsis "…"))
 
 (use-package org-superstar
   :ensure t
