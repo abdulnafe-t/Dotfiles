@@ -104,8 +104,8 @@
 
 ;; Replace tabs with spaces
 (defun a-t/disable-tabs ()
-  "Use spaces and not tabs for indentation, unless in ‘makefile-gmake-mode’"
-  (unless (derived-mode-p 'makefile-gmake-mode)
+  "Use spaces and not tabs for indentation, unless in ‘makefile-mode’"
+  (unless (derived-mode-p 'makefile-mode)
     (indent-tabs-mode -1)))
 
 (add-hook 'prog-mode-hook #'a-t/disable-tabs)
