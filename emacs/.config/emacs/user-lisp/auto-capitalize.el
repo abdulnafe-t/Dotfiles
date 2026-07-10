@@ -1,1 +1,1 @@
-/home/scion/Projects/auto-capitalize-el/auto-capitalize.el
+/home/scion/Projects/auto-capitalize.el/auto-capitalize.el
