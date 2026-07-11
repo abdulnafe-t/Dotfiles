@@ -5,6 +5,7 @@ PKGBUILD_DIR="$HOME/Etc/Programs/emacs-build"
 CCODE_DIR="$HOME/Etc/Programs/emacs-c-code"
 
 cd "$PKGBUILD_DIR"
+[[ -d src/emacs-31 ]] && git -C src/emacs-31 clean -fdx
 makepkg -si "$@"
 
 cd "$PKGBUILD_DIR/src/emacs-31"
