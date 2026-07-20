@@ -758,29 +758,6 @@ comment."
               :after (lambda ()
                        (hl-line-mode 1))))
 
-(use-package dired-preview
-  :ensure t
-  :after dired
-  :init
-  (dired-preview-global-mode)
-  :custom
-  (dired-preview-delay 0.1)
-  (dired-preview-buffer-name-indicator "Preview:")
-  (dired-preview-max-size (* 5 (expt 2 20)))
-
-  :bind
-
-  (:repeat-map dired-preview-repeat-map
-               ("C-u" . dired-preview-page-up)
-               ("C-d" . dired-preview-page-down)
-               ("C-x" . dired-preview-hexl-toggle)
-               :exit
-               ("C-f" . dired-preview-find-file)
-               ("C-o" . dired-preview-open-dwim))
-
-  :config
-  (setopt dired-preview-ignored-extensions-regexp nil))
-
 (use-package diredfl
   :ensure t
   :after dired
