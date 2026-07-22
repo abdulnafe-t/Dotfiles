@@ -1281,6 +1281,7 @@ comment."
   (magit-todos-group-by '(magit-todos-item-keyword))
   (magit-todos-branch-list nil)
   (magit-todos-ignored-keywords '("DONE"))
+  (magit-todos-max-items 1)
   :config
   (add-to-list 'magit-todos-exclude-globs "opencode/")
   (add-to-list 'magit-todos-exclude-globs "dunst/"))
