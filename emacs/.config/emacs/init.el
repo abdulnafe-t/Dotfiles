@@ -1348,7 +1348,7 @@ comment."
   ((TeX-mode-hook . auto-capitalize-tex-mode)
    (org-mode-hook . auto-capitalize-org-mode))
   :config
-  (auto-capitalize-add-fixed-case-words '("FIXME" "TODO")))
+  (auto-capitalize-add-fixed-case-words '("FIXME" "TODO" "TeX" "LaTeX")))
 
 ;;;; Extensions: ‘auto-read-only’ (from user-lisp)
 (use-package auto-read-only
