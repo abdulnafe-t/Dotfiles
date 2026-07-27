@@ -161,8 +161,6 @@
 
 (setopt use-package-hook-name-suffix nil)
 
-(global-goto-address-mode)
-
 ;;; Security
 
 (setq trusted-content '("~/Projects/"))
@@ -1339,6 +1337,12 @@ comment."
 ;;;; Extensions: ‘xr’
 (use-package xr
   :ensure t)
+
+;;;; Extensions: ‘goto-address’
+(use-package goto-addr
+  :hook
+  ((text-mode-hook . goto-address-mode)
+   (prog-mode-hook . goto-address-prog-mode)))
 
 ;;;; Extensions: ‘auto-capitalize’ (from user-lisp)
 (use-package auto-capitalize
