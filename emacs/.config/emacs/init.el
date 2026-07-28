@@ -1317,23 +1317,6 @@ comment."
   :config
   (highlight-doxygen-global-mode))
 
-;;;; Extensions: ‘eldoc-box’
-(use-package eldoc-box
-  :ensure t
-  :custom-face
-  (eldoc-box-border ((t (:background "#ffffff" :weight bold))))
-  (eldoc-box-body ((t (:background "#0d0e1c"))))
-  :bind
-  (:map global-map
-        ("C-*" . eldoc-box-help-at-point))
-  :config
-  :custom
-  (eldoc-box-clear-with-C-g t)
-  (eldoc-box-max-pixel-width 750)
-  (eldoc-box-max-pixel-height 350)
-  (eldoc-documentation-strategy 'eldoc-documentation-compose-eagerly)
-  (eldoc-idle-delay 1))
-
 ;;;; Extensions: ‘xr’
 (use-package xr
   :ensure t)
