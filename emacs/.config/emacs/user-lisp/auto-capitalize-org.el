@@ -1,1 +1,1 @@
-/home/scion/Projects/auto-capitalize.el/auto-capitalize-org.el
+../../../../../Projects/auto-capitalize.el/auto-capitalize-org.el
