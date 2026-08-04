@@ -26,6 +26,7 @@
             ("https://xkcd.com/atom.xml" xkcd humor general comics)
             ("https://archlinux.org/feeds/news" arch linux software)
             ("https://emacshorrors.com/feed.atom" emacs software humor)
+            ("https://int10h.org/blog/index.xml" int10h software retro typography gaming)
             ("https://blog.ar-ms.me/atom.xml" abdul-rahman-sibahi arabic software typography general)
             ("https://www.youtube.com/feeds/videos.xml?channel_id=UCGudGqToOw9hWGR88W9Jutg" youtube howtown)
             ("https://www.youtube.com/feeds/videos.xml?channel_id=UCYO_jab_esuFRV4b17AJtAw" youtube 3blue1brown math)
