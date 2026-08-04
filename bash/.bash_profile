@@ -7,8 +7,8 @@ if [ -z "$WAYLAND_DISPLAY" ] && [ "$(tty)" = "/dev/tty1" ]; then
     echo
 
     export PATH=${PATH}:${HOME}/.local/bin
-    export EDITOR='emacsclient -c -a emacs'
-    export VISUAL='emacsclient -c -a emacs'
+    export EDITOR=${HOME}/.local/bin/a-t-editor
+    export VISUAL=$EDITOR
     GPG_TTY=$(tty)
     export GPG_TTY
 

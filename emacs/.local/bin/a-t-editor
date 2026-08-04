@@ -1,0 +1,7 @@
+#!/usr/bin/bash
+
+if [ -n "${DISPLAY:-}${WAYLAND_DISPLAY:-}" ]; then
+  exec emacsclient -c -a emacs "$@"
+else
+  exec emacsclient -nw -a 'emacs -nw' "$@"
+fi
