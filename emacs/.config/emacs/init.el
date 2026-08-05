@@ -218,7 +218,8 @@
 
 (setopt mode-line-collapse-minor-modes '(not flymake-mode)
         mode-line-collapse-minor-modes-to " "
-        mode-line-modes-delimiters nil)
+        mode-line-modes-delimiters nil
+        mode-line-compact 'long)
 
 ;;;; Style: theme
 (load "~/.config/emacs/season-colors.el")
