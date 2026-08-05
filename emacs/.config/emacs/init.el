@@ -1308,7 +1308,8 @@ comment."
   :init
   (global-page-break-lines-mode)
   :config
-  (add-to-list 'page-break-lines-modes 'c-mode))
+  (add-to-list 'page-break-lines-modes 'c-mode)
+  (add-to-list 'page-break-lines-modes 'c++-mode))
 
 ;;;; Extensions: ‘highlight-doxygen’
 (use-package highlight-doxygen
