@@ -75,3 +75,4 @@ AllowShortCompoundRequirementOnASingleLine: false
 
 BreakBeforeConceptDeclarations: Always
 
+KeepFormFeed: true
