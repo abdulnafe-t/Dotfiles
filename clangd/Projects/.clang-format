@@ -67,3 +67,11 @@ IncludeCategories:
     Priority: 1
   - Regex: '^<.*>'
     Priority: 2
+
+RequiresClausePosition: OwnLineWithBrace
+IndentRequiresClause: false
+RequiresExpressionIndentation: Keyword
+AllowShortCompoundRequirementOnASingleLine: false
+
+BreakBeforeConceptDeclarations: Always
+
