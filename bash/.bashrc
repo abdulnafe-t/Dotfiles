@@ -9,8 +9,8 @@ case $- in
 esac
 
 export PATH=${PATH}:${HOME}/.local/bin
-export EDITOR=${HOME}/.local/bin/a-t-editor
-export VISUAL=$EDITOR
+export EDITOR='emacsclient -c -a emacs'
+export VISUAL='emacsclient -c -a emacs'
 
 alias ls='ls --color=auto'
 alias grep='grep --color=auto'

@@ -41,7 +41,7 @@ local hyprScripts = os.getenv("HOME") .. "/.config/hypr/scripts"
 local terminal = "footclient"
 local fileManager = "sh -c \"" .. hyprScripts .. "/dired\""
 local menu = "fuzzel"
-local editor = "sh -c a-t-editor"
+local editor = "emacsclient -c -a \"\""
 local llmagent = terminal .. " -e opencode"
 local browser = "librewolf"
 
