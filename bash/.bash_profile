@@ -22,7 +22,7 @@ if [ -z "$WAYLAND_DISPLAY" ] && [ "$(tty)" = "/dev/tty1" ]; then
 Would you like to start ${CYAN}Hyprland${RESET}? [Y/n] "
     read -r ans
     case "$ans" in
-        "" | ^[Yy]$) "$HOME/.local/bin/set-season-theme"
+        "" | [Yy]) "$HOME/.local/bin/set-season-theme"
                      exec start-hyprland;;
         *) ;;
     esac
