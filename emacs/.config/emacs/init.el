@@ -189,7 +189,8 @@
 (setopt elisp-fontify-semantically t
         elisp-add-help-echo nil
         font-lock-maximum-decoration 3
-        treesit-font-lock-level 3)
+        treesit-font-lock-level 3
+        compilation-scroll-output t)
 
 ;; (add-to-list 'default-frame-alist '(alpha-background . 0.8))
 
@@ -376,13 +377,17 @@
 ;;; Programming
 
 (use-package autoinsert
-  ; Builtin, used to automatically insert header guards & #include macros when a header
-  ; file has the same name as the current (new) C++ file
+  ;; Builtin, used to automatically insert header guards & #include macros when a header
+  ;; file has the same name as the current (new) C++ file
   :init
   (auto-insert-mode)
   :custom
   (auto-insert-query nil)
-  (auto-insert nil))
+  (auto-insert t)
+  :config
+  (define-auto-insert
+    '("\\.\\([Hh]\\|hh\\|hpp\\|hxx\\|h\\+\\+\\)\\'" . "C / C++ header (#pragma once)")
+    '(nil "#pragma once" n n _)))
 
 (use-package flymake
   ;; Builtin, used for syntax checking. Disable its

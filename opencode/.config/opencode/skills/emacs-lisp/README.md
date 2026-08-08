@@ -1,6 +1,6 @@
 # Emacs Lisp Style Guide Skill
 
-A comprehensive Claude Code skill for writing professional Emacs Lisp code following the community-driven style guide by Bozhidar Batsov.
+A comprehensive Agent skill for writing professional Emacs Lisp code following the community-driven style guide by Bozhidar Batsov.
 
 ## Overview
 
