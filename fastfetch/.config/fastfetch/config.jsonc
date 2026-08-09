@@ -27,8 +27,6 @@
     "separator": ": ",
     "color": {
 	"keys": "cyan",
-      "output": "#ffffff",
-      "separator": "#ffffff"
     },
     "brightColor": true,
     "duration": {
@@ -41,7 +39,6 @@
       "type": "title",
       "color": {
         "user": "magenta",
-        "at": "white",
         "host": "green"
       }
     },
