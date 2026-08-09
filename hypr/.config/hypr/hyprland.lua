@@ -39,9 +39,9 @@ hl.monitor({ output = "HDMI-A-1",
 -- Set programs that you use
 local hyprScripts = os.getenv("HOME") .. "/.config/hypr/scripts"
 local terminal = "footclient"
-local fileManager = "sh -c \"" .. hyprScripts .. "/dired\""
+local fileManager = terminal .. " " .. hyprScripts .. "/dired"
 local menu = "fuzzel"
-local editor = "emacsclient -c -a \"\""
+local editor = terminal .. " " .. os.getenv("EDITOR")
 local llmagent = terminal .. " -e opencode"
 local browser = "librewolf"
 

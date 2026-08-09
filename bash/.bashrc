@@ -13,7 +13,7 @@ case ":${PATH}:" in
     *) export PATH="${PATH}:${HOME}/.local/bin" ;;
 esac
 
-export EDITOR='emacsclient -c -a emacs'
+export EDITOR="emacsclient -c -nw --alternate-editor="
 export VISUAL=$EDITOR
 
 alias ls='ls --color=auto'
