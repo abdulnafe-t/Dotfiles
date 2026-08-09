@@ -1352,6 +1352,11 @@ comment."
   (add-to-list 'auto-read-only-file-regexps
                (rx (literal (expand-file-name find-function-C-source-directory)))))
 
+;;;; Extensions: ‘kitty-graphics’
+(use-package kitty-graphics
+  :init
+  (kitty-graphics-setup))
+
 ;;;; Extensions: ‘beginend’
 (use-package beginend
   :ensure t
