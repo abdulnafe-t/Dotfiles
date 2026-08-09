@@ -23,11 +23,10 @@ if [ -t 0 ]; then
     GREEN="\[$(tput setaf 2)\]"
     MAGENTA="\[$(tput setaf 5)\]"
     CYAN="\[$(tput setaf 4)\]"
-    WHITE="\[$(tput setaf 7)\]"
     RESET="\[$(tput sgr0)\]"
     BOLD="\[$(tput bold)\]"
 
-    PS1="${BOLD}${MAGENTA}\u${WHITE}@${GREEN}\h${WHITE}:${CYAN}\w${RESET}\$ "
+    PS1="${BOLD}${MAGENTA}\u${RESET}@${GREEN}\h${RESET}:${CYAN}\w${RESET}\$ "
     PS2='$ '
 
     # Colorful man pages (from https://gist.github.com/bahamas10/542875bb47990933638d2b7dfaa501bf)
