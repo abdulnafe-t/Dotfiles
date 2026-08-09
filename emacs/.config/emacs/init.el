@@ -58,6 +58,8 @@
                                    setSelection
                                    modifyOtherKeys))
 
+(set-default-coding-systems 'prefer-utf-8-unix)
+
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
