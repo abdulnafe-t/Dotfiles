@@ -66,7 +66,6 @@
 
 (line-count-global-mode 1)
 (column-number-mode 1)
-(global-display-line-numbers-mode 1)
 
 (global-visual-line-mode 1)
 (global-word-wrap-whitespace-mode 1)
