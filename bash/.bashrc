@@ -30,7 +30,7 @@ if [ -t 0 ]; then
     RESET="\[$(tput sgr0)\]"
     BOLD="\[$(tput bold)\]"
 
-    PS1="${BOLD}${MAGENTA}\u${RESET}@${GREEN}\h${RESET}:${CYAN}\w${RESET}\$ "
+    PS1="${BOLD}${MAGENTA}\u${RESET}@${BOLD}${GREEN}\h${RESET}:${BOLD}${CYAN}\w${RESET}\$ "
     PS2='$ '
 
     # Colorful man pages (from https://gist.github.com/bahamas10/542875bb47990933638d2b7dfaa501bf)
