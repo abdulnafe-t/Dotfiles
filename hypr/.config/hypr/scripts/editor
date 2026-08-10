@@ -1,0 +1,15 @@
+#!/usr/bin/bash
+
+# A dedicated editor script is needed to get suspend-frame to work properly in foot. More
+# specifically, naively setting "editor = terminal .. os.getenv(EDITOR)" in hyprland
+# breaks suspend-frame, because foot starts no shell that way, and so suspend-frame
+# "returns" to an empty frame.
+#
+# This script simply starts bash, loads its .bashrc, then runs the $EDITOR from it.
+# Crucially, it does "set -m" before calling the editor, which ensures proper job control.
+
+[ -f "$HOME/.bashrc" ] && source "$HOME/.bashrc"
+
+set -m
+
+$EDITOR

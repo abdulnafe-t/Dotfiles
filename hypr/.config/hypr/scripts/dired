@@ -7,6 +7,10 @@ SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
 TARGET="${1:-$HOME}"
 
+[ -f "$HOME/.bashrc" ] && source "$HOME/.bashrc"
+
+set -m
+
 $EDITOR "$@"  \
             --eval "(dired \"$TARGET\")" \
             --eval "(defun a-t/kill-dired-frame ()

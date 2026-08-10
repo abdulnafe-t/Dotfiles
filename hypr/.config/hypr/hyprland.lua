@@ -38,11 +38,11 @@ hl.monitor({ output = "HDMI-A-1",
 
 -- Set programs that you use
 local hyprScripts = os.getenv("HOME") .. "/.config/hypr/scripts"
-local terminal = "footclient"
-local fileManager = terminal .. " " .. hyprScripts .. "/dired"
+local terminal = "footclient "
+local fileManager = terminal .. "bash --rcfile " .. hyprScripts .. "/dired"
 local menu = "fuzzel"
-local editor = terminal .. " " .. os.getenv("EDITOR")
-local llmagent = terminal .. " -e opencode"
+local editor = terminal .. "bash --rcfile "  .. hyprScripts .. "/editor"
+local llmagent = terminal .. "opencode"
 local browser = "librewolf"
 
 -------------------
