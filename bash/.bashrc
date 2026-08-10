@@ -19,6 +19,9 @@ export VISUAL=$EDITOR
 alias ls='ls --color=auto'
 alias grep='grep --color=auto'
 
+# Reclaim C-s for I-search in bash (as opposed to the default XON, consumed by the tty)
+stty -ixon
+
 if [ -t 0 ]; then
     GREEN="\[$(tput setaf 2)\]"
     MAGENTA="\[$(tput setaf 5)\]"
