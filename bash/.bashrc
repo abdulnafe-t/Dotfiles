@@ -16,6 +16,7 @@ esac
 export EDITOR="emacsclient --alternate-editor= -c -nw"
 export VISUAL=$EDITOR
 
+alias e='$EDITOR'
 alias ls='ls --color=auto'
 alias grep='grep --color=auto'
 
