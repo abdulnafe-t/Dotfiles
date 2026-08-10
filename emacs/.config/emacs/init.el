@@ -1348,6 +1348,8 @@ comment."
 (use-package auto-read-only
   :init
   (auto-read-only-mode 1)
+  :custom
+  (auto-read-only-protect-projects t)
   :config
   (add-to-list 'auto-read-only-file-regexps
                (rx (literal (expand-file-name find-function-C-source-directory)))))
