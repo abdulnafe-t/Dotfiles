@@ -77,7 +77,8 @@
         ("M-p" . completion-preview-prev-candidate)
         ("M-<up>" . completion-preview-prev-candidate)
         ("<tab>" . completion-preview-insert)
-        ("M-<tab>" . completion-preview-complete))
+        ("M-<tab>" . completion-preview-complete)
+        ("C-M-i" . completion-preview-complete))
 
   :hook
   ((prog-mode-hook text-mode-hook))
@@ -150,10 +151,6 @@
     (keyboard-quit))))
 
 (keymap-global-set "C-g" 'prot/keyboard-quit-dwim)
-
-;; Unbind suspend-frame to prevent weird behavior on hyprland, and to
-;; prevent finger slippage while undoing.
-(keymap-unset global-map "C-x C-z")
 
 (repeat-mode 1)
 (keymap-global-set "C-z" 'undo)
