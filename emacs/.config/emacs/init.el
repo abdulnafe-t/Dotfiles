@@ -1311,7 +1311,8 @@ comment."
   (global-page-break-lines-mode)
   :config
   (add-to-list 'page-break-lines-modes 'c-mode)
-  (add-to-list 'page-break-lines-modes 'c++-mode))
+  (add-to-list 'page-break-lines-modes 'c++-mode)
+  (add-to-list 'page-break-lines-modes 'emacs-news-mode))
 
 ;;;; Extensions: ‘highlight-doxygen’
 (use-package highlight-doxygen
