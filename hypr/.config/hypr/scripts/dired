@@ -11,9 +11,9 @@ TARGET="${1:-$HOME}"
 
 set -m
 
-$EDITOR "$@"  \
-            --eval "(dired \"$TARGET\")" \
-            --eval "(defun a-t/kill-dired-frame ()
+$EDITOR  \
+    --eval "(dired \"$TARGET\")" \
+    --eval "(defun a-t/kill-dired-frame ()
                            \"Quit dired window and kill its buffer & frame. This function should only be callable and bound to \`q\' when emacs is used as a file manager from the WM, and only until a file is actually visited.\nDefined in $SCRIPT_DIR/dired\"
                            (interactive)
                            (a-t/remove-dired-q-hook 'called-internally)

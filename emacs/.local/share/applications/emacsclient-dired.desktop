@@ -1,5 +1,5 @@
 [Desktop Entry]
 Name=Emacs (Dired)
-Exec=/home/a-t/.config/hypr/scripts/dired %F
+Exec=footclient /home/a-t/.config/hypr/scripts/dired %F
 Type=Application
 MimeType=inode/directory
