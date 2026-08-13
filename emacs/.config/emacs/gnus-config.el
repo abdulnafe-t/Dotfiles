@@ -28,7 +28,9 @@
                                               (nntp-port 563))
                                         (nntp "news.eternal-september.org"
                                               (nntp-stream tls)
-                                              (nntp-port 563))))
+                                              (nntp-port 563))
+                                        (nnml "")) ; Stores articles of interest locally
+        )
 
 ;;; no-littering
 (setopt gnus-home-directory         (no-littering-expand-var-file-name "gnus")
