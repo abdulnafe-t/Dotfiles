@@ -1,0 +1,2 @@
+include /usr/share/nano-syntax-highlighting/*.nanorc
+extendsyntax Lisp color cyan "(^|[[:space:]]);.*"
