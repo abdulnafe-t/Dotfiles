@@ -395,7 +395,7 @@
   :hook
   (bash-ts-mode-hook . flymake-mode))
 
-(use-package flymake-vale
+(use-package flymake-vale ;; (Under package-vc)
     :after flymake
     :hook
     ((text-mode-hook
@@ -1342,7 +1342,7 @@ comment."
   :config
   (auto-capitalize-add-fixed-case-words '("FIXME" "TODO" "TeX" "LaTeX")))
 
-;;;; Extensions: ‘auto-read-only’ (from user-lisp)
+;;;; Extensions: ‘auto-read-only’ (Under package-vc)
 (use-package auto-read-only
   :init
   (auto-read-only-mode 1)
@@ -1352,7 +1352,7 @@ comment."
   (add-to-list 'auto-read-only-file-regexps
                (rx (literal (expand-file-name find-function-C-source-directory)))))
 
-;;;; Extensions: ‘kitty-graphics’ (from package-vc)
+;;;; Extensions: ‘kitty-graphics’ (Under package-vc)
 (use-package kitty-graphics
   :init
   (kitty-graphics-setup))
