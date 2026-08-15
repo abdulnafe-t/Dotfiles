@@ -676,6 +676,7 @@ comment."
     (TeX-parse-self t)
     (TeX-view-program-selection '((output-pdf "PDF Tools")))
     (TeX-source-correlate-start-server-maybe t)
+    (TeX-output-dir "./build")
     (reftex-plug-into-AUCTeX t)
     (reftex-cite-format 'biblatex)
     (bibtex-dialect 'biblatex)
