@@ -150,8 +150,6 @@
 (keymap-global-set "C-g" 'prot/keyboard-quit-dwim)
 
 (repeat-mode 1)
-(keymap-global-set "C-z" 'undo)
-(define-key undo-repeat-map (kbd "z") #'undo)
 
 (setopt use-package-hook-name-suffix nil)
 
