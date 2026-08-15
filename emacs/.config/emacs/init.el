@@ -763,15 +763,22 @@ comment."
   (diredfl-ignore-compressed-flag nil))
 
 ;;;; Extensions: ‘jinx’
+(defvar-keymap a-t/jinx-prefix-map
+  :doc "Prefix map for jinx commands."
+  "$" #'jinx-correct
+  "n" #'jinx-next
+  "a" #'jinx-correct-all)
+
 (use-package jinx
   :ensure t
   :demand t
   :hook (emacs-startup-hook . global-jinx-mode)
-  :bind (("M-$" . jinx-correct)
-         ("M-ù" . jinx-next))
+  :bind-keymap ("M-$" . a-t/jinx-prefix-map)
   :config
   (setopt jinx-languages "en_US"
           jinx-camel-modes t)
+  (define-key jinx-overlay-map (kbd "M-$") nil)
+  (define-key jinx-correct-map  (kbd "M-$") nil)
 
   (dolist (r `( ,(rx ; Don't spellcheck hex colors: #RGB, #RRGGBB, and #RRGGBBAA
                   (seq
