@@ -768,7 +768,7 @@ comment."
   :demand t
   :hook (emacs-startup-hook . global-jinx-mode)
   :bind (("M-$" . jinx-correct)
-         ("C-M-$" . jinx-next))
+         ("M-ù" . jinx-next))
   :config
   (setopt jinx-languages "en_US"
           jinx-camel-modes t)
