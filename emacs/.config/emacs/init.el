@@ -89,11 +89,6 @@
   :custom
   (completion-preview-minimum-symbol-length 2))
 
-(global-set-key (kbd "C-+") 'text-scale-increase)
-(global-set-key (kbd "C--") 'text-scale-decrease)
-(global-set-key (kbd "<C-wheel-down>") 'text-scale-decrease)
-(global-set-key (kbd "<C-wheel-up>") 'text-scale-increase)
-
 (electric-pair-mode 1)
 (electric-quote-mode 1)
 (delete-selection-mode 1)
@@ -119,7 +114,9 @@
         scroll-step 1
         scroll-conservatively 101
         scroll-preserve-screen-position 1
-        mouse-wheel-scroll-amount '(1 ((shift) . 1))
+        mouse-wheel-scroll-amount '(1 ((shift) . 1)
+                                      ((meta)) ((control meta) . global-text-scale)
+                                      ((control) . text-scale))
         mouse-wheel-progressive-speed nil)
 
 ;; From https://karthinks.com/software/even-more-batteries-included-with-emacs/
