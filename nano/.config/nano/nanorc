@@ -1,6 +1,5 @@
 include /usr/share/nano-syntax-highlighting/*.nanorc
 
-extendsyntax Lisp color cyan "(^|[[:space:]]);.*"
 extendsyntax Lisp color green "(^|[[:space:]]):[[:alpha:]]*"
 extendsyntax Lisp color normal "\("
 
@@ -10,7 +9,6 @@ set tabstospaces
 set tabsize 6
 set constantshow
 set indicator
-set minibar
 set magic
 set spotlightcolor bold,black,#fcb
-set boldtext
+set numbercolor bold,italic,normal,normal
