@@ -1216,6 +1216,22 @@ comment."
         (alist-get ?. avy-dispatch-alist) 'avy-action-xref-definitions
         (alist-get ?: avy-dispatch-alist) 'avy-action-xref-references))
 
+;;;; Extensions: ‘ace-link’
+(use-package ace-link
+  :ensure t
+  :after avy
+  :init
+  (ace-link-setup-default)
+  :config
+  (with-eval-after-load 'gnus
+    (define-key gnus-summary-mode-map (kbd "M-o") #'ace-link-gnus)
+    (define-key gnus-article-mode-map (kbd "M-o") #'ace-link-gnus))
+  (with-eval-after-load 'org
+    (define-key org-mode-map (kbd "M-o") #'ace-link-org))
+  (with-eval-after-load 'ert
+    (define-key ert-results-mode-map "o" 'ace-link-help))
+  (global-set-key (kbd "M-o") 'ace-link-addr))
+
 ;;;; Extensions: ‘zygospore’
 (use-package zygospore
   :ensure t)
