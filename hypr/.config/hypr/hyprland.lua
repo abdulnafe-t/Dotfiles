@@ -374,7 +374,12 @@ hl.config({
             touchpad = {
                 natural_scroll = false,
             },
+
         },
+
+        cursor = {
+                hide_on_key_press = true,
+                },
 })
 
 --------------------------------
