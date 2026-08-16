@@ -476,66 +476,66 @@ comment."
   ;; but it looks challenging.
   (let (pos)
     (when (and
-    	   electric-indent-mode
-    	   ;; Don't reindent while inserting spaces at beginning of line.
-    	   (or (not (memq last-command-event '(?\s ?\t)))
-    	       (save-excursion (skip-chars-backward " \t") (not (bolp))))
-    	   (setq pos (electric--after-char-pos))
-    	   (save-excursion
-    	     (goto-char pos)
-    	     (let ((act (or (run-hook-with-args-until-success
-    			     'electric-indent-functions
-    			     last-command-event)
-    			    (memq last-command-event electric-indent-chars))))
-    	       (not (memq act '(nil no-indent))))))
+           electric-indent-mode
+           ;; Don't reindent while inserting spaces at beginning of line.
+           (or (not (memq last-command-event '(?\s ?\t)))
+               (save-excursion (skip-chars-backward " \t") (not (bolp))))
+           (setq pos (electric--after-char-pos))
+           (save-excursion
+             (goto-char pos)
+             (let ((act (or (run-hook-with-args-until-success
+                             'electric-indent-functions
+                             last-command-event)
+                            (memq last-command-event electric-indent-chars))))
+               (not (memq act '(nil no-indent))))))
       ;; If we error during indent, silently give up since this is an
       ;; automatic action that the user didn't explicitly request.
       ;; But we don't want to suppress errors from elsewhere in *this*
       ;; function, hence the `condition-case' and `throw' (Bug#18764).
       (catch 'indent-error
-    	;; For newline, we want to reindent both lines and basically
-    	;; behave like reindent-then-newline-and-indent (whose code we
-    	;; hence copied).
-    	(let ((at-newline (<= pos (line-beginning-position)))
-    	      (whitespace-indentation nil) ;; new variable introduced
-    	      )
-    	  (when at-newline
-    	    (let ((before (copy-marker (1- pos) t)))
-    	      (save-excursion
-    		(unless
-    		    (or (memq indent-line-function
-    			      electric-indent-functions-without-reindent)
-    			electric-indent-inhibit)
-    		  ;; Don't reindent the previous line if the
-    		  ;; indentation function is not a real one.
-    		  (goto-char before)
-    		  (condition-case-unless-debug ()
-    		      (indent-according-to-mode)
-    		    (error (throw 'indent-error nil)))
-    		  )
-    		(unless (eq electric-indent-inhibit 'electric-layout-mode)
-    		  ;; Unless we're operating under
-    		  ;; `electric-layout-mode' (Bug#35254), the goal here
-    		  ;; will be to remove the trailing whitespace after
-    		  ;; reindentation of the previous line because that
-    		  ;; may have (re)introduced it.
-    		  (goto-char before)
+        ;; For newline, we want to reindent both lines and basically
+        ;; behave like reindent-then-newline-and-indent (whose code we
+        ;; hence copied).
+        (let ((at-newline (<= pos (line-beginning-position)))
+              (whitespace-indentation nil) ;; new variable introduced
+              )
+          (when at-newline
+            (let ((before (copy-marker (1- pos) t)))
+              (save-excursion
+                (unless
+                    (or (memq indent-line-function
+                              electric-indent-functions-without-reindent)
+                        electric-indent-inhibit)
+                  ;; Don't reindent the previous line if the
+                  ;; indentation function is not a real one.
+                  (goto-char before)
+                  (condition-case-unless-debug ()
+                      (indent-according-to-mode)
+                    (error (throw 'indent-error nil)))
+                  )
+                (unless (eq electric-indent-inhibit 'electric-layout-mode)
+                  ;; Unless we're operating under
+                  ;; `electric-layout-mode' (Bug#35254), the goal here
+                  ;; will be to remove the trailing whitespace after
+                  ;; reindentation of the previous line because that
+                  ;; may have (re)introduced it.
+                  (goto-char before)
 
-    		  (when (looking-back "^[[:space:]]*$")
+                  (when (looking-back "^[[:space:]]*$")
                     (setq whitespace-indentation (current-indentation)))
                   ;; keep the indentation of a whitespace line before it is deleted
 
-    		  ;; We were at EOL in marker `before' before the call to
-    		  ;; `indent-according-to-mode' but after we may not be (Bug#15767).
-    		  (when (and (eolp))
-    		    (delete-horizontal-space t))))))
-    	  (unless (and electric-indent-inhibit
-    		       (not at-newline))
-    	    (condition-case-unless-debug ()
-    		(if whitespace-indentation
+                  ;; We were at EOL in marker `before' before the call to
+                  ;; `indent-according-to-mode' but after we may not be (Bug#15767).
+                  (when (and (eolp))
+                    (delete-horizontal-space t))))))
+          (unless (and electric-indent-inhibit
+                       (not at-newline))
+            (condition-case-unless-debug ()
+                (if whitespace-indentation
                     (indent-to whitespace-indentation)
-    		  (indent-according-to-mode))
-    	      (error (throw 'indent-error nil)))))))))
+                  (indent-according-to-mode))
+              (error (throw 'indent-error nil)))))))))
 
 (with-eval-after-load 'eglot
   (when-let* ((entry (assq 'eglot--managed-mode mode-line-misc-info))
