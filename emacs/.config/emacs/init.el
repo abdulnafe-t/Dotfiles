@@ -292,7 +292,8 @@
             pulsar-region-face 'mode-line-active
             pulsar-region-change-face 'mode-line-active
             pulsar-highlight-face 'mode-line-active
-            pulsar-tty-color season-dim)
+            pulsar-tty-color season-dim
+            pulsar-delay 0.03)
     (push 'kill-visual-line pulsar-pulse-functions)
     :init
     (pulsar-global-mode))
