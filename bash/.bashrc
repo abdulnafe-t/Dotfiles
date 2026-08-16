@@ -27,11 +27,11 @@ stty -ixon
 if [ -t 0 ]; then
     GREEN="\[$(tput setaf 2)\]"
     MAGENTA="\[$(tput setaf 5)\]"
-    CYAN="\[$(tput setaf 4)\]"
+    BLUE="\[$(tput setaf 4)\]"
     RESET="\[$(tput sgr0)\]"
     BOLD="\[$(tput bold)\]"
 
-    PS1="${BOLD}${MAGENTA}\u${RESET}@${BOLD}${GREEN}\h${RESET}:${BOLD}${CYAN}\w${RESET}\$ "
+    PS1="${BOLD}${MAGENTA}\u${RESET}@${BOLD}${GREEN}\h${RESET}:${BOLD}${BLUE}\w${RESET}\$ "
     PS2='$ '
 
     # Colorful man pages (from https://gist.github.com/bahamas10/542875bb47990933638d2b7dfaa501bf)

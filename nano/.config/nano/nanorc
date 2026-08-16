@@ -1,8 +1,8 @@
 include /usr/share/nano-syntax-highlighting/*.nanorc
 
-extendsyntax Lisp color cyan "(^|[[:space:]]);.*"
-extendsyntax Lisp color green "(^|[[:space:]]):[[:alpha:]]*"
-extendsyntax Lisp color normal "\("
+# extendsyntax Lisp color cyan "(^|[[:space:]]);.*"
+# extendsyntax Lisp color green "(^|[[:space:]]):[[:alpha:]]*"
+# extendsyntax Lisp color normal "\("
 
 set linenumbers
 set speller "hunspell -x -c"
