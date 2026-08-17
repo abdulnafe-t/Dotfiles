@@ -985,7 +985,7 @@ comment."
   (setopt consult-async-min-input 2)
 
   (when-let* ((entry (assoc 'perl consult-async-split-styles-alist)))
-    (setf (cadr (memq :initial entry)) ?$))
+    (setf (cadr (memq :initial entry)) ?:))
 
   (defun consult-find-file-with-preview (prompt &optional dir default mustmatch initial pred)
     (interactive)
