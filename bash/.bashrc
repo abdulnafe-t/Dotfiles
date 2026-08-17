@@ -19,7 +19,6 @@ export VISUAL=$EDITOR
 alias e='$EDITOR'
 alias ls='ls --color=auto'
 alias grep='grep --color=auto'
-alias nano='TERM=foot nano'
 
 # Reclaim C-s for I-search in bash (as opposed to the default XON, consumed by the tty)
 stty -ixon

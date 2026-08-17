@@ -76,6 +76,9 @@ hl.env("QT_QPA_PLATFORMTHEME","qt6ct")
 
 hl.env("HYPRSHOT_DIR", os.getenv("HOME") .. "/Pictures/screenshots/")
 
+hl.env("TERM", "foot")
+hl.env("COLORTERM", "truecolor")
+
 ---------------------
 ---- KEYBINDINGS ----
 ---------------------
