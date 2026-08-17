@@ -70,6 +70,8 @@ export GROFF_NO_SGR=1
 export MANPAGER='less'
 
 eval "$(zoxide init bash)"
+
+export THEFUCK_EXCLUDE_RULES='fix_file'
 eval "$(thefuck --alias)"
 
 osc7_cwd() {
