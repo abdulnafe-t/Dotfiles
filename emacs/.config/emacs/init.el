@@ -19,6 +19,8 @@
 
         bookmark-save-flag 0
 
+        auto-save-no-message t
+
         confirm-kill-processes nil
         shell-command-prompt-show-cwd t
         use-short-answers t
