@@ -28,6 +28,8 @@
         completions-group t
         completion-eager-update t
 
+        delete-pair-blink-delay 0
+        delete-pair-push-mark t
         set-mark-command-repeat-pop t
         exchange-point-and-mark-highlight-region nil
 
@@ -204,7 +206,8 @@
                              standard-display-table)))
       (set-display-table-slot display-table 'vertical-border ?┃) ; Replace pipe with box
                                                                  ; segment
-      (set-display-table-slot display-table 'truncation ? )))) ; Replace $ with space
+      (set-display-table-slot display-table 'truncation ? )      ; Replace $ with space
+      (tty-tip-mode 1))))
 
 (add-hook 'window-configuration-change-hook #'a-t/modernize-tty)
 
@@ -548,7 +551,8 @@ comment."
 ;;;; Extensions: ‘treesitter’
 (use-package treesit
   :custom
-  (treesit-enabled-modes t))
+  (treesit-enabled-modes t)
+  (treesit-auto-install-grammar 'always))
 
 (defun a-t/c-config ():
   "Set custom C/C++ options."
