@@ -1264,6 +1264,7 @@ comment."
     ("<right>" windmove-right "Move to right window" :column "Movement")
     ("<up>" windmove-up "Move to window above" :column "Movement")
     ("<down>" windmove-down "Move to window below" :column "Movement")
+    ("w" hydra-flip-windows/body "Flip windows" :column "Windows" :color blue)
     ("k" kill-current-buffer "Kill current buffer" :column "Buffer")
     ("C-f" find-file "Find file" :color blue :column "Buffer")
     ("C-s" save-buffer "Save" :color blue :column "Buffer")
@@ -1275,7 +1276,23 @@ comment."
     ("2" split-window-below "Split window below" :column "Windows")
     ("3" split-window-right "Split window to the right" :column "Windows")
     ("q" nil "Quit" :column "Quit")
-    ("RET" nil "Quit" :column "Quit")))
+    ("RET" nil "Quit" :column "Quit"))
+
+  (defhydra hydra-flip-windows()
+    "Flip windows horizontally/vertically."
+    ("<left>" window-layout-flip-leftright "Flip windows horizontally" :column "Horizontal")
+    ("<right>" window-layout-flip-leftright "Flip windows horizontally" :column "Horizontal")
+    ("<up>" window-layout-flip-topdown "Flip windows vertically" :column "Vertical")
+    ("<down>" window-layout-flip-topdown "Flip windows vertically" :column "Vertical")
+    ("t" window-layout-transpose "Transpose windows" :column "Other")
+    ("c" window-layout-rotate-clockwise "Rotate windows clockwise" :column "Other")
+    ("a" window-layout-rotate-anticlockwise "Rotate windows anticlockwise" :column "Other")
+    ("b" hydra-buffers-and-windows/body "Back" :column "Back" :color blue)
+    ("q" nil "Quit" :column "Quit")
+    ("RET" nil "Quit" :column "Quit"))
+
+  ;; Prevent window-layout-flip-* from using repeat-mode, which overrides the hydra
+  (setopt window-layout-flip-repeat-map nil))
 
 ;;;; Extensions: ‘vundo’
 (use-package vundo
