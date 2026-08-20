@@ -48,14 +48,6 @@
   (when (display-graphic-p)
     (set-face-attribute 'variable-pitch nil :height 120 :family "Geist Nerd Font Propo"))
 
-  (unless (display-graphic-p)
-    (set-face-attribute 'default nil :background "unspecified-bg"))
-
-  (with-eval-after-load 'completion-preview
-    (unless (display-graphic-p)
-      (advice-add 'completion-preview--bg-color :filter-return
-                  (lambda (color) (or color "unspecified-bg")))))
-
   (modus-themes-with-colors
     (set-face-attribute 'highlight nil
                         :foreground (if (eq (frame-parameter nil 'background-mode) 'dark)
