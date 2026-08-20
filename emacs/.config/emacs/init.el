@@ -860,13 +860,8 @@ comment."
 (use-package multiple-cursors
   :ensure t
   :demand t
-  :bind
-  (("C-$ l" . mc/edit-lines)
-   ("C-$ a" . mc/mark-all-like-this)
-   ("C-$ <down>" . mc/mark-more-like-this-extended)
-   ("C-$ <up>" . mc/mark-more-like-this-extended)
-   ;; There are more MC keybindings in the hydras ‘hydra-mc-*’
-   ))
+  ;; There are MC keybindings in the hydras ‘hydra-mc/*’
+  )
 
 ;;;; Extensions: ‘VEMCO’ Stack
 (use-package vertico
@@ -1251,17 +1246,76 @@ comment."
 (use-package hydra
   :ensure t
   :config
-  (defhydra hydra-mc-word (global-map "C-$ w")
-    "Multiple-cursors word"
-    (">" mc/mark-next-like-this-word "next word")
-    ("<" mc/mark-previous-like-this-word "previous word")
-    ("q" nil "Quit"))
 
-  (defhydra hydra-mc-symbol (global-map "C-$ s")
-    "Multiple-cursors symbol"
-    (">" mc/mark-next-like-this-symbol "next symbol")
-    ("<" mc/mark-previous-like-this-symbol "previous symbol")
-    ("q" nil "Quit"))
+  ;; From https://github.com/itsjeyd/.emacs.d/blob/emacs24/init.el
+  (defhydra hydra-mc ()
+    "MC"
+    ("m" er/expand-region "expand")
+    ("n" mc/mark-next-like-this "next")
+    ("p" mc/mark-previous-like-this "prev")
+    ("s" hydra-mc-symbols/body "symbols" :color blue)
+    ("S" hydra-mc-skip/body "skip" :color blue)
+    ("U" hydra-mc-unmark/body "unmark" :color blue)
+    ("o" hydra-mc-operate/body "operate" :color blue)
+    ("C-'" mc-hide-unmatched-lines-mode "hide unmatched"))
+
+  (defhydra hydra-mc-symbols ()
+    "MC (symbols)"
+    ("n" mc/mark-next-symbol-like-this "next")
+    ("p" mc/mark-previous-symbol-like-this "prev")
+    ("a" hydra-mc-symbols-all/body "all symbols" :color blue)
+    ("q" hydra-mc/body "exit" :color blue))
+
+  (defhydra hydra-mc-symbols-all ()
+    "MC (all symbols)"
+    ("l" mc/mark-all-symbols-like-this "like this")
+    ("f" mc/mark-all-symbols-like-this-in-defun "in defun")
+    ("q" hydra-mc-symbols/body "exit" :color blue))
+
+  (defhydra hydra-mc-skip ()
+    "MC (skip)"
+    ("n" mc/skip-to-next-like-this "next")
+    ("p" mc/skip-to-previous-like-this "prev")
+    ("q" hydra-mc/body "exit" :color blue))
+
+  (defhydra hydra-mc-unmark ()
+    "MC (unmark)"
+    ("n" mc/unmark-next-like-this "next")
+    ("p" mc/unmark-previous-like-this "prev")
+    ("q" hydra-mc/body "exit" :color blue))
+
+  (defhydra hydra-mc-operate ()
+    "MC (operate)"
+    ("n" mc/insert-numbers "number")
+    ("l" mc/insert-letters "letters")
+    ("s" mc/sort-regions "sort")
+    ("r" mc/reverse-regions "reverse")
+    ("q" hydra-mc/body "exit" :color blue))
+
+  (defhydra hydra-mc-edit (:color blue)
+    "MC (edit)"
+    ("l" mc/edit-lines "lines")
+    ("b" mc/edit-beginnings-of-lines "beginnings")
+    ("e" mc/edit-ends-of-lines "ends"))
+
+  (defun a-t/er-expand-and-mc-hydra (arg)
+    "Expand region if it’s not active, then activate the ER/MC hydra."
+    (interactive "p")
+    (unless (region-active-p)
+      (er/expand-region arg))
+    (hydra-mc/body))
+
+  (defun a-t/er-mark-symbol-and-mc-hydra ()
+    "Mark symbol, then activate the ER symbol/MC hydra."
+    (interactive)
+    (unless (region-active-p)
+      (er/mark-symbol))
+    (hydra-mc-symbols/body))
+
+  ;; Key Bindings
+  (keymap-global-set "C-c m" #'a-t/er-expand-and-mc-hydra)
+  (keymap-global-set "C-c s" #'a-t/er-mark-symbol-and-mc-hydra)
+  (keymap-global-set "C-c l" #'hydra-mc-edit/body)
 
   (defhydra hydra-buffers-and-windows (global-map "C-x")
     "Manage windows and buffers."
@@ -1337,10 +1391,7 @@ comment."
 
 ;;;; Extensions: ‘expand-region’
 (use-package expand-region
-  :ensure t
-  :bind
-  (("C-c m" . er/expand-region)
-   ("C-c s" . er/mark-symbol)))
+  :ensure t)
 
 ;;;; Extensions: ‘no-littering’
 (use-package no-littering
