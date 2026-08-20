@@ -28,7 +28,15 @@
   (org-image-actual-width '(300))
   (org-todo-keywords
    '((sequence "TODO(t)" "WAIT(w!)" "|" "CANCELED(c!)" "DONE(d!)")))
-  (org-ellipsis "…"))
+  (org-hierarchical-todo-statistics nil)
+  (org-ellipsis "…")
+
+  :config
+  (defun org-summary-todo (n-done n-not-done)
+    "Switch entry to DONE when all subentries are done, to TODO otherwise."
+    (let (org-log-done org-todo-log-states)   ; turn off logging
+      (org-todo (if (= n-not-done 0) "DONE" "TODO"))))
+  (add-hook 'org-after-todo-statistics-hook #'org-summary-todo))
 
 (use-package org-superstar
   :ensure t
