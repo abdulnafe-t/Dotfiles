@@ -463,6 +463,11 @@
       eglot-mode-line-progress
       eglot-mode-line-action-suggestion))))
 
+;;;; Extensions: ‘eglot-inactive-regions’
+(use-package eglot-inactive-regions
+  :config
+  (eglot-inactive-regions-mode 1))
+
 ;; From https://www.reddit.com/r/emacs/comments/xxkn2r/ We rewrite
 ;; ‘electric-indent-post-self-insert-function’ to prevent ‘electric-indent-mode’ from
 ;; aggressively indenting to the deepest possible level, even if point was outside of that
