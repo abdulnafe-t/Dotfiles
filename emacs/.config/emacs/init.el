@@ -656,6 +656,20 @@
 
 ;;; Other QOL packages & extensions
 
+;;;; Extensions: ‘dimmer’
+(use-package dimmer
+  :init
+  (dimmer-mode)
+  :config
+  (dimmer-configure-which-key)
+  (dimmer-configure-org)
+  (dimmer-configure-gnus)
+  (dimmer-configure-hydra)
+  (dimmer-configure-magit)
+  :custom
+  (dimmer-adjustment-mode :foreground)
+  (dimmer-fraction 0.35))
+
 ;;;; ‘repeat-mode’
 ;; Builtin
 (use-package repeat
