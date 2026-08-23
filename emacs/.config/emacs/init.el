@@ -21,6 +21,8 @@
 
         auto-save-no-message t
 
+        require-final-newline t
+
         confirm-kill-processes nil
         shell-command-prompt-show-cwd t
         use-short-answers t
@@ -35,6 +37,9 @@
 
         enable-recursive-minibuffers t
         minibuffer-visible-completions t
+
+        read-file-name-completion-ignore-case t
+        read-buffer-completion-ignore-case t
 
         help-window-select t
         help-enable-completion-autoload nil
