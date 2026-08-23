@@ -153,8 +153,6 @@
 
 (keymap-global-set "C-g" 'prot/keyboard-quit-dwim)
 
-(repeat-mode 1)
-
 (setopt use-package-hook-name-suffix nil)
 
 ;;; Security
@@ -648,6 +646,51 @@
   :ensure t)
 
 ;;; Other QOL packages & extensions
+
+;;;; ‘repeat-mode’
+;; Builtin
+(use-package repeat
+  :init
+  (repeat-mode 1)
+  :custom
+  (repeat-exit-timeout 1.5))
+
+;;;; Folding
+;;;;; Extensions: ‘treesit-fold’
+(use-package treesit-fold
+  :init
+  (global-treesit-fold-mode))
+
+;;;;; Extensions: ‘kirigami’
+(use-package kirigami
+  :init
+  (kirigami-global-mode)
+  :custom
+  (kirigami-preserve-visual-position t)
+  (kirigami-show-menu-bar t)
+  (kirigami-show-context-menu t)
+  :bind
+  (("C-c z o" . kirigami-open-fold)
+   ("C-c z r" . kirigami-open-fold-rec)
+   ("C-c z O" . kirigami-open-folds)
+   ("C-c z c" . kirigami-close-fold)
+   ("C-c z C" . kirigami-close-folds)
+   ("C-c z t" . kirigami-toggle-fold))
+  :config
+  (defvar-keymap kirigami-repeat-map
+    :doc "Keymap to repeat Kirigami folding commands.  Used in `repeat-mode'."
+    :repeat (:hints ((kirigami-open-fold     . "open")
+                     (kirigami-open-fold-rec . "open rec")
+                     (kirigami-open-folds    . "Open all")
+                     (kirigami-close-fold    . "close")
+                     (kirigami-close-folds   . "Close all")
+                     (kirigami-toggle-fold   . "toggle")))
+    "o" #'kirigami-open-fold
+    "r" #'kirigami-open-fold-rec
+    "O" #'kirigami-open-folds
+    "c" #'kirigami-close-fold
+    "C" #'kirigami-close-folds
+    "t" #'kirigami-toggle-fold))
 
 ;;;; ‘Dired’
 ;; Enable long listing in dired, sort directories before other files, use human-readable
