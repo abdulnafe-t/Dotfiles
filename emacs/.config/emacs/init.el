@@ -98,6 +98,10 @@
   :custom
   (completion-preview-minimum-symbol-length 2))
 
+(use-package uniquify
+  :custom
+  (uniquify-buffer-name-style 'forward))
+
 (electric-pair-mode 1)
 (electric-quote-mode 1)
 (delete-selection-mode 1)
