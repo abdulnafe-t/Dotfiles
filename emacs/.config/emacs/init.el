@@ -72,8 +72,11 @@
 (global-visual-line-mode 1)
 (global-word-wrap-whitespace-mode 1)
 
-(use-package completion-preview
+(use-package display-line-numbers
+  :hook
+  prog-mode)
 
+(use-package completion-preview
   :bind
   (:map completion-preview-active-mode-map
         ("M-n" . completion-preview-next-candidate)
@@ -83,13 +86,10 @@
         ("<tab>" . completion-preview-insert)
         ("M-<tab>" . completion-preview-complete)
         ("C-M-i" . completion-preview-complete))
-
   :hook
   ((prog-mode-hook text-mode-hook))
-
   :config
   (push 'org-self-insert-command completion-preview-commands)
-
   :custom
   (completion-preview-minimum-symbol-length 2))
 
@@ -373,6 +373,9 @@
 (load "~/.config/emacs/org-config")
 
 ;;; Programming
+
+;; Enable ‘outline-minor-mode’ in elisp. Useful for code folding.
+(add-hook 'emacs-lisp-mode-hook #'outline-minor-mode)
 
 (use-package autoinsert
   ;; Builtin, used to automatically insert header guards & #include macros when a header
