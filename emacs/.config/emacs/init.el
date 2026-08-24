@@ -424,7 +424,13 @@
   :init
   (ws-butler-global-mode))
 
-;; Extensions: ‘yasnippet’.
+;;;; Extensions: ‘xref’
+;; Builtin
+(use-package xref
+  :custom
+  (xref-search-program-alist (if (executable-find "rg") 'ripgrep 'grep)))
+
+;;;; Extensions: ‘yasnippet’.
 ;;
 ;; Required to get proper auto-completion (e.g. for () after function names) with eglot &
 ;; clangd
