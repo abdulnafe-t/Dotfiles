@@ -186,8 +186,7 @@
 
 ;;; Theme & style
 
-(setq-default cursor-type 'box
-              cursor-in-non-selected-windows nil)
+(setq-default cursor-type 'box)
 
 (setopt elisp-fontify-semantically t
         elisp-add-help-echo nil
