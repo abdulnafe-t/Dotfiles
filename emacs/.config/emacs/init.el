@@ -1381,7 +1381,9 @@
 
 ;;;; Extensions: ‘expand-region’
 (use-package expand-region
-  :ensure t)
+  :ensure t
+  :custom
+  (expand-region-smart-cursor t))
 
 ;;;; Extensions: ‘no-littering’
 (use-package no-littering
