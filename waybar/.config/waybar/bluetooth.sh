@@ -11,7 +11,7 @@ if printf 'show' | bluetoothctl | grep -q "Powered: yes"; then
         bluetoothctl disconnect "$device"
     done
     # Turn off Bluetooth
-    bluetoothctl power off && rfkill block bluetooth
+    bluetoothctl power off
 else
     # Turn on Bluetooth
     rfkill unblock bluetooth && bluetoothctl power on && bluetoothctl scan on
