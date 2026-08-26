@@ -92,3 +92,7 @@ PROMPT_COMMAND=${PROMPT_COMMAND:+${PROMPT_COMMAND%;}; }osc7_cwd
 
 # Export colors used by ls so other programs, like fd, can use them.
 eval "$(dircolors -b)"
+
+if ([ -z "$DISPLAY" ] && [ -z "$WAYLAND_DISPLAY" ]); then
+    unset COLORTERM
+fi
