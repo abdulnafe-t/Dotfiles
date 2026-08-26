@@ -1507,29 +1507,6 @@ calling ‘comment-dwim’ in that case."
 (use-package wiki-summary
   :ensure t)
 
-;;;; Extensions: ‘show-font’
-(use-package show-font
-  :ensure t
-  :config
-  (add-to-list 'show-font-arabic-families "Kawkab Mono")
-  (add-to-list 'show-font-arabic-families "Amiri")
-  (add-to-list 'show-font-arabic-families "Amiri Quran")
-  (add-to-list 'show-font-arabic-families "Amiri Quran Colored")
-
-  (add-to-list 'show-font-japanese-families "IPAexGothic")
-  (add-to-list 'show-font-japanese-families "IPAexMincho")
-  (add-to-list 'show-font-japanese-families "HanaMinA")
-  (add-to-list 'show-font-japanese-families "HanaMinB")
-
-  (add-to-list 'show-font-korean-families "KoPubBatang")
-  (add-to-list 'show-font-korean-families "KoPubDotum")
-
-  (add-to-list 'show-font-chinese-families "LXGW Neo XiHei")
-  (add-to-list 'show-font-chinese-families "AR PL UMing CN")
-  (add-to-list 'show-font-chinese-families "AR PL UMing HK")
-  (add-to-list 'show-font-chinese-families "AR PL UMing TW")
-  (add-to-list 'show-font-chinese-families "AR PL UMing TW MBE"))
-
 ;;;; Extensions: ‘csv-mode’
 (use-package csv-mode
   :hook
