@@ -89,3 +89,6 @@ osc7_cwd() {
     printf '\e]7;file://%s%s\e\\' "${HOSTNAME}" "${encoded}"
 }
 PROMPT_COMMAND=${PROMPT_COMMAND:+${PROMPT_COMMAND%;}; }osc7_cwd
+
+# Export colors used by ls so other programs, like fd, can use them.
+eval "$(dircolors -b)"
