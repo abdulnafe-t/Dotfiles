@@ -82,11 +82,6 @@ hl.env("COLORTERM", "truecolor")
 ---------------------
 ---- KEYBINDINGS ----
 ---------------------
---require("hyprland-keys.lua")
-
----------------------
----- KEYBINDINGS ----
----------------------
 
 local mainMod = "SUPER"
 
@@ -101,6 +96,7 @@ hl.bind(mainMod .. " + A", hl.dsp.exec_cmd(fileManager))
 hl.bind(mainMod .. " + D", hl.dsp.exec_cmd(llmagent))
 hl.bind(mainMod .. " + Z", hl.dsp.exec_cmd(browser))
 hl.bind(mainMod .. " + L", hl.dsp.exec_cmd("hyprlock"))
+hl.bind(mainMod .. " + EXCLAM", hl.dsp.exec_cmd("dunstctl context"))
 
 hl.bind(mainMod .. " + P", hl.dsp.window.pseudo())
 hl.bind(mainMod .. " + J", hl.dsp.layout("togglesplit"))
