@@ -529,11 +529,6 @@
 (add-hook 'c-ts-base-mode-hook #'a-t/c-config)
 (add-hook 'python-ts-base-mode-hook #'a-t/python-config)
 
-;;;; Extensions: ‘eldoc’
-(use-package eldoc
-  :custom
-  (eldoc-documentation-strategy #'eldoc-documentation-compose-eagerly))
-
 (add-to-list 'auto-mode-alist '("\\.clang\\(-\\(format\\|tidy\\)\\|d\\)" . conf-mode))
 
 (add-hook 'compilation-filter-hook 'ansi-color-compilation-filter)
