@@ -1499,6 +1499,13 @@ calling ‘comment-dwim’ in that case."
   :bind
   ("M-;" . a-t/comment-whole-line-or-region))
 
+;;;; Extensions: ‘hungry-delete’
+(use-package hungry-delete
+  :init
+  (global-hungry-delete-mode)
+  :custom
+  (hungry-delete-join-reluctantly t))
+
 ;;;; Extensions: ‘wiki-summary’
 (use-package wiki-summary
   :ensure t)
