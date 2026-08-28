@@ -218,10 +218,34 @@
 (add-hook 'window-configuration-change-hook #'a-t/modernize-tty)
 
 ;;;; Style: mode line
+(defun a-t/apply-use-icons ()
+  "Set icon minor-modes to match `a-t/use-icons'."
+  (if a-t/use-icons
+      (progn
+        (nerd-icons-completion-mode 1)
+        (nerd-icons-grep-mode 1)
+        (setopt mode-line-collapse-minor-modes-to " ")
+        (setopt magit-format-file-function #'magit-format-file-nerd-icons))
+    (nerd-icons-completion-mode -1)
+    (nerd-icons-grep-mode -1)
+    (setopt mode-line-collapse-minor-modes-to " ...")
+    (setopt magit-format-file-function #'magit-format-file-default)))
+
+(defun a-t/apply-use-icons-dired ()
+  "Set `nerd-icons-dired-mode' in the current dired buffer to match `a-t/use-icons'."
+  (nerd-icons-dired-mode (if a-t/use-icons 1 -1)))
+
+(defcustom a-t/use-icons (not (string= (getenv "TERM") "dumb"))
+  "Whether to use icons in the mode-line."
+  :type 'boolean
+  :set (lambda (sym val)
+         (set-default sym val)
+         (a-t/apply-use-icons)))
+
 (require 'mode-line-config)
 
 (setopt mode-line-collapse-minor-modes '(not flymake-mode)
-        mode-line-collapse-minor-modes-to " "
+        mode-line-collapse-minor-modes-to (if a-t/use-icons " " " ...")
         mode-line-modes-delimiters nil
         mode-line-compact 'long)
 
@@ -1088,7 +1112,7 @@
   :ensure t
   :after (nerd-icons dired)
   :hook
-  (dired-mode-hook . nerd-icons-dired-mode))
+  (dired-mode-hook . a-t/apply-use-icons-dired))
 
 (use-package nerd-icons-completion
   :ensure t
@@ -1353,12 +1377,14 @@
 
 ;;;; Extensions: ‘magit’
 (use-package magit
-    :ensure t
-    :init
-    :custom
-    (vc-follow-symlinks t)
-    (magit-format-file-function #'magit-format-file-nerd-icons)
-    (magit-diff-use-indicator-faces t))
+  :ensure t
+  :init
+  :custom
+  (vc-follow-symlinks t)
+  (magit-format-file-function (if a-t/use-icons
+                                  #'magit-format-file-nerd-icons
+                                #'magit-format-file-default))
+  (magit-diff-use-indicator-faces t))
 
 (use-package forge
   :ensure t

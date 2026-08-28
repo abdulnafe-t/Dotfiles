@@ -138,6 +138,8 @@ all constructs following this one are centered.")
   :type '(repeat (symbol :tag "Major mode"))
   :group 'a-t/mode-line)
 
+(defvar a-t/use-icons)
+
 (defcustom mode-line-align-left
   '("%e"
     " "
@@ -158,7 +160,8 @@ be a list whose car is one of the keywords :propertize or :eval")))
   :group 'a-t/mode-line)
 
 (defcustom mode-line-align-middle
-  '((:eval (when (and (featurep 'nerd-icons)
+  '((:eval (when (and a-t/use-icons
+                      (featurep 'nerd-icons)
                       (not (and (display-graphic-p)
                                 (derived-mode-p 'gnus-mode))))
                                         ; TODO: make this into a minor mode
