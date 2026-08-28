@@ -465,6 +465,12 @@ hl.window_rule({
 })
 
 hl.window_rule({
+        name = "keepass-access-request",
+        match = { title  = "KeePassXC - Browser Access Request"},
+        float = true,
+})
+
+hl.window_rule({
         name = "steam-friends-list-float",
         match = { title  = "Friends List"},
         float = true,
