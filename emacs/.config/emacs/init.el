@@ -1246,10 +1246,6 @@
     (define-key ert-results-mode-map "o" 'ace-link-help))
   (keymap-global-set "M-o" #'ace-link-addr))
 
-;;;; Extensions: ‘zygospore’
-(use-package zygospore
-  :ensure t)
-
 ;;;; Extensions: ‘hydra’
 (use-package hydra
   :ensure t
@@ -1339,7 +1335,7 @@
     ("d" dired "Dired" :color blue :column "Buffer")
     ("C-d" dired "Dired" :color blue :column "Buffer")
     ("0" delete-window "Delete current window" :color blue :column "Windows")
-    ("1" zygospore-toggle-delete-other-windows "Toggle other windows" :column "Windows")
+    ("1" delete-other-windows "Delete other windows" :color blue :column "Windows")
     ("2" split-window-below "Split window below" :column "Windows")
     ("3" split-window-right "Split window to the right" :column "Windows")
     ("q" nil "Quit" :column "Quit")
