@@ -8,54 +8,60 @@
         initial-scratch-message nil
         visible-bell nil
 
+        ;; Mode line
         mode-line-percent-position nil
         project-mode-line t
         mode-line-position-column-line-format '("%6l:%2C")
 
+        ;; Files
         find-file-visit-truename t
         delete-by-moving-to-trash t
         save-interprogram-paste-before-kill t
 
+        ;; view-mode
         view-read-only t
         view-inhibit-help-message t
         kill-read-only-ok t
+        quit-window-kill-buffer t
 
-        bookmark-save-flag 0
-
-        auto-save-no-message t
-
-        require-final-newline t
-
+        ;; Verbosity
         confirm-kill-processes nil
         shell-command-prompt-show-cwd t
         use-short-answers t
+        auto-save-no-message t
 
+        ;; Completions
         completions-group t
         completion-eager-update t
-
-        set-mark-command-repeat-pop t
-        exchange-point-and-mark-highlight-region nil
-
-        enable-recursive-minibuffers t
+        tab-always-indent 'complete
         minibuffer-visible-completions t
-
         read-file-name-completion-ignore-case t
         read-buffer-completion-ignore-case t
 
+        ;; Mark
+        set-mark-command-repeat-pop t
+        exchange-point-and-mark-highlight-region nil
+
+        ;; Minibuffer
+        enable-recursive-minibuffers t
+
+        ;; Help
         help-window-select t
         help-enable-completion-autoload nil
 
+        ;; DnD
         dnd-indicate-insertion-point t
         mouse-drag-and-drop-region 'control
         mouse-drag-and-drop-region-cut-when-buffers-differ t
 
-        quit-window-kill-buffer t
-
-        package-autosuggest-mode t
-
+        ;; Resizing
         frame-inhibit-implied-resize t
         frame-resize-pixelwise t
-        window-resize-pixelwise t)
+        window-resize-pixelwise t
+
+        ;; Misc.
+        bookmark-save-flag 0
+        require-final-newline t)
 
 (keymap-global-set "C-c d" #'duplicate-dwim)
 (setopt duplicate-line-final-position -1)
@@ -171,6 +177,7 @@
 (keymap-global-set "C-g" 'prot/keyboard-quit-dwim)
 
 (setopt use-package-hook-name-suffix nil)
+(package-autosuggest-mode 1)
 
 ;;; Security
 
