@@ -91,28 +91,13 @@
 (global-visual-line-mode 1)
 (global-word-wrap-whitespace-mode 1)
 
-(use-package display-line-numbers
+;;;; ‘display-line-numbers’
+(use-package display-line-numbers ; Builtin
   :hook
   prog-mode text-mode)
 
-(use-package completion-preview
-  :bind
-  (:map completion-preview-active-mode-map
-        ("M-n" . completion-preview-next-candidate)
-        ("M-<down>" . completion-preview-next-candidate)
-        ("M-p" . completion-preview-prev-candidate)
-        ("M-<up>" . completion-preview-prev-candidate)
-        ("<tab>" . completion-preview-insert)
-        ("M-<tab>" . completion-preview-complete)
-        ("C-M-i" . completion-preview-complete))
-  :hook
-  ((prog-mode-hook text-mode-hook))
-  :config
-  (push 'org-self-insert-command completion-preview-commands)
-  :custom
-  (completion-preview-minimum-symbol-length 2))
-
-(use-package uniquify
+;;;; ‘uniquify’
+(use-package uniquify ; Builtin
   :custom
   (uniquify-buffer-name-style 'forward))
 
@@ -181,9 +166,8 @@
 
 ;;; Security
 
-(setq trusted-content '("~/Projects/"))
-
-(setq-default auth-sources '("secrets:App Passwords" "~/.authinfo.gpg"))
+(setopt trusted-content '("~/Projects/")
+        auth-sources '("secrets:App Passwords" "~/.authinfo.gpg"))
 
 ;; Make local sudo always prompt for a password, as opposed to looking it up in
 ;; ‘auth-sources’. From
@@ -350,12 +334,12 @@
   (pulsar-global-mode))
 
 ;;;; Style: ‘shr’
-(use-package shr
+(use-package shr ; Builtin
   :custom
   (shr-use-colors nil)
   (shr-use-fonts nil))
 
-(use-package hl-line
+(use-package hl-line ; Builtin
   :demand t
   :hook
   (dired-mode-hook
@@ -423,9 +407,9 @@
 ;; Enable ‘outline-minor-mode’ in elisp. Useful for code folding.
 (add-hook 'emacs-lisp-mode-hook #'outline-minor-mode)
 
-(use-package autoinsert
-  ;; Builtin, used to automatically insert header guards & #include macros when a header
-  ;; file has the same name as the current (new) C++ file
+(use-package autoinsert ; Builtin
+  ;; Used to automatically insert header guards & #include macros when a header file has
+  ;; the same name as the current (new) C++ file
   :init
   (auto-insert-mode)
   :custom
@@ -436,10 +420,8 @@
     '("\\.\\([Hh]\\|hh\\|hpp\\|hxx\\|h\\+\\+\\)\\'" . "C / C++ header (#pragma once)")
     '(nil "#pragma once" n n _)))
 
-(use-package flymake
-  ;; Builtin, used for syntax checking. Disable its
-  ;; modeling lighter, but keep the error
-  ;; counters
+(use-package flymake ; Builtin
+  ;; Used for syntax checking. Disable its modeling lighter, but keep the error counters
   :custom
   (flymake-mode-line-lighter "")
   :hook
@@ -464,13 +446,11 @@
   (ws-butler-global-mode))
 
 ;;;; Extensions: ‘xref’
-;; Builtin
-(use-package xref
+(use-package xref ; Builtin
   :custom
   (xref-search-program-alist (if (executable-find "rg") 'ripgrep 'grep)))
 
 ;;;; Extensions: ‘yasnippet’.
-;;
 ;; Required to get proper auto-completion (e.g. for () after function names) with eglot &
 ;; clangd
 (use-package yasnippet
@@ -478,7 +458,8 @@
   :config
   (yas-global-mode))
 
-(use-package eglot
+;;;; ‘Eglot’
+(use-package eglot ; Builtin
   :bind
   (:map eglot-mode-map
         ("M-q" . eglot-format))
@@ -528,8 +509,8 @@
     (setcar fmt " ") ; Remove "["
     (setcar (last fmt) " "))) ; Remove "]"
 
-;;;; Extensions: ‘treesitter’
-(use-package treesit
+;;;; ‘Treesitter’
+(use-package treesit ; Builtin
   :custom
   (treesit-enabled-modes t)
   (treesit-auto-install-grammar 'always))
@@ -574,8 +555,8 @@
 (add-hook 'compilation-filter-hook 'ansi-color-compilation-filter)
 (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
 
-;;;; Extensions: ‘GDB’
-(use-package gdb-mi
+;;;; ‘GDB’
+(use-package gdb-mi ; Builtin
   :ensure t
   :config
 
@@ -668,8 +649,9 @@
 (add-hook 'TeX-after-compilation-finished-functions
           #'TeX-revert-document-buffer)
 
-;; Use pdf-tools as an emacs-native PDF viewer
+;;;; Extensions: ‘pdf-tools’
 (use-package pdf-tools
+  ;; Used as an emacs-native PDF viewer
   :ensure t
   :init
   (pdf-tools-install)
@@ -687,6 +669,7 @@
   (pdf-info-epdfinfo-program "/usr/local/bin/epdfinfo")
   (pdf-misc-print-program-executable "lp"))
 
+;;;; Extensions: ‘pdffontetc’
 (use-package pdffontetc
   :ensure t)
 
@@ -711,8 +694,7 @@
   (dimmer-fraction 0.35))
 
 ;;;; ‘repeat-mode’
-;; Builtin
-(use-package repeat
+(use-package repeat ; Builtin
   :init
   (repeat-mode 1)
   :custom
@@ -765,14 +747,12 @@
   :demand t
   :init
   (require 'dired-x)
-
   :bind
   (:map dired-mode-map
         ("M-o" . dired-omit-mode))
   :hook
   (dired-mode-hook . dired-omit-mode)
   (dired-mode-hook . turn-on-gnus-dired-mode)
-
   :custom
   (dired-dwim-target t)
   (dired-omit-verbose nil)
@@ -784,8 +764,7 @@
   (dired-kill-when-opening-new-dired-buffer t)
   (dired-omit-files (rx (or (seq bol (? ".") "#")         ;; emacs autosave files
                             (seq bol "." (not (any "."))) ;; dot-files
-                            (seq "~" eol)                 ;; backup-files
-                            )))
+                            (seq "~" eol))))              ;; backup-files
   :config
   (advice-add #'wdired-change-to-wdired-mode
               :after (lambda()
@@ -888,10 +867,9 @@
 
 ;;;; Extensions: ‘multiple-cursors’
 (use-package multiple-cursors
-  :ensure t
-  :demand t
   ;; There are MC keybindings in the hydras ‘hydra-mc/*’
-  )
+  :ensure t
+  :demand t)
 
 ;;;; Extensions: ‘VEMCO’ Stack
 (use-package vertico
@@ -945,7 +923,6 @@
   (marginalia-align 'left)
   :init
   (marginalia-mode)
-
   :config
   ;; Reorder marginalia annotations to place doc strings first.  This is done by modifying
   ;; the marginalia.el annotation functions.
@@ -980,33 +957,26 @@
          ("M-e" . consult-isearch-history)
          ("M-s l" . consult-line)
          ("M-s L" . consult-line-multi))
-
   :init
   (setopt xref-show-xrefs-function #'consult-xref
           xref-show-definitions-function #'consult-xref)
-
   (defun a-t/consult-fd-home ()
     (interactive)
     (consult-fd (getenv "HOME")))
 
   (setopt consult-fd-args
           '("fd --color=never --hidden --follow --type file")
-
           consult-ripgrep-args
           '("rg --null --line-buffered --color=never --max-columns=1000 --path-separator /"
             "--smart-case --no-heading --with-filename --line-number --hidden")
-
           consult-find-args
           '("find -L . -type f")
-
           consult-grep-args
           '("grep" (consult--grep-exclude-args)
             "--null --line-buffered --color=never --ignore-case"
             "--with-filename --line-number -I -r"))
-
   :config
   (setopt consult-async-min-input 2)
-
   (when-let* ((entry (assoc 'perl consult-async-split-styles-alist)))
     (setf (cadr (memq :initial entry)) ?:))
 
@@ -1099,11 +1069,30 @@
 (advice-add #'consult-ripgrep :around #'consult--grep-with-orderless)
 (advice-add #'consult-grep :around #'consult--grep-with-orderless)
 
+;;;; ‘completion-preview’
+(use-package completion-preview ; Builtin
+  :ensure t
+  :demand t
+  :bind
+  (:map completion-preview-active-mode-map
+        ("M-n" . completion-preview-next-candidate)
+        ("M-<down>" . completion-preview-next-candidate)
+        ("M-p" . completion-preview-prev-candidate)
+        ("M-<up>" . completion-preview-prev-candidate)
+        ("<tab>" . completion-preview-insert)
+        ("M-<tab>" . completion-preview-complete)
+        ("C-M-i" . completion-preview-complete))
+  :hook
+  ((prog-mode-hook text-mode-hook))
+  :config
+  (push 'org-self-insert-command completion-preview-commands)
+  :custom
+  (completion-preview-minimum-symbol-length 2))
+
 ;;;; Extensions: ‘nerd-icons’
 (use-package nerd-icons
   :ensure t
   :demand t
-
   :config
   (dolist (entry '(("^Videos$"    nerd-icons-mdicon "nf-md-folder_play")
                    ("^Public$"    nerd-icons-mdicon "nf-md-earth")
@@ -1449,7 +1438,7 @@
   :ensure t)
 
 ;;;; Extensions: ‘goto-address’
-(use-package goto-addr
+(use-package goto-addr ; Builtin
   :hook
   ((text-mode-hook . goto-address-mode)
    (prog-mode-hook . goto-address-prog-mode)))
@@ -1498,10 +1487,8 @@
 ;;;; Extensions: ‘whole-line-or-region’
 (use-package whole-line-or-region
   :ensure t
-
   :init
   (whole-line-or-region-global-mode)
-
   :config
   (push 'whole-line-or-region-kill-region pulsar-pulse-functions)
   (push 'whole-line-or-region-kill-region pulsar-pulse-region-functions)
@@ -1514,7 +1501,6 @@
 
 The original function does nothing on empty lines. This fixes that by
 calling ‘comment-dwim’ in that case."
-
     (interactive "*P")
     (if (a-t/current-line-empty-p)
         (call-interactively 'comment-dwim)
@@ -1531,6 +1517,7 @@ calling ‘comment-dwim’ in that case."
 
 ;;;; Extensions: ‘hungry-delete’
 (use-package hungry-delete
+  :ensure t
   :init
   (global-hungry-delete-mode)
   :custom
@@ -1573,15 +1560,15 @@ calling ‘comment-dwim’ in that case."
   (Man-width-max 90))
 
 ;;; Custom faces
-
 (load "~/.config/emacs/faces-config.el")
 
-;;; Automated
-
 ;;;; Misc: ‘custom’
-;; Builtin; moved out of init file to keep things tidy.
-(setopt custom-file "~/.config/emacs/custom.el")
-(load custom-file)
+;; Moved out of init file to keep things tidy.
+(use-package custom ; Builtin
+  :custom
+  (custom-file "~/.config/emacs/custom.el")
+  :config
+  (load custom-file))
 
 ;; Local Variables:
 ;; jinx-local-words: "init lp"
