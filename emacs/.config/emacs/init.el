@@ -13,9 +13,12 @@
         mode-line-position-column-line-format '("%6l:%2C")
 
         find-file-visit-truename t
-        view-read-only t
         delete-by-moving-to-trash t
         save-interprogram-paste-before-kill t
+
+        view-read-only t
+        view-inhibit-help-message t
+        kill-read-only-ok t
 
         bookmark-save-flag 0
 
@@ -30,8 +33,6 @@
         completions-group t
         completion-eager-update t
 
-        delete-pair-blink-delay 0
-        delete-pair-push-mark t
         set-mark-command-repeat-pop t
         exchange-point-and-mark-highlight-region nil
 
@@ -55,6 +56,13 @@
         frame-inhibit-implied-resize t
         frame-resize-pixelwise t
         window-resize-pixelwise t)
+
+(keymap-global-set "C-c d" #'duplicate-dwim)
+(setopt duplicate-line-final-position -1)
+
+(keymap-global-set "C-c p" #'delete-pair)
+(setopt delete-pair-blink-delay 0
+        delete-pair-push-mark t)
 
 (recentf-mode 1)
 (savehist-mode 1)
@@ -881,35 +889,24 @@
 ;;;; Extensions: ‘VEMCO’ Stack
 (use-package vertico
   :ensure t
-
+  :init
+  (vertico-mode)
+  (vertico-multiform-mode)
+  (vertico-mouse-mode)
   :custom-face
   (vertico-group-title ((t (:inherit bold-italic))))
-
   :custom
   (vertico-scroll-margin 1)
   (vertico-count 10)
   (vertico-cycle t)
   (vertico-resize nil)
-
   (read-extended-command-predicate #'command-completion-default-include-p)
-  (minibuffer-prompt-properties
-   '(read-only t cursor-intangible t face minibuffer-prompt))
-
-  :init
-  (vertico-mode)
-  (vertico-multiform-mode)
-  (vertico-mouse-mode)
-
-  :config
-
-  (setopt vertico-multiform-commands
-          '((consult-flymake buffer indexed)
-            (embark-bindings buffer)))
-
-  (setopt vertico-multiform-categories
-          '((consult-grep buffer)
-            (consult-location buffer)
-            (imenu buffer))))
+  (minibuffer-prompt-properties '(read-only t cursor-intangible t face minibuffer-prompt))
+  (vertico-multiform-commands '((consult-flymake buffer indexed)
+                                (embark-bindings buffer)))
+  (vertico-multiform-categories '((consult-grep buffer)
+                                  (consult-location buffer)
+                                  (imenu buffer))))
 
 (use-package vertico-flat
   :after vertico
@@ -1251,7 +1248,7 @@
     (define-key org-mode-map (kbd "M-o") #'ace-link-org))
   (with-eval-after-load 'ert
     (define-key ert-results-mode-map "o" 'ace-link-help))
-  (global-set-key (kbd "M-o") 'ace-link-addr))
+  (keymap-global-set "M-o" #'ace-link-addr))
 
 ;;;; Extensions: ‘zygospore’
 (use-package zygospore
