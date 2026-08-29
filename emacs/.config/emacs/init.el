@@ -93,7 +93,7 @@
 
 (use-package display-line-numbers
   :hook
-  prog-mode)
+  prog-mode text-mode)
 
 (use-package completion-preview
   :bind
