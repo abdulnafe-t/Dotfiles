@@ -1534,7 +1534,11 @@ calling ‘comment-dwim’ in that case."
   :init
   (global-hungry-delete-mode)
   :custom
-  (hungry-delete-join-reluctantly t))
+  (hungry-delete-join-reluctantly t)
+  :config
+  (dolist (hungry-command '(hungry-delete-backward
+                            hungry-delete-forward))
+    (push hungry-command completion-preview-commands)))
 
 ;;;; Extensions: ‘wiki-summary’
 (use-package wiki-summary
