@@ -1445,7 +1445,8 @@
   (auto-capitalize-global-mode)
   :hook
   ((TeX-mode-hook . auto-capitalize-tex-mode)
-   (org-mode-hook . auto-capitalize-org-mode))
+   (org-mode-hook . auto-capitalize-org-mode)
+   (sgml-mode-hook . auto-capitalize-sgml-mode))
   :config
   (auto-capitalize-add-fixed-case-words '("FIXME" "TODO" "TeX" "LaTeX")))
 
