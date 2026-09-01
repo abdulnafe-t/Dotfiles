@@ -293,6 +293,18 @@
        (bg-hover nil)
        (cursor ,season-dim)))
 
+    (ef-autumn-palette-overrides
+     `((bg-main "#000000")
+       (comment fg-dim)
+       (bg-hover nil)
+       (cursor ,season-bright)))
+
+    (ef-day-palette-overrides
+     `((bg-main "#ffffff")
+       (comment fg-dim)
+       (bg-hover nil)
+       (cursor ,season-bright)))
+
     :config
 
     (defun a-t/toggle-dark-modus-theme ()
