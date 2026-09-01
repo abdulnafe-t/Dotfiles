@@ -40,7 +40,7 @@ summer_bright=ffcba4
 summer_dim=704f00
 
 # Fall brings calming woodland sights
-fall_bright=009150
+fall_bright=00aa5e
 fall_dim=692a12
 
 bright="${season}_bright"
