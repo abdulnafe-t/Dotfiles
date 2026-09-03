@@ -163,7 +163,6 @@
 
 (keymap-global-set "C-g" 'prot/keyboard-quit-dwim)
 
-(setopt use-package-hook-name-suffix nil)
 (package-autosuggest-mode 1)
 
 ;;; Security
@@ -358,22 +357,22 @@
 (use-package hl-line ; Builtin
   :demand t
   :hook
-  (dired-mode-hook
-   elfeed-search-mode-hook
-   git-rebase-mode-hook
-   grep-mode-hook
-   ibuffer-mode-hook
-   log-view-mode-hook
-   magit-log-mode-hook
-   occur-mode-hook
-   org-agenda-mode-hook
-   pdf-outline-buffer-mode-hook
-   proced-mode-hook
-   gnus-server-mode-hook
-   gnus-browse-mode-hook
-   gnus-summary-mode-hook
-   gnus-group-mode-hook
-   tabulated-list-mode-hook))
+  (dired-mode
+   elfeed-search-mode
+   git-rebase-mode
+   grep-mode
+   ibuffer-mode
+   log-view-mode
+   magit-log-mode
+   occur-mode
+   org-agenda-mode
+   pdf-outline-buffer-mode
+   proced-mode
+   gnus-server-mode
+   gnus-browse-mode
+   gnus-summary-mode
+   gnus-group-mode
+   tabulated-list-mode))
 
 (defun a-t/disable-visual-line-mode ()
   "Disable ‘visual-line-mode’ and associated modes."
@@ -441,16 +440,16 @@
   :custom
   (flymake-mode-line-lighter "")
   :hook
-  (bash-ts-mode-hook . flymake-mode))
+  (bash-ts-mode . flymake-mode))
 
 (use-package flymake-vale ;; (Under package-vc)
     :after flymake
     :hook
-    ((text-mode-hook
-      latex-mode-hook
-      org-mode-hook
-      markdown-mode-hook
-      message-mode-hook)
+    ((text-mode
+      latex-mode
+      org-mode
+      markdown-mode
+      message-mode)
      . (lambda ()
          (flymake-vale-load)
          (flymake-mode))))
@@ -479,7 +478,7 @@
   :bind
   (:map eglot-mode-map
         ("M-q" . eglot-format))
-  :hook ((c-ts-mode-hook c++-ts-mode-hook python-base-mode-hook) . eglot-ensure)
+  :hook ((c-ts-mode c++-ts-mode python-base-mode) . eglot-ensure)
   :config
   (add-to-list 'eglot-server-programs
                '(c-ts-base-mode . ("clangd"
@@ -557,11 +556,11 @@
      '(pyvenv-virtual-env-name ("[pyvenv:" pyvenv-virtual-env-name "] "))))
 
 (use-package pyvenv-auto
-    :ensure t
-    :hook
-    (python-ts-mode-hook . (lambda()
-                             (pyvenv-auto-run)
-                             (pyvenv-mode))))
+  :ensure t
+  :hook
+  (python-ts-mode . (lambda()
+                      (pyvenv-auto-run)
+                      (pyvenv-mode))))
 
 (add-hook 'c-ts-base-mode-hook #'a-t/c-config)
 (add-hook 'python-ts-base-mode-hook #'a-t/python-config)
@@ -646,23 +645,23 @@
 
 ;;;; Extensions: ‘AUCTeX’
 (use-package auctex
-    :ensure t
-    :hook
-    ((LaTeX-mode-hook . TeX-source-correlate-mode)
-     (LaTeX-mode-hook . turn-on-reftex)
-     (LaTeX-mode-hook . flymake-mode))
-    :custom
-    (TeX-auto-save t)
-    (TeX-parse-self t)
-    (TeX-view-program-selection '((output-pdf "PDF Tools")))
-    (TeX-source-correlate-start-server-maybe t)
-    (TeX-output-dir "./build")
-    (reftex-plug-into-AUCTeX t)
-    (reftex-cite-format 'biblatex)
-    (bibtex-dialect 'biblatex)
-    (TeX-engine 'luatex)
-    (TeX-electric-sub-and-superscript t)
-    (TeX-electric-macro t))
+  :ensure t
+  :hook
+  ((LaTeX-mode . TeX-source-correlate-mode)
+   (LaTeX-mode . turn-on-reftex)
+   (LaTeX-mode . flymake-mode))
+  :custom
+  (TeX-auto-save t)
+  (TeX-parse-self t)
+  (TeX-view-program-selection '((output-pdf "PDF Tools")))
+  (TeX-source-correlate-start-server-maybe t)
+  (TeX-output-dir "./build")
+  (reftex-plug-into-AUCTeX t)
+  (reftex-cite-format 'biblatex)
+  (bibtex-dialect 'biblatex)
+  (TeX-engine 'luatex)
+  (TeX-electric-sub-and-superscript t)
+  (TeX-electric-macro t))
 
 (add-hook 'TeX-after-compilation-finished-functions
           #'TeX-revert-document-buffer)
@@ -674,11 +673,11 @@
   :init
   (pdf-tools-install)
   :hook
-  (pdf-view-mode-hook . (lambda ()
-                          (setq pdf-tools-enabled-modes
-                                (delq #'pdf-misc-size-indication-minor-mode
-                                      pdf-tools-enabled-modes))))
-  (pdf-view-mode-hook . pdf-tools-enable-minor-modes)
+  (pdf-view-mode . (lambda ()
+                     (setq pdf-tools-enabled-modes
+                           (delq #'pdf-misc-size-indication-minor-mode
+                                 pdf-tools-enabled-modes))))
+  (pdf-view-mode . pdf-tools-enable-minor-modes)
   :bind
   (:map pdf-view-mode-map
         ([remap image-mouse-increase-size] . pdf-view-enlarge)
@@ -769,8 +768,8 @@
   (:map dired-mode-map
         ("M-o" . dired-omit-mode))
   :hook
-  (dired-mode-hook . dired-omit-mode)
-  (dired-mode-hook . turn-on-gnus-dired-mode)
+  (dired-mode . dired-omit-mode)
+  (dired-mode . turn-on-gnus-dired-mode)
   :custom
   (dired-dwim-target t)
   (dired-omit-verbose nil)
@@ -812,7 +811,7 @@
 (use-package jinx
   :ensure t
   :demand t
-  :hook (emacs-startup-hook . global-jinx-mode)
+  :hook (emacs-startup . global-jinx-mode)
   :bind-keymap ("M-$" . a-t/jinx-prefix-map)
   :config
   (setopt jinx-languages "en_US"
@@ -871,7 +870,7 @@
 ;;;; Extensions: ‘abbrevs’
 (use-package abbrev ; Builtin, used to automatically correct common misspellings
   :hook
-  (text-mode-hook prog-mode-hook))
+  (text-mode prog-mode))
 
 (use-package wiki-abbrev) ; From package-vc. Used to get abbrevs for common misspellings
 
@@ -1108,7 +1107,7 @@
         ("M-<tab>" . completion-preview-complete)
         ("C-M-i" . completion-preview-complete))
   :hook
-  ((prog-mode-hook text-mode-hook))
+  ((prog-mode text-mode))
   :config
   (push 'org-self-insert-command completion-preview-commands)
   :custom
@@ -1130,7 +1129,7 @@
   :ensure t
   :after (nerd-icons dired)
   :hook
-  (dired-mode-hook . a-t/apply-use-icons-dired))
+  (dired-mode . a-t/apply-use-icons-dired))
 
 (use-package nerd-icons-completion
   :ensure t
@@ -1461,17 +1460,17 @@
 ;;;; Extensions: ‘goto-address’
 (use-package goto-addr ; Builtin
   :hook
-  ((text-mode-hook . goto-address-mode)
-   (prog-mode-hook . goto-address-prog-mode)))
+  ((text-mode . goto-address-mode)
+   (prog-mode . goto-address-prog-mode)))
 
 ;;;; Extensions: ‘auto-capitalize’ (from user-lisp)
 (use-package auto-capitalize
   :init
   (auto-capitalize-global-mode)
   :hook
-  ((TeX-mode-hook . auto-capitalize-tex-mode)
-   (org-mode-hook . auto-capitalize-org-mode)
-   (sgml-mode-hook . auto-capitalize-sgml-mode))
+  ((TeX-mode . auto-capitalize-tex-mode)
+   (org-mode . auto-capitalize-org-mode)
+   (sgml-mode . auto-capitalize-sgml-mode))
   :config
   (auto-capitalize-add-fixed-case-words '("FIXME" "TODO" "TeX" "LaTeX")))
 
@@ -1556,7 +1555,7 @@ calling ‘comment-dwim’ in that case."
 ;;;; Extensions: ‘csv-mode’
 (use-package csv-mode
   :hook
-  (csv-mode-hook . csv-guess-set-separator)
+  (csv-mode . csv-guess-set-separator)
   :custom
   (csv-align-max-width 12)
   (csv-align-padding 2)
