@@ -307,7 +307,9 @@
      `((bg-main "#000000")
        (comment fg-dim)
        (bg-hover nil)
-       (cursor ,season-bright)))
+       (cursor ,season-bright)
+       (info bg-yellow-intense)
+       (fg-completion-match-0 green)))
 
     (ef-day-palette-overrides
      `((bg-main "#ffffff")
