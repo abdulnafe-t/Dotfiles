@@ -660,7 +660,9 @@
     (reftex-plug-into-AUCTeX t)
     (reftex-cite-format 'biblatex)
     (bibtex-dialect 'biblatex)
-    (TeX-engine 'luatex))
+    (TeX-engine 'luatex)
+    (TeX-electric-sub-and-superscript t)
+    (TeX-electric-macro t))
 
 (add-hook 'TeX-after-compilation-finished-functions
           #'TeX-revert-document-buffer)
