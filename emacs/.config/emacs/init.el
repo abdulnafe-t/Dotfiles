@@ -868,6 +868,13 @@
 
   (push #'a-t/jinx-skip-package-p jinx--predicates))
 
+;;;; Extensions: ‘abbrevs’
+(use-package abbrev ; Builtin, used to automatically correct common misspellings
+  :hook
+  (text-mode-hook prog-mode-hook))
+
+(use-package wiki-abbrev) ; From package-vc. Used to get abbrevs for common misspellings
+
 ;;;; Enable certain "advanced" functions
 (put 'downcase-region 'disabled nil)
 (put 'upcase-region 'disabled nil)
