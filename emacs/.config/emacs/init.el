@@ -803,9 +803,9 @@
 ;;;; Extensions: ‘jinx’
 (defvar-keymap a-t/jinx-prefix-map
   :doc "Prefix map for jinx commands."
-  "$" #'jinx-correct
-  "n" #'jinx-next
-  "a" #'jinx-correct-all)
+  "M-$" #'jinx-correct
+  "M-n" #'jinx-next
+  "M-a" #'jinx-correct-all)
 
 (use-package jinx
   :ensure t
