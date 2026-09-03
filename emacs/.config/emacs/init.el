@@ -185,6 +185,8 @@
                 :machine "plato" :user "root")
  'remote-without-auth-sources)
 
+(setopt enable-local-variables :safe)
+
 ;;; Theme & style
 
 (setq-default cursor-type 'box)

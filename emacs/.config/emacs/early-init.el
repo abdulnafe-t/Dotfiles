@@ -1,7 +1,6 @@
 ;;; -*- lexical-binding: t -*-
 
-;; From
-;; https://www.reddit.com/r/emacs/comments/yzb77m/an_easy_trick_i_found_to_improve_emacs_startup/
+;; From https://www.reddit.com/r/emacs/comments/yzb77m/an_easy_trick_i_found_to_improve_emacs_startup/
 (setq gc-cons-threshold most-positive-fixnum
       gc-cons-percentage 0.6)
 (defvar config:file-name-handler-alist-cache file-name-handler-alist)
@@ -27,6 +26,12 @@
       inhibit-compacting-font-caches t
       inhibit-startup-message t)
 
+;; From https://www.jamescherti.com/emacs-security-settings/
+(setq gnutls-verify-error t
+      gnutls-min-prime-bits 3072
+      ffap-machine-p-known 'reject
+      auth-source-cache-expiry 900)
+
 ;; Ensure package.el uses the elpa directory under this user-emacs-directory
 (setq package-user-dir (expand-file-name "elpa/" user-emacs-directory))
 
@@ -39,8 +44,7 @@
 ;;;; ‘Melpa’
 (progn
   (require 'package)
-  (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
-  (when (< emacs-major-version 27) (package-initialize)))
+  (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t))
 
 (setopt package-archive-priorities '(("gnu" . 10)
                                      ("melpa" . 5)))
