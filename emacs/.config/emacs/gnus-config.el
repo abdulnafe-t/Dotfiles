@@ -34,12 +34,12 @@
 
 ;;; no-littering
 (setopt gnus-home-directory         (no-littering-expand-var-file-name "gnus")
-        gnus-directory              (concat gnus-home-directory "/News")
+        gnus-directory              (expand-file-name "News" gnus-home-directory)
         gnus-article-save-directory gnus-directory
         gnus-kill-files-directory   gnus-directory
-        gnus-cache-directory        (concat gnus-directory "/cache")
-        message-directory           (concat gnus-home-directory "/Mail")
-        nndraft-directory           (concat gnus-home-directory "/nndrafts")
+        gnus-cache-directory        (expand-file-name "cache" gnus-directory)
+        message-directory           (expand-file-name "Mail" gnus-home-directory)
+        nndraft-directory           (expand-file-name "nndrafts" gnus-home-directory)
         gnus-startup-file           (no-littering-expand-var-file-name "gnus/.newsrc")
         gnus-init-file              (no-littering-expand-etc-file-name "gnus/init.el"))
 
