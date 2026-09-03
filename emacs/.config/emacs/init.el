@@ -32,7 +32,12 @@
 
         ;; Completions
         completions-group t
+        completion-show-help nil
+        completion-show-inline-help nil
+        completions-detailed t
         completion-eager-update t
+        completions-max-height 11
+        completions-format 'one-column
         tab-always-indent 'complete
         minibuffer-visible-completions t
         read-file-name-completion-ignore-case t
@@ -1041,7 +1046,7 @@
   :config
 
   (orderless-define-completion-style orderless+initialism
-    (orderless-matching-styles '(orderless-initialism orderless-literal orderless-regexp)))
+    (orderless-matching-styles '(orderless-initialism orderless-prefixes orderless-literal orderless-regexp)))
 
   (orderless-define-completion-style orderless+flex
     (orderless-matching-styles '(orderless-flex orderless-literal orderless-regexp)))
@@ -1105,11 +1110,19 @@
         ("M-<up>" . completion-preview-prev-candidate)
         ("<tab>" . completion-preview-insert)
         ("M-<tab>" . completion-preview-complete)
-        ("C-M-i" . completion-preview-complete))
+        ("C-M-i" . completion-preview-complete)
+        ("M-i" . completion-preview-insert-word))
   :hook
   ((prog-mode text-mode))
   :config
   (push 'org-self-insert-command completion-preview-commands)
+
+  ;; Prevent the *completions* buffer from randomly switching order after first triggering
+  ;; it with ‘completion-preview-complete’
+  (advice-add #'completion-help-at-point :around
+              (lambda (orig &rest args)
+                (let ((completion-styles '(basic)))
+                  (apply orig args))))
   :custom
   (completion-preview-minimum-symbol-length 2))
 
