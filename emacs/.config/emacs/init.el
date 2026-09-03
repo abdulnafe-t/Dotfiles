@@ -68,6 +68,8 @@
         bookmark-save-flag 0
         require-final-newline t)
 
+(minibuffer-depth-indicate-mode 1)
+
 (keymap-global-set "C-c d" #'duplicate-dwim)
 (setopt duplicate-line-final-position -1)
 
