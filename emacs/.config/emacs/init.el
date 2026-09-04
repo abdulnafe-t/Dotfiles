@@ -21,7 +21,7 @@
         find-file-visit-truename t
         delete-by-moving-to-trash t
 
-        ;; Clipboard/killring
+        ;; Clipboard/kill-ring
         save-interprogram-paste-before-kill t
         kill-do-not-save-duplicates t
 
@@ -97,26 +97,26 @@
   (completions-sort 'a-t/sort-history-length-alpha)
   (completion-pcm-leading-wildcard t)
   (completion-eager-update t)
-  (completions-max-height 11)
+  (completion-eager-display t)
+  (completions-max-height 12)
+  (max-mini-window-height 12)
   (completions-format 'one-column)
-  (minibuffer-visible-completions t)
+  (minibuffer-visible-completions 'up-down)
   (enable-recursive-minibuffers t)
   (completion-show-help nil)
   (read-minibuffer-restore-windows nil)
   (read-extended-command-predicate #'command-completion-default-include-p)
-  (minibuffer-prompt-properties '(read-only t cursor-intangible t face minibuffer-prompt))
-  :bind (:map minibuffer-visible-completions-map
-              ("<left>" . left-char)
-              ("<right>" . right-char))
+  (minibuffer-prompt-properties '(read-only t intangible t cursor-intangible t face minibuffer-prompt))
   :hook
   (minibuffer-setup . cursor-intangible-mode)
+  (minibuffer-setup . a-t/truncate-lines-minibuffer)
   :config
   (minibuffer-depth-indicate-mode 1)
   (minibuffer-electric-default-mode 1)
   (add-to-list 'display-buffer-alist
                '("\\*Completions\\*"
                  (display-buffer-below-selected)
-                 (window-height . 11))))
+                 (window-height . 12))))
 
 (keymap-global-set "C-c d" #'duplicate-dwim)
 (setopt duplicate-line-final-position -1)
