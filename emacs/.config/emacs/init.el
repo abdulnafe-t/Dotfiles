@@ -68,12 +68,36 @@
         require-final-newline t)
 
 (use-package minibuffer
+  :config
+
+  (defun a-t/sort-history-length-alpha (completions)
+    "Sort COMPLETIONS with history first, then by length, and finally alphabetically."
+    (let ((hist (minibuffer--sort-preprocess-history minibuffer-completion-base)))
+      (if (eq minibuffer-history-variable
+              (default-value minibuffer-history-variable))
+          (minibuffer--sort-by-length-alpha completions)
+        (let ((ht (make-hash-table :test #'equal :size (length hist)))
+              (index 0))
+          (dolist (c hist)
+            (unless (gethash c ht)
+              (puthash c index ht)
+              (incf index)))
+          (let ((h nil) (rest nil))
+            (dolist (c completions)
+              (if-let* ((idx (gethash c ht)))
+                  (push (cons idx c) h)
+                (push c rest)))
+            (nconc (mapcar #'cdr (sort h #'car-less-than-car))
+                   (minibuffer--sort-by-length-alpha rest)))))))
+
   :custom
+  (read-file-name-completion-ignore-case t)
   (completion-show-inline-help nil)
   (completions-group t)
-  (completions-sort 'historical)
+  (completions-sort 'a-t/sort-history-length-alpha)
+  (completion-pcm-leading-wildcard t)
   (completion-eager-update t)
-  (completions-max-height 15)
+  (completions-max-height 11)
   (completions-format 'one-column)
   (minibuffer-visible-completions t)
   (enable-recursive-minibuffers t)
@@ -92,7 +116,7 @@
   (add-to-list 'display-buffer-alist
                '("\\*Completions\\*"
                  (display-buffer-below-selected)
-                 (window-height . 15))))
+                 (window-height . 11))))
 
 (keymap-global-set "C-c d" #'duplicate-dwim)
 (setopt duplicate-line-final-position -1)
@@ -103,14 +127,10 @@
 
 (ffap-bindings)
 
-(defvar a-t/find-history nil
-  "Variable used to hold the history of consult-fd/find.")
-
 (use-package savehist
   :init
   (savehist-mode 1)
   :config
-  ;; (push 'a-t/find-history savehist-additional-variables)
   (push 'command-history savehist-additional-variables))
 
 (recentf-mode 1)
@@ -937,36 +957,7 @@
   :ensure t
   :demand t)
 
-;;;; Extensions: ‘VEMCO’ Stack
-(use-package vertico
-  :ensure t
-  :init
-  (vertico-mode)
-  (vertico-multiform-mode)
-  (vertico-mouse-mode)
-  :custom-face
-  (vertico-group-title ((t (:inherit bold-italic))))
-  :custom
-  (vertico-scroll-margin 1)
-  (vertico-count 10)
-  (vertico-cycle t)
-  (vertico-resize nil)
-  (read-extended-command-predicate #'command-completion-default-include-p)
-  (minibuffer-prompt-properties '(read-only t cursor-intangible t face minibuffer-prompt))
-  (vertico-multiform-commands '((consult-flymake buffer indexed)
-                                (embark-bindings buffer)))
-  (vertico-multiform-categories '((consult-grep buffer)
-                                  (consult-location buffer)
-                                  (imenu buffer))))
-
-(use-package vertico-flat
-  :after vertico
-  :config
-  (keymap-set vertico-flat-map "<remap> <left-char>" nil)
-  (keymap-set vertico-flat-map "<remap> <right-char>" nil))
-
-
-
+;; ;;;; Extensions: ‘VEMCO’ Stack
 (use-package embark
   :ensure t
   :demand t
@@ -1078,15 +1069,7 @@
    a-t/consult-fd-home consult-fd consult-find consult-locate
    :state (consult--file-preview)
    :sort t
-   :history 'a-t/find-history
    :preview-key '("M-*" :debounce 0.4 any)))
-
-(advice-add 'consult--find :around
-            (lambda (orig prompt builder initial)
-              (let ((result (funcall orig prompt builder initial)))
-                (when (and result (not (string-empty-p result)))
-                  (add-to-history 'a-t/find-history result))
-                result)))
 
 (use-package orderless
   :ensure t
@@ -1100,50 +1083,7 @@
 
   (setopt completion-styles '(orderless basic partial-completion emacs22)
           completion-category-defaults nil
-          completion-category-overrides  '((file (styles orderless+flex))
-                                           (buffer (styles orderless+flex))
-                                           (command  (styles orderless+initialism))
-                                           (bookmark (styles orderless+flex))
-                                           ;; For consult-buffer:
-                                           (multi-category (styles orderless+flex)))))
-
-(defun consult--orderless-flex-regexp-compiler (input type ignore-case)
-  (let* ((compiled (orderless-compile input '(orderless-flex)))
-         (input (cdr compiled)))
-    (cons
-     (mapcar (lambda (r) (consult--convert-regexp r type)) input)
-     (lambda (str)
-       (let* ((fname (file-name-nondirectory str))
-              (start (max 0 (- (length str) (length fname))))
-              (hl (orderless--highlight input t (copy-sequence fname))))
-        (let ((pos 0))
-          (while (< pos (length hl))
-            (let ((next (or (next-property-change pos hl) (length hl)))
-                  (face (get-text-property pos 'face hl)))
-              (when face
-                (add-text-properties (+ start pos) (+ start next) `(face ,face) str))
-              (setq pos next)))
-          str))))))
-
-(defun consult--find-file-with-orderless (&rest args)
-  (let ((consult--regexp-compiler #'consult--orderless-flex-regexp-compiler))
-    (apply args)))
-
-(advice-add #'consult-fd :around #'consult--find-file-with-orderless)
-(advice-add #'consult-find :around #'consult--find-file-with-orderless)
-
-(defun consult--orderless-regexp-compiler (input type &rest _config)
-  (setq input (cdr (orderless-compile input)))
-  (cons
-   (mapcar (lambda (r) (consult--convert-regexp r type)) input)
-   (lambda (str) (orderless--highlight input t str))))
-
-(defun consult--grep-with-orderless (&rest args)
-  (let ((consult--regexp-compiler #'consult--orderless-regexp-compiler))
-    (apply args)))
-
-(advice-add #'consult-ripgrep :around #'consult--grep-with-orderless)
-(advice-add #'consult-grep :around #'consult--grep-with-orderless)
+          completion-category-overrides  '((file (styles partial-completion)))))
 
 ;;;; ‘completion-preview’
 (use-package completion-preview ; Builtin
