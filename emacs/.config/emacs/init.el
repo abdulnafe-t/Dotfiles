@@ -3,6 +3,10 @@
 ;;; Emacs source code
 (setq find-function-C-source-directory "~/Etc/Programs/emacs-c-code")
 
+;;;; Extensions: ‘no-littering’
+(use-package no-littering
+  :ensure t)
+
 ;;; General Emacs settings
 (setopt inhibit-splash-screen t
         initial-scratch-message nil
@@ -1490,10 +1494,6 @@
   :ensure t
   :custom
   (expand-region-smart-cursor t))
-
-;;;; Extensions: ‘no-littering’
-(use-package no-littering
-  :ensure t)
 
 ;;; ‘Gnus’
 (load "~/.config/emacs/gnus-config.el")
