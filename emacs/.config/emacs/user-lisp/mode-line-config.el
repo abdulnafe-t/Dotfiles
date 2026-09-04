@@ -56,10 +56,12 @@ BACKEND is the backend to check for version control. Defaults to
                        ((eq state 'missing) 'vc-missing-state)
                        ((eq state 'ignored) 'vc-ignored-state)
                        (t 'vc-edited-state)))
-           (lighter-with-logo (propertize
-                               (replace-regexp-in-string
-                                (concat "^ " backend "[-:!?@]") " " vc-mode)
-                               'face face)))
+           (lighter-with-logo (if a-t/use-icons
+                                  (propertize
+                                   (replace-regexp-in-string
+                                    (concat "^ " backend "[-:!?@]") " " vc-mode)
+                                   'face face)
+                                vc-mode)))
       (setq vc-mode lighter-with-logo))))
 
 (advice-add 'vc-mode-line :after #'a-t/vc-mode-line-advice)
