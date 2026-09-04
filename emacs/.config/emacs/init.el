@@ -90,6 +90,10 @@
             (nconc (mapcar #'cdr (sort h #'car-less-than-car))
                    (minibuffer--sort-by-length-alpha rest)))))))
 
+  (defun a-t/truncate-lines-minibuffer ()
+    ""
+    (setq truncate-lines t))
+
   :custom
   (read-file-name-completion-ignore-case t)
   (completion-show-inline-help nil)
@@ -97,7 +101,7 @@
   (completions-sort 'a-t/sort-history-length-alpha)
   (completion-pcm-leading-wildcard t)
   (completion-eager-update t)
-  (completion-eager-display t)
+  (completion-eager-display nil)
   (completions-max-height 12)
   (max-mini-window-height 12)
   (completions-format 'one-column)
@@ -958,7 +962,34 @@
   :ensure t
   :demand t)
 
-;; ;;;; Extensions: ‘VEMCO’ Stack
+;;;; Extensions: ‘VEMCO’ Stack
+(use-package vertico
+  :ensure t
+  :init
+  (vertico-mode)
+  (vertico-multiform-mode)
+  (vertico-mouse-mode)
+  :custom-face
+  (vertico-group-title ((t (:inherit bold-italic))))
+  :custom
+  (vertico-scroll-margin 1)
+  (vertico-count 10)
+  (vertico-cycle t)
+  (vertico-resize nil)
+  (read-extended-command-predicate #'command-completion-default-include-p)
+  (minibuffer-prompt-properties '(read-only t cursor-intangible t face minibuffer-prompt))
+  (vertico-multiform-commands '((consult-flymake buffer indexed)
+                                (embark-bindings buffer)))
+  (vertico-multiform-categories '((consult-grep buffer)
+                                  (consult-location buffer)
+                                  (imenu buffer))))
+
+(use-package vertico-flat
+  :after vertico
+  :config
+  (keymap-set vertico-flat-map "<remap> <left-char>" nil)
+  (keymap-set vertico-flat-map "<remap> <right-char>" nil))
+
 (use-package embark
   :ensure t
   :demand t
@@ -1074,10 +1105,10 @@
 
 (use-package orderless
   :ensure t
-  :config
-  (setopt completion-styles '(orderless partial-completion initials basic)
-          completion-category-defaults nil
-          completion-category-overrides  '((file (styles partial-completion)))))
+  :custom
+  (completion-styles '(orderless partial-completion initials regexp literal basic))
+  (completion-category-defaults nil)
+  (completion-category-overrides  '((file (styles partial-completion)))))
 
 ;;;; ‘completion-preview’
 (use-package completion-preview ; Builtin

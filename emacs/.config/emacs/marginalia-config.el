@@ -5,9 +5,11 @@
 documentation string before other info."
   (when-let* ((sym (intern-soft cand)))
     (marginalia--fields
-     ((marginalia-annotate-binding cand))
+     (:left (marginalia-annotate-binding cand))
      ((marginalia--function-doc sym)
-      :truncate 1.0 :face 'marginalia-documentation))))
+      :truncate 1.0 :face 'marginalia-documentation)
+     ((marginalia--function-args sym) :face 'marginalia-value
+      :truncate 0.5))))
 
 (defun a-t/marginalia-annotate-variable (cand)
   "Annotate variable CAND with its documentation string. Display
