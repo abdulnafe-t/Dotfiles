@@ -1150,9 +1150,9 @@
 
 (use-package nerd-icons-completion
   :ensure t
-  :demand t
-  :init
-  (nerd-icons-completion-mode))
+  :config
+  (nerd-icons-completion-mode)
+  (add-hook 'marginalia-mode-hook #'nerd-icons-completion-marginalia-setup))
 
 (use-package nerd-icons-grep
   :ensure t

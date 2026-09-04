@@ -5,12 +5,9 @@
 documentation string before other info."
   (when-let* ((sym (intern-soft cand)))
     (marginalia--fields
-     (:left (marginalia-annotate-binding cand))
+     ((marginalia-annotate-binding cand))
      ((marginalia--function-doc sym)
-      :truncate 1.0 :face 'marginalia-documentation)
-     ((marginalia--function-args sym) :face 'marginalia-value
-      :truncate 0.5)
-     ((marginalia--symbol-class sym) :face 'marginalia-type))))
+      :truncate 1.0 :face 'marginalia-documentation))))
 
 (defun a-t/marginalia-annotate-variable (cand)
   "Annotate variable CAND with its documentation string. Display
@@ -20,8 +17,7 @@ documentation string before other info."
      ((or (documentation-property sym 'variable-documentation)
           (marginalia--definition-prefix sym))
       :truncate 1.0 :face 'marginalia-documentation)
-     ((marginalia--variable-value sym) :truncate 0.5)
-     ((marginalia--symbol-class sym) :face 'marginalia-type))))
+     ((marginalia--variable-value sym) :truncate 0.5))))
 
 (defun a-t/marginalia-annotate-package (cand)
   "Annotate package CAND with its description summary. Display
@@ -71,9 +67,7 @@ documentation string before other info."
              thereis (ignore-errors (documentation-property sym doc)))
             (marginalia--definition-prefix sym)))
       :truncate 1.0 :face 'marginalia-documentation)
-     ((marginalia--symbol-class sym) :face 'marginalia-type)
-     ((marginalia--abbreviate-file-name (or (symbol-file sym) ""))
-      :truncate -0.5 :face 'marginalia-file-name))))
+     ((marginalia--symbol-class sym) :face 'marginalia-type))))
 
 (defun a-t/marginalia-annotate-imenu (cand)
   "Annotate imenu CAND with its documentation string. Display documentation
