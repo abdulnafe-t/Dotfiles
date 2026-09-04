@@ -1,5 +1,6 @@
 {
   "$schema": "https://opencode.ai/config.json",
+  "plugin": ["/home/a-t/Dotfiles/opencode/.config/opencode/ponytail/.opencode/plugins/ponytail.mjs"],
   "permission": {
     "*": "ask",
     "websearch": "allow",
