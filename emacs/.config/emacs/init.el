@@ -170,6 +170,7 @@
               show-paren-context-when-offscreen t)
 
 (setq-default fill-column 90
+              emacs-lisp-docstring-fill-column nil
               sentence-end-double-space nil)
 
 ;; Replace tabs with spaces
