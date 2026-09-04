@@ -41,6 +41,7 @@
 
         ;; Help
         help-window-select t
+        help-window-keep-selected t
         help-enable-completion-autoload nil
 
         ;; Mouse
