@@ -99,9 +99,18 @@
 
 (ffap-bindings)
 
+(defvar a-t/find-history nil
+  "Variable used to hold the history of consult-fd/find.")
+
+(use-package savehist
+  :init
+  (savehist-mode 1)
+  :config
+  ;; (push 'a-t/find-history savehist-additional-variables)
+  (push 'command-history savehist-additional-variables))
+
 (recentf-mode 1)
-(savehist-mode 1)
-(push 'command-history savehist-additional-variables)
+
 (auto-save-visited-mode 1)
 
 (context-menu-mode 1)
@@ -1065,7 +1074,15 @@
    a-t/consult-fd-home consult-fd consult-find consult-locate
    :state (consult--file-preview)
    :sort t
+   :history 'a-t/find-history
    :preview-key '("M-*" :debounce 0.4 any)))
+
+(advice-add 'consult--find :around
+            (lambda (orig prompt builder initial)
+              (let ((result (funcall orig prompt builder initial)))
+                (when (and result (not (string-empty-p result)))
+                  (add-to-history 'a-t/find-history result))
+                result)))
 
 (use-package orderless
   :ensure t
