@@ -1,5 +1,10 @@
 ;;; -*- lexical-binding: t -*-
 
+(add-to-list 'display-buffer-alist
+             '("\\*Completions\\*"
+               (display-buffer-below-selected)
+               (window-height . 15)))
+
 ;;; Emacs source code
 (setq find-function-C-source-directory "~/Etc/Programs/emacs-c-code")
 
@@ -35,8 +40,9 @@
         completion-show-help nil
         completion-show-inline-help nil
         completions-detailed t
+        completions-sort 'historical
         completion-eager-update t
-        completions-max-height 11
+        completions-max-height 16
         completions-format 'one-column
         tab-always-indent 'complete
         minibuffer-visible-completions t
@@ -932,6 +938,14 @@
   (keymap-set vertico-flat-map "<remap> <left-char>" nil)
   (keymap-set vertico-flat-map "<remap> <right-char>" nil))
 
+
+;; TODO: add a minibuffer use-package form
+(keymap-set minibuffer-visible-completions-map "<left>" #'left-char)
+(keymap-set minibuffer-visible-completions-map "<right>" #'right-char)
+
+(setopt read-extended-command-predicate #'command-completion-default-include-p
+        minibuffer-prompt-properties '(read-only t cursor-intangible t face minibuffer-prompt))
+
 (use-package embark
   :ensure t
   :demand t
@@ -1596,6 +1610,11 @@ calling ‘comment-dwim’ in that case."
   :custom
   (Man-notify-method 'aggressive)
   (Man-width-max 90))
+
+;;;; Misc: ‘hippie-expand’
+(use-package hippie-exp
+  :bind
+  ([remap dabbrev-expand] . hippie-expand))
 
 ;;; Custom faces
 (load "~/.config/emacs/faces-config.el")
