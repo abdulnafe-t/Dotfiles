@@ -43,10 +43,12 @@
         help-window-select t
         help-enable-completion-autoload nil
 
-        ;; DnD
+        ;; Mouse
         dnd-indicate-insertion-point t
         mouse-drag-and-drop-region 'control
         mouse-drag-and-drop-region-cut-when-buffers-differ t
+        mouse-autoselect-window t
+        focus-follows-mouse t
 
         ;; Resizing
         frame-inhibit-implied-resize t
