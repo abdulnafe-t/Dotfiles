@@ -16,7 +16,10 @@
         ;; Files
         find-file-visit-truename t
         delete-by-moving-to-trash t
+
+        ;; Clipboard/killring
         save-interprogram-paste-before-kill t
+        kill-do-not-save-duplicates t
 
         ;; view-mode
         view-read-only t
