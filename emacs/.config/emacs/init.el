@@ -1075,14 +1075,7 @@
 (use-package orderless
   :ensure t
   :config
-
-  (orderless-define-completion-style orderless+initialism
-    (orderless-matching-styles '(orderless-initialism orderless-prefixes orderless-literal orderless-regexp)))
-
-  (orderless-define-completion-style orderless+flex
-    (orderless-matching-styles '(orderless-flex orderless-literal orderless-regexp)))
-
-  (setopt completion-styles '(orderless basic partial-completion emacs22)
+  (setopt completion-styles '(orderless partial-completion initials basic)
           completion-category-defaults nil
           completion-category-overrides  '((file (styles partial-completion)))))
 
