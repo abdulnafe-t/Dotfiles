@@ -1,10 +1,5 @@
 ;;; -*- lexical-binding: t -*-
 
-(add-to-list 'display-buffer-alist
-             '("\\*Completions\\*"
-               (display-buffer-below-selected)
-               (window-height . 15)))
-
 ;;; Emacs source code
 (setq find-function-C-source-directory "~/Etc/Programs/emacs-c-code")
 
@@ -36,25 +31,13 @@
         auto-save-no-message t
 
         ;; Completions
-        completions-group t
-        completion-show-help nil
-        completion-show-inline-help nil
-        completions-detailed t
-        completions-sort 'historical
-        completion-eager-update t
-        completions-max-height 16
-        completions-format 'one-column
-        tab-always-indent 'complete
-        minibuffer-visible-completions t
         read-file-name-completion-ignore-case t
+        tab-always-indent 'complete
         read-buffer-completion-ignore-case t
 
         ;; Mark
         set-mark-command-repeat-pop t
         exchange-point-and-mark-highlight-region nil
-
-        ;; Minibuffer
-        enable-recursive-minibuffers t
 
         ;; Help
         help-window-select t
@@ -74,7 +57,32 @@
         bookmark-save-flag 0
         require-final-newline t)
 
-(minibuffer-depth-indicate-mode 1)
+(use-package minibuffer
+  :custom
+  (completion-show-inline-help nil)
+  (completions-group t)
+  (completions-sort 'historical)
+  (completion-eager-update t)
+  (completions-max-height 15)
+  (completions-format 'one-column)
+  (minibuffer-visible-completions t)
+  (enable-recursive-minibuffers t)
+  (completion-show-help nil)
+  (read-minibuffer-restore-windows nil)
+  (read-extended-command-predicate #'command-completion-default-include-p)
+  (minibuffer-prompt-properties '(read-only t cursor-intangible t face minibuffer-prompt))
+  :bind (:map minibuffer-visible-completions-map
+              ("<left>" . left-char)
+              ("<right>" . right-char))
+  :hook
+  (minibuffer-setup . cursor-intangible-mode)
+  :config
+  (minibuffer-depth-indicate-mode 1)
+  (minibuffer-electric-default-mode 1)
+  (add-to-list 'display-buffer-alist
+               '("\\*Completions\\*"
+                 (display-buffer-below-selected)
+                 (window-height . 15))))
 
 (keymap-global-set "C-c d" #'duplicate-dwim)
 (setopt duplicate-line-final-position -1)
@@ -939,12 +947,6 @@
   (keymap-set vertico-flat-map "<remap> <right-char>" nil))
 
 
-;; TODO: add a minibuffer use-package form
-(keymap-set minibuffer-visible-completions-map "<left>" #'left-char)
-(keymap-set minibuffer-visible-completions-map "<right>" #'right-char)
-
-(setopt read-extended-command-predicate #'command-completion-default-include-p
-        minibuffer-prompt-properties '(read-only t cursor-intangible t face minibuffer-prompt))
 
 (use-package embark
   :ensure t
