@@ -1199,6 +1199,16 @@
                              (avy-isearch . avy-order-closest))
           avy-single-candidate-jump nil)
 
+  ;; Disable dimmer temporarily while avying
+  (advice-add 'avy-goto-char-timer :around
+              (lambda (orig &rest args)
+                (when (bound-and-true-p dimmer-mode)
+                  (dimmer-mode -1))
+                (unwind-protect
+                    (apply orig args)
+                  (dimmer-mode 1)
+                  (dimmer-process-all t))))
+
   (defun avy-action-kill-whole-line (pt)
     (save-excursion
       (goto-char pt)
