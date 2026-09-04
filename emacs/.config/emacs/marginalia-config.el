@@ -76,7 +76,14 @@ string before other info."
     ;; Strip until the last whitespace in order to support flat imenu
     (a-t/marginalia-annotate-symbol (replace-regexp-in-string "\\`.* " "" cand))))
 
-(dolist (type '(function variable package symbol imenu))
+(defun a-t/marginalia-annotate-theme (cand)
+  "Annotate theme CAND with documentation and path. Don’t display its file."
+  (when-let* ((file (gethash (concat cand "-theme") (marginalia--library-cache))))
+    (marginalia--fields
+     ((marginalia--library-doc file)
+      :truncate 1.0 :face 'marginalia-documentation))))
+
+(dolist (type '(function variable package symbol imenu theme))
   (add-to-list 'marginalia-annotators
                (list type (intern (concat "a-t/marginalia-annotate-" (symbol-name type)))
                      'builtin 'none)))
