@@ -320,85 +320,85 @@
 (load "~/.config/emacs/season-colors.el")
 
 (use-package ef-themes
-    :ensure t
-    :demand t
-    :init
-    (ef-themes-take-over-modus-themes-mode)
+  :ensure t
+  :demand t
+  :init
+  (ef-themes-take-over-modus-themes-mode)
 
-    :bind
-    (("<f5>" . a-t/toggle-dark-modus-theme)
-     ("C-<f5>" . modus-themes-select))
+  :bind
+  (("<f5>" . a-t/toggle-dark-modus-theme)
+   ("C-<f5>" . modus-themes-select))
 
-    :custom
-    (modus-themes-mixed-fonts t)
-    (modus-themes-bold-constructs t)
-    (modus-themes-italic-constructs t)
-    (modus-themes-prompts '(ultrabold))
+  :custom
+  (modus-themes-mixed-fonts t)
+  (modus-themes-bold-constructs t)
+  (modus-themes-italic-constructs t)
+  (modus-themes-prompts '(ultrabold))
 
-    (ef-dark-palette-overrides
-     `((string red-faint)
-       (comment fg-dim)
-       (bg-hover nil)
-       (bg-mode-line-active ,season-dim)
-       (cursor ,season-bright)))
+  (ef-dark-palette-overrides
+   `((string red-faint)
+     (comment fg-dim)
+     (bg-hover nil)
+     (bg-mode-line-active ,season-dim)
+     (cursor ,season-bright)))
 
-    (ef-night-palette-overrides
-     `((bg-main "#000000")
-       (string red-faint)
-       (comment fg-dim)
-       (bg-hover nil)
-       (cursor ,season-bright)))
+  (ef-night-palette-overrides
+   `((bg-main "#000000")
+     (string red-faint)
+     (comment fg-dim)
+     (bg-hover nil)
+     (cursor ,season-bright)))
 
-    (ef-melissa-dark-palette-overrides
-     `((bg-main "#000000")
-       (string red-faint)
-       (comment fg-dim)
-       (bg-hover nil)
-       (cursor ,season-bright)))
+  (ef-melissa-dark-palette-overrides
+   `((bg-main "#000000")
+     (string red-faint)
+     (comment fg-dim)
+     (bg-hover nil)
+     (cursor ,season-bright)))
 
-    (ef-melissa-light-palette-overrides
-     `((bg-main "#ffffff")
-       (bg-hover nil)
-       (cursor ,season-dim)))
+  (ef-melissa-light-palette-overrides
+   `((bg-main "#ffffff")
+     (bg-hover nil)
+     (cursor ,season-dim)))
 
-    (ef-autumn-palette-overrides
-     `((bg-main "#000000")
-       (comment fg-dim)
-       (bg-hover nil)
-       (cursor ,season-bright)
-       (info bg-yellow-intense)
-       (fg-completion-match-0 green)))
+  (ef-autumn-palette-overrides
+   `((bg-main "#000000")
+     (comment fg-dim)
+     (bg-hover nil)
+     (cursor ,season-bright)
+     (info green-warmer)
+     (fg-completion-match-0 green-faint)))
 
-    (ef-day-palette-overrides
-     `((bg-main "#ffffff")
-       (comment fg-dim)
-       (bg-hover nil)
-       (cursor ,season-bright)))
+  (ef-day-palette-overrides
+   `((bg-main "#ffffff")
+     (comment fg-dim)
+     (bg-hover nil)
+     (cursor ,season-bright)))
 
-    :config
+  :config
 
-    (defun a-t/toggle-dark-modus-theme ()
-      (interactive)
-      (let ((dark-to-light-p (eq (modus-themes-get-current-theme) season-dark-theme)))
+  (defun a-t/toggle-dark-modus-theme ()
+    (interactive)
+    (let ((dark-to-light-p (eq (modus-themes-get-current-theme) season-dark-theme)))
 
-        (if dark-to-light-p
-            (progn
-              (modus-themes-load-theme season-light-theme)
-              (setopt pulsar-tty-color season-bright))
+      (if dark-to-light-p
           (progn
-            (modus-themes-load-theme season-dark-theme)
-            (setopt pulsar-tty-color season-dim)))
+            (modus-themes-load-theme season-light-theme)
+            (setopt pulsar-tty-color season-bright))
+        (progn
+          (modus-themes-load-theme season-dark-theme)
+          (setopt pulsar-tty-color season-dim)))
 
-        (unless (display-graphic-p)
-          (call-process "killall" nil nil nil
-                        (if dark-to-light-p
-                            "-USR2"
-                          "-USR1")
-                        "foot"))
+      (unless (display-graphic-p)
+        (call-process "killall" nil nil nil
+                      (if dark-to-light-p
+                          "-USR2"
+                        "-USR1")
+                      "foot"))
 
-        (a-t/set-custom-faces)))
+      (a-t/set-custom-faces)))
 
-    (modus-themes-load-theme season-dark-theme))
+  (modus-themes-load-theme season-dark-theme))
 
 ;;;; Style: ‘pulsar’
 (use-package pulsar
