@@ -1106,7 +1106,7 @@
 (use-package orderless
   :ensure t
   :custom
-  (completion-styles '(orderless partial-completion initials regexp literal basic))
+  (completion-styles '(orderless partial-completion initials basic))
   (completion-category-defaults nil)
   (completion-category-overrides  '((file (styles partial-completion)))))
 
