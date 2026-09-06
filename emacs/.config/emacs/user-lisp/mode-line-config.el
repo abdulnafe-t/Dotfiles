@@ -33,6 +33,8 @@
 
 ;; (declare-function line-count-global-mode "line-count.el")
 
+(defvar a-t/use-icons)
+
 (defgroup a-t/mode-line nil
   "Custom mode line with centered content."
   :group 'mode-line)
