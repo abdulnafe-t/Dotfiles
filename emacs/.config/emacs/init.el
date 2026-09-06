@@ -1613,8 +1613,18 @@ calling ‘comment-dwim’ in that case."
 
 ;;;; Misc: ‘hippie-expand’
 (use-package hippie-exp
+  :demand t
   :bind
-  ([remap dabbrev-expand] . hippie-expand))
+  ([remap dabbrev-expand] . hippie-expand)
+  :config
+  (add-to-list 'hippie-expand-try-functions-list #'yas-hippie-try-expand)
+  (add-hook 'completion-at-point-functions #'a-t/hippie-capf)
+  (add-hook 'completion-at-point-functions #'a-t/file-capf)
+
+  ;; Eglot hoards the CAPF and never returns nil. Put ‘a-t/file-capf’ ahead of it.
+  (with-eval-after-load 'eglot
+    (add-hook 'eglot-managed-mode-hook
+              (lambda () (add-hook 'completion-at-point-functions #'a-t/file-capf nil t)))))
 
 ;;; Custom faces
 (load "~/.config/emacs/faces-config.el")
