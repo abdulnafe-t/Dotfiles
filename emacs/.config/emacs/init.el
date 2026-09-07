@@ -1644,6 +1644,17 @@ calling ‘comment-dwim’ in that case."
   (add-to-list 'hippie-expand-try-functions-list #'yas-hippie-try-expand)
   (add-hook 'completion-at-point-functions #'a-t/hippie-capf)
   (add-hook 'completion-at-point-functions #'a-t/file-capf)
+  ;; Whole-line completion fires when the word capf is silent (word
+  ;; boundaries, punctuation): it must stay after the word capf.
+  (add-hook 'completion-at-point-functions #'a-t/line-capf)
+
+  ;; Replace ‘dabbrev-capf’ with our hippie-capf in git-commit
+  (advice-add 'git-commit-setup-capf
+              :override
+              (lambda()
+                :documentation
+                "Teach ‘complete-symbol’ about ‘a-t/hippie-capf’."
+                (add-hook 'completion-at-point-functions #'a-t/hippie-capf -90 t)))
 
   ;; Eglot hoards the CAPF and never returns nil. Put ‘a-t/file-capf’ ahead of it.
   (add-hook 'eglot-managed-mode-hook
