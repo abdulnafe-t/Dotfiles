@@ -905,24 +905,17 @@
 
   (defun a-t/jinx-skip-path-p (start)
     "Skip if the preceding text forms an absolute path.
-     Meant to be used in jinx--predicates to skip file paths."
+    Meant to be used in jinx--predicates to skip file paths."
     (save-excursion
       (goto-char start)
-      (let ((beginning-of-path (line-beginning-position)))
-        (goto-char start)
-        (skip-chars-backward "~/A-Za-z0-9_.-")
-        (when (and (> (point) beginning-of-path)
-                   (file-name-absolute-p (buffer-substring-no-properties
-                                          (point) start)))
-          (re-search-forward "[^/]*" (line-end-position) t)
-          (point)))))
+      (thing-at-point-file-at-point)))
 
   (push #'a-t/jinx-skip-path-p jinx--predicates)
 
   (defun a-t/jinx-skip-package-p (word-start)
     "Skip if the word at point is an installed package name.
-   Handles hyphenated package names in emacs-lisp-mode.
-   Meant to be used in jinx--predicates."
+    Handles hyphenated package names in emacs-lisp-mode.
+    Meant to be used in jinx--predicates."
     (save-excursion
       (goto-char word-start)
       (let ((start-pos (point)))
