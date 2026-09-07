@@ -7,6 +7,15 @@
 (use-package no-littering
   :ensure t)
 
+(defun a-t/get-file-path ()
+  "Display the path to the current file, and copy it to the kill-ring."
+  (interactive)
+  (let* ((file-path (buffer-file-name)))
+    (kill-new file-path)
+    (message "%s" file-path)))
+
+(keymap-global-set "C-c f" #'a-t/get-file-path)
+
 ;;; General Emacs settings
 (setopt inhibit-splash-screen t
         initial-scratch-message nil
