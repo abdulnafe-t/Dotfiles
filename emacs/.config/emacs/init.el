@@ -1631,9 +1631,8 @@ calling ‘comment-dwim’ in that case."
   (add-hook 'completion-at-point-functions #'a-t/file-capf)
 
   ;; Eglot hoards the CAPF and never returns nil. Put ‘a-t/file-capf’ ahead of it.
-  (with-eval-after-load 'eglot
-    (add-hook 'eglot-managed-mode-hook
-              (lambda () (add-hook 'completion-at-point-functions #'a-t/file-capf nil t)))))
+  (add-hook 'eglot-managed-mode-hook
+            (lambda () (add-hook 'completion-at-point-functions #'a-t/file-capf nil t))))
 
 ;;; Custom faces
 (load "~/.config/emacs/faces-config.el")
