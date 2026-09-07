@@ -1585,8 +1585,15 @@ calling ‘comment-dwim’ in that case."
 (use-package wiki-summary
   :ensure t)
 
+;;;; Extensions: ‘messages-are-flowing’
+(use-package messages-are-flowing
+  :ensure t
+  :hook
+  (message-mode . messages-are-flowing-use-and-mark-hard-newlines))
+
 ;;;; Extensions: ‘csv-mode’
 (use-package csv-mode
+  :ensure t
   :hook
   (csv-mode . csv-guess-set-separator)
   :custom
