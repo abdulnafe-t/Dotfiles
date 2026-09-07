@@ -33,9 +33,9 @@
 (defcustom a-t/hippie-capf-try-functions
   '(try-expand-all-abbrevs
     try-expand-dabbrev
-    try-expand-dabbrev-all-buffers
     try-expand-dabbrev-visible
     try-expand-dabbrev-from-kill
+    try-expand-dabbrev-all-buffers
     try-complete-lisp-symbol-partially
     try-complete-lisp-symbol)
   "Try-functions whose candidates `a-t/hippie-capf' offers."
@@ -54,14 +54,13 @@
 
 (defun a-t/hippie-capf--collect (abbrev end try-list)
   "Collect all expansions of ABBREV ending at END.
-Each try-function in TRY-LIST is called in turn, and the substituted region is harvested
-after every successful call. The buffer is left unchanged.
+Each try-function in TRY-LIST is called in turn, and the substituted region
+is harvested after every successful call. The buffer is left unchanged.
 
 Modification hooks and undo are suspended during collection."
   (save-excursion
     (goto-char end)
-    (let ((he-tried-table (list abbrev))	; Seeded like hippie-expand, so expansions
-                                                ; equal to ABBREV are never offered.
+    (let ((he-tried-table (list abbrev))
           (inhibit-modification-hooks t)
           (buffer-undo-list t)
           (results))
@@ -84,16 +83,16 @@ Modification hooks and undo are suspended during collection."
 	 (end (point))
 	 (abbrev (buffer-substring-no-properties beg end)))
     (when (>= (length abbrev) a-t/hippie-capf-min-length)
-      (let ((completions))		; Lazy cache, as in ‘dabbrev-capf’.
+      (let ((collection 'uninitialized))
         (list beg end
               (lambda (s p a)
                 (if (eq a 'metadata)
                     '(metadata (cycle-sort-function . identity)
                                (category . hippie))
-		  (unless completions
-		    (setq completions (a-t/hippie-capf--collect
-                                       abbrev end a-t/hippie-capf-try-functions)))
-                  (complete-with-action a completions s p))))))))
+		  (when (eq collection 'uninitialized)
+		    (setq collection (a-t/hippie-capf--collect
+                                      abbrev end a-t/hippie-capf-try-functions)))
+                  (complete-with-action a collection s p))))))))
 
 ;;;###autoload
 (defun a-t/file-capf ()
@@ -103,13 +102,13 @@ Modification hooks and undo are suspended during collection."
 	 (abbrev (buffer-substring-no-properties beg end)))
     (when (and (>= (length abbrev) a-t/hippie-capf-min-length)
 	       (file-name-directory abbrev))
-      (let ((collection))
+      (let ((collection 'uninitialized))
         (list beg end
               (lambda (s p a)
                 (if (eq a 'metadata)
                     '(metadata (cycle-sort-function . identity)
                                (category . file))
-		  (unless collection
+		  (when (eq collection 'uninitialized)
 		    (setq collection (a-t/hippie-capf--collect
                                       abbrev end a-t/file-capf-try-functions)))
                   (complete-with-action a collection s p))))))))
