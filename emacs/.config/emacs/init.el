@@ -1122,8 +1122,8 @@ Added to ‘minibuffer-setup-hook’ and ‘completion-list-mode-hook’."
         ("M-<down>" . completion-preview-next-candidate)
         ("M-p" . completion-preview-prev-candidate)
         ("M-<up>" . completion-preview-prev-candidate)
-        ("<tab>" . completion-preview-insert)
-        ("M-<tab>" . completion-preview-complete)
+        ("TAB" . completion-preview-insert)
+        ("M-TAB" . completion-preview-complete)
         ("C-M-i" . completion-preview-complete)
         ("M-i" . completion-preview-insert-word))
   :hook
