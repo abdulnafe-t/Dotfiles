@@ -52,6 +52,12 @@
   "Try-functions whose candidates `a-t/file-capf' offers."
   :type '(repeat function))
 
+(defcustom a-t/line-capf-try-functions
+  '(try-expand-line
+    try-expand-line-all-buffers)
+  "Try-functions whose candidates `a-t/line-capf' offers."
+  :type '(repeat function))
+
 (defun a-t/hippie-capf--collect (abbrev end try-list)
   "Collect all expansions of ABBREV ending at END.
 Each try-function in TRY-LIST is called in turn, and the substituted region
@@ -112,6 +118,34 @@ Modification hooks and undo are suspended during collection."
 		    (setq collection (a-t/hippie-capf--collect
                                       abbrev end a-t/file-capf-try-functions)))
                   (complete-with-action a collection s p))))))))
+
+;;;###autoload
+(defun a-t/line-capf ()
+  "Whole-line completion for `completion-at-point-functions'.
+Candidates are complete lines, from the current buffer first, then other
+buffers, whose content starts with the partial line up to point
+(punctuation and indentation notwithstanding)."
+  (let* ((beg (he-line-beg nil))
+         (end (point))
+         (abbrev (buffer-substring-no-properties beg end)))
+    (when (>= (length abbrev) a-t/hippie-capf-min-length)
+      (let ((collection 'uninitialized))
+        (list beg end
+              (lambda (s p a)
+                (if (eq a 'metadata)
+                    '(metadata (cycle-sort-function . identity)
+                               (category . line))
+                  (when (eq collection 'uninitialized)
+                    (setq collection (a-t/hippie-capf--collect
+                                      abbrev end a-t/line-capf-try-functions)))
+                  (complete-with-action a collection s p))))))))
+
+;;;###autoload
+(defun a-t/line-capf-complete ()
+  "Complete the current line from whole lines, ignoring other capfs."
+  (interactive)
+  (let ((completion-at-point-functions '(a-t/line-capf)))
+    (completion-at-point)))
 
 (provide 'hippie-capf)
 ;;; hippie-capf ends here
