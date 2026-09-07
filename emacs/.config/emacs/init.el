@@ -139,8 +139,6 @@ Added to ‘minibuffer-setup-hook’ and ‘completion-list-mode-hook’."
 (setopt delete-pair-blink-delay 0
         delete-pair-push-mark t)
 
-(ffap-bindings)
-
 (use-package savehist
   :init
   (savehist-mode 1)
@@ -1392,7 +1390,7 @@ Added to ‘minibuffer-setup-hook’ and ‘completion-list-mode-hook’."
     ("<down>" windmove-down "Move to window below" :column "Movement")
     ("w" hydra-flip-windows/body "Flip windows" :column "Windows" :color blue)
     ("k" kill-current-buffer "Kill current buffer" :column "Buffer")
-    ("C-f" find-file-at-point "Find file" :color blue :column "Buffer")
+    ("C-f" find-file "Find file" :color blue :column "Buffer")
     ("C-s" save-buffer "Save" :color blue :column "Buffer")
     ("b" consult-buffer "Switch to buffer" :color blue :column "Buffer")
     ("d" dired "Dired" :color blue :column "Buffer")
