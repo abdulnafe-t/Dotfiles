@@ -76,62 +76,6 @@
         bookmark-save-flag 0
         require-final-newline t)
 
-(use-package minibuffer
-  :config
-
-  (defun a-t/sort-history-length-alpha (completions)
-    "Sort COMPLETIONS with history first, then by length, and finally alphabetically."
-    (let ((hist (minibuffer--sort-preprocess-history minibuffer-completion-base)))
-      (if (eq minibuffer-history-variable
-              (default-value minibuffer-history-variable))
-          (minibuffer--sort-by-length-alpha completions)
-        (let ((ht (make-hash-table :test #'equal :size (length hist)))
-              (index 0))
-          (dolist (c hist)
-            (unless (gethash c ht)
-              (puthash c index ht)
-              (incf index)))
-          (let ((h nil) (rest nil))
-            (dolist (c completions)
-              (if-let* ((idx (gethash c ht)))
-                  (push (cons idx c) h)
-                (push c rest)))
-            (nconc (mapcar #'cdr (sort h #'car-less-than-car))
-                   (minibuffer--sort-by-length-alpha rest)))))))
-
-  (defun a-t/truncate-lines-minibuffer ()
-    "Set ‘truncate-lines’ to t.
-
-Added to ‘minibuffer-setup-hook’ and ‘completion-list-mode-hook’."
-    (setq truncate-lines t))
-
-  :custom
-  (read-file-name-completion-ignore-case t)
-  (completion-show-inline-help nil)
-  (completions-group t)
-  (completions-sort 'a-t/sort-history-length-alpha)
-  (completion-pcm-leading-wildcard t)
-  (completion-auto-help 'visible)
-  (completion-eager-update t)
-  (completion-eager-display t)
-  (completions-format 'one-column)
-  (minibuffer-visible-completions 'up-down)
-  (enable-recursive-minibuffers t)
-  (completion-show-help nil)
-  (read-minibuffer-restore-windows nil)
-  (read-extended-command-predicate #'command-completion-default-include-p)
-  (minibuffer-prompt-properties '(read-only t intangible t cursor-intangible t face minibuffer-prompt))
-  :hook
-  (minibuffer-setup . cursor-intangible-mode)
-  (completion-list-mode . a-t/truncate-lines-minibuffer)
-  :config
-  (minibuffer-depth-indicate-mode 1)
-  (minibuffer-electric-default-mode 1)
-  (add-to-list 'display-buffer-alist
-               '("\\*Completions\\*"
-                 (display-buffer-below-selected)
-                 (window-height . 12))))
-
 (keymap-global-set "C-c d" #'duplicate-dwim)
 (setopt duplicate-line-final-position -1)
 
@@ -1004,6 +948,58 @@ Added to ‘minibuffer-setup-hook’ and ‘completion-list-mode-hook’."
 ;;   :config
 ;;   (keymap-set vertico-flat-map "<remap> <left-char>" nil)
 ;;   (keymap-set vertico-flat-map "<remap> <right-char>" nil))
+
+(use-package minibuffer
+  :config
+
+  (defun a-t/sort-history-length-alpha (completions)
+    "Sort COMPLETIONS with history first, then by length, and finally alphabetically."
+    (let ((hist (minibuffer--sort-preprocess-history minibuffer-completion-base)))
+      (if (eq minibuffer-history-variable
+              (default-value minibuffer-history-variable))
+          (minibuffer--sort-by-length-alpha completions)
+        (let ((ht (make-hash-table :test #'equal :size (length hist)))
+              (index 0))
+          (dolist (c hist)
+            (unless (gethash c ht)
+              (puthash c index ht)
+              (incf index)))
+          (let ((h nil) (rest nil))
+            (dolist (c completions)
+              (if-let* ((idx (gethash c ht)))
+                  (push (cons idx c) h)
+                (push c rest)))
+            (nconc (mapcar #'cdr (sort h #'car-less-than-car))
+                   (minibuffer--sort-by-length-alpha rest)))))))
+  :custom
+  (read-file-name-completion-ignore-case t)
+  (completion-show-inline-help nil)
+  (completions-group t)
+  (completions-sort 'a-t/sort-history-length-alpha)
+  (completion-pcm-leading-wildcard t)
+  (completion-auto-help 'visible)
+  (completion-eager-update t)
+  (completion-eager-display t)
+  (completions-format 'one-column)
+  (minibuffer-visible-completions 'up-down)
+  (enable-recursive-minibuffers t)
+  (completion-show-help nil)
+  (read-minibuffer-restore-windows nil)
+  (read-extended-command-predicate #'command-completion-default-include-p)
+  (minibuffer-prompt-properties '(read-only t intangible t cursor-intangible t face minibuffer-prompt))
+  :hook
+  (minibuffer-setup . cursor-intangible-mode)
+  (completion-list-mode . a-t/disable-visual-line-mode)
+  (completion-list-mode . first-completion)
+  :config
+  (minibuffer-depth-indicate-mode 1)
+  (minibuffer-electric-default-mode 1)
+  (add-to-list 'display-buffer-alist
+               '("\\*Completions\\*"
+                 (display-buffer-below-selected)
+                 (window-height . 12))))
+
+
 
 (use-package embark
   :ensure t
