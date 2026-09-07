@@ -452,11 +452,12 @@ Added to ‘minibuffer-setup-hook’ and ‘completion-list-mode-hook’."
 (defun a-t/disable-visual-line-mode ()
   "Disable ‘visual-line-mode’ and associated modes."
   (unless (derived-mode-p 'hexl-mode)
-    (visual-line-mode -1)
-    (toggle-truncate-lines 1)
-    (setq-local cursor-type nil
-                column-number-mode (not hl-line-mode)
-                line-move-visual nil)))
+    (let ((inhibit-message t))
+      (visual-line-mode -1)
+      (toggle-truncate-lines 1)
+      (setq-local cursor-type nil
+                  column-number-mode (not hl-line-mode)
+                  line-move-visual nil))))
 
 (add-hook 'hl-line-mode-hook #'a-t/disable-visual-line-mode)
 
