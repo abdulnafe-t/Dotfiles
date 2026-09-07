@@ -100,7 +100,9 @@
                    (minibuffer--sort-by-length-alpha rest)))))))
 
   (defun a-t/truncate-lines-minibuffer ()
-    ""
+    "Set ‘truncate-lines’ to t.
+
+Added to ‘minibuffer-setup-hook’ and ‘completion-list-mode-hook’."
     (setq truncate-lines t))
 
   :custom
@@ -122,7 +124,7 @@
   (minibuffer-prompt-properties '(read-only t intangible t cursor-intangible t face minibuffer-prompt))
   :hook
   (minibuffer-setup . cursor-intangible-mode)
-  (minibuffer-setup . a-t/truncate-lines-minibuffer)
+  (completion-list-mode . a-t/truncate-lines-minibuffer)
   :config
   (minibuffer-depth-indicate-mode 1)
   (minibuffer-electric-default-mode 1)
