@@ -939,7 +939,19 @@ Added to ‘minibuffer-setup-hook’ and ‘completion-list-mode-hook’."
 ;;;; Extensions: ‘abbrevs’
 (use-package abbrev ; Builtin, used to automatically correct common misspellings
   :hook
-  (text-mode prog-mode))
+  (text-mode prog-mode)
+  :config
+
+
+  (defun a-t/jinx-save-correction-as-abbrev (overlay word)
+    "Save WORD as an expansion for the word under OVERLAY."
+    (let* ((beg (overlay-start overlay))
+           (end (overlay-end overlay))
+           (old-word (downcase (buffer-substring-no-properties beg end))))
+      (define-abbrev global-abbrev-table old-word word)
+      (write-abbrev-file)))
+
+  (advice-add 'jinx--correct-replace :before #'a-t/jinx-save-correction-as-abbrev))
 
 (use-package wiki-abbrev) ; From package-vc. Used to get abbrevs for common misspellings
 
