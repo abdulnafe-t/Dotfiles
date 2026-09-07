@@ -1014,7 +1014,13 @@
   (add-to-list 'display-buffer-alist
                '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
                  nil
-                 (window-parameters (mode-line-format . none)))))
+                 (window-parameters (mode-line-format . none))))
+
+  (advice-add 'embark-target-completion-list-candidate :filter-return
+              (lambda (target)
+                (if (and target (minibufferp))
+                    (list (car target) (cadr target))
+                  target))))
 
 (use-package embark-consult
   :ensure t)
