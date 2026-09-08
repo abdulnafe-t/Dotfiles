@@ -42,7 +42,7 @@
   :ensure t
   :after org
   :hook
-  (org-mode-hook . org-superstar-mode)
+  (org-mode . org-superstar-mode)
   :custom
   (org-superstar-cycle-headline-bullets t)
   (org-superstar-leading-bullet ?\s)
@@ -52,13 +52,24 @@
   :ensure t
   :after org
   :hook
-  (org-mode-hook . org-appear-mode))
+  (org-mode . org-appear-mode))
+
+(use-package org-contacts
+  :ensure t
+  :custom
+  (org-contacts-icon-use-gravatar nil)
+  (org-contacts-directory (expand-file-name "contacts" org-directory))
+  (org-contacts-files (list (expand-file-name "contacts.org.gpg" org-contacts-directory)))
+  :hook
+  (message-mode . org-contacts-email-setup-completion-at-point))
 
 (use-package olivetti
   :ensure t
   :hook
-  (olivetti-mode-on-hook . (lambda ()
-                             (setq-local cursor-type 'bar)))
+  (olivetti-mode-on . (lambda ()
+                        (setq-local cursor-type 'bar)))
 
-  (olivetti-mode-off-hook . (lambda ()
-                              (setq-local cursor-type t))))
+  (olivetti-mode-off . (lambda ()
+                         (setq-local cursor-type t))))
+
+
