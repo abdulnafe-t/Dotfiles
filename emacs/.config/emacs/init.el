@@ -91,6 +91,9 @@
 
 (recentf-mode 1)
 
+(setopt auto-save-visited-predicate
+        (lambda()
+          (not (string-match "\\.gpg" buffer-file-name))))
 (auto-save-visited-mode 1)
 
 (context-menu-mode 1)
