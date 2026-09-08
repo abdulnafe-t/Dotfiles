@@ -19,7 +19,7 @@
   (org-log-into-drawer t)
   (org-log-done 'time)
   (org-directory "~/Documents/org")
-  (org-agenda-files (list org-directory))
+  (org-agenda-files (list (expand-file-name "agenda" org-directory)))
   (org-hide-emphasis-markers t)
   (org-startup-indented t)
   (org-pretty-entities t)
