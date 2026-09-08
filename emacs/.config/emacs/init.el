@@ -1605,6 +1605,7 @@ calling ‘comment-dwim’ in that case."
 
 ;;;; Extensions: ‘csv-mode’
 (use-package csv-mode
+  :ensure t
   :hook
   (csv-mode . csv-guess-set-separator)
   :custom
