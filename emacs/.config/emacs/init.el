@@ -923,34 +923,33 @@
   :ensure t
   :demand t)
 
-;; ;;;; Extensions: ‘VEMCO’ Stack
-;; (use-package vertico
-;;   :ensure t
-;;   :init
-;;   (vertico-mode)
-;;   (vertico-multiform-mode)
-;;   (vertico-mouse-mode)
-;;   :custom-face
-;;   (vertico-group-title ((t (:inherit bold-italic))))
-;;   :custom
-;;   (vertico-scroll-margin 1)
-;;   (vertico-count 10)
-;;   (vertico-cycle t)
-;;   (vertico-resize nil)
-;;   (read-extended-command-predicate #'command-completion-default-include-p)
-;;   (minibuffer-prompt-properties '(read-only t cursor-intangible t face minibuffer-prompt))
-;;   (vertico-multiform-commands '((consult-flymake buffer indexed)
-;;                                 (embark-bindings buffer)))
-;;   (vertico-multiform-categories '((consult-grep buffer)
-;;                                   (consult-location buffer)
-;;                                   (imenu buffer)
-;;                                   (consult-info buffer))))
+;;;; Extensions: ‘VEMCO’ Stack
+(use-package vertico
+  :ensure t
+  :init
+  (vertico-mode)
+  (vertico-multiform-mode)
+  (vertico-mouse-mode)
+  :custom-face
+  (vertico-group-title ((t (:inherit bold-italic))))
+  :custom
+  (vertico-scroll-margin 1)
+  (vertico-count 10)
+  (vertico-cycle t)
+  (vertico-resize nil)
+  (read-extended-command-predicate #'command-completion-default-include-p)
+  (minibuffer-prompt-properties '(read-only t cursor-intangible t face minibuffer-prompt))
+  (vertico-multiform-commands '((consult-flymake buffer indexed)
+                                (embark-bindings buffer)))
+  (vertico-multiform-categories '((consult-grep buffer)
+                                  (consult-location buffer)
+                                  (imenu buffer))))
 
-;; (use-package vertico-flat
-;;   :after vertico
-;;   :config
-;;   (keymap-set vertico-flat-map "<remap> <left-char>" nil)
-;;   (keymap-set vertico-flat-map "<remap> <right-char>" nil))
+(use-package vertico-flat
+  :after vertico
+  :config
+  (keymap-set vertico-flat-map "<remap> <left-char>" nil)
+  (keymap-set vertico-flat-map "<remap> <right-char>" nil))
 
 (use-package minibuffer
   :config
@@ -982,7 +981,7 @@
   (completion-pcm-leading-wildcard t)
   (completion-auto-help 'visible)
   (completion-eager-update t)
-  (completion-eager-display t)
+  (completion-eager-display nil)
   (completions-format 'one-column)
   (minibuffer-visible-completions 'up-down)
   (enable-recursive-minibuffers t)
