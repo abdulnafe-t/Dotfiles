@@ -46,11 +46,8 @@
   (require 'package)
   (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t))
 
-(setopt package-archive-priorities '(("gnu" . 10)
-                                     ("melpa" . 5)))
+(setopt package-archive-priorities '(("gnu" . 3)
+                                     ("nongnu" . 2)
+                                     ("melpa" . 1)))
 (setq package-review-policy t
       package-review-diff-command '("git" "diff" "--no-index" "--diff-filter=d"))
-
-(eval-when-compile
-  (require 'use-package))
-(require 'bind-key)
