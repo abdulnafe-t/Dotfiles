@@ -16,7 +16,6 @@
     "modules-right": [
 	"mpris",
         "wireplumber",
-        "battery",
 	"network",
 	"bluetooth",
 	"power-profiles-daemon",
@@ -55,17 +54,6 @@
     "clock": {
         "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
         "format": "{:%a %d %b %R}"
-    },
-    "battery": {
-        "states": {
-            "warning": 25,
-            "critical": 10
-        },
-        "format": "{icon}  {capacity}%",
-        "format-full": "{icon}  {capacity}%",
-        "format-charging": "  {capacity}%",
-        "format-plugged": "  {capacity}%",
-        "format-icons": ["", "", "", "", ""]
     },
     "network": {
         "format-wifi": "󰤨",
