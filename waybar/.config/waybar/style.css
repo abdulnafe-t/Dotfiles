@@ -158,11 +158,9 @@ label:focus {
     box-shadow: none;
 }
 
-#tray > * > * {                 /*Hack to specify tray icon spacing& padding*/
+#tray > * > * {                 /* Hack to specify tray icon spacing & padding */
     padding: 0 15px;
 }
-
-
 
 #custom-power {
     padding: 0 15px;
