@@ -1,14 +1,14 @@
 #!/usr/bin/bash
 set -euo pipefail
 
-PKGBUILD_DIR="$HOME/Etc/Programs/emacs-build"
-CCODE_DIR="$HOME/Etc/Programs/emacs-c-code"
+BUILD_DIR="$HOME/Etc/Programs/emacs-build"
+C_CODE_DIR="$HOME/Etc/Programs/emacs-c-code"
 
-cd "$PKGBUILD_DIR"
-[[ -d src/emacs-31 ]] && git -C src/emacs-31 clean -fdx
+cd "$BUILD_DIR"
+[[ -d src/emacs-git ]] && git -C src/emacs-git clean -fdx
 makepkg -si "$@"
 
-cd "$PKGBUILD_DIR/src/emacs-31"
-rm "$CCODE_DIR" -rf
-mkdir -p "$CCODE_DIR"
-git archive --format=tar HEAD -- src/*.c src/*.h | tar xf - --directory="$CCODE_DIR" --strip-components=1
+cd "$BUILD_DIR/src/emacs-git"
+rm "$C_CODE_DIR" -rf
+mkdir -p "$C_CODE_DIR"
+git archive --format=tar HEAD -- src/*.c src/*.h | tar xf - --directory="$C_CODE_DIR" --strip-components=1
