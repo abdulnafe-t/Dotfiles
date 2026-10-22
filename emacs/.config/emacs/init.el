@@ -34,7 +34,7 @@
         save-interprogram-paste-before-kill t
         kill-do-not-save-duplicates t
 
-        ;; view-mode
+        ;; ‘view-mode’
         view-read-only t
         view-inhibit-help-message t
         kill-read-only-ok t
@@ -50,6 +50,9 @@
         read-file-name-completion-ignore-case t
         tab-always-indent 'complete
         read-buffer-completion-ignore-case t
+
+        ;; ‘query-replace’
+        query-replace-show-preview 'both
 
         ;; Mark
         set-mark-command-repeat-pop t
