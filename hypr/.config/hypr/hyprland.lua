@@ -37,13 +37,20 @@ hl.monitor({ output = "HDMI-A-1",
 ---------------------
 
 -- Set programs that you use
-local hyprScripts = os.getenv("HOME") .. "/.config/hypr/scripts"
-local terminal = "footclient "
-local fileManager = terminal .. "bash --rcfile " .. hyprScripts .. "/dired"
+
 local menu = "fuzzel"
-local editor = terminal .. "bash --rcfile "  .. hyprScripts .. "/editor"
-local llmagent = terminal .. "opencode"
 local browser = "librewolf"
+
+local hyprScripts = os.getenv("HOME") .. "/.config/hypr/scripts"
+local terminal = "footclient -e "
+
+local editor      = terminal .. "bash --rcfile " .. hyprScripts .. "/editor"
+local fileManager = terminal .. "bash --rcfile " .. hyprScripts .. "/dired"
+
+local llmagent          = terminal .. "opencode"
+local mixer             = terminal .. "wiremix"
+local network_manager   = terminal .. "nmtui"
+local bluetooth_manager = terminal .. "bluetui"
 
 -------------------
 ---- AUTOSTART ----
@@ -96,6 +103,9 @@ hl.bind(mainMod .. " + D", hl.dsp.exec_cmd(llmagent))
 hl.bind(mainMod .. " + Z", hl.dsp.exec_cmd(browser))
 hl.bind(mainMod .. " + L", hl.dsp.exec_cmd("hyprlock"))
 hl.bind(mainMod .. " + EXCLAM", hl.dsp.exec_cmd("dunstctl context"))
+hl.bind(mainMod .. " + Y", hl.dsp.exec_cmd(mixer))
+hl.bind(mainMod .. " + N", hl.dsp.exec_cmd(network_manager))
+hl.bind(mainMod .. " + B", hl.dsp.exec_cmd(bluetooth_manager))
 
 hl.bind(mainMod .. " + P", hl.dsp.window.pseudo())
 hl.bind(mainMod .. " + J", hl.dsp.layout("togglesplit"))

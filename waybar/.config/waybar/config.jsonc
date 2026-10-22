@@ -31,7 +31,9 @@
 	"states":{
 	    "sound-off": 0,
 	    "sound-on": 1
-	}
+	},
+        "on-click": "$HOME/.config/hypr/scripts/toggle-mute",
+        "on-click-right": "footclient -e wiremix",
     },
     "mpris": {
 	"format": "{status_icon} {player_icon} {dynamic}",
@@ -61,7 +63,7 @@
         "format-ethernet": "󰈁",
         "format-disconnected": "󰤭",
         "tooltip-format": "{essid}",
-        "on-click": "nm-connection-editor",
+        "on-click": "footclient -e nmtui",
         "format-icons": ["󰤯","󰤟","󰤢","󰤢","󰤨"]
     },
     "power-profiles-daemon": {
@@ -96,7 +98,7 @@
 	"tooltip-format-disabled": "Bluetooth disabled",
 	"tooltip-format-connected": "{device_enumerate}",
 	"tooltip-format-enumerate-connected": "{device_alias}",
-	"on-click-right": "blueman-manager",
+	"on-click-right": "footclient -e bluetui",
 	"on-click": "$HOME/.config/waybar/bluetooth.sh"
     }
 }
