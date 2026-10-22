@@ -162,26 +162,11 @@
             (next-window nil nil 'visible))))
 
 ;; Display a counter in I-search, showing total number of matches, as well as the current
-;; position in them. Taken from Protesilaos Stavrou
+;; position in them. Taken from Protesilaos Stavrou.
 (setopt isearch-lazy-count t
         lazy-count-prefix-format "(%s/%s) "
         lazy-count-suffix-format nil
         search-whitespace-regexp ".*?")
-
-;; Augment default C-g behavior
-(defun prot/keyboard-quit-dwim ()
-  (interactive)
-  (cond
-   ((region-active-p)
-    (keyboard-quit))
-   ((derived-mode-p 'completion-list-mode)
-    (delete-completion-window))
-   ((> (minibuffer-depth) 0)
-    (abort-recursive-edit))
-   (t
-    (keyboard-quit))))
-
-(keymap-global-set "C-g" 'prot/keyboard-quit-dwim)
 
 (package-autosuggest-mode 1)
 
