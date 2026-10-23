@@ -944,7 +944,6 @@
   (completion-auto-help 'visible)
   (completion-eager-update t)
   (completion-eager-display t)
-  (completions-detailed t)
   (completions-format 'one-column)
   (minibuffer-visible-completions 'up-down)
   (enable-recursive-minibuffers t)
@@ -1138,9 +1137,13 @@
 
 (use-package nerd-icons-completion
   :ensure t
-  :config
+  :init
   (nerd-icons-completion-mode)
-  (add-hook 'marginalia-mode-hook #'nerd-icons-completion-marginalia-setup))
+  :config
+  (setf (cdr (assq 'symbol-help nerd-icons-completion-category-icons))
+        '(nerd-icons-codicon "nf-cod-arrow_small_right"  nerd-icons-silver))
+  :hook
+  (marginalia-mode-hook . nerd-icons-completion-marginalia-setup))
 
 (use-package nerd-icons-grep
   :ensure t
