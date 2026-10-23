@@ -86,6 +86,21 @@
 (setopt delete-pair-blink-delay 0
         delete-pair-push-mark t)
 
+;;;; Enable certain "advanced" functions
+(put 'downcase-region 'disabled nil)
+(put 'upcase-region 'disabled nil)
+(put 'scroll-left 'disabled nil)
+(put 'scroll-right 'disabled nil)
+(put 'dired-find-alternate-file 'disabled nil)
+
+;; Enable mouse navigation between visited help-mode topics
+(with-eval-after-load 'help-mode
+  (keymap-set help-mode-map "<mouse-9>" #'help-go-forward)
+  (keymap-set help-mode-map "<mouse-8>" #'help-go-back))
+
+;; Bind "C-h M-k" to ‘find-function-on-key’, which is like "C-h k <key> s"
+(keymap-set help-map "C-k" #'find-function-on-key)
+
 (use-package savehist
   :init
   (savehist-mode 1)
@@ -705,7 +720,7 @@
 (use-package tuareg
   :ensure t)
 
-;;; Other QOL packages & extensions
+;;; Other QOL packages & libraries
 
 ;;;; Extensions: ‘dimmer’
 (use-package dimmer
@@ -889,21 +904,6 @@
   (advice-add 'jinx--correct-replace :before #'a-t/jinx-save-correction-as-abbrev))
 
 (use-package wiki-abbrev) ; From package-vc. Used to get abbrevs for common misspellings
-
-;;;; Enable certain "advanced" functions
-(put 'downcase-region 'disabled nil)
-(put 'upcase-region 'disabled nil)
-(put 'scroll-left 'disabled nil)
-(put 'scroll-right 'disabled nil)
-(put 'dired-find-alternate-file 'disabled nil)
-
-;; Enable mouse navigation between visited help-mode topics
-(with-eval-after-load 'help-mode
-  (keymap-set help-mode-map "<mouse-9>" #'help-go-forward)
-  (keymap-set help-mode-map "<mouse-8>" #'help-go-back))
-
-;; Bind "C-h M-k" to ‘find-function-on-key’, which is like "C-h k <key> s"
-(keymap-set help-map "C-k" #'find-function-on-key)
 
 ;;;; Extensions: ‘multiple-cursors’
 (use-package multiple-cursors
