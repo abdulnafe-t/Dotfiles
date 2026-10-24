@@ -219,7 +219,23 @@
         treesit-font-lock-level 3
         compilation-scroll-output t)
 
-;; (add-to-list 'default-frame-alist '(alpha-background . 0.8))
+;; From https://emacs.stackexchange.com/a/64616
+(defun a-t/toggle-alpha-on-fullscreen (&optional frame)
+  "Set FRAME's `alpha-background' to 1 if fullscreen and 0.8 otherwise."
+  (let ((fullscreen-p (eq (frame-parameter frame 'fullscreen) 'fullboth))
+        (current-alpha (frame-parameter frame 'alpha-background)))
+    (cond
+     ((and
+       fullscreen-p
+       (< current-alpha 1))
+      (set-frame-parameter frame 'alpha-background 1.0))
+     ((and
+       (not fullscreen-p)
+       (or (null current-alpha)
+           (= current-alpha 1)))
+      (set-frame-parameter frame 'alpha-background 0.8)))))
+
+(add-hook 'window-size-change-functions #'a-t/toggle-alpha-on-fullscreen)
 
 ;;;; Style: fringe indicators & window dividers
 (setq-default window-divider-default-right-width 3)
