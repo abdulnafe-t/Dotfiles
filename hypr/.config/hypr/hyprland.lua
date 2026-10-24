@@ -31,8 +31,8 @@ local browser = "librewolf"
 local hyprScripts = os.getenv("HOME") .. "/.config/hypr/scripts"
 local terminal = "footclient -e "
 
-local editor      = terminal .. "bash --rcfile " .. hyprScripts .. "/editor"
-local fileManager = terminal .. "bash --rcfile " .. hyprScripts .. "/dired"
+local editor      = os.getenv("EDITOR")
+local fileManager = hyprScripts .. "/dired"
 
 local llmagent          = terminal .. "opencode"
 local mixer             = terminal .. "wiremix"
