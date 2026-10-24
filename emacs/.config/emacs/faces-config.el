@@ -3,7 +3,7 @@
 (defface a-t-hl-line-face
   `((((background dark)) :box nil :inherit default :weight normal :background "#2f2c39")
     (t (:box nil :inherit default :weight normal :background "#d2d1d7")))
-  "Face for hl-line, as well as the minibuffer (vertico et al.).")
+  "Face for hl-line.")
 
 (defface a-t-font-lock-auto '((t (:inherit font-lock-type-face :slant italic :weight bold)))
   "Custom face for the C++ ‘auto’ keyword.")
