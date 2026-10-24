@@ -90,7 +90,7 @@ hl.bind(mainMod .. " + D", hl.dsp.exec_cmd(llmagent))
 hl.bind(mainMod .. " + Z", hl.dsp.exec_cmd(browser))
 hl.bind(mainMod .. " + L", hl.dsp.exec_cmd("hyprlock"))
 hl.bind(mainMod .. " + EXCLAM", hl.dsp.exec_cmd("dunstctl context"))
-hl.bind(mainMod .. " + Y", hl.dsp.exec_cmd(mixer))
+hl.bind(mainMod .. " + U", hl.dsp.exec_cmd(mixer))
 hl.bind(mainMod .. " + N", hl.dsp.exec_cmd(network_manager))
 hl.bind(mainMod .. " + B", hl.dsp.exec_cmd(bluetooth_manager))
 
