@@ -62,15 +62,15 @@
     (set-face-attribute 'a-t-date     nil :foreground date-common)
     (set-face-attribute 'a-t-dummy    nil :foreground fg-alt)
 
-    (set-face-attribute 'mode-line nil :box 'nil :underline 'nil :family "GeistMono Nerd Font Propo")
-    (set-face-attribute 'mode-line-active nil :box nil :underline 'nil :family "GeistMono Nerd Font Propo")
-    (set-face-attribute 'mode-line-inactive nil :box 'nil :underline 'nil :family "GeistMono Nerd Font Propo")
+    (set-face-attribute 'mode-line          nil :box nil :underline nil :family "GeistMono Nerd Font Propo")
+    (set-face-attribute 'mode-line-active   nil :box nil :underline nil :family "GeistMono Nerd Font Propo")
+    (set-face-attribute 'mode-line-inactive nil :box nil :underline nil :family "GeistMono Nerd Font Propo")
 
-    (set-face-attribute 'vc-state-base nil :inherit 'variable-pitch :slant 'normal)
+    (set-face-attribute 'vc-state-base   nil :inherit 'variable-pitch :slant 'normal)
     (set-face-attribute 'vc-edited-state nil :inherit 'variable-pitch :slant 'italic)
     (set-face-attribute 'vc-locked-state nil :inherit 'variable-pitch :slant 'normal)
 
-    (set-face-attribute 'font-lock-variable-use-face nil :foreground fg-main)
+    (set-face-attribute 'font-lock-variable-use-face nil  :foreground fg-main)
     (set-face-attribute 'font-lock-property-name-face nil :foreground fg-alt))
 
   (with-eval-after-load 'page-break-lines
@@ -98,19 +98,19 @@
       (set-face-attribute 'eglot-mode-line           nil :weight 'regular :foreground 'unspecified)
       (set-face-attribute 'eglot-semantic-macro      nil :weight 'bold :foreground fg-alt)
       (set-face-attribute 'eglot-semantic-parameter  nil :inherit 'font-lock-variable-name-face)
-      (set-face-attribute 'eglot-semantic-static     nil :slant 'italic :weight 'normal :foreground 'unspecified :inherit 'nil)))
+      (set-face-attribute 'eglot-semantic-static     nil :slant 'italic :weight 'normal :foreground 'unspecified :inherit nil)))
 
   (with-eval-after-load 'org
+    (set-face-attribute 'org-link                  nil :foreground "royal blue" :underline t)
+    (set-face-attribute 'org-document-info         nil :foreground "dark orange")
     (set-face-attribute 'org-block                 nil :inherit 'fixed-pitch)
     (set-face-attribute 'org-code                  nil :inherit '(shadow fixed-pitch))
-    (set-face-attribute 'org-document-info         nil :foreground "dark orange")
     (set-face-attribute 'org-document-info-keyword nil :inherit '(shadow fixed-pitch))
     (set-face-attribute 'org-level-1               nil :inherit 'outline-1 :height 1.7)
     (set-face-attribute 'org-level-2               nil :inherit 'outline-2 :height 1.6)
     (set-face-attribute 'org-level-3               nil :inherit 'outline-3 :height 1.5)
     (set-face-attribute 'org-level-4               nil :inherit 'outline-4 :height 1.4)
     (set-face-attribute 'org-level-5               nil :inherit 'outline-5 :height 1.2)
-    (set-face-attribute 'org-link                  nil :foreground "royal blue" :underline t)
     (set-face-attribute 'org-meta-line             nil :inherit '(font-lock-comment-face fixed-pitch))
     (set-face-attribute 'org-property-value        nil :inherit 'fixed-pitch)
     (set-face-attribute 'org-special-keyword       nil :inherit '(font-lock-comment-face fixed-pitch))
@@ -124,22 +124,22 @@
     (set-face-attribute 'olivetti-fringe nil :background "gray50"))
 
   (with-eval-after-load 'flymake
-    (set-face-attribute 'flymake-note nil :underline '(:style wave :color "#0faa26"))
+    (set-face-attribute 'flymake-note    nil :underline '(:style wave :color "#0faa26"))
     (set-face-attribute 'flymake-warning nil :underline '(:style wave :color "#bf9032")))
 
   (with-eval-after-load 'gnus-art
-    (set-face-attribute 'gnus-header-from nil :foreground (face-foreground 'a-t-author))
+    (set-face-attribute 'gnus-header-from    nil :foreground (face-foreground 'a-t-author))
     (set-face-attribute 'gnus-header-subject nil :foreground (face-foreground 'font-lock-keyword-face)))
 
   (with-eval-after-load 'dired
-    (set-face-attribute 'dired-header nil :foreground (face-foreground 'font-lock-builtin-face))
+    (set-face-attribute 'dired-header    nil :foreground (face-foreground 'font-lock-builtin-face))
     (set-face-attribute 'dired-directory nil :foreground (face-foreground 'a-t-dir-face)))
 
   (with-eval-after-load 'diredfl
     (modus-themes-with-colors
-      (set-face-attribute 'diredfl-dir-name nil :foreground (face-foreground 'a-t-dir-face))
-      (set-face-attribute 'diredfl-dir-heading nil :foreground (face-foreground 'font-lock-builtin-face))
-      (set-face-attribute 'diredfl-file-suffix nil :foreground fg-main)
+      (set-face-attribute 'diredfl-dir-name               nil :foreground (face-foreground 'a-t-dir-face))
+      (set-face-attribute 'diredfl-dir-heading            nil :foreground (face-foreground 'font-lock-builtin-face))
+      (set-face-attribute 'diredfl-file-suffix            nil :foreground fg-main)
       (set-face-attribute 'diredfl-compressed-file-suffix nil :foreground (face-foreground 'diredfl-compressed-file-name))))
 
   (with-eval-after-load 'nerd-icons-completion
