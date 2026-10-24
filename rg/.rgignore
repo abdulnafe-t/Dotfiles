@@ -1,7 +1,8 @@
+**/Trash/
 .steam/*
-.local/share/Steam/*
+**/Steam/*
 */forge*/*
-.cache/*
+**/.cache/
 **/.git/
 .librewolf/*
 .mozilla/*
